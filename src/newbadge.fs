@@ -130,11 +130,12 @@ decimal
 
 ( real time clock )
 hex
-15020101 date !
-09480001 time !
+15030501 date !
+21350001 time !
 setRTCC
 setupRTCC ( this takes a while )
 getRTCC time @ u.
+getRTCC date @ u.
 
 0 backlight
 1 backlight

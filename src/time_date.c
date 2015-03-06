@@ -117,6 +117,7 @@ void setupRTCC(void)
 	while (RtccGetClkStat() != RTCC_CLK_ON);	// wait for the SOSC to be actually running and RTCC to have its clock source
 							// could wait here at most 32ms
 
+/*
 	G_time.l=0x0;
 	G_time.sec=0x0;
 	G_time.min=0x07;
@@ -126,6 +127,7 @@ void setupRTCC(void)
 	G_date.mday=0x02;
 	G_date.mon=0x06;
 	G_date.year=0x14;
+*/
 
 	RtccOpen(G_time.l, G_date.l, 0);	// set time, date and calibration in a single operation
         RtccWrEnable(0);
