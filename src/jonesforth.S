@@ -696,7 +696,8 @@ init_return:
 	NEXT			// Run interpreter!, fall through to next word
 cold_start:			// High-level code without a codeword.
 	.int	VERSION
-//	.int	BIDLE	// turns off LEDs display color bars
+/*	.int	BIDLE	// turns off LEDs display color bars
+*/
 	.int    QUIT
 
 /*
@@ -2171,7 +2172,7 @@ _TCFA:
 	defword "version",7,,VERSION,WARM
 	.int	LITSTRING
 	.int	16
-	.ascii	"rv4tch 20150212 "
+	.ascii	"rv4tch 20150305 "
 	.int	TELL
 	.int EXIT		// EXIT		(return from FORTH word)
 

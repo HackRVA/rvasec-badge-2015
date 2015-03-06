@@ -8,11 +8,11 @@
 # 44 "/opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/include/peripheral/adc10.h" 3
 # 1 "/opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/include/xc.h" 1 3
        
-# 64 "/opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/include/xc.h" 3
-# 1 "/opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/include/proc/p32mx270f256d.h" 1 3
-# 34 "/opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/include/proc/p32mx270f256d.h" 3
+# 58 "/opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/include/xc.h" 3
+# 1 "/opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/include/proc/p32mx250f128d.h" 1 3
+# 34 "/opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/include/proc/p32mx250f128d.h" 3
        
-# 44 "/opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/include/proc/p32mx270f256d.h" 3
+# 44 "/opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/include/proc/p32mx250f128d.h" 3
 extern volatile unsigned int WDTCON __attribute__((section("sfrs")));
 typedef union {
   struct {
@@ -4316,12 +4316,7 @@ extern volatile unsigned int LATAINV __attribute__((section("sfrs")));
 extern volatile unsigned int ODCA __attribute__((section("sfrs")));
 typedef union {
   struct {
-    unsigned ODCA0:1;
-    unsigned ODCA1:1;
-    unsigned ODCA2:1;
-    unsigned ODCA3:1;
-    unsigned ODCA4:1;
-    unsigned :2;
+    unsigned :7;
     unsigned ODCA7:1;
     unsigned ODCA8:1;
     unsigned ODCA9:1;
@@ -4546,10 +4541,7 @@ extern volatile unsigned int LATBINV __attribute__((section("sfrs")));
 extern volatile unsigned int ODCB __attribute__((section("sfrs")));
 typedef union {
   struct {
-    unsigned ODCB0:1;
-    unsigned ODCB1:1;
-    unsigned ODCB2:1;
-    unsigned ODCB3:1;
+    unsigned :4;
     unsigned ODCB4:1;
     unsigned ODCB5:1;
     unsigned :1;
@@ -4558,10 +4550,6 @@ typedef union {
     unsigned ODCB9:1;
     unsigned ODCB10:1;
     unsigned ODCB11:1;
-    unsigned :1;
-    unsigned ODCB13:1;
-    unsigned ODCB14:1;
-    unsigned ODCB15:1;
   };
   struct {
     unsigned w:32;
@@ -4784,10 +4772,7 @@ extern volatile unsigned int LATCINV __attribute__((section("sfrs")));
 extern volatile unsigned int ODCC __attribute__((section("sfrs")));
 typedef union {
   struct {
-    unsigned ODCC0:1;
-    unsigned ODCC1:1;
-    unsigned ODCC2:1;
-    unsigned ODCC3:1;
+    unsigned :4;
     unsigned ODCC4:1;
     unsigned ODCC5:1;
     unsigned ODCC6:1;
@@ -4970,8 +4955,8 @@ typedef union {
     unsigned JTAGEN:1;
     unsigned ICESEL:2;
     unsigned :5;
-    unsigned PWP:9;
-    unsigned :5;
+    unsigned PWP:6;
+    unsigned :8;
     unsigned BWP:1;
     unsigned :3;
     unsigned CP:1;
@@ -4984,10 +4969,10 @@ typedef union {
   };
 } __DEVCFG0bits_t;
 extern volatile __DEVCFG0bits_t DEVCFG0bits __asm__ ("DEVCFG0") __attribute__((section("sfrs")));
-# 14464 "/opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/include/proc/p32mx270f256d.h" 3
+# 14385 "/opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/include/proc/p32mx250f128d.h" 3
 # 1 "/opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/include/proc/ppic32mx.h" 1 3
-# 14465 "/opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/include/proc/p32mx270f256d.h" 2 3
-# 65 "/opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/include/xc.h" 2 3
+# 14386 "/opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/include/proc/p32mx250f128d.h" 2 3
+# 59 "/opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/include/xc.h" 2 3
 # 323 "/opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/include/xc.h" 3
 extern int __XC_UART;
 # 337 "/opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/include/xc.h" 3

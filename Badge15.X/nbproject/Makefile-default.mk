@@ -45,17 +45,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=../src/USB/usb_device.c ../src/USB/usb_function_cdc.c ../src/badge15.c ../src/badge_common.c ../src/main.c ../src/usb_descriptors.c ../src/Sound.c ../src/LCDcolor.c ../src/S6B33.c ../src/time_date.c ../src/timer1_int.c /home/paul/rvasec-badge-2015-dev/src/jonesforth.S /home/paul/rvasec-badge-2015-dev/src/touchCTMU.c /home/paul/rvasec-badge-2015-dev/src/TimeDelay.c ../src/flash.c
+SOURCEFILES_QUOTED_IF_SPACED=../src/USB/usb_device.c ../src/USB/usb_function_cdc.c ../src/badge15.c ../src/badge_common.c ../src/main.c ../src/usb_descriptors.c ../src/Sound.c ../src/LCDcolor.c ../src/S6B33.c ../src/time_date.c ../src/timer1_int.c ../src/jonesforth.S ../src/TimeDelay.c ../src/touchCTMU.c ../src/flash.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/_ext/659838314/usb_device.o ${OBJECTDIR}/_ext/659838314/usb_function_cdc.o ${OBJECTDIR}/_ext/1360937237/badge15.o ${OBJECTDIR}/_ext/1360937237/badge_common.o ${OBJECTDIR}/_ext/1360937237/main.o ${OBJECTDIR}/_ext/1360937237/usb_descriptors.o ${OBJECTDIR}/_ext/1360937237/Sound.o ${OBJECTDIR}/_ext/1360937237/LCDcolor.o ${OBJECTDIR}/_ext/1360937237/S6B33.o ${OBJECTDIR}/_ext/1360937237/time_date.o ${OBJECTDIR}/_ext/1360937237/timer1_int.o ${OBJECTDIR}/_ext/801002588/jonesforth.o ${OBJECTDIR}/_ext/801002588/touchCTMU.o ${OBJECTDIR}/_ext/801002588/TimeDelay.o ${OBJECTDIR}/_ext/1360937237/flash.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/_ext/659838314/usb_device.o.d ${OBJECTDIR}/_ext/659838314/usb_function_cdc.o.d ${OBJECTDIR}/_ext/1360937237/badge15.o.d ${OBJECTDIR}/_ext/1360937237/badge_common.o.d ${OBJECTDIR}/_ext/1360937237/main.o.d ${OBJECTDIR}/_ext/1360937237/usb_descriptors.o.d ${OBJECTDIR}/_ext/1360937237/Sound.o.d ${OBJECTDIR}/_ext/1360937237/LCDcolor.o.d ${OBJECTDIR}/_ext/1360937237/S6B33.o.d ${OBJECTDIR}/_ext/1360937237/time_date.o.d ${OBJECTDIR}/_ext/1360937237/timer1_int.o.d ${OBJECTDIR}/_ext/801002588/jonesforth.o.d ${OBJECTDIR}/_ext/801002588/touchCTMU.o.d ${OBJECTDIR}/_ext/801002588/TimeDelay.o.d ${OBJECTDIR}/_ext/1360937237/flash.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/_ext/659838314/usb_device.o ${OBJECTDIR}/_ext/659838314/usb_function_cdc.o ${OBJECTDIR}/_ext/1360937237/badge15.o ${OBJECTDIR}/_ext/1360937237/badge_common.o ${OBJECTDIR}/_ext/1360937237/main.o ${OBJECTDIR}/_ext/1360937237/usb_descriptors.o ${OBJECTDIR}/_ext/1360937237/Sound.o ${OBJECTDIR}/_ext/1360937237/LCDcolor.o ${OBJECTDIR}/_ext/1360937237/S6B33.o ${OBJECTDIR}/_ext/1360937237/time_date.o ${OBJECTDIR}/_ext/1360937237/timer1_int.o ${OBJECTDIR}/_ext/1360937237/jonesforth.o ${OBJECTDIR}/_ext/1360937237/TimeDelay.o ${OBJECTDIR}/_ext/1360937237/touchCTMU.o ${OBJECTDIR}/_ext/1360937237/flash.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/_ext/659838314/usb_device.o.d ${OBJECTDIR}/_ext/659838314/usb_function_cdc.o.d ${OBJECTDIR}/_ext/1360937237/badge15.o.d ${OBJECTDIR}/_ext/1360937237/badge_common.o.d ${OBJECTDIR}/_ext/1360937237/main.o.d ${OBJECTDIR}/_ext/1360937237/usb_descriptors.o.d ${OBJECTDIR}/_ext/1360937237/Sound.o.d ${OBJECTDIR}/_ext/1360937237/LCDcolor.o.d ${OBJECTDIR}/_ext/1360937237/S6B33.o.d ${OBJECTDIR}/_ext/1360937237/time_date.o.d ${OBJECTDIR}/_ext/1360937237/timer1_int.o.d ${OBJECTDIR}/_ext/1360937237/jonesforth.o.d ${OBJECTDIR}/_ext/1360937237/TimeDelay.o.d ${OBJECTDIR}/_ext/1360937237/touchCTMU.o.d ${OBJECTDIR}/_ext/1360937237/flash.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/_ext/659838314/usb_device.o ${OBJECTDIR}/_ext/659838314/usb_function_cdc.o ${OBJECTDIR}/_ext/1360937237/badge15.o ${OBJECTDIR}/_ext/1360937237/badge_common.o ${OBJECTDIR}/_ext/1360937237/main.o ${OBJECTDIR}/_ext/1360937237/usb_descriptors.o ${OBJECTDIR}/_ext/1360937237/Sound.o ${OBJECTDIR}/_ext/1360937237/LCDcolor.o ${OBJECTDIR}/_ext/1360937237/S6B33.o ${OBJECTDIR}/_ext/1360937237/time_date.o ${OBJECTDIR}/_ext/1360937237/timer1_int.o ${OBJECTDIR}/_ext/801002588/jonesforth.o ${OBJECTDIR}/_ext/801002588/touchCTMU.o ${OBJECTDIR}/_ext/801002588/TimeDelay.o ${OBJECTDIR}/_ext/1360937237/flash.o
+OBJECTFILES=${OBJECTDIR}/_ext/659838314/usb_device.o ${OBJECTDIR}/_ext/659838314/usb_function_cdc.o ${OBJECTDIR}/_ext/1360937237/badge15.o ${OBJECTDIR}/_ext/1360937237/badge_common.o ${OBJECTDIR}/_ext/1360937237/main.o ${OBJECTDIR}/_ext/1360937237/usb_descriptors.o ${OBJECTDIR}/_ext/1360937237/Sound.o ${OBJECTDIR}/_ext/1360937237/LCDcolor.o ${OBJECTDIR}/_ext/1360937237/S6B33.o ${OBJECTDIR}/_ext/1360937237/time_date.o ${OBJECTDIR}/_ext/1360937237/timer1_int.o ${OBJECTDIR}/_ext/1360937237/jonesforth.o ${OBJECTDIR}/_ext/1360937237/TimeDelay.o ${OBJECTDIR}/_ext/1360937237/touchCTMU.o ${OBJECTDIR}/_ext/1360937237/flash.o
 
 # Source Files
-SOURCEFILES=../src/USB/usb_device.c ../src/USB/usb_function_cdc.c ../src/badge15.c ../src/badge_common.c ../src/main.c ../src/usb_descriptors.c ../src/Sound.c ../src/LCDcolor.c ../src/S6B33.c ../src/time_date.c ../src/timer1_int.c /home/paul/rvasec-badge-2015-dev/src/jonesforth.S /home/paul/rvasec-badge-2015-dev/src/touchCTMU.c /home/paul/rvasec-badge-2015-dev/src/TimeDelay.c ../src/flash.c
+SOURCEFILES=../src/USB/usb_device.c ../src/USB/usb_function_cdc.c ../src/badge15.c ../src/badge_common.c ../src/main.c ../src/usb_descriptors.c ../src/Sound.c ../src/LCDcolor.c ../src/S6B33.c ../src/time_date.c ../src/timer1_int.c ../src/jonesforth.S ../src/TimeDelay.c ../src/touchCTMU.c ../src/flash.c
 
 
 CFLAGS=
@@ -72,12 +72,9 @@ LDLIBSOPTIONS=
 FIXDEPS=fixDeps
 
 .build-conf:  ${BUILD_SUBPROJECTS}
-ifneq ($(INFORMATION_MESSAGE), )
-	@echo $(INFORMATION_MESSAGE)
-endif
 	${MAKE}  -f nbproject/Makefile-default.mk dist/${CND_CONF}/${IMAGE_TYPE}/Badge15.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
 
-MP_PROCESSOR_OPTION=32MX270F256D
+MP_PROCESSOR_OPTION=32MX250F128D
 MP_LINKER_FILE_OPTION=,--script="../src/app_32MX250F128D.ld"
 # ------------------------------------------------------------------------------------
 # Rules for buildStep: assemble
@@ -88,20 +85,20 @@ endif
 # ------------------------------------------------------------------------------------
 # Rules for buildStep: assembleWithPreprocess
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
-${OBJECTDIR}/_ext/801002588/jonesforth.o: /home/paul/rvasec-badge-2015-dev/src/jonesforth.S  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/801002588" 
-	@${RM} ${OBJECTDIR}/_ext/801002588/jonesforth.o.d 
-	@${RM} ${OBJECTDIR}/_ext/801002588/jonesforth.o 
-	@${RM} ${OBJECTDIR}/_ext/801002588/jonesforth.o.ok ${OBJECTDIR}/_ext/801002588/jonesforth.o.err 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/801002588/jonesforth.o.d" "${OBJECTDIR}/_ext/801002588/jonesforth.o.asm.d" -t $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC} $(MP_EXTRA_AS_PRE)  -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/801002588/jonesforth.o.d"  -o ${OBJECTDIR}/_ext/801002588/jonesforth.o /home/paul/rvasec-badge-2015-dev/src/jonesforth.S -save-temps=obj -Wa,--defsym=__MPLAB_BUILD=1$(MP_EXTRA_AS_POST),-MD="${OBJECTDIR}/_ext/801002588/jonesforth.o.asm.d",--defsym=__ICD2RAM=1,--defsym=__MPLAB_DEBUG=1,--gdwarf-2,--defsym=__DEBUG=1,--defsym=__MPLAB_DEBUGGER_ICD3=1
+${OBJECTDIR}/_ext/1360937237/jonesforth.o: ../src/jonesforth.S  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
+	@${RM} ${OBJECTDIR}/_ext/1360937237/jonesforth.o.d 
+	@${RM} ${OBJECTDIR}/_ext/1360937237/jonesforth.o 
+	@${RM} ${OBJECTDIR}/_ext/1360937237/jonesforth.o.ok ${OBJECTDIR}/_ext/1360937237/jonesforth.o.err 
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/jonesforth.o.d" "${OBJECTDIR}/_ext/1360937237/jonesforth.o.asm.d" -t $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC} $(MP_EXTRA_AS_PRE)  -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/jonesforth.o.d"  -o ${OBJECTDIR}/_ext/1360937237/jonesforth.o ../src/jonesforth.S -save-temps=obj -Wa,--defsym=__MPLAB_BUILD=1$(MP_EXTRA_AS_POST),-MD="${OBJECTDIR}/_ext/1360937237/jonesforth.o.asm.d",--defsym=__ICD2RAM=1,--defsym=__MPLAB_DEBUG=1,--gdwarf-2,--defsym=__DEBUG=1,--defsym=__MPLAB_DEBUGGER_PK3=1
 	
 else
-${OBJECTDIR}/_ext/801002588/jonesforth.o: /home/paul/rvasec-badge-2015-dev/src/jonesforth.S  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/801002588" 
-	@${RM} ${OBJECTDIR}/_ext/801002588/jonesforth.o.d 
-	@${RM} ${OBJECTDIR}/_ext/801002588/jonesforth.o 
-	@${RM} ${OBJECTDIR}/_ext/801002588/jonesforth.o.ok ${OBJECTDIR}/_ext/801002588/jonesforth.o.err 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/801002588/jonesforth.o.d" "${OBJECTDIR}/_ext/801002588/jonesforth.o.asm.d" -t $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC} $(MP_EXTRA_AS_PRE)  -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/801002588/jonesforth.o.d"  -o ${OBJECTDIR}/_ext/801002588/jonesforth.o /home/paul/rvasec-badge-2015-dev/src/jonesforth.S -save-temps=obj -Wa,--defsym=__MPLAB_BUILD=1$(MP_EXTRA_AS_POST),-MD="${OBJECTDIR}/_ext/801002588/jonesforth.o.asm.d",--gdwarf-2
+${OBJECTDIR}/_ext/1360937237/jonesforth.o: ../src/jonesforth.S  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
+	@${RM} ${OBJECTDIR}/_ext/1360937237/jonesforth.o.d 
+	@${RM} ${OBJECTDIR}/_ext/1360937237/jonesforth.o 
+	@${RM} ${OBJECTDIR}/_ext/1360937237/jonesforth.o.ok ${OBJECTDIR}/_ext/1360937237/jonesforth.o.err 
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/jonesforth.o.d" "${OBJECTDIR}/_ext/1360937237/jonesforth.o.asm.d" -t $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC} $(MP_EXTRA_AS_PRE)  -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/jonesforth.o.d"  -o ${OBJECTDIR}/_ext/1360937237/jonesforth.o ../src/jonesforth.S -save-temps=obj -Wa,--defsym=__MPLAB_BUILD=1$(MP_EXTRA_AS_POST),-MD="${OBJECTDIR}/_ext/1360937237/jonesforth.o.asm.d",--gdwarf-2
 	
 endif
 
@@ -109,173 +106,173 @@ endif
 # Rules for buildStep: compile
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
 ${OBJECTDIR}/_ext/659838314/usb_device.o: ../src/USB/usb_device.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/659838314" 
+	@${MKDIR} ${OBJECTDIR}/_ext/659838314 
 	@${RM} ${OBJECTDIR}/_ext/659838314/usb_device.o.d 
 	@${RM} ${OBJECTDIR}/_ext/659838314/usb_device.o 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/659838314/usb_device.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/659838314/usb_device.o.d" -o ${OBJECTDIR}/_ext/659838314/usb_device.o ../src/USB/usb_device.c   -save-temps=obj -w
+	@${FIXDEPS} "${OBJECTDIR}/_ext/659838314/usb_device.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/659838314/usb_device.o.d" -o ${OBJECTDIR}/_ext/659838314/usb_device.o ../src/USB/usb_device.c   -save-temps=obj -w
 	
 ${OBJECTDIR}/_ext/659838314/usb_function_cdc.o: ../src/USB/usb_function_cdc.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/659838314" 
+	@${MKDIR} ${OBJECTDIR}/_ext/659838314 
 	@${RM} ${OBJECTDIR}/_ext/659838314/usb_function_cdc.o.d 
 	@${RM} ${OBJECTDIR}/_ext/659838314/usb_function_cdc.o 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/659838314/usb_function_cdc.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/659838314/usb_function_cdc.o.d" -o ${OBJECTDIR}/_ext/659838314/usb_function_cdc.o ../src/USB/usb_function_cdc.c   -save-temps=obj -w
+	@${FIXDEPS} "${OBJECTDIR}/_ext/659838314/usb_function_cdc.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/659838314/usb_function_cdc.o.d" -o ${OBJECTDIR}/_ext/659838314/usb_function_cdc.o ../src/USB/usb_function_cdc.c   -save-temps=obj -w
 	
 ${OBJECTDIR}/_ext/1360937237/badge15.o: ../src/badge15.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1360937237" 
+	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/badge15.o.d 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/badge15.o 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/badge15.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/1360937237/badge15.o.d" -o ${OBJECTDIR}/_ext/1360937237/badge15.o ../src/badge15.c   -save-temps=obj -w
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/badge15.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/1360937237/badge15.o.d" -o ${OBJECTDIR}/_ext/1360937237/badge15.o ../src/badge15.c   -save-temps=obj -w
 	
 ${OBJECTDIR}/_ext/1360937237/badge_common.o: ../src/badge_common.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1360937237" 
+	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/badge_common.o.d 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/badge_common.o 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/badge_common.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/1360937237/badge_common.o.d" -o ${OBJECTDIR}/_ext/1360937237/badge_common.o ../src/badge_common.c   -save-temps=obj -w
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/badge_common.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/1360937237/badge_common.o.d" -o ${OBJECTDIR}/_ext/1360937237/badge_common.o ../src/badge_common.c   -save-temps=obj -w
 	
 ${OBJECTDIR}/_ext/1360937237/main.o: ../src/main.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1360937237" 
+	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/main.o.d 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/main.o 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/main.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/1360937237/main.o.d" -o ${OBJECTDIR}/_ext/1360937237/main.o ../src/main.c   -save-temps=obj -w
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/main.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/1360937237/main.o.d" -o ${OBJECTDIR}/_ext/1360937237/main.o ../src/main.c   -save-temps=obj -w
 	
 ${OBJECTDIR}/_ext/1360937237/usb_descriptors.o: ../src/usb_descriptors.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1360937237" 
+	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/usb_descriptors.o.d 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/usb_descriptors.o 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/usb_descriptors.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/1360937237/usb_descriptors.o.d" -o ${OBJECTDIR}/_ext/1360937237/usb_descriptors.o ../src/usb_descriptors.c   -save-temps=obj -w
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/usb_descriptors.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/1360937237/usb_descriptors.o.d" -o ${OBJECTDIR}/_ext/1360937237/usb_descriptors.o ../src/usb_descriptors.c   -save-temps=obj -w
 	
 ${OBJECTDIR}/_ext/1360937237/Sound.o: ../src/Sound.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1360937237" 
+	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/Sound.o.d 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/Sound.o 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/Sound.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/1360937237/Sound.o.d" -o ${OBJECTDIR}/_ext/1360937237/Sound.o ../src/Sound.c   -save-temps=obj -w
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/Sound.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/1360937237/Sound.o.d" -o ${OBJECTDIR}/_ext/1360937237/Sound.o ../src/Sound.c   -save-temps=obj -w
 	
 ${OBJECTDIR}/_ext/1360937237/LCDcolor.o: ../src/LCDcolor.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1360937237" 
+	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/LCDcolor.o.d 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/LCDcolor.o 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/LCDcolor.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/1360937237/LCDcolor.o.d" -o ${OBJECTDIR}/_ext/1360937237/LCDcolor.o ../src/LCDcolor.c   -save-temps=obj -w
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/LCDcolor.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/1360937237/LCDcolor.o.d" -o ${OBJECTDIR}/_ext/1360937237/LCDcolor.o ../src/LCDcolor.c   -save-temps=obj -w
 	
 ${OBJECTDIR}/_ext/1360937237/S6B33.o: ../src/S6B33.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1360937237" 
+	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/S6B33.o.d 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/S6B33.o 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/S6B33.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/1360937237/S6B33.o.d" -o ${OBJECTDIR}/_ext/1360937237/S6B33.o ../src/S6B33.c   -save-temps=obj -w
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/S6B33.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/1360937237/S6B33.o.d" -o ${OBJECTDIR}/_ext/1360937237/S6B33.o ../src/S6B33.c   -save-temps=obj -w
 	
 ${OBJECTDIR}/_ext/1360937237/time_date.o: ../src/time_date.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1360937237" 
+	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/time_date.o.d 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/time_date.o 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/time_date.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/1360937237/time_date.o.d" -o ${OBJECTDIR}/_ext/1360937237/time_date.o ../src/time_date.c   -save-temps=obj -w
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/time_date.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/1360937237/time_date.o.d" -o ${OBJECTDIR}/_ext/1360937237/time_date.o ../src/time_date.c   -save-temps=obj -w
 	
 ${OBJECTDIR}/_ext/1360937237/timer1_int.o: ../src/timer1_int.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1360937237" 
+	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/timer1_int.o.d 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/timer1_int.o 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/timer1_int.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/1360937237/timer1_int.o.d" -o ${OBJECTDIR}/_ext/1360937237/timer1_int.o ../src/timer1_int.c   -save-temps=obj -w
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/timer1_int.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/1360937237/timer1_int.o.d" -o ${OBJECTDIR}/_ext/1360937237/timer1_int.o ../src/timer1_int.c   -save-temps=obj -w
 	
-${OBJECTDIR}/_ext/801002588/touchCTMU.o: /home/paul/rvasec-badge-2015-dev/src/touchCTMU.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/801002588" 
-	@${RM} ${OBJECTDIR}/_ext/801002588/touchCTMU.o.d 
-	@${RM} ${OBJECTDIR}/_ext/801002588/touchCTMU.o 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/801002588/touchCTMU.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/801002588/touchCTMU.o.d" -o ${OBJECTDIR}/_ext/801002588/touchCTMU.o /home/paul/rvasec-badge-2015-dev/src/touchCTMU.c   -save-temps=obj -w
+${OBJECTDIR}/_ext/1360937237/TimeDelay.o: ../src/TimeDelay.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
+	@${RM} ${OBJECTDIR}/_ext/1360937237/TimeDelay.o.d 
+	@${RM} ${OBJECTDIR}/_ext/1360937237/TimeDelay.o 
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/TimeDelay.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/1360937237/TimeDelay.o.d" -o ${OBJECTDIR}/_ext/1360937237/TimeDelay.o ../src/TimeDelay.c   -save-temps=obj -w
 	
-${OBJECTDIR}/_ext/801002588/TimeDelay.o: /home/paul/rvasec-badge-2015-dev/src/TimeDelay.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/801002588" 
-	@${RM} ${OBJECTDIR}/_ext/801002588/TimeDelay.o.d 
-	@${RM} ${OBJECTDIR}/_ext/801002588/TimeDelay.o 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/801002588/TimeDelay.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/801002588/TimeDelay.o.d" -o ${OBJECTDIR}/_ext/801002588/TimeDelay.o /home/paul/rvasec-badge-2015-dev/src/TimeDelay.c   -save-temps=obj -w
+${OBJECTDIR}/_ext/1360937237/touchCTMU.o: ../src/touchCTMU.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
+	@${RM} ${OBJECTDIR}/_ext/1360937237/touchCTMU.o.d 
+	@${RM} ${OBJECTDIR}/_ext/1360937237/touchCTMU.o 
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/touchCTMU.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/1360937237/touchCTMU.o.d" -o ${OBJECTDIR}/_ext/1360937237/touchCTMU.o ../src/touchCTMU.c   -save-temps=obj -w
 	
 ${OBJECTDIR}/_ext/1360937237/flash.o: ../src/flash.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1360937237" 
+	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/flash.o.d 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/flash.o 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/flash.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/1360937237/flash.o.d" -o ${OBJECTDIR}/_ext/1360937237/flash.o ../src/flash.c   -save-temps=obj -w
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/flash.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/1360937237/flash.o.d" -o ${OBJECTDIR}/_ext/1360937237/flash.o ../src/flash.c   -save-temps=obj -w
 	
 else
 ${OBJECTDIR}/_ext/659838314/usb_device.o: ../src/USB/usb_device.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/659838314" 
+	@${MKDIR} ${OBJECTDIR}/_ext/659838314 
 	@${RM} ${OBJECTDIR}/_ext/659838314/usb_device.o.d 
 	@${RM} ${OBJECTDIR}/_ext/659838314/usb_device.o 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/659838314/usb_device.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/659838314/usb_device.o.d" -o ${OBJECTDIR}/_ext/659838314/usb_device.o ../src/USB/usb_device.c   -save-temps=obj -w
+	@${FIXDEPS} "${OBJECTDIR}/_ext/659838314/usb_device.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/659838314/usb_device.o.d" -o ${OBJECTDIR}/_ext/659838314/usb_device.o ../src/USB/usb_device.c   -save-temps=obj -w
 	
 ${OBJECTDIR}/_ext/659838314/usb_function_cdc.o: ../src/USB/usb_function_cdc.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/659838314" 
+	@${MKDIR} ${OBJECTDIR}/_ext/659838314 
 	@${RM} ${OBJECTDIR}/_ext/659838314/usb_function_cdc.o.d 
 	@${RM} ${OBJECTDIR}/_ext/659838314/usb_function_cdc.o 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/659838314/usb_function_cdc.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/659838314/usb_function_cdc.o.d" -o ${OBJECTDIR}/_ext/659838314/usb_function_cdc.o ../src/USB/usb_function_cdc.c   -save-temps=obj -w
+	@${FIXDEPS} "${OBJECTDIR}/_ext/659838314/usb_function_cdc.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/659838314/usb_function_cdc.o.d" -o ${OBJECTDIR}/_ext/659838314/usb_function_cdc.o ../src/USB/usb_function_cdc.c   -save-temps=obj -w
 	
 ${OBJECTDIR}/_ext/1360937237/badge15.o: ../src/badge15.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1360937237" 
+	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/badge15.o.d 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/badge15.o 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/badge15.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/1360937237/badge15.o.d" -o ${OBJECTDIR}/_ext/1360937237/badge15.o ../src/badge15.c   -save-temps=obj -w
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/badge15.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/1360937237/badge15.o.d" -o ${OBJECTDIR}/_ext/1360937237/badge15.o ../src/badge15.c   -save-temps=obj -w
 	
 ${OBJECTDIR}/_ext/1360937237/badge_common.o: ../src/badge_common.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1360937237" 
+	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/badge_common.o.d 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/badge_common.o 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/badge_common.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/1360937237/badge_common.o.d" -o ${OBJECTDIR}/_ext/1360937237/badge_common.o ../src/badge_common.c   -save-temps=obj -w
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/badge_common.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/1360937237/badge_common.o.d" -o ${OBJECTDIR}/_ext/1360937237/badge_common.o ../src/badge_common.c   -save-temps=obj -w
 	
 ${OBJECTDIR}/_ext/1360937237/main.o: ../src/main.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1360937237" 
+	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/main.o.d 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/main.o 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/main.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/1360937237/main.o.d" -o ${OBJECTDIR}/_ext/1360937237/main.o ../src/main.c   -save-temps=obj -w
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/main.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/1360937237/main.o.d" -o ${OBJECTDIR}/_ext/1360937237/main.o ../src/main.c   -save-temps=obj -w
 	
 ${OBJECTDIR}/_ext/1360937237/usb_descriptors.o: ../src/usb_descriptors.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1360937237" 
+	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/usb_descriptors.o.d 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/usb_descriptors.o 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/usb_descriptors.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/1360937237/usb_descriptors.o.d" -o ${OBJECTDIR}/_ext/1360937237/usb_descriptors.o ../src/usb_descriptors.c   -save-temps=obj -w
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/usb_descriptors.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/1360937237/usb_descriptors.o.d" -o ${OBJECTDIR}/_ext/1360937237/usb_descriptors.o ../src/usb_descriptors.c   -save-temps=obj -w
 	
 ${OBJECTDIR}/_ext/1360937237/Sound.o: ../src/Sound.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1360937237" 
+	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/Sound.o.d 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/Sound.o 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/Sound.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/1360937237/Sound.o.d" -o ${OBJECTDIR}/_ext/1360937237/Sound.o ../src/Sound.c   -save-temps=obj -w
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/Sound.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/1360937237/Sound.o.d" -o ${OBJECTDIR}/_ext/1360937237/Sound.o ../src/Sound.c   -save-temps=obj -w
 	
 ${OBJECTDIR}/_ext/1360937237/LCDcolor.o: ../src/LCDcolor.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1360937237" 
+	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/LCDcolor.o.d 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/LCDcolor.o 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/LCDcolor.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/1360937237/LCDcolor.o.d" -o ${OBJECTDIR}/_ext/1360937237/LCDcolor.o ../src/LCDcolor.c   -save-temps=obj -w
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/LCDcolor.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/1360937237/LCDcolor.o.d" -o ${OBJECTDIR}/_ext/1360937237/LCDcolor.o ../src/LCDcolor.c   -save-temps=obj -w
 	
 ${OBJECTDIR}/_ext/1360937237/S6B33.o: ../src/S6B33.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1360937237" 
+	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/S6B33.o.d 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/S6B33.o 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/S6B33.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/1360937237/S6B33.o.d" -o ${OBJECTDIR}/_ext/1360937237/S6B33.o ../src/S6B33.c   -save-temps=obj -w
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/S6B33.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/1360937237/S6B33.o.d" -o ${OBJECTDIR}/_ext/1360937237/S6B33.o ../src/S6B33.c   -save-temps=obj -w
 	
 ${OBJECTDIR}/_ext/1360937237/time_date.o: ../src/time_date.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1360937237" 
+	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/time_date.o.d 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/time_date.o 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/time_date.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/1360937237/time_date.o.d" -o ${OBJECTDIR}/_ext/1360937237/time_date.o ../src/time_date.c   -save-temps=obj -w
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/time_date.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/1360937237/time_date.o.d" -o ${OBJECTDIR}/_ext/1360937237/time_date.o ../src/time_date.c   -save-temps=obj -w
 	
 ${OBJECTDIR}/_ext/1360937237/timer1_int.o: ../src/timer1_int.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1360937237" 
+	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/timer1_int.o.d 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/timer1_int.o 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/timer1_int.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/1360937237/timer1_int.o.d" -o ${OBJECTDIR}/_ext/1360937237/timer1_int.o ../src/timer1_int.c   -save-temps=obj -w
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/timer1_int.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/1360937237/timer1_int.o.d" -o ${OBJECTDIR}/_ext/1360937237/timer1_int.o ../src/timer1_int.c   -save-temps=obj -w
 	
-${OBJECTDIR}/_ext/801002588/touchCTMU.o: /home/paul/rvasec-badge-2015-dev/src/touchCTMU.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/801002588" 
-	@${RM} ${OBJECTDIR}/_ext/801002588/touchCTMU.o.d 
-	@${RM} ${OBJECTDIR}/_ext/801002588/touchCTMU.o 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/801002588/touchCTMU.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/801002588/touchCTMU.o.d" -o ${OBJECTDIR}/_ext/801002588/touchCTMU.o /home/paul/rvasec-badge-2015-dev/src/touchCTMU.c   -save-temps=obj -w
+${OBJECTDIR}/_ext/1360937237/TimeDelay.o: ../src/TimeDelay.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
+	@${RM} ${OBJECTDIR}/_ext/1360937237/TimeDelay.o.d 
+	@${RM} ${OBJECTDIR}/_ext/1360937237/TimeDelay.o 
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/TimeDelay.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/1360937237/TimeDelay.o.d" -o ${OBJECTDIR}/_ext/1360937237/TimeDelay.o ../src/TimeDelay.c   -save-temps=obj -w
 	
-${OBJECTDIR}/_ext/801002588/TimeDelay.o: /home/paul/rvasec-badge-2015-dev/src/TimeDelay.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/801002588" 
-	@${RM} ${OBJECTDIR}/_ext/801002588/TimeDelay.o.d 
-	@${RM} ${OBJECTDIR}/_ext/801002588/TimeDelay.o 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/801002588/TimeDelay.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/801002588/TimeDelay.o.d" -o ${OBJECTDIR}/_ext/801002588/TimeDelay.o /home/paul/rvasec-badge-2015-dev/src/TimeDelay.c   -save-temps=obj -w
+${OBJECTDIR}/_ext/1360937237/touchCTMU.o: ../src/touchCTMU.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
+	@${RM} ${OBJECTDIR}/_ext/1360937237/touchCTMU.o.d 
+	@${RM} ${OBJECTDIR}/_ext/1360937237/touchCTMU.o 
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/touchCTMU.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/1360937237/touchCTMU.o.d" -o ${OBJECTDIR}/_ext/1360937237/touchCTMU.o ../src/touchCTMU.c   -save-temps=obj -w
 	
 ${OBJECTDIR}/_ext/1360937237/flash.o: ../src/flash.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}/_ext/1360937237" 
+	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/flash.o.d 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/flash.o 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/flash.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/1360937237/flash.o.d" -o ${OBJECTDIR}/_ext/1360937237/flash.o ../src/flash.c   -save-temps=obj -w
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/flash.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -DGLCD_DEVICE_PIC24H -DGLCD_CONTROLLER_PCD8544 -DGLCD_USE_SPI -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/1360937237/flash.o.d" -o ${OBJECTDIR}/_ext/1360937237/flash.o ../src/flash.c   -save-temps=obj -w
 	
 endif
 
@@ -290,7 +287,7 @@ endif
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
 dist/${CND_CONF}/${IMAGE_TYPE}/Badge15.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk    ../src/app_32MX250F128D.ld
 	@${MKDIR} dist/${CND_CONF}/${IMAGE_TYPE} 
-	${MP_CC} $(MP_EXTRA_LD_PRE)  -mdebugger -D__MPLAB_DEBUGGER_ICD3=1 -mprocessor=$(MP_PROCESSOR_OPTION) -O1 -mno-float -o dist/${CND_CONF}/${IMAGE_TYPE}/Badge15.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX} ${OBJECTFILES_QUOTED_IF_SPACED}         -save-temps=obj  -mreserve=data@0x0:0x1FC -mreserve=boot@0x1FC00490:0x1FC00BEF  -Wl,--defsym=__MPLAB_BUILD=1$(MP_EXTRA_LD_POST)$(MP_LINKER_FILE_OPTION),--defsym=__MPLAB_DEBUG=1,--defsym=__DEBUG=1,--defsym=__MPLAB_DEBUGGER_ICD3=1,--defsym=_min_heap_size=512,--defsym=_min_stack_size=2048,-Map="mappit",--report-mem,--cref,-G0
+	${MP_CC} $(MP_EXTRA_LD_PRE)  -mdebugger -D__MPLAB_DEBUGGER_PK3=1 -mprocessor=$(MP_PROCESSOR_OPTION) -O1 -mno-float -o dist/${CND_CONF}/${IMAGE_TYPE}/Badge15.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX} ${OBJECTFILES_QUOTED_IF_SPACED}         -save-temps=obj  -mreserve=data@0x0:0x1FC -mreserve=boot@0x1FC00490:0x1FC00BEF -mreserve=boot@0x1FC00490:0x1FC00BEF  -Wl,--defsym=__MPLAB_BUILD=1$(MP_EXTRA_LD_POST)$(MP_LINKER_FILE_OPTION),--defsym=__MPLAB_DEBUG=1,--defsym=__DEBUG=1,--defsym=__MPLAB_DEBUGGER_PK3=1,--defsym=_min_heap_size=512,--defsym=_min_stack_size=2048,-Map="mappit",--report-mem,--cref,-G0
 	
 else
 dist/${CND_CONF}/${IMAGE_TYPE}/Badge15.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk   ../src/app_32MX250F128D.ld

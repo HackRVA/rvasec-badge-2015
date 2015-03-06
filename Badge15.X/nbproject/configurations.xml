@@ -27,8 +27,8 @@
       <itemPath>../src/LCDcolor.h</itemPath>
       <itemPath>../src/S6B33.h</itemPath>
       <itemPath>../src/HardwareProfile - PIC32MX460F512L PIM.h</itemPath>
-      <itemPath>/home/paul/rvasec-badge-2015-dev/src/touchCTMU.h</itemPath>
-      <itemPath>/home/paul/rvasec-badge-2015-dev/src/TimeDelay.h</itemPath>
+      <itemPath>../src/TimeDelay.h</itemPath>
+      <itemPath>../src/touchCTMU.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -53,9 +53,9 @@
       <itemPath>../src/S6B33.c</itemPath>
       <itemPath>../src/time_date.c</itemPath>
       <itemPath>../src/timer1_int.c</itemPath>
-      <itemPath>/home/paul/rvasec-badge-2015-dev/src/jonesforth.S</itemPath>
-      <itemPath>/home/paul/rvasec-badge-2015-dev/src/touchCTMU.c</itemPath>
-      <itemPath>/home/paul/rvasec-badge-2015-dev/src/TimeDelay.c</itemPath>
+      <itemPath>../src/jonesforth.S</itemPath>
+      <itemPath>../src/TimeDelay.c</itemPath>
+      <itemPath>../src/touchCTMU.c</itemPath>
       <itemPath>../src/flash.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
@@ -72,10 +72,10 @@
     <conf name="default" type="2">
       <toolsSet>
         <developmentServer>localhost</developmentServer>
-        <targetDevice>PIC32MX270F256D</targetDevice>
+        <targetDevice>PIC32MX250F128D</targetDevice>
         <targetHeader></targetHeader>
         <targetPluginBoard></targetPluginBoard>
-        <platformTool>ICD3PlatformTool</platformTool>
+        <platformTool>PICkit3PlatformTool</platformTool>
         <languageToolchain>XC32</languageToolchain>
         <languageToolchainVersion>1.31</languageToolchainVersion>
         <platform>2</platform>
@@ -85,11 +85,8 @@
           <linkerLibItems>
           </linkerLibItems>
         </linkerTool>
-        <archiverTool>
-        </archiverTool>
         <loading>
           <useAlternateLoadableFile>false</useAlternateLoadableFile>
-          <parseOnProdLoad>true</parseOnProdLoad>
           <alternateLoadableFile></alternateLoadableFile>
         </loading>
       </compileType>
@@ -127,9 +124,6 @@
         <property key="use-indirect-calls" value="false"/>
         <appendMe value="-w"/>
       </C32>
-      <C32-AR>
-        <property key="additional-options-chop-files" value="false"/>
-      </C32-AR>
       <C32-AS>
         <property key="assembler-symbols" value=""/>
         <property key="enable-symbols" value="true"/>
@@ -214,7 +208,7 @@
         <property key="save-temps" value="true"/>
         <property key="wpo-lto" value="false"/>
       </C32Global>
-      <ICD3PlatformTool>
+      <PICkit3PlatformTool>
         <property key="ADC 1" value="true"/>
         <property key="AutoSelectMemRanges" value="auto"/>
         <property key="CHANGE NOTICE" value="true"/>
@@ -250,10 +244,9 @@
         <property key="ToolFirmwareOption.UseLatestFirmware" value="true"/>
         <property key="UART1" value="true"/>
         <property key="UART2" value="true"/>
-        <property key="debugoptions.useswbreakpoints" value="false"/>
         <property key="hwtoolclock.frcindebug" value="false"/>
         <property key="memories.aux" value="false"/>
-        <property key="memories.bootflash" value="false"/>
+        <property key="memories.bootflash" value="true"/>
         <property key="memories.configurationmemory" value="true"/>
         <property key="memories.configurationmemory2" value="true"/>
         <property key="memories.dataflash" value="true"/>
@@ -268,9 +261,11 @@
         <property key="memories.programmemory.partition2.start"
                   value="${memories.programmemory.partition2.start.value}"/>
         <property key="memories.programmemory.start" value="0x1d000000"/>
-        <property key="poweroptions.powerenable" value="false"/>
+        <property key="poweroptions.powerenable" value="true"/>
+        <property key="programmertogo.imagename" value=""/>
         <property key="programoptions.donoteraseauxmem" value="false"/>
         <property key="programoptions.eraseb4program" value="true"/>
+        <property key="programoptions.pgmspeed" value="2"/>
         <property key="programoptions.preservedataflash" value="false"/>
         <property key="programoptions.preserveeeprom" value="false"/>
         <property key="programoptions.preserveprogramrange" value="false"/>
@@ -283,7 +278,7 @@
         <property key="programoptions.usehighvoltageonmclr" value="false"/>
         <property key="programoptions.uselvpprogramming" value="false"/>
         <property key="voltagevalue" value="3.25"/>
-      </ICD3PlatformTool>
+      </PICkit3PlatformTool>
     </conf>
   </confs>
 </configurationDescriptor>

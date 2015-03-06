@@ -242,17 +242,17 @@ BlinkUSBStatus:
 	.set	noreorder
 	.set	nomacro
 # End mchp_output_function_prologue
-	lw	$2,%gp_rel(led_count.13141)($28)
+	lw	$2,%gp_rel(led_count.13126)($28)
 	bne	$2,$0,.L34
 	addiu	$2,$2,-1
 
 	li	$2,983040			# 0xf0000
 	addiu	$2,$2,16960
-	sw	$2,%gp_rel(led_count.13141)($28)
-	lw	$2,%gp_rel(led_count.13141)($28)
+	sw	$2,%gp_rel(led_count.13126)($28)
+	lw	$2,%gp_rel(led_count.13126)($28)
 	addiu	$2,$2,-1
 .L34:
-	sw	$2,%gp_rel(led_count.13141)($28)
+	sw	$2,%gp_rel(led_count.13126)($28)
 	lui	$3,%hi(U1PWRC)
 	lw	$3,%lo(U1PWRC)($3)
 	andi	$3,$3,0x2
@@ -1824,7 +1824,7 @@ USBCBSendResume:
 	bne	$2,$0,.L119
 	addiu	$2,$2,-1
 
-	sh	$0,%gp_rel(delay_count.13166)($28)
+	sh	$0,%gp_rel(delay_count.13151)($28)
 	lui	$2,%hi(U1CON)
 	lw	$3,%lo(U1CON)($2)
 	ins	$3,$0,2,1
@@ -1975,9 +1975,9 @@ hextab:
 	.comm	usbkey_buffer,64,4
 	.section	.sbss,bss
 	.align	1
-	.type	delay_count.13166, @object
-	.size	delay_count.13166, 2
-delay_count.13166:
+	.type	delay_count.13151, @object
+	.size	delay_count.13151, 2
+delay_count.13151:
 	.space	2
 	.section	.sdata,data
 	.type	debugBlink, @object
@@ -1986,9 +1986,9 @@ debugBlink:
 	.byte	1
 	.section	.sbss,bss
 	.align	2
-	.type	led_count.13141, @object
-	.size	led_count.13141, 4
-led_count.13141:
+	.type	led_count.13126, @object
+	.size	led_count.13126, 4
+led_count.13126:
 	.space	4
 	.ident	"GCC: (Microchip Technology) 4.5.2 MPLAB XC32 v1.31 Compiler"
 # Begin MCHP vector dispatch table

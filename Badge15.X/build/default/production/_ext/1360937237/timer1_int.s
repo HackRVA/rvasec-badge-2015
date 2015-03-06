@@ -194,12 +194,12 @@ Timer2Handler:
 
 .L3:
 	beq	$2,$0,.L2
-	lw	$2,%gp_rel(sendOne.12190)($28)
+	lw	$2,%gp_rel(sendOne.12175)($28)
 
 	bne	$2,$0,.L17
 	lbu	$4,%gp_rel(G_halfCount)($28)
 
-	lw	$2,%gp_rel(sendZero.12191)($28)
+	lw	$2,%gp_rel(sendZero.12176)($28)
 	bne	$2,$0,.L18
 	addiu	$4,$4,1
 
@@ -213,7 +213,7 @@ Timer2Handler:
 
 	li	$3,1			# 0x1
 	j	.L12
-	sw	$3,%gp_rel(sendOne.12190)($28)
+	sw	$3,%gp_rel(sendOne.12175)($28)
 
 .L11:
 	li	$3,-2147483648			# 0xffffffff80000000
@@ -221,11 +221,11 @@ Timer2Handler:
 	movn	$3,$0,$4
 	lw	$4,%gp_rel(G_IRsendVal)($28)
 	and	$3,$4,$3
-	sw	$3,%gp_rel(sendOne.12190)($28)
+	sw	$3,%gp_rel(sendOne.12175)($28)
 .L12:
-	lw	$3,%gp_rel(sendOne.12190)($28)
+	lw	$3,%gp_rel(sendOne.12175)($28)
 	sltu	$3,$3,1
-	sw	$3,%gp_rel(sendZero.12191)($28)
+	sw	$3,%gp_rel(sendZero.12176)($28)
 	addiu	$2,$2,1
 	j	.L13
 	sb	$2,%gp_rel(G_bitCnt)($28)
@@ -233,16 +233,16 @@ Timer2Handler:
 .L10:
 	sb	$0,%gp_rel(G_bitCnt)($28)
 .L13:
-	lw	$2,%gp_rel(sendOne.12190)($28)
+	lw	$2,%gp_rel(sendOne.12175)($28)
 	beq	$2,$0,.L19
-	lw	$2,%gp_rel(sendZero.12191)($28)
+	lw	$2,%gp_rel(sendZero.12176)($28)
 
 	lbu	$4,%gp_rel(G_halfCount)($28)
 .L17:
 	addiu	$4,$4,1
 	andi	$4,$4,0x00ff
 	sb	$4,%gp_rel(G_halfCount)($28)
-	lbu	$2,%gp_rel(lowHalf.12192)($28)
+	lbu	$2,%gp_rel(lowHalf.12177)($28)
 	beq	$2,$0,.L15
 	lui	$2,%hi(LATB)
 
@@ -251,9 +251,9 @@ Timer2Handler:
 	sw	$3,%lo(LATB)($2)
 	sltu	$4,$4,32
 	bne	$4,$0,.L19
-	lw	$2,%gp_rel(sendZero.12191)($28)
+	lw	$2,%gp_rel(sendZero.12176)($28)
 
-	sb	$0,%gp_rel(lowHalf.12192)($28)
+	sb	$0,%gp_rel(lowHalf.12177)($28)
 	j	.L14
 	sb	$0,%gp_rel(G_halfCount)($28)
 
@@ -348,14 +348,14 @@ Timer2Handler:
 	sw	$3,%lo(LATB)($2)
 	sltu	$4,$4,32
 	bne	$4,$0,.L19
-	lw	$2,%gp_rel(sendZero.12191)($28)
+	lw	$2,%gp_rel(sendZero.12176)($28)
 
 	li	$2,1			# 0x1
-	sb	$2,%gp_rel(lowHalf.12192)($28)
+	sb	$2,%gp_rel(lowHalf.12177)($28)
 	sb	$0,%gp_rel(G_halfCount)($28)
-	sw	$0,%gp_rel(sendOne.12190)($28)
+	sw	$0,%gp_rel(sendOne.12175)($28)
 .L14:
-	lw	$2,%gp_rel(sendZero.12191)($28)
+	lw	$2,%gp_rel(sendZero.12176)($28)
 .L19:
 	beq	$2,$0,.L2
 	lbu	$4,%gp_rel(G_halfCount)($28)
@@ -364,7 +364,7 @@ Timer2Handler:
 .L18:
 	andi	$4,$4,0x00ff
 	sb	$4,%gp_rel(G_halfCount)($28)
-	lbu	$2,%gp_rel(highHalf.12193)($28)
+	lbu	$2,%gp_rel(highHalf.12178)($28)
 	beq	$2,$0,.L16
 	lui	$2,%hi(LATB)
 
@@ -460,7 +460,7 @@ Timer2Handler:
 	bne	$4,$0,.L2
 	nop
 
-	sb	$0,%gp_rel(highHalf.12193)($28)
+	sb	$0,%gp_rel(highHalf.12178)($28)
 	j	.L2
 	sb	$0,%gp_rel(G_halfCount)($28)
 
@@ -472,9 +472,9 @@ Timer2Handler:
 	bne	$4,$0,.L2
 	li	$2,1			# 0x1
 
-	sb	$2,%gp_rel(highHalf.12193)($28)
+	sb	$2,%gp_rel(highHalf.12178)($28)
 	sb	$0,%gp_rel(G_halfCount)($28)
-	sw	$0,%gp_rel(sendZero.12191)($28)
+	sw	$0,%gp_rel(sendZero.12176)($28)
 .L2:
 	lw	$5,12($sp)
 	lw	$4,8($sp)
@@ -605,24 +605,24 @@ G_lastHalf:
 G_halfCount:
 	.space	1
 	.section	.sdata,data
-	.type	highHalf.12193, @object
-	.size	highHalf.12193, 1
-highHalf.12193:
+	.type	highHalf.12178, @object
+	.size	highHalf.12178, 1
+highHalf.12178:
 	.byte	1
-	.type	lowHalf.12192, @object
-	.size	lowHalf.12192, 1
-lowHalf.12192:
+	.type	lowHalf.12177, @object
+	.size	lowHalf.12177, 1
+lowHalf.12177:
 	.byte	1
 	.section	.sbss,bss
 	.align	2
-	.type	sendZero.12191, @object
-	.size	sendZero.12191, 4
-sendZero.12191:
+	.type	sendZero.12176, @object
+	.size	sendZero.12176, 4
+sendZero.12176:
 	.space	4
 	.align	2
-	.type	sendOne.12190, @object
-	.size	sendOne.12190, 4
-sendOne.12190:
+	.type	sendOne.12175, @object
+	.size	sendOne.12175, 4
+sendOne.12175:
 	.space	4
 	.ident	"GCC: (Microchip Technology) 4.5.2 MPLAB XC32 v1.31 Compiler"
 # Begin MCHP vector dispatch table

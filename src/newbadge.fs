@@ -1,4 +1,6 @@
 !
+\ the exclaimation on the first line
+\ puts the badge into forth mode
 \ load this code using something like this:
 \ cat newbadge.fs > /dev/ttyACM0
 \ this sends the whole file to ACM0
