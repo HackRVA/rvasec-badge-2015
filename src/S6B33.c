@@ -60,9 +60,8 @@
 
 
 void S6B33_send_command(unsigned char data) {
-  PIN_DC = LCD_COMMAND; /* COMMAND = 8 bit */
-
   PIN_SCE = 0; /* chip enable active low */
+  PIN_DC = LCD_COMMAND; /* COMMAND = 8 bit */
 
   PIN_SDIN = (data & 0b10000000) ? 1 : 0;
   PIN_SCLK = 1;
@@ -108,9 +107,9 @@ void S6B33_send_command(unsigned char data) {
 }
 
 void S6B33_send_data(unsigned short data) {
-  PIN_DC = LCD_DATA; /* data = 16 bit */
-
   PIN_SCE = 0; /* chip enable active low */
+
+  PIN_DC = LCD_DATA; /* data = 16 bit */
 
   PIN_SDIN = (data & 0b1000000000000000) ? 1 : 0;
   PIN_SCLK = 1;
@@ -211,9 +210,9 @@ unsigned char G_addressMode = 0b00011101; /* 0b0001 1101 65536 colors default GS
 
 unsigned char G_rowVector = 0b00001110; /* default row vector type=Diagonal INC=111 V=0-----*/ 
 
-unsigned char G_contrast1 = 0b00110000; /* safe 48 = hex 0x30 */
+unsigned char G_contrast1 = 0b00110100; /* 52 = 0x34 48 = hex 0x30 */
 
-unsigned char G_contrast2 = 0b00110000; /* safe 48 = hex 0x30 */
+unsigned char G_contrast2 = 0b00110100; /* 52 = 0x34 48 = hex 0x30 */
 
 
 void S6Delay()

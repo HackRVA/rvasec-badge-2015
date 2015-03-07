@@ -60,12 +60,12 @@ void LCDReset(void) {
 
    LATBbits.LATB8 = 0; /* CS = yes */
    LATCbits.LATC8 = 0; /* reset = yes */
-
    LCDDelay();
 
    LATCbits.LATC8 = 1; /* reset = no */
-   LATBbits.LATB8 = 1; /* CS = no */
+   LCDDelay();
 
+   LATBbits.LATB8 = 1; /* CS = no */
    LCDDelay();
 
    S6B33_init_device(); /* set important internal registers */
