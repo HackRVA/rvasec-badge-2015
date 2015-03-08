@@ -110,21 +110,35 @@ void TimerInit(void)
     // shake sensor debug pin
 //    TRISBbits.TRISB8 = 0;
 
-    IEC0bits.INT4IE=0; // disable this interrupt
-
+#define B2015
+#ifdef B2015
+    IEC0bits.INT1IE=0; // 2015 disable this interrupt
+    TRISBbits.TRISB0 = 1; // 2015 IR IN
+#else
+//    IEC0bits.INT4IE=0; // 2014
     // AN6/RPC0/RC0 == IR recv
     // config as input
 //    TRISCbits.TRISC0 = 1;
-    TRISBbits.TRISB0 = 1; // 2015 IR IN
+#endif
 
     SYSKEY = 0x0;
     SYSKEY = 0xAA996655;
     SYSKEY = 0x556699AA;
 
+#ifdef B2015
     CFGCONbits.IOLOCK = 0; // unlock configuration
+    INT1Rbits.INT1R = 0b0010; // map RPB0
+    CFGCONbits.IOLOCK = 1; // relock configuration
 
+    SYSKEY = 0x0;
+
+    INTCONbits.INT1EP=0; // edge polarity
+    IPC1bits.INT1IP=1; // interrupt priority
+    IPC1bits.INT1IS=1; // interrupt sub priority
+    IEC0bits.INT1IE=1; // enable this interrupt
+#else
+    CFGCONbits.IOLOCK = 0; // unlock configuration
     INT4Rbits.INT4R = 0b0110; // map RPC0 
-
     CFGCONbits.IOLOCK = 1; // relock configuration
 
     SYSKEY = 0x0;
@@ -133,8 +147,9 @@ void TimerInit(void)
     IPC4bits.INT4IP=1; // interrupt priority
     IPC4bits.INT4IS=1; // interrupt sub priority
     IEC0bits.INT4IE=1; // enable this interrupt
+#endif
 
-    IEC0bits.T2IE=1;
+    IEC0bits.T2IE=1; // also enable timer2 interupt
 }
 
 // EXT4 int enabled when IR recv is 0 otherwise 1+
@@ -385,10 +400,15 @@ void __ISR(_TIMER_2_VECTOR, IPL2SOFT) Timer2Handler(void)
    }
 }
 
-void __ISR( _EXTERNAL_4_VECTOR, ipl1) Int4Interrupt(void)
+// 2014
+//void __ISR( _EXTERNAL_4_VECTOR, ipl1) Int4Interrupt(void)
+void __ISR( _EXTERNAL_1_VECTOR, ipl1) Int1Interrupt(void)
 { 
-   // clear flag
-   IFS0bits.INT4IF = 0;
+   // clear flag 2014
+   //IFS0bits.INT4IF = 0;
+
+   // clear flag 2015
+   IFS0bits.INT1IF = 0;
 
    // if not sending, signal in receive
    if ((G_IRsend == 0) & (G_IRrecv == 0)) {

@@ -131,7 +131,7 @@ decimal
 ( real time clock )
 hex
 15030501 date !
-21350001 time !
+21520000 time !
 setRTCC
 setupRTCC ( this takes a while )
 getRTCC time @ u.
@@ -142,19 +142,12 @@ getRTCC date @ u.
 
 
 \ 1 spk 1 pause 0 spk 1 pause
-
 \ 1 spk 10 pause 0 spk 10 pause
-
 \ 1 spk 20 pause 0 spk 20 pause
-
 \ 1 spk 50 pause 0 spk 50 pause
-
 \ 1 spk 500 pause 0 spk 500 pause
-
 \ 1 spk 1000 pause 0 spk 1000 pause
-
 \ 1 spk 2000 pause 0 spk 2000 pause
-
 \ 1 spk 5000 pause 0 spk 5000 pause 
 
 0 red 0 green 0 blue

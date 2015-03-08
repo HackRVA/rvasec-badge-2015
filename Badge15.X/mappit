@@ -200,48 +200,48 @@ section                    address  length [bytes]      (dec)  Description
 .rodata                 0x9d017ec4          0x800        2048  Read-only const 
 .text                   0x9d0186c4         0x1b78        7032  App's exec code 
 .rodata                 0x9d01a23c          0x558        1368  Read-only const 
-.text                   0x9d01a794          0x558        1368  App's exec code 
-.text._RtccSetTimeAndDa 0x9d01acec          0x23c         572   
-.text.RtccOpen          0x9d01af28          0x1ec         492   
-.text                   0x9d01b114          0x1c8         456  App's exec code 
-.text.RtccInit          0x9d01b2dc          0x1ac         428   
-.dinit                  0x9d01b488          0x170         368   
-.text                   0x9d01b5f8          0x144         324  App's exec code 
-.text._NVMOperation     0x9d01b73c          0x114         276   
-.text._RtccWaitClockOff 0x9d01b850          0x108         264   
-.text.general_exception 0x9d01b958           0xdc         220   
-.rodata                 0x9d01ba34          0x1a8         424  Read-only const 
-.text                   0x9d01bbdc           0xa8         168  App's exec code 
-.text.INTEnable         0x9d01bc84           0x50          80   
-.text.main_entry        0x9d01bcd4           0x4c          76   
-.text                   0x9d01bd20           0x44          68  App's exec code 
-.text.INTSetVectorPrior 0x9d01bd64           0x38          56   
-.text.INTSetVectorSubPr 0x9d01bd9c           0x38          56   
-.text._bootstrap_except 0x9d01bdd4           0x38          56   
-.text._general_exceptio 0x9d01be0c           0x38          56   
-.text                   0x9d01be44           0x34          52  App's exec code 
-.rodata                 0x9d01be78           0x34          52  Read-only const 
-.text.INTEnableSystemMu 0x9d01beac           0x34          52   
-.text.NVMWriteWord      0x9d01bee0           0x34          52   
-.text.INTGetVectorPrior 0x9d01bf14           0x2c          44   
-.text.INTGetVectorSubPr 0x9d01bf40           0x2c          44   
-.text.NVMErasePage      0x9d01bf6c           0x2c          44   
-.text.INTClearFlag      0x9d01bf98           0x28          40   
-.text.INTSetFlag        0x9d01bfc0           0x28          40   
-.text.INTGetFlag        0x9d01bfe8           0x28          40   
-.text.INTGetEnable      0x9d01c010           0x28          40   
-.text.RtccSetTimeDate   0x9d01c038           0x28          40   
-.text.INTRestoreInterru 0x9d01c060           0x1c          28   
-.text                   0x9d01c07c           0x18          24  App's exec code 
-.rodata                 0x9d01c094           0x14          20  Read-only const 
-.text._RtccSetClockWait 0x9d01c0a8           0x14          20   
-.rodata                 0x9d01c0bc            0x8           8  Read-only const 
-.text.ReadCoreTimer     0x9d01c0c4            0x8           8   
-.text.INTEnableInterrup 0x9d01c0cc            0x8           8   
-.text.INTDisableInterru 0x9d01c0d4            0x8           8   
-.text._on_reset         0x9d01c0dc            0x8           8   
-.text._on_bootstrap     0x9d01c0e4            0x8           8   
-      Total kseg0_program_mem used  :     0x14c5c       85084  84.0% of 0x18b70
+.text                   0x9d01a794          0x528        1320  App's exec code 
+.text._RtccSetTimeAndDa 0x9d01acbc          0x23c         572   
+.text.RtccOpen          0x9d01aef8          0x1ec         492   
+.text                   0x9d01b0e4          0x1c8         456  App's exec code 
+.text.RtccInit          0x9d01b2ac          0x1ac         428   
+.dinit                  0x9d01b458          0x170         368   
+.text                   0x9d01b5c8          0x144         324  App's exec code 
+.text._NVMOperation     0x9d01b70c          0x114         276   
+.text._RtccWaitClockOff 0x9d01b820          0x108         264   
+.text.general_exception 0x9d01b928           0xdc         220   
+.rodata                 0x9d01ba04          0x1a8         424  Read-only const 
+.text                   0x9d01bbac           0xa8         168  App's exec code 
+.text.INTEnable         0x9d01bc54           0x50          80   
+.text.main_entry        0x9d01bca4           0x4c          76   
+.text                   0x9d01bcf0           0x44          68  App's exec code 
+.text.INTSetVectorPrior 0x9d01bd34           0x38          56   
+.text.INTSetVectorSubPr 0x9d01bd6c           0x38          56   
+.text._bootstrap_except 0x9d01bda4           0x38          56   
+.text._general_exceptio 0x9d01bddc           0x38          56   
+.text                   0x9d01be14           0x34          52  App's exec code 
+.rodata                 0x9d01be48           0x34          52  Read-only const 
+.text.INTEnableSystemMu 0x9d01be7c           0x34          52   
+.text.NVMWriteWord      0x9d01beb0           0x34          52   
+.text.INTGetVectorPrior 0x9d01bee4           0x2c          44   
+.text.INTGetVectorSubPr 0x9d01bf10           0x2c          44   
+.text.NVMErasePage      0x9d01bf3c           0x2c          44   
+.text.INTClearFlag      0x9d01bf68           0x28          40   
+.text.INTSetFlag        0x9d01bf90           0x28          40   
+.text.INTGetFlag        0x9d01bfb8           0x28          40   
+.text.INTGetEnable      0x9d01bfe0           0x28          40   
+.text.RtccSetTimeDate   0x9d01c008           0x28          40   
+.text.INTRestoreInterru 0x9d01c030           0x1c          28   
+.text                   0x9d01c04c           0x18          24  App's exec code 
+.rodata                 0x9d01c064           0x14          20  Read-only const 
+.text._RtccSetClockWait 0x9d01c078           0x14          20   
+.rodata                 0x9d01c08c            0x8           8  Read-only const 
+.text.ReadCoreTimer     0x9d01c094            0x8           8   
+.text.INTEnableInterrup 0x9d01c09c            0x8           8   
+.text.INTDisableInterru 0x9d01c0a4            0x8           8   
+.text._on_reset         0x9d01c0ac            0x8           8   
+.text._on_bootstrap     0x9d01c0b4            0x8           8   
+      Total kseg0_program_mem used  :     0x14c2c       85036  84.0% of 0x18b70
 
 kseg0 Boot-Memory Usage
 section                    address  length [bytes]      (dec)  Description
@@ -252,8 +252,8 @@ Exception-Memory Usage
 section                    address  length [bytes]      (dec)  Description
 -------                 ----------  -------------------------  -----------
 .app_excpt              0x9d006180           0x10          16  General-Exception 
+.vector_7               0x9d0062e0            0x8           8  Interrupt Vector 7 
 .vector_8               0x9d006300            0x8           8  Interrupt Vector 8 
-.vector_19              0x9d006460            0x8           8  Interrupt Vector 19 
 .vector_30              0x9d0065c0            0x8           8  Interrupt Vector 30 
           Total exception_mem used  :        0x28          40  1.0% of 0x1000
 
@@ -264,7 +264,7 @@ section                    address  length [bytes]      (dec)  Description
 .bev_excpt              0x9d007380           0x10          16  BEV-Exception 
          Total kseg1_boot_mem used  :       0x1d4         468  40.1% of 0x490
         --------------------------------------------------------------------------
-         Total Program Memory used  :     0x14e58       85592  80.4% of 0x1a000
+         Total Program Memory used  :     0x14e28       85544  80.3% of 0x1a000
         --------------------------------------------------------------------------
 
 
@@ -470,8 +470,10 @@ END GROUP
  *(.vector_6)
                 0x00000001                ASSERT (((_vector_spacing == 0x0) || (SIZEOF (.vector_6) <= (_vector_spacing << 0x5))), function at exception vector 6 too large)
 
-.vector_7       0x9d0062e0        0x0
+.vector_7       0x9d0062e0        0x8
  *(.vector_7)
+ .vector_7      0x9d0062e0        0x8 build/default/production/_ext/1360937237/timer1_int.o
+                0x9d0062e0                __vector_dispatch_7
                 0x00000001                ASSERT (((_vector_spacing == 0x0) || (SIZEOF (.vector_7) <= (_vector_spacing << 0x5))), function at exception vector 7 too large)
 
 .vector_8       0x9d006300        0x8
@@ -520,10 +522,8 @@ END GROUP
  *(.vector_18)
                 0x00000001                ASSERT (((_vector_spacing == 0x0) || (SIZEOF (.vector_18) <= (_vector_spacing << 0x5))), function at exception vector 18 too large)
 
-.vector_19      0x9d006460        0x8
+.vector_19      0x9d006460        0x0
  *(.vector_19)
- .vector_19     0x9d006460        0x8 build/default/production/_ext/1360937237/timer1_int.o
-                0x9d006460                __vector_dispatch_19
                 0x00000001                ASSERT (((_vector_spacing == 0x0) || (SIZEOF (.vector_19) <= (_vector_spacing << 0x5))), function at exception vector 19 too large)
 
 .vector_20      0x9d006480        0x0
@@ -1243,27 +1243,27 @@ END GROUP
  .debug_pubnames
                 0x00000351       0x31 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libpic32.a(default-general-exception-handler.o)
 
-.debug_info     0x00000000      0xf89
+.debug_info     0x00000000      0xf83
  *(.debug_info .gnu.linkonce.wi.*)
- .debug_info    0x00000000       0x6e build/default/production/_ext/1360937237/jonesforth.o
- .debug_info    0x0000006e       0xaa /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral.a(read_core_timer_lib.o)
- .debug_info    0x00000118       0xb4 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(int_enable_interrupts_lib.o)
- .debug_info    0x000001cc       0xb6 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(int_disable_interrupts_lib.o)
- .debug_info    0x00000282       0xb6 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(int_restore_interrupts_lib.o)
- .debug_info    0x00000338       0xbc /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(int_enable_mv_int_lib.o)
- .debug_info    0x000003f4      0x196 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(int_tbl_lib.o)
- .debug_info    0x0000058a      0x10c /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(rtcc_init_lib.o)
- .debug_info    0x00000696       0xae /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(rtcc_set_time_date_lib.o)
- .debug_info    0x00000744      0x10c /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(rtcc_open_lib.o)
- .debug_info    0x00000850       0xa6 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(nvm_erase_page_lib.o)
- .debug_info    0x000008f6       0xc7 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(nvm_operation_lib.o)
- .debug_info    0x000009bd       0xa6 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(nvm_write_word_lib.o)
- .debug_info    0x00000a63      0x10f /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(_rtcc_set_time_and_date_lib.o)
- .debug_info    0x00000b72       0xe7 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(_rtcc_wait_clock_off_lib.o)
- .debug_info    0x00000c59       0xde /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libpic32.a(default-bootstrap-exception-handler.o)
- .debug_info    0x00000d37       0xb8 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libpic32.a(default-on-reset.o)
- .debug_info    0x00000def       0xc0 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libpic32.a(default-on-bootstrap.o)
- .debug_info    0x00000eaf       0xda /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libpic32.a(default-general-exception-handler.o)
+ .debug_info    0x00000000       0x68 build/default/production/_ext/1360937237/jonesforth.o
+ .debug_info    0x00000068       0xaa /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral.a(read_core_timer_lib.o)
+ .debug_info    0x00000112       0xb4 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(int_enable_interrupts_lib.o)
+ .debug_info    0x000001c6       0xb6 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(int_disable_interrupts_lib.o)
+ .debug_info    0x0000027c       0xb6 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(int_restore_interrupts_lib.o)
+ .debug_info    0x00000332       0xbc /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(int_enable_mv_int_lib.o)
+ .debug_info    0x000003ee      0x196 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(int_tbl_lib.o)
+ .debug_info    0x00000584      0x10c /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(rtcc_init_lib.o)
+ .debug_info    0x00000690       0xae /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(rtcc_set_time_date_lib.o)
+ .debug_info    0x0000073e      0x10c /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(rtcc_open_lib.o)
+ .debug_info    0x0000084a       0xa6 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(nvm_erase_page_lib.o)
+ .debug_info    0x000008f0       0xc7 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(nvm_operation_lib.o)
+ .debug_info    0x000009b7       0xa6 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(nvm_write_word_lib.o)
+ .debug_info    0x00000a5d      0x10f /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(_rtcc_set_time_and_date_lib.o)
+ .debug_info    0x00000b6c       0xe7 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(_rtcc_wait_clock_off_lib.o)
+ .debug_info    0x00000c53       0xde /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libpic32.a(default-bootstrap-exception-handler.o)
+ .debug_info    0x00000d31       0xb8 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libpic32.a(default-on-reset.o)
+ .debug_info    0x00000de9       0xc0 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libpic32.a(default-on-bootstrap.o)
+ .debug_info    0x00000ea9       0xda /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libpic32.a(default-general-exception-handler.o)
 
 .debug_abbrev   0x00000000      0x318
  *(.debug_abbrev)
@@ -2253,7 +2253,7 @@ LOAD data_init
  .text          0x9d018dcc      0x6fc build/default/production/_ext/1360937237/timer1_int.o
                 0x9d018dcc                TimerInit
                 0x9d018f0c                Timer2Handler
-                0x9d019438                Int4Interrupt
+                0x9d019438                Int1Interrupt
  .text          0x9d0194c8      0x6f8 build/default/production/_ext/1360937237/S6B33.o
                 0x9d0194c8                S6B33_send_command
                 0x9d019640                S6B33_send_data
@@ -2301,262 +2301,262 @@ LOAD data_init
                 0x9d01a23c                __IntSrcTbl
                 0x9d01a584                __IntVectorTbl
 
-.text           0x9d01a794      0x558
- .text          0x9d01a794      0x300 build/default/production/_ext/1360937237/time_date.o
+.text           0x9d01a794      0x528
+ .text          0x9d01a794      0x2d0 build/default/production/_ext/1360937237/time_date.o
                 0x9d01a794                setupRTCC
-                0x9d01a980                setRTCC
-                0x9d01a9a0                getRTCC
-                0x9d01a9d4                CheckRtccRunning
- .text          0x9d01aa94      0x258 build/default/production/_ext/1360937237/touchCTMU.o
-                0x9d01aa94                getTouch
+                0x9d01a950                setRTCC
+                0x9d01a970                getRTCC
+                0x9d01a9a4                CheckRtccRunning
+ .text          0x9d01aa64      0x258 build/default/production/_ext/1360937237/touchCTMU.o
+                0x9d01aa64                getTouch
 
 .text._RtccSetTimeAndDate
-                0x9d01acec      0x23c
+                0x9d01acbc      0x23c
  .text._RtccSetTimeAndDate
-                0x9d01acec      0x23c /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(_rtcc_set_time_and_date_lib.o)
-                0x9d01acec                _RtccSetTimeAndDate
+                0x9d01acbc      0x23c /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(_rtcc_set_time_and_date_lib.o)
+                0x9d01acbc                _RtccSetTimeAndDate
 
-.text.RtccOpen  0x9d01af28      0x1ec
+.text.RtccOpen  0x9d01aef8      0x1ec
  .text.RtccOpen
-                0x9d01af28      0x1ec /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(rtcc_open_lib.o)
-                0x9d01af28                RtccOpen
+                0x9d01aef8      0x1ec /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(rtcc_open_lib.o)
+                0x9d01aef8                RtccOpen
 
-.text           0x9d01b114      0x1c8
- .text          0x9d01b114      0x1c8 build/default/production/_ext/1360937237/badge_common.o
-                0x9d01b114                b_strcpy
-                0x9d01b144                intTime_to_charTime
-                0x9d01b1e0                setBase10String
-                0x9d01b200                setTimeString
-                0x9d01b248                bcdDecrement
-                0x9d01b280                bcdIncrement
-                0x9d01b2b8                uINT_to_chars
+.text           0x9d01b0e4      0x1c8
+ .text          0x9d01b0e4      0x1c8 build/default/production/_ext/1360937237/badge_common.o
+                0x9d01b0e4                b_strcpy
+                0x9d01b114                intTime_to_charTime
+                0x9d01b1b0                setBase10String
+                0x9d01b1d0                setTimeString
+                0x9d01b218                bcdDecrement
+                0x9d01b250                bcdIncrement
+                0x9d01b288                uINT_to_chars
 
-.text.RtccInit  0x9d01b2dc      0x1ac
+.text.RtccInit  0x9d01b2ac      0x1ac
  .text.RtccInit
-                0x9d01b2dc      0x1ac /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(rtcc_init_lib.o)
-                0x9d01b2dc                RtccInit
+                0x9d01b2ac      0x1ac /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(rtcc_init_lib.o)
+                0x9d01b2ac                RtccInit
 
-.dinit          0x9d01b488      0x170
- .dinit         0x9d01b488      0x170 data_init
+.dinit          0x9d01b458      0x170
+ .dinit         0x9d01b458      0x170 data_init
 
-.text           0x9d01b5f8      0x144
- .text          0x9d01b5f8      0x144 build/default/production/_ext/1360937237/TimeDelay.o
-                0x9d01b5f8                Delay1us
-                0x9d01b650                Delay10us
-                0x9d01b6b0                DelayMs
+.text           0x9d01b5c8      0x144
+ .text          0x9d01b5c8      0x144 build/default/production/_ext/1360937237/TimeDelay.o
+                0x9d01b5c8                Delay1us
+                0x9d01b620                Delay10us
+                0x9d01b680                DelayMs
 
 .text._NVMOperation
-                0x9d01b73c      0x114
+                0x9d01b70c      0x114
  .text._NVMOperation
-                0x9d01b73c      0x114 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(nvm_operation_lib.o)
-                0x9d01b73c                _NVMOperation
+                0x9d01b70c      0x114 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(nvm_operation_lib.o)
+                0x9d01b70c                _NVMOperation
 
 .text._RtccWaitClockOff
-                0x9d01b850      0x108
+                0x9d01b820      0x108
  .text._RtccWaitClockOff
-                0x9d01b850      0x108 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(_rtcc_wait_clock_off_lib.o)
-                0x9d01b850                _RtccWaitClockOff
+                0x9d01b820      0x108 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(_rtcc_wait_clock_off_lib.o)
+                0x9d01b820                _RtccWaitClockOff
 
 .text.general_exception
-                0x9d01b958       0xdc
+                0x9d01b928       0xdc
  .text.general_exception
-                0x9d01b958       0xdc /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libpic32.a(general-exception.o)
-                0x9d01b958                _general_exception_context
+                0x9d01b928       0xdc /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libpic32.a(general-exception.o)
+                0x9d01b928                _general_exception_context
 
-.rodata         0x9d01ba34      0x1a8
- .rodata        0x9d01ba34       0xd4 build/default/production/_ext/1360937237/badge15.o
-                0x9d01ba34                game_txt
-                0x9d01ba40                schedule_txt
-                0x9d01ba4c                settings_txt
-                0x9d01ba58                snake_txt
-                0x9d01ba60                adventure_txt
-                0x9d01ba6c                sketch_txt
-                0x9d01ba74                bird_txt
-                0x9d01ba80                pong_txt
-                0x9d01ba88                images_txt
-                0x9d01ba90                set_backlight
-                0x9d01ba9c                adjust_contrast
-                0x9d01baa8                enable_speaker
-                0x9d01bab0                set_time_txt
-                0x9d01babc                screen_saver_txt
-                0x9d01bacc                screen_saver_on_txt
-                0x9d01badc                ping_txt
-                0x9d01bae4                day1_txt
-                0x9d01baec                day2_txt
-                0x9d01baf4                go_back
-                0x9d01bb00                more_txt
- .rodata        0x9d01bb08       0xd4 build/default/production/_ext/1360937237/usb_descriptors.o
-                0x9d01bb08                device_dsc
-                0x9d01bb1c                configDescriptor1
-                0x9d01bb60                sd000
-                0x9d01bb64                sd001
-                0x9d01bb98                sd002
-                0x9d01bbcc                USB_CD_Ptr
-                0x9d01bbd0                USB_SD_Ptr
+.rodata         0x9d01ba04      0x1a8
+ .rodata        0x9d01ba04       0xd4 build/default/production/_ext/1360937237/badge15.o
+                0x9d01ba04                game_txt
+                0x9d01ba10                schedule_txt
+                0x9d01ba1c                settings_txt
+                0x9d01ba28                snake_txt
+                0x9d01ba30                adventure_txt
+                0x9d01ba3c                sketch_txt
+                0x9d01ba44                bird_txt
+                0x9d01ba50                pong_txt
+                0x9d01ba58                images_txt
+                0x9d01ba60                set_backlight
+                0x9d01ba6c                adjust_contrast
+                0x9d01ba78                enable_speaker
+                0x9d01ba80                set_time_txt
+                0x9d01ba8c                screen_saver_txt
+                0x9d01ba9c                screen_saver_on_txt
+                0x9d01baac                ping_txt
+                0x9d01bab4                day1_txt
+                0x9d01babc                day2_txt
+                0x9d01bac4                go_back
+                0x9d01bad0                more_txt
+ .rodata        0x9d01bad8       0xd4 build/default/production/_ext/1360937237/usb_descriptors.o
+                0x9d01bad8                device_dsc
+                0x9d01baec                configDescriptor1
+                0x9d01bb30                sd000
+                0x9d01bb34                sd001
+                0x9d01bb68                sd002
+                0x9d01bb9c                USB_CD_Ptr
+                0x9d01bba0                USB_SD_Ptr
 
-.text           0x9d01bbdc       0xa8
- .text          0x9d01bbdc       0xa8 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libpic32.a(memset.o)
-                0x9d01bbdc                memset
+.text           0x9d01bbac       0xa8
+ .text          0x9d01bbac       0xa8 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libpic32.a(memset.o)
+                0x9d01bbac                memset
 
 .text.INTEnable
-                0x9d01bc84       0x50
+                0x9d01bc54       0x50
  .text.INTEnable
-                0x9d01bc84       0x50 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(int_tbl_lib.o)
-                0x9d01bc84                INTEnable
+                0x9d01bc54       0x50 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(int_tbl_lib.o)
+                0x9d01bc54                INTEnable
 
 .text.main_entry
-                0x9d01bcd4       0x4c
+                0x9d01bca4       0x4c
  .text.main_entry
-                0x9d01bcd4       0x4c /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/./proc/32MX250F128D/crt0_mips32r2.o
-                0x9d01bd00                __crt0_exit
+                0x9d01bca4       0x4c /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/./proc/32MX250F128D/crt0_mips32r2.o
+                0x9d01bcd0                __crt0_exit
 
-.text           0x9d01bd20       0x44
- .text          0x9d01bd20       0x44 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libpic32.a(pic32_software_reset.o)
-                0x9d01bd20                __pic32_software_reset
+.text           0x9d01bcf0       0x44
+ .text          0x9d01bcf0       0x44 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libpic32.a(pic32_software_reset.o)
+                0x9d01bcf0                __pic32_software_reset
 
 .text.INTSetVectorPriority
-                0x9d01bd64       0x38
+                0x9d01bd34       0x38
  .text.INTSetVectorPriority
-                0x9d01bd64       0x38 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(int_tbl_lib.o)
-                0x9d01bd64                INTSetVectorPriority
+                0x9d01bd34       0x38 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(int_tbl_lib.o)
+                0x9d01bd34                INTSetVectorPriority
 
 .text.INTSetVectorSubPriority
-                0x9d01bd9c       0x38
+                0x9d01bd6c       0x38
  .text.INTSetVectorSubPriority
-                0x9d01bd9c       0x38 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(int_tbl_lib.o)
-                0x9d01bd9c                INTSetVectorSubPriority
+                0x9d01bd6c       0x38 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(int_tbl_lib.o)
+                0x9d01bd6c                INTSetVectorSubPriority
 
 .text._bootstrap_exception_handler
-                0x9d01bdd4       0x38
+                0x9d01bda4       0x38
  .text._bootstrap_exception_handler
-                0x9d01bdd4       0x38 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libpic32.a(default-bootstrap-exception-handler.o)
-                0x9d01bdd4                _bootstrap_exception_handler
+                0x9d01bda4       0x38 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libpic32.a(default-bootstrap-exception-handler.o)
+                0x9d01bda4                _bootstrap_exception_handler
 
 .text._general_exception_handler
-                0x9d01be0c       0x38
+                0x9d01bddc       0x38
  .text._general_exception_handler
-                0x9d01be0c       0x38 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libpic32.a(default-general-exception-handler.o)
-                0x9d01be0c                _general_exception_handler
+                0x9d01bddc       0x38 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libpic32.a(default-general-exception-handler.o)
+                0x9d01bddc                _general_exception_handler
 
-.text           0x9d01be44       0x34
- .text          0x9d01be44       0x34 build/default/production/_ext/1360937237/Sound.o
-                0x9d01be44                getNextSample
+.text           0x9d01be14       0x34
+ .text          0x9d01be14       0x34 build/default/production/_ext/1360937237/Sound.o
+                0x9d01be14                getNextSample
 
-.rodata         0x9d01be78       0x34
- .rodata        0x9d01be78       0x34 build/default/production/_ext/1360937237/jonesforth.o
+.rodata         0x9d01be48       0x34
+ .rodata        0x9d01be48       0x34 build/default/production/_ext/1360937237/jonesforth.o
 
 .text.INTEnableSystemMultiVectoredInt
-                0x9d01beac       0x34
+                0x9d01be7c       0x34
  .text.INTEnableSystemMultiVectoredInt
-                0x9d01beac       0x34 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(int_enable_mv_int_lib.o)
-                0x9d01beac                INTEnableSystemMultiVectoredInt
+                0x9d01be7c       0x34 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(int_enable_mv_int_lib.o)
+                0x9d01be7c                INTEnableSystemMultiVectoredInt
 
 .text.NVMWriteWord
-                0x9d01bee0       0x34
+                0x9d01beb0       0x34
  .text.NVMWriteWord
-                0x9d01bee0       0x34 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(nvm_write_word_lib.o)
-                0x9d01bee0                NVMWriteWord
+                0x9d01beb0       0x34 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(nvm_write_word_lib.o)
+                0x9d01beb0                NVMWriteWord
 
 .text.INTGetVectorPriority
-                0x9d01bf14       0x2c
+                0x9d01bee4       0x2c
  .text.INTGetVectorPriority
-                0x9d01bf14       0x2c /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(int_tbl_lib.o)
-                0x9d01bf14                INTGetVectorPriority
+                0x9d01bee4       0x2c /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(int_tbl_lib.o)
+                0x9d01bee4                INTGetVectorPriority
 
 .text.INTGetVectorSubPriority
-                0x9d01bf40       0x2c
+                0x9d01bf10       0x2c
  .text.INTGetVectorSubPriority
-                0x9d01bf40       0x2c /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(int_tbl_lib.o)
-                0x9d01bf40                INTGetVectorSubPriority
+                0x9d01bf10       0x2c /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(int_tbl_lib.o)
+                0x9d01bf10                INTGetVectorSubPriority
 
 .text.NVMErasePage
-                0x9d01bf6c       0x2c
+                0x9d01bf3c       0x2c
  .text.NVMErasePage
-                0x9d01bf6c       0x2c /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(nvm_erase_page_lib.o)
-                0x9d01bf6c                NVMErasePage
+                0x9d01bf3c       0x2c /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(nvm_erase_page_lib.o)
+                0x9d01bf3c                NVMErasePage
 
 .text.INTClearFlag
-                0x9d01bf98       0x28
+                0x9d01bf68       0x28
  .text.INTClearFlag
-                0x9d01bf98       0x28 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(int_tbl_lib.o)
-                0x9d01bf98                INTClearFlag
+                0x9d01bf68       0x28 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(int_tbl_lib.o)
+                0x9d01bf68                INTClearFlag
 
 .text.INTSetFlag
-                0x9d01bfc0       0x28
+                0x9d01bf90       0x28
  .text.INTSetFlag
-                0x9d01bfc0       0x28 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(int_tbl_lib.o)
-                0x9d01bfc0                INTSetFlag
+                0x9d01bf90       0x28 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(int_tbl_lib.o)
+                0x9d01bf90                INTSetFlag
 
 .text.INTGetFlag
-                0x9d01bfe8       0x28
+                0x9d01bfb8       0x28
  .text.INTGetFlag
-                0x9d01bfe8       0x28 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(int_tbl_lib.o)
-                0x9d01bfe8                INTGetFlag
+                0x9d01bfb8       0x28 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(int_tbl_lib.o)
+                0x9d01bfb8                INTGetFlag
 
 .text.INTGetEnable
-                0x9d01c010       0x28
+                0x9d01bfe0       0x28
  .text.INTGetEnable
-                0x9d01c010       0x28 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(int_tbl_lib.o)
-                0x9d01c010                INTGetEnable
+                0x9d01bfe0       0x28 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(int_tbl_lib.o)
+                0x9d01bfe0                INTGetEnable
 
 .text.RtccSetTimeDate
-                0x9d01c038       0x28
+                0x9d01c008       0x28
  .text.RtccSetTimeDate
-                0x9d01c038       0x28 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(rtcc_set_time_date_lib.o)
-                0x9d01c038                RtccSetTimeDate
+                0x9d01c008       0x28 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(rtcc_set_time_date_lib.o)
+                0x9d01c008                RtccSetTimeDate
 
 .text.INTRestoreInterrupts
-                0x9d01c060       0x1c
+                0x9d01c030       0x1c
  .text.INTRestoreInterrupts
-                0x9d01c060       0x1c /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(int_restore_interrupts_lib.o)
-                0x9d01c060                INTRestoreInterrupts
+                0x9d01c030       0x1c /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(int_restore_interrupts_lib.o)
+                0x9d01c030                INTRestoreInterrupts
 
-.text           0x9d01c07c       0x18
- .text          0x9d01c07c       0x18 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libpic32.a(default-nmi-handler.o)
-                0x9d01c07c                _nmi_handler
+.text           0x9d01c04c       0x18
+ .text          0x9d01c04c       0x18 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libpic32.a(default-nmi-handler.o)
+                0x9d01c04c                _nmi_handler
 
-.rodata         0x9d01c094       0x14
- .rodata        0x9d01c094       0x14 build/default/production/_ext/1360937237/main.o
-                0x9d01c094                hextab
+.rodata         0x9d01c064       0x14
+ .rodata        0x9d01c064       0x14 build/default/production/_ext/1360937237/main.o
+                0x9d01c064                hextab
 
 .text._RtccSetClockWait
-                0x9d01c0a8       0x14
+                0x9d01c078       0x14
  .text._RtccSetClockWait
-                0x9d01c0a8       0x14 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(_rtcc_wait_clock_off_lib.o)
-                0x9d01c0a8                _RtccSetClockWait
+                0x9d01c078       0x14 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(_rtcc_wait_clock_off_lib.o)
+                0x9d01c078                _RtccSetClockWait
 
-.rodata         0x9d01c0bc        0x8
- .rodata        0x9d01c0bc        0x8 build/default/production/_ext/1360937237/touchCTMU.o
+.rodata         0x9d01c08c        0x8
+ .rodata        0x9d01c08c        0x8 build/default/production/_ext/1360937237/touchCTMU.o
 
 .text.ReadCoreTimer
-                0x9d01c0c4        0x8
+                0x9d01c094        0x8
  .text.ReadCoreTimer
-                0x9d01c0c4        0x8 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral.a(read_core_timer_lib.o)
-                0x9d01c0c4                ReadCoreTimer
+                0x9d01c094        0x8 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral.a(read_core_timer_lib.o)
+                0x9d01c094                ReadCoreTimer
 
 .text.INTEnableInterrupts
-                0x9d01c0cc        0x8
+                0x9d01c09c        0x8
  .text.INTEnableInterrupts
-                0x9d01c0cc        0x8 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(int_enable_interrupts_lib.o)
-                0x9d01c0cc                INTEnableInterrupts
+                0x9d01c09c        0x8 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(int_enable_interrupts_lib.o)
+                0x9d01c09c                INTEnableInterrupts
 
 .text.INTDisableInterrupts
-                0x9d01c0d4        0x8
+                0x9d01c0a4        0x8
  .text.INTDisableInterrupts
-                0x9d01c0d4        0x8 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(int_disable_interrupts_lib.o)
-                0x9d01c0d4                INTDisableInterrupts
+                0x9d01c0a4        0x8 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(int_disable_interrupts_lib.o)
+                0x9d01c0a4                INTDisableInterrupts
 
 .text._on_reset
-                0x9d01c0dc        0x8
+                0x9d01c0ac        0x8
  .text._on_reset
-                0x9d01c0dc        0x8 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libpic32.a(default-on-reset.o)
-                0x9d01c0dc                _on_reset
+                0x9d01c0ac        0x8 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libpic32.a(default-on-reset.o)
+                0x9d01c0ac                _on_reset
 
 .text._on_bootstrap
-                0x9d01c0e4        0x8
+                0x9d01c0b4        0x8
  .text._on_bootstrap
-                0x9d01c0e4        0x8 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libpic32.a(default-on-bootstrap.o)
-                0x9d01c0e4                _on_bootstrap
+                0x9d01c0b4        0x8 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libpic32.a(default-on-bootstrap.o)
+                0x9d01c0b4                _on_bootstrap
 
 .text%z77       0x00000000        0x0
  .text          0x00000000        0x0 /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/debug-exception-return.o
@@ -5667,13 +5667,13 @@ IMMEDIATE                                         build/default/production/_ext/
 INCR                                              build/default/production/_ext/1360937237/jonesforth.o
 INCR4                                             build/default/production/_ext/1360937237/jonesforth.o
 INT1R                                             /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/./proc/32MX250F128D/processor.o
+                                                  build/default/production/_ext/1360937237/timer1_int.o
                                                   /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/./proc/32MX250F128D/crt0_mips32r2.o
 INT2R                                             /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/./proc/32MX250F128D/processor.o
                                                   /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/./proc/32MX250F128D/crt0_mips32r2.o
 INT3R                                             /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/./proc/32MX250F128D/processor.o
                                                   /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/./proc/32MX250F128D/crt0_mips32r2.o
 INT4R                                             /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/./proc/32MX250F128D/processor.o
-                                                  build/default/production/_ext/1360937237/timer1_int.o
                                                   /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/./proc/32MX250F128D/crt0_mips32r2.o
 INTCON                                            /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/./proc/32MX250F128D/processor.o
                                                   /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/debug-exception-return.o
@@ -5774,6 +5774,7 @@ IPC1                                              /opt/microchip/xc32/v1.31/bin/
                                                   /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libpic32.a(default-nmi-handler.o)
                                                   /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libpic32.a(memset.o)
                                                   /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(int_tbl_lib.o)
+                                                  build/default/production/_ext/1360937237/timer1_int.o
                                                   /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/./proc/32MX250F128D/crt0_mips32r2.o
 IPC10                                             /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/./proc/32MX250F128D/processor.o
                                                   /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/debug-exception-return.o
@@ -5892,7 +5893,6 @@ IPC4                                              /opt/microchip/xc32/v1.31/bin/
                                                   /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libpic32.a(default-nmi-handler.o)
                                                   /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libpic32.a(memset.o)
                                                   /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libmchp_peripheral_32MX250F128D.a(int_tbl_lib.o)
-                                                  build/default/production/_ext/1360937237/timer1_int.o
                                                   /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/./proc/32MX250F128D/crt0_mips32r2.o
 IPC4CLR                                           /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/./proc/32MX250F128D/processor.o
                                                   /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/debug-exception-return.o
@@ -6069,7 +6069,7 @@ IRsend                                            build/default/production/_ext/
 IRsendVal                                         build/default/production/_ext/1360937237/jonesforth.o
 Init_Game15                                       build/default/production/_ext/1360937237/badge15.o
                                                   build/default/production/_ext/1360937237/main.o
-Int4Interrupt                                     build/default/production/_ext/1360937237/timer1_int.o
+Int1Interrupt                                     build/default/production/_ext/1360937237/timer1_int.o
 KEY                                               build/default/production/_ext/1360937237/jonesforth.o
 LATA                                              /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/./proc/32MX250F128D/processor.o
                                                   /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/debug-exception-return.o
@@ -9118,8 +9118,8 @@ __pic32_software_reset                            /opt/microchip/xc32/v1.31/bin/
                                                   /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/debug-exception-return.o
                                                   /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libpic32.a(default-general-exception-handler.o)
                                                   /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/no-float/libpic32.a(default-bootstrap-exception-handler.o)
-__vector_dispatch_19                              build/default/production/_ext/1360937237/timer1_int.o
 __vector_dispatch_30                              build/default/production/_ext/659838314/usb_device.o
+__vector_dispatch_7                               build/default/production/_ext/1360937237/timer1_int.o
 __vector_dispatch_8                               build/default/production/_ext/1360937237/timer1_int.o
 _bmxdkpba_address                                 dist/default/production/Badge15.X.production.elf
                                                   /opt/microchip/xc32/v1.31/bin/../lib/gcc/pic32mx/4.5.2/../../../../pic32mx/lib/./proc/32MX250F128D/crt0_mips32r2.o
