@@ -80,6 +80,8 @@
 // Let compile time pre-processor calculate the PR1 (period)
 #define SYS_FREQ 			(40000000L)
 //#define TOGGLES_PER_SEC		(38000*4)
+
+// 2015
 #define TOGGLES_PER_SEC		38000
 #define T2_TICK       		(SYS_FREQ/TOGGLES_PER_SEC)
 #define T2_TICK_DIV2       	(SYS_FREQ/TOGGLES_PER_SEC/2)
@@ -114,11 +116,18 @@ void TimerInit(void)
 #ifdef B2015
     IEC0bits.INT1IE=0; // 2015 disable this interrupt
     TRISBbits.TRISB0 = 1; // 2015 IR IN
+//    CNPDBbits.CNPDB0 = 1;  // pulldown on
+    CNPDBbits.CNPDB0 = 0;  // pulldown off
+    CNPUBbits.CNPUB0 = 0;  // pullup off
+
+    TRISBbits.TRISB13 = 0; // 2015 IR == OUTPUT
+    CNPDBbits.CNPDB13 = 0;  // pulldown off
+    CNPUBbits.CNPUB13 = 1;  // pullup on == IR off since driving transistor inverts val
 #else
-//    IEC0bits.INT4IE=0; // 2014
+    IEC0bits.INT4IE=0; // 2014
     // AN6/RPC0/RC0 == IR recv
     // config as input
-//    TRISCbits.TRISC0 = 1;
+    TRISCbits.TRISC0 = 1;
 #endif
 
     SYSKEY = 0x0;
@@ -127,7 +136,7 @@ void TimerInit(void)
 
 #ifdef B2015
     CFGCONbits.IOLOCK = 0; // unlock configuration
-    INT1Rbits.INT1R = 0b0010; // map RPB0
+    INT1Rbits.INT1R = 0b0010; // remap RPB0 to INT1
     CFGCONbits.IOLOCK = 1; // relock configuration
 
     SYSKEY = 0x0;
@@ -194,16 +203,25 @@ void __ISR(_TIMER_2_VECTOR, IPL2SOFT) Timer2Handler(void)
 	   G_halfCount++;
 	   // 32 interrupts for each half of bit send
 	   // for 64 total per bit
-//	   if (G_halfCount == 16) G_firstHalf = !PORTCbits.RC0; 
-//	   if (G_halfCount == 48) G_lastHalf = !PORTCbits.RC0;
 
+           // 2014
+           // if (G_halfCount == 16) G_firstHalf = !PORTCbits.RC0; 
+           // if (G_halfCount == 48) G_lastHalf = !PORTCbits.RC0;
+
+           // 2015
 	   if (G_halfCount == 16) G_firstHalf = !PORTBbits.RB0; 
 	   if (G_halfCount == 48) G_lastHalf = !PORTBbits.RB0;
 
 	   if (G_halfCount > 63) {
 	      G_IRrecvVal <<= 1 ;
+              // 2014
+              // LATBbits.LATB8 = G_lastHalf; // DBG output
+
+              // 2015
+	      LATBbits.LATB0 = G_lastHalf; // dgb LED output
+
 	      G_IRrecvVal |= G_lastHalf; // should check proper manchester low->high, high->low
-//	      LATBbits.LATB8 = G_lastHalf; // DBG output
+
 	      G_bitCnt++;
 	      G_halfCount = 0;
 	   }
@@ -258,7 +276,11 @@ void __ISR(_TIMER_2_VECTOR, IPL2SOFT) Timer2Handler(void)
 
 	 if (lowHalf) {
 	    // this is off for 32 counts
-//	    LATCbits.LATC1 = 0;
+
+            // 2014
+            //LATCbits.LATC1 = 0;
+
+            // 2015
 	    LATBbits.LATB13 = 0;
 
 	    if (G_halfCount > 31) {
@@ -274,7 +296,8 @@ void __ISR(_TIMER_2_VECTOR, IPL2SOFT) Timer2Handler(void)
 	   // 4 assignments is about 1us
 	   // so 7us is about 4 * 7 assignments
 
-//	   LATCbits.LATC1 = 1;
+           // 2014
+           // LATCbits.LATC1 = 1;
 
 	   LATBbits.LATB13 = 1;
 	   LATBbits.LATB13 = 1;
@@ -341,7 +364,8 @@ void __ISR(_TIMER_2_VECTOR, IPL2SOFT) Timer2Handler(void)
 	   // 4 assignments is about 1us
 	   // so 7us is about 4 * 7 assignments
 
-//	   LATCbits.LATC1 = 1;
+           // 2014
+           // LATCbits.LATC1 = 1;
 
 	   LATBbits.LATB13 = 1;
 	   LATBbits.LATB13 = 1;
@@ -387,7 +411,10 @@ void __ISR(_TIMER_2_VECTOR, IPL2SOFT) Timer2Handler(void)
 	 }
 	 else {
 	   //      ; LOW HALF (889us = 889 instr cycles)
-//	   LATCbits.LATC1 = 0;
+
+           // 2014
+           // LATCbits.LATC1 = 0;
+
 	   LATBbits.LATB13 = 0;
 
 	   if (G_halfCount > 31) {
@@ -402,6 +429,7 @@ void __ISR(_TIMER_2_VECTOR, IPL2SOFT) Timer2Handler(void)
 
 // 2014
 //void __ISR( _EXTERNAL_4_VECTOR, ipl1) Int4Interrupt(void)
+// input changed on RB0
 void __ISR( _EXTERNAL_1_VECTOR, ipl1) Int1Interrupt(void)
 { 
    // clear flag 2014

@@ -1,5 +1,7 @@
 !
 
+\ RB13 = xmit LED
+\ RB0 = receiver
 hex
 BF886130 constant LATB   
 : binary 2 base ! ;
@@ -14,11 +16,21 @@ binary
 ;
 
 0 IRled
+
 1 IRled
 0 IRled
+0 IRled
+0 IRled
+1 IRled
 
 hex
 FFFF IRsendVal !
 1 IRsend !
+
+IRsend @ u.
+
+hex
+IRrecv @ u.
+IRrecvVal @ u.
 
 
