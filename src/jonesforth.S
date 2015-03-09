@@ -1694,8 +1694,8 @@ XXXXPTR:
 LBUF:
 	.space 80
 LBUFE:
-	.text
 
+	.text
 	defcode "getline",7,,GETLINE,WORD
 	CALL	_GETLINE
 	POP	$t0	// drop GETLINE parm - use cursor/dont
@@ -1822,8 +1822,6 @@ _LDONE:
 	.align 4
 	.comm key_buffer, 4
 	.comm emit_buffer, 4
-//	.comm key_buffer, 4
-//	.comm emit_buffer, 4
 
 	// back to bss
 	.bss

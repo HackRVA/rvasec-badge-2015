@@ -96,6 +96,11 @@ unsigned char getcUSART ();
 
 /** VECTOR REMAPPING ***********************************************/
 
+/*
+   This is the USB call back function when the Forth system 
+   is in "control"
+   so the loop needs to call the "main" function
+*/
 void ForthUSB() {
 //  BlinkUSBStatus();
 
@@ -154,9 +159,9 @@ int main(void)
         USBDeviceAttach();
     #endif
 
-/* this never return */
+/* 2014 this never return */
 #ifdef FORTHNOTINPROCESSIO
-//    resume();
+//    2014 resume();
 #else
 
     #if defined(GAME_MODE)
@@ -195,6 +200,10 @@ int main(void)
 
 		// Application-specific tasks.
 		// Application related code may be added here, or in the ProcessIO() function.
+		/*
+            handle USB serial port/terminal
+            can be used for debug or printing
+        */
         ProcessIO();
         //C short circuit makes this work
 
@@ -450,6 +459,12 @@ const char hextab[]={"0123456789ABCDEF"};
 // controls USB heartbeat blink
 static unsigned char debugBlink=1;
 
+
+/*
+    this uses an easily understood character buffering system
+    a "normal" printf function is huge if you include the support libs and varargs stuff 
+    [sf]printf not usually re-entrant (cases where called from an interupt)
+*/
 void ProcessIO(void)
 {   
     //Blink the LEDs according to the USB device status
@@ -499,7 +514,7 @@ PEB: Morgan- bypass if button is push?
             //LATBbits.LATB15 = !LATBbits.LATB15;
             //LATBbits.LATB1 = 1;//!LATBbits.LATB1;
 
-			// first char has to be !
+			// if first char == ! then call Forth system. currently never returns
             if (USB_In_Buffer[0] == '!') {
                USB_In_Buffer[0] = 0;
                resume();
@@ -525,17 +540,17 @@ PEB: Morgan- bypass if button is push?
             }
 
             if (USB_In_Buffer[0] == '1') {
-               LATCbits.LATC0 = !LATCbits.LATC0;      /* red init low */
+               LATCbits.LATC0 = !LATCbits.LATC0;      /* red toggle */
                USB_In_Buffer[0] = 0;
             }
 
             if (USB_In_Buffer[0] == '2') {
-               LATBbits.LATB3 = !LATBbits.LATB3;      /* green init low */
+               LATBbits.LATB3 = !LATBbits.LATB3;      /* green toggle */
                USB_In_Buffer[0] = 0;
             }
 
             if (USB_In_Buffer[0] == '3') {
-               LATCbits.LATC1 = !LATCbits.LATC1;      /* blue init low */
+               LATCbits.LATC1 = !LATCbits.LATC1;      /* blue toggle */
                USB_In_Buffer[0] = 0;
             }
 
