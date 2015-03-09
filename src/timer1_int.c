@@ -79,6 +79,7 @@
 
 // Let compile time pre-processor calculate the PR1 (period)
 #define SYS_FREQ 			(40000000L)
+// 2014
 //#define TOGGLES_PER_SEC		(38000*4)
 
 // 2015
@@ -109,14 +110,11 @@ void TimerInit(void)
     // enable multi-vector interrupts
     INTEnableSystemMultiVectoredInt();
 
-    // shake sensor debug pin
-//    TRISBbits.TRISB8 = 0;
-
 #define B2015
 #ifdef B2015
     IEC0bits.INT1IE=0; // 2015 disable this interrupt
     TRISBbits.TRISB0 = 1; // 2015 IR IN
-//    CNPDBbits.CNPDB0 = 1;  // pulldown on
+//    CNPDBbits.CNPDB0 = 1;  // pulldown on - not weak enough?
     CNPDBbits.CNPDB0 = 0;  // pulldown off
     CNPUBbits.CNPUB0 = 0;  // pullup off
 
@@ -124,6 +122,9 @@ void TimerInit(void)
     CNPDBbits.CNPDB13 = 0;  // pulldown off
     CNPUBbits.CNPUB13 = 1;  // pullup on == IR off since driving transistor inverts val
 #else
+    // shake sensor debug pin
+//    TRISBbits.TRISB8 = 0;
+
     IEC0bits.INT4IE=0; // 2014
     // AN6/RPC0/RC0 == IR recv
     // config as input
@@ -173,13 +174,14 @@ unsigned char G_firstHalf = 0;
 unsigned char G_lastHalf = 0;
 unsigned char G_halfCount = 0;
 
-
 /* 
   this code is based on RC5 timing from badge 2013
   almost certainly doesnt work for RC5 with a 38khz receiver
-  need to read the data sheet an see how many
-  cycles it actually needs to lock onto a receive- 32 was 
-  from RC5 code.
+
+  min 6 cycle burst
+  with burst (6-35 cycles) min gap between = 10 cycle
+  max 2000 short burst/second
+  with burst > 70 cycle needs game of 1.2 * burst len
 */
 void __ISR(_TIMER_2_VECTOR, IPL2SOFT) Timer2Handler(void)
 {
@@ -218,9 +220,9 @@ void __ISR(_TIMER_2_VECTOR, IPL2SOFT) Timer2Handler(void)
               // LATBbits.LATB8 = G_lastHalf; // DBG output
 
               // 2015
-	      LATBbits.LATB0 = G_lastHalf; // dgb LED output
+	      LATBbits.LATB0 = G_lastHalf; // dbg LED output
 
-	      G_IRrecvVal |= G_lastHalf; // should check proper manchester low->high, high->low
+	      G_IRrecvVal |= G_lastHalf;   // should check proper manchester low->high, high->low
 
 	      G_bitCnt++;
 	      G_halfCount = 0;

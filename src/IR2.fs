@@ -32,5 +32,7 @@ IRsend @ u.
 hex
 IRrecv @ u.
 IRrecvVal @ u.
+0 IRrecvVal !
+0 IRrecv !
 
 
