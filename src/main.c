@@ -11,6 +11,12 @@
 #include "HardwareProfile.h"
 #include "badge15.h"
 
+#define BLUE 0b0000000000011111
+#define GREEN 0b0000011111100000
+#define RED 0b1111100000000000
+#define WHITE 0b1111111111111111
+#define BLACK 0b0000000000000000
+
 #if defined (__C30__) || defined(__C32__) || defined __XC16__
 //    #include "uart2.h"
 #endif
@@ -263,6 +269,58 @@ static void InitializeSystem(void)
    LATCbits.LATC1 = 1;      /* BLUE */
    //LCDBars();               /* color bars */
    LCDdrbob();               /* dr bobs church of the subgenius */
+   
+   LCDgreen();
+
+
+
+   init_display_list();
+
+
+   rectangle(18,35,104,29, BLUE);
+   
+   printchar('q', 19,45,WHITE);
+   printchar('p', 25,45,RED);
+   printchar('o', 31,45,WHITE);
+   printchar('n', 37,45,RED);
+   printchar('m', 43,45,RED);
+   printchar('l', 49,45,RED);
+   printchar('k', 55,45,WHITE);
+   printchar('j', 61,45,RED);
+   printchar('i', 67,45,WHITE);
+   printchar('h', 73,45,RED);
+   printchar('g', 79,45,RED);
+   printchar('f', 85,45,WHITE);
+   printchar('e', 91,45,RED);
+   printchar('d', 97,45,WHITE);
+   printchar('c', 103,45,RED);
+   printchar('b', 109,45,RED);
+   printchar('a', 115,45,WHITE);
+
+   printchar('6', 19,54,WHITE);
+   printchar('5', 25,54,RED);
+   printchar('4', 31,54,WHITE);
+   printchar('3', 37,54,RED);
+   printchar('2', 43,54,RED);
+   printchar('1', 49,54,RED);
+   printchar('0', 55,54,WHITE);
+   printchar('_', 61,54,RED);
+   printchar('z', 67,54,WHITE);
+   printchar('y', 73,54,RED);
+   printchar('x', 79,54,RED);
+   printchar('w', 85,54,WHITE);
+   printchar('v', 91,54,RED);
+   printchar('u', 97,54,WHITE);
+   printchar('t', 103,54,RED);
+   printchar('s', 109,54,RED);
+   printchar('r', 115,54,WHITE);
+
+   printchar('9', 103,63,RED);
+   printchar('8', 109,63,RED);
+   printchar('7', 115,63,WHITE);
+
+   writeline("Woot", 4, 115, 15);
+
    LATBbits.LATB3 = 1;      /* GREEN */
    LATCbits.LATC9 = 1;      /* backlight on. you will see nothing if it is off */
 
@@ -466,7 +524,9 @@ static unsigned char debugBlink=1;
     [sf]printf not usually re-entrant (cases where called from an interupt)
 */
 void ProcessIO(void)
-{   
+{
+
+    LCDComposite();
     //Blink the LEDs according to the USB device status
     //very handy if you lock up when trying to run off of battery
     BlinkUSBStatus();
