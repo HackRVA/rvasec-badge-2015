@@ -1,35 +1,22 @@
-binary
-: IRled
-  if
-     LATB @ 10000000000000 or LATB ! 
-  else
-     LATB @ 10000000000000 invert and LATB !
-  then
-;
-
-: sendIR
+hex
+: watchIR
+  ." press a key to exit"
   begin
-    ?key -1 =
-    if
+    IRrecv @ ( check recv flag )
+    2 = if ( 0 = non, 1 = inprogress, 2 = done )
+       IRrecvVal @ u.
+       0 IRrecv ! ( mark ready for next )
        0 ( for until )
-    else
-       key dup
-       32 = 
-       if 
+    else ( see if user wants to exit )
+       ?key -1 = ( -1 == empty )
+       if
+          0 ( for until )
+       else 
           drop ( key )
           1 ( for until )
-       else
-	  G_IRsend @
-          0= if
-             G_IRsendVal ! ( send key )
-	     1 G_IRsend !
-          else
-             ( already sending )
-             drop          ( key )
-          then
-          0 ( for until )
        then
     then
   until
+;
 
 

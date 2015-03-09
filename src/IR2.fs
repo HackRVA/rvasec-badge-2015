@@ -1,30 +1,30 @@
 !
 
-\ RB13 = xmit LED
-\ RB0 = receiver
-hex
-BF886130 constant LATB   
-: binary 2 base ! ;
-binary
-( 1/0 -- ) ( turn IR on/off )
-: IRled
-  if
-     LATB @ 10000000000000 or LATB ! 
-  else
-     LATB @ 10000000000000 invert and LATB !
-  then
+1 IRled
+0 IRled
+0 IRled
+0 IRled
+1 IRled
+
+: pause  ( n -- )
+  0 begin ( n i=0 -- )
+    1+    ( n i+1 -- )
+    over over ( n i+1 n i+1 -- )
+    =       ( n i+1 0/1 -- )
+  until
+  drop
+  drop
 ;
 
-0 IRled
-
-1 IRled
-0 IRled
-0 IRled
-0 IRled
-1 IRled
 
 hex
-FFFF IRsendVal !
+FACE IRsendVal !
+1 IRsend !
+
+10000 pause
+
+hex
+BEEF IRsendVal !
 1 IRsend !
 
 IRsend @ u.
