@@ -1,11 +1,12 @@
-- USB footprint
+  - icon puzzle/graphic for CTF
 
-- power usage and scope: IR-xmit/LED/piezo
+  - USB footprint
 
-- IR - transmit + receive
+  - power usage and scope: IR-xmit/LED/piezo
+    X - IR xmit and recv
 
-- piezo
+X - IR - transmit + receive
 
-- calibrate touch pad
+  - piezo
 
-
+  - calibrate touch pad
