@@ -580,6 +580,18 @@ PEB: Morgan- bypass if button is push?
                resume();
             }
 
+            if (USB_In_Buffer[0] == 'p') {
+				void clear(unsigned char color);
+				static unsigned char y=0;
+
+				clear(WHITE);
+				printchar(' ', 115,63,BLACK);
+				writeline("Woot", 4, 115, y);
+				y += 8;
+				if (y>128) y = 0;
+				USB_In_Buffer[0] = 0;
+			}
+
             if ((USB_In_Buffer[0] == 13) || (USB_In_Buffer[0] == 10)) {
 
                USB_Out_Buffer[NextUSBOut++] = 'H';
@@ -613,6 +625,52 @@ PEB: Morgan- bypass if button is push?
                LATCbits.LATC1 = !LATCbits.LATC1;      /* blue toggle */
                USB_In_Buffer[0] = 0;
             }
+
+			if (USB_In_Buffer[0] == '&') {
+			   const unsigned char *writeaddr; 
+
+			   // align addr on a 1k boundary within the 2k block we allocated
+			   writeaddr = (const unsigned char *)(((unsigned long)G_flashstart+1024) & 0b11111111111111111111110000000000); // 1k flash boundary
+
+			   // erase page first, don't have to erase if writing an area already erased
+			   NVMErasePage(writeaddr);
+			   NVMWriteWord(writeaddr, 0xABCDABCD);
+			}
+
+			if (USB_In_Buffer[0] == '*') {
+			   const unsigned long *readaddr;
+
+			   // align addr on a 1k boundary within the 2k block we allocated
+			   readaddr = (const unsigned long *)(((unsigned long)G_flashstart+1024) & 0b11111111111111111111110000000000); // 1k flash boundary
+
+               // print address
+			   USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)readaddr >> 28) & 0xF];
+			   USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)readaddr >> 24) & 0xF];
+			   USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)readaddr >> 20) & 0xF];
+			   USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)readaddr >> 16) & 0xF];
+			   USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)readaddr >> 12) & 0xF];
+			   USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)readaddr >>  8) & 0xF];
+			   USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)readaddr >>  4) & 0xF];
+			   USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)readaddr      ) & 0xF];
+			   USB_Out_Buffer[NextUSBOut++] = 32;
+
+               // and value
+			   USB_Out_Buffer[NextUSBOut++] = hextab[(*readaddr >> 28) & 0xF];
+			   USB_Out_Buffer[NextUSBOut++] = hextab[(*readaddr >> 24) & 0xF];
+			   USB_Out_Buffer[NextUSBOut++] = hextab[(*readaddr >> 20) & 0xF];
+			   USB_Out_Buffer[NextUSBOut++] = hextab[(*readaddr >> 16) & 0xF];
+			   USB_Out_Buffer[NextUSBOut++] = hextab[(*readaddr >> 12) & 0xF];
+			   USB_Out_Buffer[NextUSBOut++] = hextab[(*readaddr >>  8) & 0xF];
+			   USB_Out_Buffer[NextUSBOut++] = hextab[(*readaddr >>  4) & 0xF];
+			   USB_Out_Buffer[NextUSBOut++] = hextab[(*readaddr      ) & 0xF];
+
+			   USB_Out_Buffer[NextUSBOut++] = '\r';
+			   USB_Out_Buffer[NextUSBOut++] = '\n';
+			   USB_Out_Buffer[NextUSBOut++] = 0;
+
+			   USB_In_Buffer[0] = 0;
+			}
+
 
             if (USB_In_Buffer[0] == '{') {
                void LCDReset(void);
@@ -687,18 +745,10 @@ PEB: Morgan- bypass if button is push?
             if ((USB_In_Buffer[0] == 127) 
              |  (USB_In_Buffer[0] == 27)
              |  (USB_In_Buffer[0] == '[')) {
-                void LCDLogo();
 
-                /* backspace == clear screen */
-//                if (USB_In_Buffer[0] == 127) LCDClear();
+				LATCbits.LATC9 = !LATCbits.LATC9; /* invert backlight */
 
-                /* backlight byte */
-//                if (USB_In_Buffer[0] == 27) LATBbits.LATB7 = !LATBbits.LATB7;
-
-                /* hackrva logo */
-//                if (USB_In_Buffer[0] == '[') LCDLogo();
-
-               USB_In_Buffer[0] = 0;
+				USB_In_Buffer[0] = 0;
             }
 
             if (USB_In_Buffer[0] == '<') {
