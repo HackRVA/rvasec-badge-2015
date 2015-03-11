@@ -2284,8 +2284,8 @@ void line(unsigned char x1,
 
 void clear(unsigned char color)
 {
-    if(!color)
-        color = 0b1111111111111111;
+//    if(!color)  why no black?
+//        color = 0b1111111111111111;
     add_to_display_list(BACKGROUND, color, 0, 0, 0, 0);
 }
 /**************************[End Display Interface]*****************************/

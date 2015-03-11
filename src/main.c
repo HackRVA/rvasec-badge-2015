@@ -62,9 +62,9 @@ extern char emit_buffer;
 extern char key_buffer;
 extern const unsigned char *G_flashstart;
 
-unsigned char    NextUSBOut;
-char USB_In_Buffer[CDC_DATA_IN_EP_SIZE];
-char USB_Out_Buffer[CDC_DATA_OUT_EP_SIZE];
+unsigned char    NextUSBOut=0;
+char USB_In_Buffer[CDC_DATA_IN_EP_SIZE]={0};
+char USB_Out_Buffer[CDC_DATA_OUT_EP_SIZE]={0};
 
 // forth key buffer on c side
 #define MAX_USBKEYBUFFER 64
@@ -74,11 +74,11 @@ char usbkey_fillptr=0 ;
 
 #else
 
-char USB_In_Buffer[CDC_DATA_IN_EP_SIZE];
-char USB_Out_Buffer[CDC_DATA_OUT_EP_SIZE];
+char USB_In_Buffer[CDC_DATA_IN_EP_SIZE]={0};
+char USB_Out_Buffer[CDC_DATA_OUT_EP_SIZE]={0};
 char RS232_Out_Data[CDC_DATA_IN_EP_SIZE];
 
-unsigned char  NextUSBOut;
+unsigned char  NextUSBOut=0;
 //char RS232_In_Data;
 unsigned char    LastRS232Out;  // Number of characters in the buffer
 unsigned char    RS232cp;       // current position within the buffer
@@ -253,6 +253,7 @@ static void InitializeSystem(void)
    LATBbits.LATB3 = 0;      /* green init low */
    CNPDBbits.CNPDB3 = 0;    /* pulldown == off */
 
+
    ANSELA = 0x00;
    ANSELB = 0x00;
    ANSELC = 0x00;
@@ -270,9 +271,8 @@ static void InitializeSystem(void)
    //LCDBars();               /* color bars */
    LCDdrbob();               /* dr bobs church of the subgenius */
    
+/*
    LCDgreen();
-
-
 
    init_display_list();
 
@@ -320,6 +320,7 @@ static void InitializeSystem(void)
    printchar('7', 115,63,WHITE);
 
    writeline("Woot", 4, 115, 15);
+*/
 
    LATBbits.LATB3 = 1;      /* GREEN */
    LATCbits.LATC9 = 1;      /* backlight on. you will see nothing if it is off */
@@ -334,9 +335,11 @@ static void InitializeSystem(void)
    CNPDCbits.CNPDC4 = 1;
 
    /* speaker pull down init */
-   TRISAbits.TRISA9 = 0; // RA9 == output
-   CNPUAbits.CNPUA9 = 0; // RA9  pull up == off
-   CNPDAbits.CNPDA9 = 0; // RA9  pull down == off
+   TRISAbits.TRISA9 = 0;	// piezo == output
+   LATAbits.LATA9 = 1;      // piezo init high->inverted->transistor == high
+   CNPUAbits.CNPUA9 = 0;    // RA9  pull up == off
+   CNPDAbits.CNPDA9 = 0;    /* pulldown == off */
+
 
    TimerInit();
    setupRTCC();
@@ -400,10 +403,9 @@ void UserInit(void)
     {
         unsigned char i;
 
-        for (i=0; i<CDC_DATA_IN_EP_SIZE; i++) {
-            USB_In_Buffer[i] = 0;
-            USB_Out_Buffer[i] = 0;
-        }
+        for (i=0; i<CDC_DATA_IN_EP_SIZE; i++) USB_In_Buffer[i] = 0;
+
+        for (i=0; i<CDC_DATA_OUT_EP_SIZE; i++) USB_Out_Buffer[i] = 0;
     }
 
 #ifdef FORTH
@@ -606,6 +608,55 @@ PEB: Morgan- bypass if button is push?
                USB_In_Buffer[0] = 0;
             }
 
+			{ // audio
+			   extern unsigned short G_duration ;
+			   extern unsigned short G_freq ;
+
+			   #define PERIOD 37999*256
+
+			   if (USB_In_Buffer[0] == '<') {
+				  G_duration -= 4096;
+               }
+
+			   if (USB_In_Buffer[0] == '>') {
+				  G_duration += 4096;
+               }
+
+			   if (USB_In_Buffer[0] == 'h') {
+				  G_freq = PERIOD/8;
+				  USB_In_Buffer[0] = 0;
+			   }
+
+			   if (USB_In_Buffer[0] == 'g') {
+				  G_freq = PERIOD/7;
+				  USB_In_Buffer[0] = 0;
+			   }
+			   if (USB_In_Buffer[0] == 'f') {
+				  G_freq = PERIOD/6;
+				  USB_In_Buffer[0] = 0;
+			   }
+			   if (USB_In_Buffer[0] == 'e') {
+				  G_freq = PERIOD/5;
+				  USB_In_Buffer[0] = 0;
+			   }
+			   if (USB_In_Buffer[0] == 'd') {
+				  G_freq = PERIOD/4;
+				  USB_In_Buffer[0] = 0;
+			   }
+			   if (USB_In_Buffer[0] == 'c') {
+				  G_freq = PERIOD/3;
+				  USB_In_Buffer[0] = 0;
+			   }
+			   if (USB_In_Buffer[0] == 'b') {
+				  G_freq = PERIOD/2;
+				  USB_In_Buffer[0] = 0;
+			   }
+			   if (USB_In_Buffer[0] == 'a') {
+				  G_freq = PERIOD/1;
+				  USB_In_Buffer[0] = 0;
+			   }
+            }
+
             if (USB_In_Buffer[0] == '0') {
                debugBlink = !debugBlink;
                USB_In_Buffer[0] = 0;
@@ -629,19 +680,41 @@ PEB: Morgan- bypass if button is push?
 			if (USB_In_Buffer[0] == '&') {
 			   const unsigned char *writeaddr; 
 
+			   // 
+			   // PEB tested working 20150310
+			   // 
 			   // align addr on a 1k boundary within the 2k block we allocated
-			   writeaddr = (const unsigned char *)(((unsigned long)G_flashstart+1024) & 0b11111111111111111111110000000000); // 1k flash boundary
+			   writeaddr = (const unsigned char *)(((unsigned long)(&G_flashstart)+1024) & 0b11111111111111111111110000000000); // 1k flash boundary
 
 			   // erase page first, don't have to erase if writing an area already erased
 			   NVMErasePage(writeaddr);
 			   NVMWriteWord(writeaddr, 0xABCDABCD);
+
+               // print address
+			   USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)writeaddr >> 28) & 0xF];
+			   USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)writeaddr >> 24) & 0xF];
+			   USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)writeaddr >> 20) & 0xF];
+			   USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)writeaddr >> 16) & 0xF];
+			   USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)writeaddr >> 12) & 0xF];
+			   USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)writeaddr >>  8) & 0xF];
+			   USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)writeaddr >>  4) & 0xF];
+			   USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)writeaddr      ) & 0xF];
+
+			   USB_Out_Buffer[NextUSBOut++] = '\r';
+			   USB_Out_Buffer[NextUSBOut++] = '\n';
+			   USB_Out_Buffer[NextUSBOut++] = 0;
+
+			   USB_In_Buffer[0] = 0;
 			}
 
 			if (USB_In_Buffer[0] == '*') {
 			   const unsigned long *readaddr;
 
+			   // 
+			   // PEB tested working 20150310
+			   // 
 			   // align addr on a 1k boundary within the 2k block we allocated
-			   readaddr = (const unsigned long *)(((unsigned long)G_flashstart+1024) & 0b11111111111111111111110000000000); // 1k flash boundary
+			   readaddr = (const unsigned long *)(((unsigned long)(&G_flashstart)+1024) & 0b11111111111111111111110000000000); // 1k flash boundary
 
                // print address
 			   USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)readaddr >> 28) & 0xF];
@@ -652,7 +725,6 @@ PEB: Morgan- bypass if button is push?
 			   USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)readaddr >>  8) & 0xF];
 			   USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)readaddr >>  4) & 0xF];
 			   USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)readaddr      ) & 0xF];
-			   USB_Out_Buffer[NextUSBOut++] = 32;
 
                // and value
 			   USB_Out_Buffer[NextUSBOut++] = hextab[(*readaddr >> 28) & 0xF];

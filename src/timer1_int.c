@@ -193,6 +193,8 @@ void __ISR(_TIMER_2_VECTOR, IPL2SOFT) Timer2Handler(void)
    // clear the interrupt flag
    mT2ClearIntFlag();
 
+   do_audio();
+
    // LATBbits.LATB8 == DBG pin shake sensor near LCD pins
    // each timer interrupt is 1/38khz
    if (G_IRrecv == 1) {
@@ -450,4 +452,27 @@ void __ISR( _EXTERNAL_1_VECTOR, ipl1) Int1Interrupt(void)
 	G_IRrecvVal = 0;
 
    }
+}
+
+
+unsigned short G_duration = 0;
+unsigned short G_freq_cnt = 0;
+unsigned short G_freq = 0;
+
+// RA9
+void do_audio()
+{
+   if (G_duration != 0) {
+       G_freq_cnt++;
+       G_duration--;
+
+       if (G_freq_cnt == G_freq)  {
+          G_freq_cnt = 0;
+          LATAbits.LATA9 = 0; // on
+       }
+       else 
+          LATAbits.LATA9 = 1; // off
+   }
+   else 
+       LATAbits.LATA9 = 1; // off
 }

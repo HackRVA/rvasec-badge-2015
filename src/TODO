@@ -1,12 +1,15 @@
-  - icon puzzle/graphic for CTF
-
   - USB footprint
 
   - power usage and scope: IR-xmit/LED/piezo
-    X - IR xmit and recv
-
-X - IR - transmit + receive
 
   - piezo
 
   - calibrate touch pad
+
+X - tested self flash read/write
+
+X - icon puzzle/graphic for CTF, the answer is "42"
+
+X - IR - transmit + receive
+
+X - IR xmit and recv
