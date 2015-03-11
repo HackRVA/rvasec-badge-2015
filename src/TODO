@@ -8,7 +8,9 @@
     while longer to charge for some reason. It appears
     to be consistent across the badges I have built
 
-X - piezo
+X - piezo- basic audio. see timer1_int.c 
+    do_audio, called from timer1 int.
+    from main.c USB tty (not forth) "qwertyui" beeps tones and "<>" changes duration.
 
 X - tested self flash read/write
 
