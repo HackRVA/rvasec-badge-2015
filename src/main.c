@@ -610,52 +610,60 @@ PEB: Morgan- bypass if button is push?
 
 			{ // audio
 			   extern unsigned short G_duration ;
+			   extern unsigned short G_duration_cnt ;
 			   extern unsigned short G_freq ;
+			   extern unsigned short G_freq_cnt ;
 
-			   #define PERIOD 37999*256
+               void setBeep(unsigned short freq) {
+				  G_freq = freq;
+				  G_freq_cnt = 0;
+				  G_duration_cnt = 0;
+               }
 
 			   if (USB_In_Buffer[0] == '<') {
-				  G_duration -= 4096;
+				  G_duration -= 2048;
+				  USB_In_Buffer[0] = 0;
                }
 
 			   if (USB_In_Buffer[0] == '>') {
-				  G_duration += 4096;
+				  G_duration += 2048;
+				  USB_In_Buffer[0] = 0;
                }
 
-			   if (USB_In_Buffer[0] == 'h') {
-				  G_freq = PERIOD/8;
+			   if (USB_In_Buffer[0] == 'q') {
+                  setBeep(512);
 				  USB_In_Buffer[0] = 0;
 			   }
-
-			   if (USB_In_Buffer[0] == 'g') {
-				  G_freq = PERIOD/7;
-				  USB_In_Buffer[0] = 0;
-			   }
-			   if (USB_In_Buffer[0] == 'f') {
-				  G_freq = PERIOD/6;
+			   if (USB_In_Buffer[0] == 'w') {
+                  setBeep(256);
 				  USB_In_Buffer[0] = 0;
 			   }
 			   if (USB_In_Buffer[0] == 'e') {
-				  G_freq = PERIOD/5;
+                  setBeep(128);
 				  USB_In_Buffer[0] = 0;
 			   }
-			   if (USB_In_Buffer[0] == 'd') {
-				  G_freq = PERIOD/4;
+			   if (USB_In_Buffer[0] == 'r') {
+                  setBeep(64);
 				  USB_In_Buffer[0] = 0;
 			   }
-			   if (USB_In_Buffer[0] == 'c') {
-				  G_freq = PERIOD/3;
+			   if (USB_In_Buffer[0] == 't') {
+                  setBeep(32);
 				  USB_In_Buffer[0] = 0;
 			   }
-			   if (USB_In_Buffer[0] == 'b') {
-				  G_freq = PERIOD/2;
+			   if (USB_In_Buffer[0] == 'y') {
+                  setBeep(16);
 				  USB_In_Buffer[0] = 0;
 			   }
-			   if (USB_In_Buffer[0] == 'a') {
-				  G_freq = PERIOD/1;
+			   if (USB_In_Buffer[0] == 'u') {
+                  setBeep(8);
 				  USB_In_Buffer[0] = 0;
 			   }
-            }
+   			   if (USB_In_Buffer[0] == 'i') {
+                  setBeep(4);
+				  USB_In_Buffer[0] = 0;
+			   }
+
+         }
 
             if (USB_In_Buffer[0] == '0') {
                debugBlink = !debugBlink;
@@ -814,16 +822,13 @@ PEB: Morgan- bypass if button is push?
             }
 
             // special character that are not echoed to LCD
-            if ((USB_In_Buffer[0] == 127) 
-             |  (USB_In_Buffer[0] == 27)
-             |  (USB_In_Buffer[0] == '[')) {
-
+            if ((USB_In_Buffer[0] == 127) | (USB_In_Buffer[0] == 27)) {
 				LATCbits.LATC9 = !LATCbits.LATC9; /* invert backlight */
 
 				USB_In_Buffer[0] = 0;
             }
 
-            if (USB_In_Buffer[0] == '<') {
+            if (USB_In_Buffer[0] == '[') {
 				Nnops -= 1;
 
                 USB_Out_Buffer[NextUSBOut++] = 'N';
@@ -841,7 +846,7 @@ PEB: Morgan- bypass if button is push?
                 USB_In_Buffer[0] = 0;
             }
 
-            if (USB_In_Buffer[0] == '>') {
+            if (USB_In_Buffer[0] == ']') {
 				Nnops += 1;
 
                 USB_Out_Buffer[NextUSBOut++] = 'N';

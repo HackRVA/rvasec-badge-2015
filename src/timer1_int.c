@@ -455,17 +455,18 @@ void __ISR( _EXTERNAL_1_VECTOR, ipl1) Int1Interrupt(void)
 }
 
 
-unsigned short G_duration = 0;
+unsigned short G_duration = 8192;
+unsigned short G_duration_cnt = 0;
 unsigned short G_freq_cnt = 0;
 unsigned short G_freq = 0;
 
 // RA9
 void do_audio()
 {
-   if (G_duration != 0) {
-       G_freq_cnt++;
-       G_duration--;
+   G_freq_cnt++;
 
+   if (G_duration_cnt != G_duration) {
+       G_duration_cnt++;
        if (G_freq_cnt == G_freq)  {
           G_freq_cnt = 0;
           LATAbits.LATA9 = 0; // on
