@@ -1,14 +1,18 @@
-  - USB footprint
+  - USB footprint. Holes are off for some reason.
 
   - power usage and scope: IR-xmit/LED/piezo
+    check for ripple when on/off. 
+    check backlight PWM
 
-  - piezo
+  - Calibrate touch pad-> the lower right one takes a 
+    while longer to charge for some reason. It appears
+    to be consistent across the badges I have built
 
-  - calibrate touch pad
+X - piezo
 
 X - tested self flash read/write
 
-X - icon puzzle/graphic for CTF, the answer is "42"
+X - icon puzzle/graphic for CTF, "42" in binary- HHGG
 
 X - IR - transmit + receive
 
