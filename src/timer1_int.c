@@ -469,11 +469,11 @@ void do_audio()
        G_duration_cnt++;
        if (G_freq_cnt == G_freq)  {
           G_freq_cnt = 0;
-          LATAbits.LATA9 = 0; // on
+          LATAbits.LATA9 = 1; // on
        }
        else 
-          LATAbits.LATA9 = 1; // off
+          LATAbits.LATA9 = 0; // off
    }
    else 
-       LATAbits.LATA9 = 1; // off
+       LATAbits.LATA9 = 0; // off
 }

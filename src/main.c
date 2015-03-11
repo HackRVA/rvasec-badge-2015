@@ -336,7 +336,7 @@ static void InitializeSystem(void)
 
    /* speaker pull down init */
    TRISAbits.TRISA9 = 0;	// piezo == output
-   LATAbits.LATA9 = 1;      // piezo init high->inverted->transistor == high
+   LATAbits.LATA9 = 0;      // piezo init off
    CNPUAbits.CNPUA9 = 0;    // RA9  pull up == off
    CNPDAbits.CNPDA9 = 0;    /* pulldown == off */
 
