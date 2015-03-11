@@ -1,6 +1,17 @@
 /*
-	** Register usage **
+    My hack of jonesforth.S
+    I translated the 80x86 assembler into mips assembler
+    and also rewrote various bits.
+    Most of the documentation still applys.
+    I find it easier to develop with a scripting language. 
+    YMMV
 
+    - Paul Bruggeman
+
+	"version" is currently
+    .ascii	"rv4tch 20150305 "
+
+	** Register usage **
 	PEB	S4 = return stack
 	PEB	S5 = forth stack
 	PEB	S6 = *(*S7)    - Jump code field address
