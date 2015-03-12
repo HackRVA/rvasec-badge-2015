@@ -460,6 +460,8 @@ unsigned short G_duration_cnt = 0;
 unsigned short G_freq_cnt = 0;
 unsigned short G_freq = 0;
 
+void (*G_nextNote_cb)(int) = NULL;
+
 // RA9
 void do_audio()
 {
@@ -474,6 +476,36 @@ void do_audio()
        else 
           LATAbits.LATA9 = 0; // off
    }
-   else 
+   else {
        LATAbits.LATA9 = 0; // off
+       if (G_nextNote_cb != NULL) (*G_nextNote_cb)(0) ;
+   }
+}
+
+
+#include "mario.h"
+
+extern const struct marioNotes mario[];
+extern unsigned short marioNumNotes;
+
+/* callback to feed next note to the audio function */
+void mario_cb(int init) 
+{
+   static unsigned short currentNote=0;
+
+   if (init) {
+       currentNote = 0;
+       G_nextNote_cb = mario_cb;
+   } else {
+       if (currentNote < marioNumNotes) {
+           G_duration = mario[currentNote].duration;
+           G_freq = mario[currentNote].offTime;
+           G_freq_cnt = 0;
+           G_duration_cnt = 0;
+         
+           currentNote++;
+       }
+       else
+          G_nextNote_cb = NULL;
+   }
 }

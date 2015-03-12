@@ -663,6 +663,11 @@ PEB: Morgan- bypass if button is push?
 				  USB_In_Buffer[0] = 0;
 			   }
 
+   			   if (USB_In_Buffer[0] == 'm') {
+                  mario_cb(1); /* init=1 */
+				  USB_In_Buffer[0] = 0;
+			   }
+
          }
 
             if (USB_In_Buffer[0] == '0') {
