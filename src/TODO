@@ -1,7 +1,22 @@
+------------------------------------
+  high priority ASAP
+------------------------------------
+
   - USB footprint on badge board.
     Holes are off for some reason.
 
   - USB footprint on battery board
+
+  - etch paste stencil
+
+  - power usage and scope 
+    (new pre-production boards)
+    X - IR-xmit ripple ok
+      - LED 
+      - piezo
+      - backlight PWM
+
+------------------------------------
 
   - IR xmit callback to fill
 
@@ -13,12 +28,6 @@
         - relative offsets:
     X - on/off cutoff
     X - array of average
-
-  - power usage and scope: 
-    X - IR-xmit ripple ok
-      - LED 
-      - piezo
-      - backlight PWM
 
   - Calibrate touch pad-> the lower right one takes a 
     while longer to charge for some reason. It appears
