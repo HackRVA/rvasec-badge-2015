@@ -11,6 +11,7 @@
 X - piezo- basic audio. see timer1_int.c 
     do_audio, called from timer1 int.
     from main.c USB tty (not forth) "qwertyui" beeps tones and "<>" changes duration.
+    press 'm' to play mario 
 
 X - tested self flash read/write
 
