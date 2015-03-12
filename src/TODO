@@ -3,6 +3,17 @@
 
   - USB footprint on battery board
 
+  - IR xmit callback to fill
+
+  - IR recv callback to empty
+
+  - touchCTMU 
+      - "trends" for sliders
+        - value increasing/descreasing
+        - relative offsets:
+    X - on/off cutoff
+    X - array of average
+
   - power usage and scope: 
     X - IR-xmit ripple ok
       - LED 
@@ -12,6 +23,10 @@
   - Calibrate touch pad-> the lower right one takes a 
     while longer to charge for some reason. It appears
     to be consistent across the badges I have built
+
+  - LCD (Jon)
+    X - basic compositing
+      - scan line compositing
 
 X - piezo- basic audio. see timer1_int.c 
     do_audio, called from timer1 int.
