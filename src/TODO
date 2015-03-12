@@ -1,8 +1,13 @@
-  - USB footprint. Holes are off for some reason.
+  - USB footprint on badge board.
+    Holes are off for some reason.
 
-  - power usage and scope: IR-xmit/LED/piezo
-    check for ripple when on/off. 
-    check backlight PWM
+  - USB footprint on battery board
+
+  - power usage and scope: 
+    X - IR-xmit ripple ok
+      - LED 
+      - piezo
+      - backlight PWM
 
   - Calibrate touch pad-> the lower right one takes a 
     while longer to charge for some reason. It appears
