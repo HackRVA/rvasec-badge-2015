@@ -75,353 +75,346 @@ void LCDLogo(void) {
 }
 
 /* need a 1 bit shadow array to draw to then blit */
-void putPixel(unsigned char x,//places one pixel
+void LCDputPixel(unsigned char x,//places one pixel
         unsigned char y,
-        unsigned char color)
+        unsigned short color)
 {
     S6B33_rect(y, x, 0, 0);
     S6B33_pixel(color);
 }
 
-void LCDline(int x0, int y0, int x1, int y1, unsigned char color) {//do not use unless line is diagonal
-  void putPixel(unsigned char x, unsigned char y, unsigned char color);
+void LCDinit_scan(void){
+    S6B33_rect(0, 0, 131, 131);
+}
+void LCDlineScan(int x0, int y0, int x1, int y1, int lineCurrent, unsigned short color){
+
+  int dx = abs(x1-x0), sx = x0<x1 ? 1 : -1;
+  int dy = abs(y1-y0), sy = y0<y1 ? 1 : -1;
+  int err = (dx>dy ? dx : -dy)/2, e2;
+
+  for(;;){
+    if(y0==lineCurrent-1)
+    {
+      scan_bucket[x0]=color;
+    }
+    //if(y0>lineCurrent) break;
+    if (x0==x1 && y0==y1) break;
+    e2 = err;
+    if (e2 > -dx) { err -= dy; x0 += sx; }
+    if (e2 < dy) { err += dx; y0 += sy; }
+  }
+}
+
+int LCDSend_bucket(void){
+    unsigned char j;
+    for(j=0;j<132;j++)
+                S6B33_pixel(scan_bucket[j]);
+    return 1;
+}
+
+void LCDBackgroundScan(unsigned short color){
+    unsigned char j;
+    for(j=0;j<132;j++)
+        scan_bucket[j] = color;
+}
+
+void LCDline(int x0, int y0, int x1, int y1, unsigned short color) {//do not use unless line is diagonal
+  void LCDputPixel(unsigned char x, unsigned char y, unsigned short color);
 
   int dx = abs(x1-x0), sx = x0<x1 ? 1 : -1;
   int dy = abs(y1-y0), sy = y0<y1 ? 1 : -1; 
   int err = (dx>dy ? dx : -dy)/2, e2;
  
   for(;;){
-    putPixel(x0,y0, color);
+    LCDputPixel(x0,y0, color);
     if (x0==x1 && y0==y1) break;
     e2 = err;
-    if (e2 >-dx) { err -= dy; x0 += sx; }
+    if (e2 > -dx) { err -= dy; x0 += sx; }
     if (e2 < dy) { err += dx; y0 += sy; }
   }
 }
 
-void LCDputpixel(unsigned char x,//redundant, may not be used check & delete
-        unsigned char y,
-        unsigned char color)
-{
-    S6B33_rect(y, x, 0, 0);
-    S6B33_pixel(color);
-}
-
-void LCDrectangle(unsigned char x, //draws rectangle in most efficient manor
+void LCDrectangleScan(unsigned char x, //calls 4 line scans for rectangle
         unsigned char y,
         unsigned char width,
         unsigned char height,
-        unsigned char color)
+        unsigned char lineCurrent,
+        unsigned short color)
 {
-    LCDverticalline(x,y,height, color);
-    LCDverticalline(x+width,y,height, color);
-    LCDhorizontalline(x,y,width, color);
-    LCDhorizontalline(x,y+height,width, color);
-}
-
-void LCDverticalline(unsigned char x, //Do not delete.  Uses far less
-        unsigned char y,              //resources than line and is called
-        unsigned char height,         //more often.
-        unsigned char color)
-{
-    if((y+height) > 131)
-        height = 131-y;
-
-    unsigned char i, j;
-    S6B33_rect(y, x, height, 0);
-       for (i=0; i<132; i++)
-           for(j=0; j<1; j++)
-       {
-            S6B33_pixel(color);
-       }
-
-}
-
-void LCDhorizontalline(unsigned char x, //Do not delete.  Uses far less
-        unsigned char y,                //resources than line and is called
-        unsigned char width,            //more often.
-        unsigned char color)
-{
-    if ((x+width) > 131)
-        width = 131-x;
-
-    unsigned char i, j;
-    S6B33_rect(y, x, 0, width);
-       for (i=0; i<1; i++)
-           for(j=0; j<132; j++)
-       {
-            S6B33_pixel(color);
-       }
-
+    LCDlineScan(x,y,x,y+height,lineCurrent, color);
+    LCDlineScan(x+width,y,x+width,y+height,lineCurrent, color);
+    LCDlineScan(x,y,x+width,y,lineCurrent,color);
+    LCDlineScan(x,y+height-1,x+width,y+height-1,lineCurrent, color);
 }
 
 
-void LCDCharacter(unsigned char x,//Hard coded font.  Working on replaceing line
-        unsigned char y,          //functions with horizontal and vertical line
-        unsigned char charin,     //functions.
-        unsigned char color)
+void LCDCharacterScan(unsigned char x,//Hard coded font. Scans
+        unsigned char y,              //Calls scan line function for
+        unsigned char charin,         //character values
+        unsigned char lineCurrent,
+        unsigned short color)
 {
     if(charin == 'A' || charin == 'a')
     {
-        LCDline(y+1,x-1,y+3,x-8,color);
-        LCDline(y+2,x-3,y+4,x-3,color);
-        LCDline(y+5,x-1,y+3,x-8,color);
+        LCDlineScan(y+1,x-1,y+3,x-8,lineCurrent,color);
+        LCDlineScan(y+2,x-3,y+4,x-3,lineCurrent,color);
+        LCDlineScan(y+5,x-1,y+3,x-8,lineCurrent,color);
     }
     else if(charin == 'B' || charin == 'b')
     {
-        LCDverticalline(y+5,x-8,7,color);
-        LCDline(y+1,x-1,y+5,x-1,color);
-        LCDline(y+4,x-4,y+2,x-4,color);
-        LCDline(y+4,x-8,y+3,x-8,color);
-        LCDline(y+2,x-7,y+2,x-5,color);
-        LCDline(y+1,x-3,y+1,x-1,color);
+        LCDlineScan(y+5,x-8,y+5,x-1,lineCurrent,color);
+        LCDlineScan(y+1,x-1,y+5,x-1,lineCurrent,color);
+        LCDlineScan(y+4,x-4,y+2,x-4,lineCurrent,color);
+        LCDlineScan(y+4,x-8,y+3,x-8,lineCurrent,color);
+        LCDlineScan(y+2,x-7,y+2,x-5,lineCurrent,color);
+        LCDlineScan(y+1,x-3,y+1,x-1,lineCurrent,color);
     }
     else if(charin == 'C' || charin == 'c')
     {
 
-        LCDline(y+2,x-8,y+4,x-8,color);
-        LCDverticalline(y+5,x-7,5,color);
-        LCDline(y+2,x-1,y+4,x-1,color);
-        LCDline(y+1,x-7,y+1,x-7,color);
-        LCDline(y+1,x-2,y+1,x-2,color);
+        LCDlineScan(y+2,x-8,y+4,x-8,lineCurrent,color);
+        LCDlineScan(y+5,x-7,y+5,x-2,lineCurrent,color);
+        LCDlineScan(y+2,x-1,y+4,x-1,lineCurrent,color);
+        LCDlineScan(y+1,x-7,y+1,x-7,lineCurrent,color);
+        LCDlineScan(y+1,x-2,y+1,x-2,lineCurrent,color);
 
     }
     else if(charin == 'D' || charin == 'd')
     {
-        LCDverticalline(y+5,x-8,7,color);
-        LCDline(y+4,x-1,y+3,x-1,color);
-        LCDline(y+4,x-8,y+3,x-8,color);
-        LCDline(y+2,x-2,y+2,x-2,color);
-        LCDline(y+2,x-7,y+2,x-7,color);
-        LCDverticalline(y+1,x-6,3,color);
+        LCDlineScan(y+5,x-8,y+5,x-1,lineCurrent,color);
+        LCDlineScan(y+4,x-1,y+3,x-1,lineCurrent,color);
+        LCDlineScan(y+4,x-8,y+3,x-8,lineCurrent,color);
+        LCDlineScan(y+2,x-2,y+2,x-2,lineCurrent,color);
+        LCDlineScan(y+2,x-7,y+2,x-7,lineCurrent,color);
+        LCDlineScan(y+1,x-6,y+1,x-3,lineCurrent,color);
     }
     else if(charin == 'E' || charin == 'e')
     {
-        LCDverticalline(y+5,x-8,7,color);
-        LCDline(y+4,x-8,y+1,x-8,color);
-        LCDline(y+4,x-1,y+1,x-1,color);
-        LCDline(y+4,x-4,y+2,x-4,color);
+        LCDlineScan(y+5,x-8,y+5,x-1,lineCurrent,color);
+        LCDlineScan(y+4,x-8,y+1,x-8,lineCurrent,color);
+        LCDlineScan(y+4,x-1,y+1,x-1,lineCurrent,color);
+        LCDlineScan(y+4,x-4,y+2,x-4,lineCurrent,color);
     }
     else if(charin == 'F' || charin == 'f')
     {
-        LCDverticalline(y+5,x-8,7,color);
-        LCDline(y+4,x-8,y+1,x-8,color);
-        LCDline(y+4,x-4,y+2,x-4,color);
+        LCDlineScan(y+5,x-8,y+5,x-1,lineCurrent,color);
+        LCDlineScan(y+4,x-8,y+1,x-8,lineCurrent,color);
+        LCDlineScan(y+4,x-4,y+2,x-4,lineCurrent,color);
     }
     else if(charin == 'G' || charin == 'g')
     {
-        LCDline(y+2,x-8,y+4,x-8,color);
-        LCDline(y+5,x-7,y+5,x-2,color);
-        LCDline(y+2,x-1,y+4,x-1,color);
-        LCDline(y+1,x-7,y+1,x-7,color);
-        LCDline(y+1,x-2,y+1,x-2,color);
-        LCDline(y+2,x-3,y+1,x-3,color);
+        LCDlineScan(y+2,x-8,y+4,x-8,lineCurrent,color);
+        LCDlineScan(y+5,x-7,y+5,x-2,lineCurrent,color);
+        LCDlineScan(y+2,x-1,y+4,x-1,lineCurrent,color);
+        LCDlineScan(y+1,x-7,y+1,x-7,lineCurrent,color);
+        LCDlineScan(y+1,x-2,y+1,x-2,lineCurrent,color);
+        LCDlineScan(y+2,x-3,y+1,x-3,lineCurrent,color);
     }
     else if(charin == 'H' || charin == 'h')
     {
-        LCDverticalline(y+5,x-8,7,color);
-        LCDverticalline(y+1,x-8,7,color);
-        LCDline(y+4,x-4,y+2,x-4,color);
+        LCDlineScan(y+5,x-8,y+5,x-1,lineCurrent,color);
+        LCDlineScan(y+1,x-8,y+1,x-1,lineCurrent,color);
+        LCDlineScan(y+4,x-4,y+2,x-4,lineCurrent,color);
     }
     else if(charin == 'I' || charin == 'i')
     {
-        LCDline(y+5,x-8,y+1,x-8,color);
-        LCDline(y+5,x-1,y+1,x-1,color);
-        LCDverticalline(y+3,x-8,7,color);
+        LCDlineScan(y+5,x-8,y+1,x-8,lineCurrent,color);
+        LCDlineScan(y+5,x-1,y+1,x-1,lineCurrent,color);
+        LCDlineScan(y+3,x-8,y+3,x-1,lineCurrent,color);
     }
     else if(charin == 'J' || charin == 'j')
     {
-        LCDline(y+3,x-8,y+2,x-8,color);
-        LCDline(y+2,x-7,y+2,x-2,color);
-        LCDline(y+3,x-1,y+4,x-1,color);
-        LCDline(y+5,x-2,y+5,x-2,color);
+        LCDlineScan(y+3,x-8,y+2,x-8,lineCurrent,color);
+        LCDlineScan(y+2,x-7,y+2,x-2,lineCurrent,color);
+        LCDlineScan(y+3,x-1,y+4,x-1,lineCurrent,color);
+        LCDlineScan(y+5,x-2,y+5,x-2,lineCurrent,color);
     }
     else if(charin == 'K' || charin == 'k')
     {
-        LCDverticalline(y+5,x-8,7,color);
-        LCDline(y+4,x-4,y+1,x-8,color);
-        LCDline(y+4,x-4,y+1,x-1,color);
+        LCDlineScan(y+5,x-8,y+5,x-1,lineCurrent,color);
+        LCDlineScan(y+4,x-4,y+1,x-8,lineCurrent,color);
+        LCDlineScan(y+4,x-4,y+1,x-1,lineCurrent,color);
     }
     else if(charin == 'L' || charin == 'l')
     {
-        LCDverticalline(y+5,x-8,7,color);
-        LCDline(y+5,x-1,y+1,x-1,color);
+        LCDlineScan(y+5,x-8,y+5,x-1,lineCurrent,color);
+        LCDlineScan(y+5,x-1,y+1,x-1,lineCurrent,color);
     }
     else if(charin == 'M' || charin == 'm')
     {
-        LCDverticalline(y+5,x-8,7,color);
-        LCDverticalline(y+1,x-8,7,color);
-        LCDline(y+5,x-8,y+3,x-5,color);
-        LCDline(y+1,x-8,y+3,x-5,color);
+        LCDlineScan(y+5,x-8,y+5,x-1,lineCurrent,color);
+        LCDlineScan(y+1,x-8,y+1,x-1,lineCurrent,color);
+        LCDlineScan(y+5,x-8,y+3,x-5,lineCurrent,color);
+        LCDlineScan(y+1,x-8,y+3,x-5,lineCurrent,color);
     }
     else if(charin == 'N' || charin == 'n')
     {
-        LCDverticalline(y+5,x-8,7,color);
-        LCDverticalline(y+1,x-8,7,color);
-        LCDline(y+5,x-8,y+1,x-1,color);
+        LCDlineScan(y+5,x-8,y+5,x-1,lineCurrent,color);
+        LCDlineScan(y+1,x-8,y+1,x-1,lineCurrent,color);
+        LCDlineScan(y+5,x-8,y+1,x-1,lineCurrent,color);
     }
     else if(charin == 'O' || charin == 'o')
     {
-        LCDline(y+5,x-2,y+5,x-7,color);
-        LCDline(y+1,x-2,y+1,x-7,color);
-        LCDline(y+4,x-8,y+2,x-8,color);
-        LCDline(y+4,x-1,y+2,x-1,color);
+        LCDlineScan(y+5,x-2,y+5,x-7,lineCurrent,color);
+        LCDlineScan(y+1,x-2,y+1,x-7,lineCurrent,color);
+        LCDlineScan(y+4,x-8,y+2,x-8,lineCurrent,color);
+        LCDlineScan(y+4,x-1,y+2,x-1,lineCurrent,color);
     }
     else if(charin == 'P' || charin == 'p')
     {
-        LCDverticalline(y+5,x-8,7,color);
-        LCDline(y+4,x-8,y+2,x-8,color);
-        LCDline(y+4,x-5,y+2,x-5,color);
-        LCDline(y+1,x-6,y+1,x-7,color);
+        LCDlineScan(y+5,x-8,y+5,x-1,lineCurrent,color);
+        LCDlineScan(y+4,x-8,y+2,x-8,lineCurrent,color);
+        LCDlineScan(y+4,x-5,y+2,x-5,lineCurrent,color);
+        LCDlineScan(y+1,x-6,y+1,x-7,lineCurrent,color);
     }
     else if(charin == 'Q' || charin == 'q')
     {
-        LCDline(y+5,x-2,y+5,x-7,color);
-        LCDline(y+1,x-2,y+1,x-7,color);
-        LCDline(y+4,x-8,y+2,x-8,color);
-        LCDline(y+4,x-1,y+2,x-1,color);
-        LCDline(y+2,x-2,y+1,x-1,color);
+        LCDlineScan(y+5,x-2,y+5,x-7,lineCurrent,color);
+        LCDlineScan(y+1,x-2,y+1,x-7,lineCurrent,color);
+        LCDlineScan(y+4,x-8,y+2,x-8,lineCurrent,color);
+        LCDlineScan(y+4,x-1,y+2,x-1,lineCurrent,color);
+        LCDlineScan(y+2,x-2,y+1,x-1,lineCurrent,color);
     }
     else if(charin == 'R' || charin == 'r')
     {
-        LCDverticalline(y+5,x-8,7,color);
-        LCDline(y+4,x-8,y+2,x-8,color);
-        LCDline(y+4,x-5,y+2,x-5,color);
-        LCDline(y+1,x-6,y+1,x-8,color);
-        LCDline(y+1,x-4,y+1,x-1,color);
+        LCDlineScan(y+5,x-8,y+5,x-1,lineCurrent,color);
+        LCDlineScan(y+4,x-8,y+2,x-8,lineCurrent,color);
+        LCDlineScan(y+4,x-5,y+2,x-5,lineCurrent,color);
+        LCDlineScan(y+1,x-6,y+1,x-8,lineCurrent,color);
+        LCDlineScan(y+1,x-4,y+1,x-1,lineCurrent,color);
     }
     else if(charin == 'S' || charin == 's')
     {
-        LCDline(y+2,x-8,y+4,x-8,color);
-        LCDline(y+2,x-4,y+4,x-4,color);
-        LCDline(y+2,x-1,y+4,x-1,color);
-        LCDline(y+5,x-7,y+5,x-5,color);
-        LCDline(y+1,x-3,y+1,x-2,color);
+        LCDlineScan(y+2,x-8,y+4,x-8,lineCurrent,color);
+        LCDlineScan(y+2,x-4,y+4,x-4,lineCurrent,color);
+        LCDlineScan(y+2,x-1,y+4,x-1,lineCurrent,color);
+        LCDlineScan(y+5,x-7,y+5,x-5,lineCurrent,color);
+        LCDlineScan(y+1,x-3,y+1,x-2,lineCurrent,color);
     }
     else if(charin == 'T' || charin == 't')
     {
-        LCDline(y+5,x-8,y+1,x-8,color);
-        LCDverticalline(y+3,x-8,7,color);
+        LCDlineScan(y+5,x-8,y+1,x-8,lineCurrent,color);
+        LCDlineScan(y+3,x-8,y+3,x-1,lineCurrent,color);
     }
     else if(charin == 'U' || charin == 'u')
     {
-        LCDverticalline(y+5,x-8,6,color);
-        LCDline(y+4,x-1,y+2,x-1,color);
-        LCDverticalline(y+1,x-8,6,color);
+        LCDlineScan(y+5,x-8,y+5,x-2,lineCurrent,color);
+        LCDlineScan(y+4,x-1,y+2,x-1,lineCurrent,color);
+        LCDlineScan(y+1,x-8,y+1,x-2,lineCurrent,color);
     }
     else if(charin == 'V' || charin == 'v')
     {
-        LCDline(y+5,x-8,y+3,x-1,color);
-        LCDline(y+1,x-8,y+3,x-1,color);
+        LCDlineScan(y+5,x-8,y+3,x-1,lineCurrent,color);
+        LCDlineScan(y+1,x-8,y+3,x-1,lineCurrent,color);
     }
     else if(charin == 'W' || charin == 'w')
     {
-        LCDverticalline(y+5,x-8,7,color);
-        LCDverticalline(y+1,x-8,7,color);
-        LCDline(y+4,x-2,y+3,x-3,color);
-        LCDline(y+2,x-2,y+3,x-3,color);
+        LCDlineScan(y+5,x-8,y+5,x-1,lineCurrent,color);
+        LCDlineScan(y+1,x-8,y+1,x-1,lineCurrent,color);
+        LCDlineScan(y+4,x-2,y+3,x-3,lineCurrent,color);
+        LCDlineScan(y+2,x-2,y+3,x-3,lineCurrent,color);
     }
     else if(charin == 'X' || charin == 'x')
     {
-        LCDline(y+5,x-8,y+1,x-1,color);
-        LCDline(y+1,x-8,y+5,x-1,color);
+        LCDlineScan(y+5,x-8,y+1,x-1,lineCurrent,color);
+        LCDlineScan(y+1,x-8,y+5,x-1,lineCurrent,color);
     }
     else if(charin == 'Y' || charin == 'y')
     {
-        LCDline(y+5,x-8,y+3,x-4,color);
-        LCDline(y+1,x-8,y+3,x-4,color);
-        LCDline(y+3,x-4,y+3,x-1,color);
+        LCDlineScan(y+5,x-8,y+3,x-4,lineCurrent,color);
+        LCDlineScan(y+1,x-8,y+3,x-4,lineCurrent,color);
+        LCDlineScan(y+3,x-4,y+3,x-1,lineCurrent,color);
     }
     else if(charin == 'Z' || charin == 'z')
     {
-        LCDline(y+5,x-8,y+1,x-8,color);
-        LCDline(y+5,x-1,y+1,x-1,color);
-        LCDline(y+1,x-8,y+5,x-1,color);
+        LCDlineScan(y+5,x-8,y+1,x-8,lineCurrent,color);
+        LCDlineScan(y+5,x-1,y+1,x-1,lineCurrent,color);
+        LCDlineScan(y+1,x-8,y+5,x-1,lineCurrent,color);
     }
     else if(charin == '0')
     {
-        LCDverticalline(y+5,x-7,5,color);
-        LCDverticalline(y+1,x-7,5,color);
-        LCDline(y+4,x-8,y+2,x-8,color);
-        LCDline(y+4,x-1,y+2,x-1,color);
-        LCDline(y+3,x-5,y+3,x-4,color);
+        LCDlineScan(y+5,x-7,y+5,x-2,lineCurrent,color);
+        LCDlineScan(y+1,x-7,y+1,x-2,lineCurrent,color);
+        LCDlineScan(y+4,x-8,y+2,x-8,lineCurrent,color);
+        LCDlineScan(y+4,x-1,y+2,x-1,lineCurrent,color);
+        LCDlineScan(y+3,x-5,y+3,x-4,lineCurrent,color);
     }
      else if(charin == '1')
     {
-        LCDline(y+4,x-8,y+3,x-8,color);
-        LCDverticalline(y+3,x-8,7,color);
-        LCDline(y+4,x-1,y+2,x-1,color);
+        LCDlineScan(y+4,x-8,y+3,x-8,lineCurrent,color);
+        LCDlineScan(y+3,x-8,y+3,x-1,lineCurrent,color);
+        LCDlineScan(y+4,x-1,y+2,x-1,lineCurrent,color);
     }
     else if(charin == '2')
     {
-        LCDline(y+5,x-7,y+5,x-7,color);
-        LCDline(y+4,x-8,y+2,x-8,color);
-        LCDline(y+1,x-7,y+1,x-5,color);
-        LCDline(y+2,x-4,y+5,x-1,color);
-        LCDline(y+4,x-1,y+1,x-1,color);
+        LCDlineScan(y+5,x-7,y+5,x-7,lineCurrent,color);
+        LCDlineScan(y+4,x-8,y+2,x-8,lineCurrent,color);
+        LCDlineScan(y+1,x-7,y+1,x-5,lineCurrent,color);
+        LCDlineScan(y+2,x-4,y+5,x-1,lineCurrent,color);
+        LCDlineScan(y+4,x-1,y+1,x-1,lineCurrent,color);
     }
     else if(charin == '3')
     {
-        LCDline(y+5,x-8,y+2,x-8,color);
-        LCDline(y+5,x-4,y+2,x-4,color);
-        LCDline(y+5,x-1,y+2,x-1,color);
-        LCDline(y+1,x-7,y+1,x-5,color);
-        LCDline(y+1,x-3,y+1,x-2,color);
+        LCDlineScan(y+5,x-8,y+2,x-8,lineCurrent,color);
+        LCDlineScan(y+5,x-4,y+2,x-4,lineCurrent,color);
+        LCDlineScan(y+5,x-1,y+2,x-1,lineCurrent,color);
+        LCDlineScan(y+1,x-7,y+1,x-5,lineCurrent,color);
+        LCDlineScan(y+1,x-3,y+1,x-2,lineCurrent,color);
     }
     else if(charin == '4')
     {
-        LCDline(y+1,x-8,y+1,x-1,color);
-        LCDline(y+5,x-7,y+5,x-4,color);
-        LCDline(y+4,x-4,y+2,x-4,color);
+        LCDlineScan(y+1,x-8,y+1,x-1,lineCurrent,color);
+        LCDlineScan(y+5,x-7,y+5,x-4,lineCurrent,color);
+        LCDlineScan(y+4,x-4,y+2,x-4,lineCurrent,color);
     }
     else if(charin == '5')
     {
-        LCDline(y+1,x-8,y+5,x-8,color);
-        LCDline(y+2,x-5,y+4,x-5,color);
-        LCDline(y+2,x-1,y+5,x-1,color);
-        LCDline(y+5,x-7,y+5,x-5,color);
-        LCDline(y+1,x-4,y+1,x-2,color);
+        LCDlineScan(y+1,x-8,y+5,x-8,lineCurrent,color);
+        LCDlineScan(y+2,x-5,y+4,x-5,lineCurrent,color);
+        LCDlineScan(y+2,x-1,y+5,x-1,lineCurrent,color);
+        LCDlineScan(y+5,x-7,y+5,x-5,lineCurrent,color);
+        LCDlineScan(y+1,x-4,y+1,x-2,lineCurrent,color);
     }
     else if(charin == '6')
     {
-        LCDline(y+1,x-3,y+1,x-2,color);
-        LCDline(y+5,x-2,y+5,x-7,color);
-        LCDline(y+4,x-8,y+2,x-8,color);
-        LCDline(y+4,x-4,y+2,x-4,color);
-        LCDline(y+4,x-1,y+2,x-1,color);
-        LCDline(y+1,x-7,y+1,x-7,color);
+        LCDlineScan(y+1,x-3,y+1,x-2,lineCurrent,color);
+        LCDlineScan(y+5,x-2,y+5,x-7,lineCurrent,color);
+        LCDlineScan(y+4,x-8,y+2,x-8,lineCurrent,color);
+        LCDlineScan(y+4,x-4,y+2,x-4,lineCurrent,color);
+        LCDlineScan(y+4,x-1,y+2,x-1,lineCurrent,color);
+        LCDlineScan(y+1,x-7,y+1,x-7,lineCurrent,color);
     }
     else if(charin == '7')
     {
-        LCDline(y+5,x-8,y+1,x-8,color);
-        LCDline(y+1,x-8,y+1,x-1,color);
+        LCDlineScan(y+5,x-8,y+1,x-8,lineCurrent,color);
+        LCDlineScan(y+1,x-8,y+1,x-1,lineCurrent,color);
     }
     else if(charin == '8')
     {
-        LCDline(y+2,x-8,y+4,x-8,color);
-        LCDline(y+2,x-4,y+4,x-4,color);
-        LCDline(y+2,x-1,y+4,x-1,color);
-        LCDline(y+5,x-7,y+5,x-5,color);
-        LCDline(y+1,x-3,y+1,x-2,color);
-        LCDline(y+1,x-7,y+1,x-5,color);
-        LCDline(y+5,x-3,y+5,x-2,color);
+        LCDlineScan(y+2,x-8,y+4,x-8,lineCurrent,color);
+        LCDlineScan(y+2,x-4,y+4,x-4,lineCurrent,color);
+        LCDlineScan(y+2,x-1,y+4,x-1,lineCurrent,color);
+        LCDlineScan(y+5,x-7,y+5,x-5,lineCurrent,color);
+        LCDlineScan(y+1,x-3,y+1,x-2,lineCurrent,color);
+        LCDlineScan(y+1,x-7,y+1,x-5,lineCurrent,color);
+        LCDlineScan(y+5,x-3,y+5,x-2,lineCurrent,color);
 
     }
     else if(charin == '9')
     {
-        LCDline(y+2,x-8,y+4,x-8,color);
-        LCDline(y+2,x-4,y+4,x-4,color);
-        LCDline(y+2,x-1,y+4,x-1,color);
-        LCDline(y+5,x-7,y+5,x-5,color);
-        LCDline(y+1,x-7,y+1,x-2,color);
+        LCDlineScan(y+2,x-8,y+4,x-8,lineCurrent,color);
+        LCDlineScan(y+2,x-4,y+4,x-4,lineCurrent,color);
+        LCDlineScan(y+2,x-1,y+4,x-1,lineCurrent,color);
+        LCDlineScan(y+5,x-7,y+5,x-5,lineCurrent,color);
+        LCDlineScan(y+1,x-7,y+1,x-2,lineCurrent,color);
     }
     else if(charin == '.')
     {
-        LCDline(y+3,x-1,y+3,x-1,color);
+        LCDlineScan(y+3,x-1,y+3,x-1,lineCurrent,color);
     }
     else
     {
-        LCDline(y+5,x-1,y+1,x-1,color);
+        LCDlineScan(y+5,x-1,y+1,x-1,lineCurrent,color);
     }
 }
 

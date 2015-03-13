@@ -269,55 +269,56 @@ static void InitializeSystem(void)
    LCDReset();
    LATCbits.LATC1 = 1;      /* BLUE */
    //LCDBars();               /* color bars */
-   LCDdrbob();               /* dr bobs church of the subgenius */
+   //LCDdrbob();               /* dr bobs church of the subgenius */
    
-/*
-   LCDgreen();
+   //LCDgreen();
 
    init_display_list();
 
+   clearscreen(RED);
 
-   rectangle(18,35,104,29, BLUE);
+
+   rectangle(15,32,114,40, GREEN);
    
-   printchar('q', 19,45,WHITE);
-   printchar('p', 25,45,RED);
-   printchar('o', 31,45,WHITE);
-   printchar('n', 37,45,RED);
-   printchar('m', 43,45,RED);
-   printchar('l', 49,45,RED);
-   printchar('k', 55,45,WHITE);
-   printchar('j', 61,45,RED);
-   printchar('i', 67,45,WHITE);
-   printchar('h', 73,45,RED);
-   printchar('g', 79,45,RED);
-   printchar('f', 85,45,WHITE);
-   printchar('e', 91,45,RED);
-   printchar('d', 97,45,WHITE);
-   printchar('c', 103,45,RED);
-   printchar('b', 109,45,RED);
-   printchar('a', 115,45,WHITE);
+   printchar('q', 19,45,GREEN);
+   printchar('p', 25,45,GREEN);
+   printchar('o', 31,45,GREEN);
+   printchar('n', 37,45,GREEN);
+   printchar('m', 43,45,GREEN);
+   printchar('l', 49,45,GREEN);
+   printchar('k', 55,45,GREEN);
+   printchar('j', 61,45,GREEN);
+   printchar('i', 67,45,GREEN);
+   printchar('h', 73,45,GREEN);
+   printchar('g', 79,45,GREEN);
+   printchar('f', 85,45,GREEN);
+   printchar('e', 91,45,GREEN);
+   printchar('d', 97,45,GREEN);
+   printchar('c', 103,45,GREEN);
+   printchar('b', 109,45,GREEN);
+   printchar('a', 115,45,GREEN);
 
-   printchar('6', 19,54,WHITE);
-   printchar('5', 25,54,RED);
-   printchar('4', 31,54,WHITE);
-   printchar('3', 37,54,RED);
-   printchar('2', 43,54,RED);
-   printchar('1', 49,54,RED);
-   printchar('0', 55,54,WHITE);
-   printchar('_', 61,54,RED);
-   printchar('z', 67,54,WHITE);
-   printchar('y', 73,54,RED);
-   printchar('x', 79,54,RED);
-   printchar('w', 85,54,WHITE);
-   printchar('v', 91,54,RED);
-   printchar('u', 97,54,WHITE);
-   printchar('t', 103,54,RED);
-   printchar('s', 109,54,RED);
-   printchar('r', 115,54,WHITE);
+   printchar('6', 19,56,GREEN);
+   printchar('5', 25,56,GREEN);
+   printchar('4', 31,56,GREEN);
+   printchar('3', 37,56,GREEN);
+   printchar('2', 43,56,GREEN);
+   printchar('1', 49,56,GREEN);
+   printchar('0', 55,56,GREEN);
+   printchar('_', 61,56,GREEN);
+   printchar('z', 67,56,GREEN);
+   printchar('y', 73,56,GREEN);
+   printchar('x', 79,56,GREEN);
+   printchar('w', 85,56,GREEN);
+   printchar('v', 91,56,GREEN);
+   printchar('u', 97,56,GREEN);
+   printchar('t', 103,56,GREEN);
+   printchar('s', 109,56,GREEN);
+   printchar('r', 115,56,GREEN);
 
-   printchar('9', 103,63,RED);
-   printchar('8', 109,63,RED);
-   printchar('7', 115,63,WHITE);
+   printchar('9', 103,67,GREEN);
+   printchar('8', 109,67,GREEN);
+   printchar('7', 115,67,GREEN);
 
    writeline("Woot", 4, 115, 15);
 */
@@ -528,6 +529,7 @@ static unsigned char debugBlink=1;
 void ProcessIO(void)
 {
 
+    LCDCompositeLine();
     LCDComposite();
     //Blink the LEDs according to the USB device status
     //very handy if you lock up when trying to run off of battery
