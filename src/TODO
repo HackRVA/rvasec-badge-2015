@@ -7,14 +7,19 @@
   - etch paste stencil
 
   - power usage and scope 
-    (new pre-production boards)
-    X - IR-xmit ripple ok
+    * Profile new pre-production boards
+      - IR-xmit ripple (ok on betas)
       - LED 
       - piezo
       - backlight PWM
 
 ------------------------------------
-  - started on asset management
+    ASAP
+------------------------------------
+  - asset management
+    - 1 bit image.h  colormap?, 1 bit date
+    - 8 bit image.h  colormap[256], 8 bitdata
+    - 8 bit audio.h  PWM(offtime, duration)
 
   - IR xmit callback to fill
 
@@ -28,14 +33,15 @@
     X - array of average
 
   - Calibrate touch pad-> the lower right one takes a 
-    while longer to charge for some reason. It appears
-    to be consistent across the badges I have built
-
-  - LCD (Jon)
-    X - basic compositing
-      - scan line compositing
+    while longer to charge for some reason. 
+    * profile the final board(s)
+    * beta badges appear to be consistent
 
 ------------------------------------
+
+X - LCD (Jon)
+    X - basic compositing
+    X - scan line compositing
 
 X - USB footprint on badge board.
     X - Holes are off for some reason.

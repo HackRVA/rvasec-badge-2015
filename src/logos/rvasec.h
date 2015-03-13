@@ -1,9 +1,7 @@
 /*  GIMP header image file format (INDEXED): /home/paul/rvasecLogos/rvasecLogo.h  */
 
-/*
 static unsigned int width = 132;
 static unsigned int height = 132;
-*/
 
 /*  Call this macro repeatedly.  After each use, the pixel data can be extracted  */
 
