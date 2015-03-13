@@ -17,9 +17,13 @@
     ASAP
 ------------------------------------
   - asset management
-    - 1 bit image.h  colormap?, 1 bit date
-    - 8 bit image.h  colormap[256], 8 bitdata
+O   - 1 bit image.h  colormap?, 1 bit date
+O   - 4 bit image.h  colormap[16], 4 bitdata
+O   - 8 bit image.h  colormap[256], 8 bitdata
     - 8 bit audio.h  PWM(offtime, duration)
+
+X - conversion util, convert 8 bit colormap 
+    to 4 bit colormap
 
   - IR xmit callback to fill
 
