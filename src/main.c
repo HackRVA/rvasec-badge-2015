@@ -268,9 +268,7 @@ static void InitializeSystem(void)
    LATCbits.LATC0 = 1;      /* RED */
    LCDReset();
    LATCbits.LATC1 = 1;      /* BLUE */
-   //LCDBars();               /* color bars */
-   //LCDdrbob();               /* dr bobs church of the subgenius */
-   
+  
    //LCDgreen();
 
    init_display_list();
@@ -595,7 +593,23 @@ PEB: Morgan- bypass if button is push?
 				USB_In_Buffer[0] = 0;
 			}
 
+            if (USB_In_Buffer[0] == 'b') {
+				LCDBars();
+				USB_In_Buffer[0] = 0;
+			}
+
+            if (USB_In_Buffer[0] == 'd') {
+				LCDdrbob();
+				USB_In_Buffer[0] = 0;
+			}
+
+            if (USB_In_Buffer[0] == 'n') {
+				LCDmayo();
+				USB_In_Buffer[0] = 0;
+			}
+ 
             if ((USB_In_Buffer[0] == 13) || (USB_In_Buffer[0] == 10)) {
+               char *l = &(USB_Out_Buffer[NextUSBOut]);
 
                USB_Out_Buffer[NextUSBOut++] = 'H';
                USB_Out_Buffer[NextUSBOut++] = 'e';
@@ -607,6 +621,8 @@ PEB: Morgan- bypass if button is push?
                USB_Out_Buffer[NextUSBOut++] = 0;
 
                USB_In_Buffer[0] = 0;
+
+               writeline(l, &(USB_In_Buffer[NextUSBOut]) - l, 10, 15);
             }
 
 			{ // audio
