@@ -2,9 +2,6 @@
   high priority ASAP
 ------------------------------------
 
-  - USB footprint on badge board.
-    Holes are off for some reason.
-
   - USB footprint on battery board
 
   - etch paste stencil
@@ -36,6 +33,12 @@
   - LCD (Jon)
     X - basic compositing
       - scan line compositing
+
+------------------------------------
+
+X - USB footprint on badge board.
+    X - Holes are off for some reason.
+    X - extended copper so can be surface mount
 
 X - piezo- basic audio. see timer1_int.c 
     do_audio, called from timer1 int.
