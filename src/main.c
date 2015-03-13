@@ -321,7 +321,6 @@ static void InitializeSystem(void)
    printchar('7', 115,67,GREEN);
 
    writeline("Woot", 4, 115, 15);
-*/
 
    LATBbits.LATB3 = 1;      /* GREEN */
    LATCbits.LATC9 = 1;      /* backlight on. you will see nothing if it is off */
@@ -585,10 +584,10 @@ PEB: Morgan- bypass if button is push?
             }
 
             if (USB_In_Buffer[0] == 'p') {
-				void clear(unsigned char color);
+				void clearscreen(unsigned short color);
 				static unsigned char y=0;
 
-				clear(WHITE);
+				clearscreen(WHITE);
 				printchar(' ', 115,63,BLACK);
 				writeline("Woot", 4, 115, y);
 				y += 8;
