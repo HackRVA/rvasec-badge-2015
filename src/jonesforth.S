@@ -4231,6 +4231,7 @@ SEMICHAR :
     PUSH $t0
 	NEXT
 	
+/*
 	.global LCDdrbob
 	defcode "LCDdrbob",8,,FLCDdrbob,DCDCselect
 	la	$t0, LCDdrbob
@@ -4242,6 +4243,7 @@ SEMICHAR :
 	la	$t0, LCDmayo
 	jalr	$ra, $t0
 	NEXT
+*/
 
 
 /* : nidle state @ 0= 0branch 60 dsp@ s0 @ > 0branch 32 2 errNo ! s0 @ dsp! error ; */
@@ -4249,7 +4251,7 @@ SEMICHAR :
 
 	/* SEE will crash on this word since it finds the begin/end */
 	/* and this word is between flash and ram words */
-	defword "_",1,F_HIDDEN,HANG,FLCDmayo
+	defword "_",1,F_HIDDEN,HANG,DCDCselect
 	.int	EXIT
 
 

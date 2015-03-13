@@ -1,6 +1,6 @@
 const static unsigned int hackrva_width = 132;
 const static unsigned int hackrva_height = 132;
-const static hackrva_data_cmap[16][3] = {
+const static char hackrva_data_cmap[16][3] = {
 { 0, 1, 106 },
 { 106, 108, 134 },
 { 134, 136, 158 },

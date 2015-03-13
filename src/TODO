@@ -1,3 +1,7 @@
+!!!!!!!!!!!!!!!!!!!!!!!!
+NOTE SWAPPED X DIRECTION ON THE LCD
+!!!!!!!!!!!!!!!!!!!!!!!!
+
 ------------------------------------
   high priority ASAP
 ------------------------------------
@@ -16,10 +20,11 @@
 ------------------------------------
     ASAP
 ------------------------------------
+
   - asset management
 O   - 1 bit image.h  colormap?, 1 bit date
-O   - 4 bit image.h  colormap[16], 4 bitdata
-O   - 8 bit image.h  colormap[256], 8 bitdata
+X   - 4 bit image.h  colormap[16], 4 bitdata
+X   - 8 bit image.h  colormap[256], 8 bitdata
     - 8 bit audio.h  PWM(offtime, duration)
 
 X - conversion util, convert 8 bit colormap 

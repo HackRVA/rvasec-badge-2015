@@ -197,7 +197,8 @@ void S6B33_send_data(unsigned short data) {
 
 unsigned char G_bias  = 0b00000000; /* 0x00 = 1/4  0x11 = 1/5 0x22 = 1/6 0x33 = 1/7 */
 unsigned char G_entry = 0b10000000; /* 0x80 */
-unsigned char G_outputMode = 0b00000010; /* 0x02 lines=132 SDIR=0 SWP=1 CDIR=0 */
+// PEB WAS 20150313 unsigned char G_outputMode = 0b00000010; /* 0x02 lines=132 SDIR=0 SWP=1 CDIR=0 */
+unsigned char G_outputMode = 0b00000110; /* 0x02 lines=132 SDIR=0 SWP=1 CDIR=0 */
 
 /* 0x11 = fose/32 & fose/16 -> set clock fpck=fose/32(Normal)/fpck=fose/16(partial1)-------*/ 
 unsigned char G_clockDiv = 0b00010001; /* default = fose/32 & fose/64  normal and partial modes each */
@@ -272,7 +273,9 @@ void S6B33_init_device(void)
     /* CDIR = common scanning dir (Y) */
     /* DLN0,1 = 00=132 01=144, 10=162, 11=96  LCD panel physical y res */
     /* init -> SDIR = 0, SWP = 0, CDR = 0 */
-    S6B33_send_command(G_outputMode); /* lines=132 SDIR=0 SWP=1 CDIR=0 */
+
+// PEB 20150313 WAS ->    S6B33_send_command(G_outputMode); /* lines=132 SDIR=0 SWP=0 CDIR=0 */
+    S6B33_send_command(G_outputMode); /* lines=132 SDIR=1 SWP=1 CDIR=0 */
 
     S6B33_send_command(ENTRY_MODE);
     /* 0x0 ==increment Y when X=Xmax, 0x80 == increment X when Y=Ymax */

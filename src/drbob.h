@@ -1,17 +1,7 @@
 /*  GIMP header image file format (INDEXED): /home/paul/drbob.h  */
 
-/*
-static unsigned int width = 132;
-static unsigned int height = 132;
-*/
-
-/*  Call this macro repeatedly.  After each use, the pixel data can be extracted  */
-
-#define DRBOB_PIXEL(data,pixel) {\
-pixel[0] = drbob_data_cmap[(unsigned char)data[0]][0]; \
-pixel[1] = drbob_data_cmap[(unsigned char)data[0]][1]; \
-pixel[2] = drbob_data_cmap[(unsigned char)data[0]][2]; \
-data ++; }
+const static unsigned int drbob_width = 132;
+const static unsigned int drbob_height = 132;
 
 const static char drbob_data_cmap[256][3] = {
 	{ 44,  2, 17},

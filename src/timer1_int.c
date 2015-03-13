@@ -489,11 +489,11 @@ extern const struct marioNotes mario[];
 extern unsigned short marioNumNotes;
 
 /* callback to feed next note to the audio function */
-void mario_cb(int init) 
+void mario_cb(int frame) 
 {
    static unsigned short currentNote=0;
 
-   if (init) {
+   if (frame == 0) {
        currentNote = 0;
        G_nextNote_cb = mario_cb;
    } else {

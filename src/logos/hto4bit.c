@@ -30,7 +30,7 @@ main() {
     fprintf(stdout, "const static unsigned int %s_height = %d;\n", OUTNAME, height);
 
     /* output header */
-    fprintf(stdout, "const static %s_data_cmap[16][3] = {\n", OUTNAME);
+    fprintf(stdout, "const static char %s_data_cmap[16][3] = {\n", OUTNAME);
     for (r=0; r<16; r++) {
         fprintf(stdout, "{ %d, %d, %d },\n", 
                 (unsigned char)CMAP()[r][0],

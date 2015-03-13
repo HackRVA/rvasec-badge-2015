@@ -10,6 +10,7 @@
 #include "USB/usb.h"
 #include "HardwareProfile.h"
 #include "badge15.h"
+#include "assets.h"
 
 #define BLUE 0b0000000000011111
 #define GREEN 0b0000011111100000
@@ -598,13 +599,30 @@ PEB: Morgan- bypass if button is push?
 				USB_In_Buffer[0] = 0;
 			}
 
-            if (USB_In_Buffer[0] == 'd') {
-				LCDdrbob();
-				USB_In_Buffer[0] = 0;
-			}
 
-            if (USB_In_Buffer[0] == 'n') {
-				LCDmayo();
+            if ((USB_In_Buffer[0] == 'N') || (USB_In_Buffer[0] == 'n')) {
+                static unsigned char imgno = 0;
+
+                if (USB_In_Buffer[0] == 'n')
+                    if (imgno < LASTASSET) imgno++;
+
+                if (USB_In_Buffer[0] == 'N')
+                    if (imgno != 0) imgno--;
+
+               USB_Out_Buffer[NextUSBOut++] = 'I';
+               USB_Out_Buffer[NextUSBOut++] = 'M';
+               USB_Out_Buffer[NextUSBOut++] = 'G';
+               USB_Out_Buffer[NextUSBOut++] = ' ';
+			   USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)imgno >>  8) & 0xF];
+			   USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)imgno >>  4) & 0xF];
+			   USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)imgno      ) & 0xF];
+
+			   USB_Out_Buffer[NextUSBOut++] = '\r';
+			   USB_Out_Buffer[NextUSBOut++] = '\n';
+			   USB_Out_Buffer[NextUSBOut++] = 0;
+
+				drawAsset(imgno); // 1 == MAYO, 2 == bob,3 == hackrva, 4 == rvasec,  
+
 				USB_In_Buffer[0] = 0;
 			}
  
@@ -681,7 +699,7 @@ PEB: Morgan- bypass if button is push?
 			   }
 
    			   if (USB_In_Buffer[0] == 'm') {
-                  mario_cb(1); /* init=1 */
+                  mario_cb(1); /* frame=0 == init */
 				  USB_In_Buffer[0] = 0;
 			   }
 

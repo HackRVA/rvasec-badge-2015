@@ -1,15 +1,7 @@
 /*  GIMP header image file format (INDEXED): /home/paul/mayo.h  */
 
-//static unsigned int width = 132;
-//static unsigned int height = 132;
-
-/*  Call this macro repeatedly.  After each use, the pixel data can be extracted  */
-
-#define MAYO_PIXEL(data,pixel) {\
-pixel[0] = mayo_data_cmap[(unsigned char)data[0]][0]; \
-pixel[1] = mayo_data_cmap[(unsigned char)data[0]][1]; \
-pixel[2] = mayo_data_cmap[(unsigned char)data[0]][2]; \
-data ++; }
+const static unsigned int mayo_width = 132;
+const static unsigned int mayo_height = 132;
 
 const static char mayo_data_cmap[256][3] = {
 	{  1,  4,  0},
