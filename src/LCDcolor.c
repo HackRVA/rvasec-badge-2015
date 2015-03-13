@@ -1,9 +1,6 @@
 #include "plib.h"
 #include "S6B33.h"
 #include "LCDcolor.h"
-#include "drbob.h"
-#include "mayo.h"
-
 /* lame */
 void MS(unsigned char ms)
 {
@@ -431,58 +428,6 @@ void LCD_RVASec_Logo()
 {
 }
 */
-
-void LCDcolor(unsigned short pixel);
-
-void LCDmayo()
-{
-    unsigned char i,j;
-    unsigned short pixel;
-    unsigned char hpixel[3];
-    unsigned char *hdata;
-
-    S6B33_rect(0, 0, 131, 131); /* display is really 132x132 */
-
-    hdata = (unsigned char *)mayo_data;
-
-    for (i=0; i<132; i++) {
-       for (j=0; j<132; j++) {
-            MAYO_PIXEL(hdata, hpixel);
-            pixel = (unsigned short)(
-                     ( ((hpixel[0] >> 3) &  0b11111)  << 11) | 
-                     ( ((hpixel[1] >> 3) &  0b11111)  <<  6) | /* normalize-ish palette different */
-//                     ( ((hpixel[1] >> 2) & 0b111111)  <<  5) |
-                     ( ((hpixel[2] >> 3) &  0b11111)       )
-                    );
-            S6B33_pixel(pixel);
-       }
-    }
-}
-
-void LCDdrbob()
-{
-    unsigned char i,j;
-    unsigned short pixel;
-    unsigned char hpixel[3];
-    unsigned char *hdata;
-
-    S6B33_rect(0, 0, 131, 131); /* display is really 132x132 */
-
-    hdata = (unsigned char *)drbob_data;
-
-    for (i=0; i<132; i++) {
-       for (j=0; j<132; j++) {
-            DRBOB_PIXEL(hdata, hpixel);
-            pixel = (unsigned short)(
-                     ( ((hpixel[0] >> 3) &  0b11111)  << 11) | 
-                     ( ((hpixel[1] >> 3) &  0b11111)  <<  6) | /* normalize-ish palette different */
-//                     ( ((hpixel[1] >> 2) & 0b111111)  <<  5) |
-                     ( ((hpixel[2] >> 3) &  0b11111)       )
-                    );
-            S6B33_pixel(pixel);
-       }
-    }
-}
 
 void LCDcolor(unsigned short pixel)
 {
