@@ -465,6 +465,7 @@ void LCDblue()
     LCDcolor(0b0000000000011111);
 }
 
+#ifdef BARS
 void LCDBars()
 {
     unsigned char i,j;
@@ -695,5 +696,10 @@ void LCDBars()
        }
 
 }
+#else
+void LCDBars()
+{
+}
+#endif
 
 

@@ -277,6 +277,7 @@ static void InitializeSystem(void)
    clearscreen(RED);
 
 
+#ifdef PEBNEEDSPACE
    rectangle(15,32,114,40, GREEN);
    
    printchar('q', 19,45,GREEN);
@@ -320,6 +321,7 @@ static void InitializeSystem(void)
    printchar('7', 115,67,GREEN);
 
    writeline("Woot", 4, 115, 15);
+#endif
 
    LATBbits.LATB3 = 1;      /* GREEN */
    LATCbits.LATC9 = 1;      /* backlight on. you will see nothing if it is off */
@@ -603,11 +605,14 @@ PEB: Morgan- bypass if button is push?
             if ((USB_In_Buffer[0] == 'N') || (USB_In_Buffer[0] == 'n')) {
                 static unsigned char imgno = 0;
 
-                if (USB_In_Buffer[0] == 'n')
-                    if (imgno < LASTASSET) imgno++;
+                if (USB_In_Buffer[0] == 'n') {
+                    imgno++;
 
-                if (USB_In_Buffer[0] == 'N')
-                    if (imgno != 0) imgno--;
+                    if (imgno == LASTASSET) imgno--;
+                } else {
+                    if (USB_In_Buffer[0] == 'N')
+                        if (imgno != 0) imgno--;
+                }
 
                USB_Out_Buffer[NextUSBOut++] = 'I';
                USB_Out_Buffer[NextUSBOut++] = 'M';
@@ -699,7 +704,7 @@ PEB: Morgan- bypass if button is push?
 			   }
 
    			   if (USB_In_Buffer[0] == 'm') {
-                  mario_cb(1); /* frame=0 == init */
+                  mario_cb(0); /* frame=0 == init */
 				  USB_In_Buffer[0] = 0;
 			   }
 
@@ -795,6 +800,7 @@ PEB: Morgan- bypass if button is push?
             if (USB_In_Buffer[0] == '{') {
                void LCDReset(void);
 
+/*
                if (G_bias != 0) G_bias -= 1;
 
                USB_Out_Buffer[NextUSBOut++] = 48 +  (unsigned char)G_bias / 100;
@@ -807,10 +813,12 @@ PEB: Morgan- bypass if button is push?
                LCDReset();
 
                USB_In_Buffer[0] = 0;
+*/
             }
 
             if (USB_In_Buffer[0] == '}') {
                void LCDReset(void);
+/*
 
                if (G_bias != 3) G_bias += 1;
 
@@ -824,6 +832,7 @@ PEB: Morgan- bypass if button is push?
                LCDReset();
 
                USB_In_Buffer[0] = 0;
+*/
             }
 
             if (USB_In_Buffer[0] == '-') {
@@ -869,6 +878,7 @@ PEB: Morgan- bypass if button is push?
             }
 
             if (USB_In_Buffer[0] == '[') {
+/*
 				Nnops -= 1;
 
                 USB_Out_Buffer[NextUSBOut++] = 'N';
@@ -884,9 +894,11 @@ PEB: Morgan- bypass if button is push?
                 USB_Out_Buffer[NextUSBOut++] = 0;
 
                 USB_In_Buffer[0] = 0;
+*/
             }
 
             if (USB_In_Buffer[0] == ']') {
+/*
 				Nnops += 1;
 
                 USB_Out_Buffer[NextUSBOut++] = 'N';
@@ -902,9 +914,11 @@ PEB: Morgan- bypass if button is push?
                 USB_Out_Buffer[NextUSBOut++] = 0;
 
                 USB_In_Buffer[0] = 0;
+*/
             }
 
             if (USB_In_Buffer[0] == ',') {
+/*
                 USB_Out_Buffer[NextUSBOut++] = 'N';
                 USB_Out_Buffer[NextUSBOut++] = 'O';
                 USB_Out_Buffer[NextUSBOut++] = 'P';
@@ -918,9 +932,11 @@ PEB: Morgan- bypass if button is push?
                 USB_Out_Buffer[NextUSBOut++] = 0;
 
                 USB_In_Buffer[0] = 0;
+*/
             }
 
             if (USB_In_Buffer[0] == '.') {
+/*
 				getTouch();
 
                 USB_Out_Buffer[NextUSBOut++] = 'B';
@@ -935,6 +951,7 @@ PEB: Morgan- bypass if button is push?
                 USB_Out_Buffer[NextUSBOut++] = 0;
 
                 USB_In_Buffer[0] = 0;
+*/
             }
 
             if (USB_In_Buffer[0] == '/') {

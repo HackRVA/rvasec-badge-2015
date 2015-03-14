@@ -478,7 +478,7 @@ void do_audio()
    }
    else {
        LATAbits.LATA9 = 0; // off
-       if (G_nextNote_cb != NULL) (*G_nextNote_cb)(0) ;
+       if (G_nextNote_cb != NULL) (*G_nextNote_cb)(1) ; /* should us an increasing clock count instead of 1 */
    }
 }
 

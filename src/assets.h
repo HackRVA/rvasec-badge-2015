@@ -4,5 +4,7 @@ enum {
     DRBOB=0,
     HACKRVA,
     RVASEC,
+    RVASEC2,
+    HACKRVA2,
     LASTASSET,
 };
