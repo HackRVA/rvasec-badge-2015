@@ -23,6 +23,7 @@ NOTE SWAPPED X DIRECTION ON THE LCD
 
   - asset management
 X   - 1 bit image.h  colormap[2], 1 bit data
+X   - 2 bit image.h  colormap[4], 2 bit data
 X   - 4 bit image.h  colormap[16], 4 bitdata
 X   - 8 bit image.h  colormap[256], 8 bitdata
     - 8 bit audio.h  PWM(offtime, duration)
