@@ -157,7 +157,7 @@ void ForthUSB() {
 #define GAME_MODE
 int main(void)
 {
-    struct BadgeState *game_state;
+  //  struct BadgeState *game_state;
     char sample_i = 0, sample_val = 0;
 
     InitializeSystem();
@@ -172,7 +172,7 @@ int main(void)
 #else
 
     #if defined(GAME_MODE)
-        game_state = Init_Game15();
+       // game_state = Init_Game15();
     #endif
     while(1)
     {
@@ -213,10 +213,10 @@ int main(void)
         */
         ProcessIO();
         //C short circuit makes this work
-
+        main_menu();
 
     #if defined(GAME_MODE)
-         Run_Game(&game_state);
+        // Run_Game(&game_state);
         //welcome(game_state);
     #endif
     }//end while
@@ -273,52 +273,54 @@ static void InitializeSystem(void)
    //LCDgreen();
 
    init_display_list();
-
+   init_states();
+   
+/*
    clearscreen(RED);
 
 
 #ifdef PEBNEEDSPACE
    rectangle(15,32,114,40, GREEN);
    
-   printchar('q', 19,45,GREEN);
-   printchar('p', 25,45,GREEN);
-   printchar('o', 31,45,GREEN);
-   printchar('n', 37,45,GREEN);
-   printchar('m', 43,45,GREEN);
-   printchar('l', 49,45,GREEN);
-   printchar('k', 55,45,GREEN);
-   printchar('j', 61,45,GREEN);
+   printchar('a', 19,45,GREEN);
+   printchar('b', 25,45,GREEN);
+   printchar('c', 31,45,GREEN);
+   printchar('d', 37,45,GREEN);
+   printchar('e', 43,45,GREEN);
+   printchar('f', 49,45,GREEN);
+   printchar('g', 55,45,GREEN);
+   printchar('h', 61,45,GREEN);
    printchar('i', 67,45,GREEN);
-   printchar('h', 73,45,GREEN);
-   printchar('g', 79,45,GREEN);
-   printchar('f', 85,45,GREEN);
-   printchar('e', 91,45,GREEN);
-   printchar('d', 97,45,GREEN);
-   printchar('c', 103,45,GREEN);
-   printchar('b', 109,45,GREEN);
-   printchar('a', 115,45,GREEN);
+   printchar('j', 73,45,GREEN);
+   printchar('k', 79,45,GREEN);
+   printchar('l', 85,45,GREEN);
+   printchar('m', 91,45,GREEN);
+   printchar('n', 97,45,GREEN);
+   printchar('o', 103,45,GREEN);
+   printchar('p', 109,45,GREEN);
+   printchar('q', 115,45,GREEN);
 
-   printchar('6', 19,56,GREEN);
-   printchar('5', 25,56,GREEN);
-   printchar('4', 31,56,GREEN);
-   printchar('3', 37,56,GREEN);
-   printchar('2', 43,56,GREEN);
-   printchar('1', 49,56,GREEN);
-   printchar('0', 55,56,GREEN);
-   printchar('_', 61,56,GREEN);
+   printchar('r', 19,56,GREEN);
+   printchar('s', 25,56,GREEN);
+   printchar('t', 31,56,GREEN);
+   printchar('u', 37,56,GREEN);
+   printchar('v', 43,56,GREEN);
+   printchar('w', 49,56,GREEN);
+   printchar('x', 55,56,GREEN);
+   printchar('y', 61,56,GREEN);
    printchar('z', 67,56,GREEN);
-   printchar('y', 73,56,GREEN);
-   printchar('x', 79,56,GREEN);
-   printchar('w', 85,56,GREEN);
-   printchar('v', 91,56,GREEN);
-   printchar('u', 97,56,GREEN);
-   printchar('t', 103,56,GREEN);
-   printchar('s', 109,56,GREEN);
-   printchar('r', 115,56,GREEN);
+   printchar('_', 73,56,GREEN);
+   printchar('0', 79,56,GREEN);
+   printchar('1', 85,56,GREEN);
+   printchar('2', 91,56,GREEN);
+   printchar('3', 97,56,GREEN);
+   printchar('4', 103,56,GREEN);
+   printchar('5', 109,56,GREEN);
+   printchar('6', 115,56,GREEN);
 
-   printchar('9', 103,67,GREEN);
-   printchar('8', 109,67,GREEN);
-   printchar('7', 115,67,GREEN);
+   printchar('7', 19,67,GREEN);
+   printchar('8', 25,67,GREEN);
+   printchar('9', 31,67,GREEN);
 
    writeline("Woot", 4, 115, 15);
 #endif
@@ -588,9 +590,9 @@ PEB: Morgan- bypass if button is push?
 				void clearscreen(unsigned short color);
 				static unsigned char y=0;
 
-				clearscreen(WHITE);
+				//clearscreen(RED);
 				printchar(' ', 115,63,BLACK);
-				writeline("Woot", 4, 115, y);
+				writeline("Woot", 4, 80, y, WHITE);
 				y += 8;
 				if (y>128) y = 0;
 				USB_In_Buffer[0] = 0;
@@ -645,7 +647,7 @@ PEB: Morgan- bypass if button is push?
 
                USB_In_Buffer[0] = 0;
 
-               writeline(l, &(USB_In_Buffer[NextUSBOut]) - l, 10, 15);
+              // writeline(l, &(USB_In_Buffer[NextUSBOut]) - l, 10, 15, WHITE);
             }
 
 			{ // audio
