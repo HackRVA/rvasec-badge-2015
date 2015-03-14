@@ -455,6 +455,7 @@ void __ISR( _EXTERNAL_1_VECTOR, ipl1) Int1Interrupt(void)
 }
 
 
+int G_frame = 0; /* perisisten current "frame" of audio, like a "frame" of video */
 unsigned short G_duration = 8192;
 unsigned short G_duration_cnt = 0;
 unsigned short G_freq_cnt = 0;
@@ -465,7 +466,9 @@ void (*G_nextNote_cb)(int) = NULL;
 // RA9
 void do_audio()
 {
-   G_freq_cnt++;
+   G_frame++; /* global counter */
+
+   G_freq_cnt++; /* current note freq counter */
 
    if (G_duration_cnt != G_duration) {
        G_duration_cnt++;
@@ -478,7 +481,7 @@ void do_audio()
    }
    else {
        LATAbits.LATA9 = 0; // off
-       if (G_nextNote_cb != NULL) (*G_nextNote_cb)(1) ; /* should us an increasing clock count instead of 1 */
+       if (G_nextNote_cb != NULL) (*G_nextNote_cb)(G_frame) ; /* callback routine */
    }
 }
 
@@ -493,16 +496,18 @@ void mario_cb(int frame)
 {
    static unsigned short currentNote=0;
 
+   G_freq_cnt = 0;
+   G_duration_cnt = 0;
+
    if (frame == 0) {
        currentNote = 0;
-       G_nextNote_cb = mario_cb;
+       G_freq = 0;
+       G_duration = 0;
+       G_nextNote_cb = mario_cb; /* install our callback */
    } else {
        if (currentNote < marioNumNotes) {
            G_duration = mario[currentNote].duration;
            G_freq = mario[currentNote].offTime;
-           G_freq_cnt = 0;
-           G_duration_cnt = 0;
-         
            currentNote++;
        }
        else

@@ -655,6 +655,7 @@ PEB: Morgan- bypass if button is push?
 			   extern unsigned short G_duration_cnt ;
 			   extern unsigned short G_freq ;
 			   extern unsigned short G_freq_cnt ;
+			   extern int G_frame ;
 
                void setBeep(unsigned short freq) {
 				  G_freq = freq;
@@ -705,9 +706,28 @@ PEB: Morgan- bypass if button is push?
 				  USB_In_Buffer[0] = 0;
 			   }
 
-   			   if (USB_In_Buffer[0] == 'm') {
-                  mario_cb(0); /* frame=0 == init */
-				  USB_In_Buffer[0] = 0;
+			   if ((USB_In_Buffer[0] == 'M') || (USB_In_Buffer[0] == 'm')) {
+					if (USB_In_Buffer[0] == 'm') mario_cb(0); /* frame=0 == init */
+
+					USB_Out_Buffer[NextUSBOut++] = 'F';
+					USB_Out_Buffer[NextUSBOut++] = 'R';
+					USB_Out_Buffer[NextUSBOut++] = 'M';
+					USB_Out_Buffer[NextUSBOut++] = ' ';
+
+					USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)G_frame  >> 28) & 0xF];
+					USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)G_frame  >> 24) & 0xF];
+					USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)G_frame  >> 20) & 0xF];
+					USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)G_frame  >> 16) & 0xF];
+					USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)G_frame  >> 12) & 0xF];
+					USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)G_frame  >>  8) & 0xF];
+					USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)G_frame  >>  4) & 0xF];
+					USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)G_frame       ) & 0xF];
+
+					USB_Out_Buffer[NextUSBOut++] = '\r';
+					USB_Out_Buffer[NextUSBOut++] = '\n';
+					USB_Out_Buffer[NextUSBOut++] = 0;
+
+					USB_In_Buffer[0] = 0;
 			   }
 
          }
@@ -880,7 +900,6 @@ PEB: Morgan- bypass if button is push?
             }
 
             if (USB_In_Buffer[0] == '[') {
-/*
 				Nnops -= 1;
 
                 USB_Out_Buffer[NextUSBOut++] = 'N';
@@ -896,11 +915,9 @@ PEB: Morgan- bypass if button is push?
                 USB_Out_Buffer[NextUSBOut++] = 0;
 
                 USB_In_Buffer[0] = 0;
-*/
             }
 
             if (USB_In_Buffer[0] == ']') {
-/*
 				Nnops += 1;
 
                 USB_Out_Buffer[NextUSBOut++] = 'N';
@@ -916,11 +933,9 @@ PEB: Morgan- bypass if button is push?
                 USB_Out_Buffer[NextUSBOut++] = 0;
 
                 USB_In_Buffer[0] = 0;
-*/
             }
 
             if (USB_In_Buffer[0] == ',') {
-/*
                 USB_Out_Buffer[NextUSBOut++] = 'N';
                 USB_Out_Buffer[NextUSBOut++] = 'O';
                 USB_Out_Buffer[NextUSBOut++] = 'P';
@@ -934,11 +949,9 @@ PEB: Morgan- bypass if button is push?
                 USB_Out_Buffer[NextUSBOut++] = 0;
 
                 USB_In_Buffer[0] = 0;
-*/
             }
 
             if (USB_In_Buffer[0] == '.') {
-/*
 				getTouch();
 
                 USB_Out_Buffer[NextUSBOut++] = 'B';
@@ -953,88 +966,7 @@ PEB: Morgan- bypass if button is push?
                 USB_Out_Buffer[NextUSBOut++] = 0;
 
                 USB_In_Buffer[0] = 0;
-*/
             }
-
-            if (USB_In_Buffer[0] == '/') {
-                unsigned char printme[16];
-                void gotoXY(int x, int y);
-                int setupRTCC(void);
-
-                unsigned char shake=0;
-                unsigned char frontBack=0;
-
-                // shake sensor
-//                gotoXY(0, 41);
-                printme[0] = 'S';
-                printme[1] = 48 +  (unsigned char)shake / 100;
-                printme[2] = 48 + ((unsigned char)shake % 100) / 10;
-                printme[3] = 48 + ((unsigned char)shake % 100) % 10;
-                printme[4] = 32;
-                printme[5] = 0;
-//                LCDString(printme);
-
-                for (i=0; printme[i] !=0 ; i++)
-                    USB_Out_Buffer[NextUSBOut++] = printme[i];
-
-                USB_Out_Buffer[NextUSBOut++] = ' ';
-
-                // front sensor
-//                gotoXY(42, 41);
-                printme[0] = 'F';
-                printme[1] = 48 +  (unsigned char)frontBack / 100;
-                printme[2] = 48 + ((unsigned char)frontBack % 100) / 10;
-                printme[3] = 48 + ((unsigned char)frontBack % 100) % 10;
-                printme[4] = 32;
-                printme[5] = 0;
-//                LCDString(printme);
-
-                for (i=0; printme[i] !=0 ; i++)
-                    USB_Out_Buffer[NextUSBOut++] = printme[i];
-
-                // secondary clock running status
-                    printme[0] = hextab[(OSCCON >> 28) & 0xF];
-                    printme[1] = hextab[(OSCCON >> 24) & 0xF];
-                    printme[2] = hextab[(OSCCON >> 20) & 0xF];
-                    printme[3] = hextab[(OSCCON >> 16) & 0xF];
-                    printme[4] = hextab[(OSCCON >> 12) & 0xF];
-                    printme[5] = hextab[(OSCCON >>  8) & 0xF];
-                    printme[6] = hextab[(OSCCON >>  4) & 0xF];
-                    printme[7] = hextab[(OSCCON      ) & 0xF];
-                    printme[7] = 0;
-//                       LCDString(printme);
-
-                for (i=0; printme[i] !=0 ; i++)
-                    USB_Out_Buffer[NextUSBOut++] = printme[i];
-
-
-                       printme[0] = 'R';
-                       printme[1] = 'T';
-                       printme[2] = 'C';
-                       printme[3] = 'C';
-                       printme[4] = ':';
-                       printme[5] = setupRTCC();
-                       printme[6] = 0;
-//                       LCDString(printme);
-                for (i=0; printme[i] !=0 ; i++)
-                    USB_Out_Buffer[NextUSBOut++] = printme[i];
-
-
-                USB_Out_Buffer[NextUSBOut++] = '\r';
-                USB_Out_Buffer[NextUSBOut++] = '\n';
-
-                USB_In_Buffer[0] = 0;
-            }
-
-            // IR xmit
-            if (USB_In_Buffer[0] == '>') {
-//                LATCbits.LATC1 = !LATCbits.LATC1;
-
-                USB_In_Buffer[0] = 0;
-            }
-
-//  IR recv
-#define IR_RECV PORTCbits.RC1
 
             // print anything not handled above
             if (USB_In_Buffer[0] != 0)  {
@@ -1047,7 +979,6 @@ PEB: Morgan- bypass if button is push?
 
 //               LCDString(printme);
 
-//               LCDInit(); //Init the LCD
             }
 
             for (i=0; i<nread; i++,NextUSBOut++) {
