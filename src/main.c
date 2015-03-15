@@ -10,7 +10,7 @@
 #include "USB/usb.h"
 #include "HardwareProfile.h"
 #include "badge15.h"
-#include "assets.h"
+#include "assetList.h"
 
 #define BLUE 0b0000000000011111
 #define GREEN 0b0000011111100000
@@ -707,7 +707,7 @@ PEB: Morgan- bypass if button is push?
 			   }
 
 			   if ((USB_In_Buffer[0] == 'M') || (USB_In_Buffer[0] == 'm')) {
-					if (USB_In_Buffer[0] == 'm') mario_cb(0); /* frame=0 == init */
+					if (USB_In_Buffer[0] == 'm') drawAsset(MARIO);
 
 					USB_Out_Buffer[NextUSBOut++] = 'F';
 					USB_Out_Buffer[NextUSBOut++] = 'R';

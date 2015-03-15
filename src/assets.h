@@ -1,10 +1,14 @@
 void drawAsset(unsigned char assetId);
-enum {
-//    MAYO=1,
-    DRBOB=0,
-    HACKRVA,
-    RVASEC,
-    RVASEC2,
-    HACKRVA2,
-    LASTASSET,
-};
+void drawLCD1(unsigned char assetId, int frame);
+void drawLCD2(unsigned char assetId, int frame);
+void drawLCD4(unsigned char assetId, int frame);
+void drawLCD8(unsigned char assetId, int frame);
+
+void nextNote_cb(unsigned char assetId, int frame);
+
+void drawLCD1(unsigned char assetId, int frame);
+void drawLCD2(unsigned char assetId, int frame);
+void drawLCD4(unsigned char assetId, int frame);
+void drawLCD8(unsigned char assetId, int frame);
+
+

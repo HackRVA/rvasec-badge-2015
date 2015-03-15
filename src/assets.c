@@ -1,51 +1,13 @@
 #include "S6B33.h"
 #include "assets.h"
-
-#include "drbob.h"
-//#include "mayo.h"
-
-#include "rvasec4bit.h"
-#include "hackrva4bit.h"
-#include "rvasec2bit.h"
-#include "hackrva1bit.xbm"
-
-struct asset {
-    unsigned char assetId;
-    unsigned short x;
-    unsigned short y;
-    const char *data_cmap;
-    const char *pixdata;
-    void (*datacb)(int);
-};
-
-void drawLCD1(unsigned char assetId);
-void drawLCD2(unsigned char assetId);
-void drawLCD4(unsigned char assetId);
-void drawLCD8(unsigned char assetId);
-
-/* for 1 bit images */
-/* testing color instead of BW */
-const static char BW_cmap[16][3] = {
-{ 0, 0, 0 },
-{ 64, 192, 64 },
-};
-
-const struct asset assetList[] = {
-    //{ MAYO, 132, 132, (const char **)mayo_data_cmap, (const char *)mayo_data, (void)(*drawLCD) },
-//    { MAYO, 132, 132, (const char **)mayo_data_cmap, (const char *)mayo_data, (*drawLCD)},
-    { DRBOB, 132, 132, (const char *)drbob_data_cmap, (const char *)drbob_data, (drawLCD8) },
-    { HACKRVA, 132, 132, (const char *)hackrva_data_cmap, (const char *)hackrva_data, (drawLCD4) },
-    { RVASEC, 132, 132, (const char *)rvasec_data_cmap, (const char *)rvasec_data, (drawLCD4) },
-    { RVASEC2, 132, 132, (const char *)rvasec2_data_cmap, (const char *)rvasec2_data, (drawLCD2) },
-    { HACKRVA2, 88, 48, (const char *)BW_cmap, (const char *)hackrva_bits, (drawLCD1) },
-};
+#include "assetList.h"
 
 void drawAsset(unsigned char assetId)
 {
-    assetList[assetId].datacb(assetId);
+    assetList[assetId].datacb(assetId, 0);
 }
 
-void drawLCD1(unsigned char assetId)
+void drawLCD1(unsigned char assetId, int frame)
 {
     unsigned char i, j, p, r, g, b, pixbyte, *cmap, *pixdata;
     unsigned short pixel ;
@@ -75,7 +37,7 @@ void drawLCD1(unsigned char assetId)
     }
 }
 
-void drawLCD2(unsigned char assetId)
+void drawLCD2(unsigned char assetId, int frame)
 {
     unsigned char i, j, r, g, b, pixbyte, *cmap, *pixdata;
     unsigned short pixel ;
@@ -138,7 +100,7 @@ void drawLCD2(unsigned char assetId)
     }
 }
 
-void drawLCD4(unsigned char assetId)
+void drawLCD4(unsigned char assetId, int frame)
 {
     unsigned char i, j, r, g, b, pixbyte, *cmap, *pixdata;
     unsigned short pixel ;
@@ -177,7 +139,7 @@ void drawLCD4(unsigned char assetId)
     }
 }
 
-void drawLCD8(unsigned char assetId)
+void drawLCD8(unsigned char assetId, int frame)
 {
     unsigned char i, j, r, g, b, pixbyte, *cmap;
     unsigned short pixel;

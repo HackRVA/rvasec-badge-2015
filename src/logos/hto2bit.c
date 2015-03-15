@@ -5,29 +5,27 @@
  cc -o hto2bit hto2bit.c
 */
 
-/*
-
 #include "hackrva.h"
 
 #define CMAP() hackrva_data_cmap
 #define PIXEL() hackrva_data
 
-#define OUTNAME "hackrva"
-*/
+#define OUTNAME "hackrva2"
 
+/*
 #include "rvasec.h"
 
 #define CMAP() rvasec_data_cmap
 #define PIXEL() rvasec_data
 
 #define OUTNAME "rvasec2"
+*/
 
 main() {
     int r, c;
 
-
-    fprintf(stdout, "const static unsigned int %s_width = %d;\n", OUTNAME, width);
-    fprintf(stdout, "const static unsigned int %s_height = %d;\n", OUTNAME, height);
+    fprintf(stdout, "#define %s_width %d\n", OUTNAME, width);
+    fprintf(stdout, "#define %s_height %d\n", OUTNAME, height);
 
     /* output header */
     fprintf(stdout, "const static char %s_data_cmap[16][3] = {\n", OUTNAME);

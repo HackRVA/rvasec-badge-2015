@@ -1,9 +1,9 @@
 /*  GIMP header image file format (INDEXED): /home/paul/drbob.h  */
 
-const static unsigned int drbob_width = 132;
-const static unsigned int drbob_height = 132;
+#define drbob_width 132
+#define drbob_height 132
 
-const static char drbob_data_cmap[256][3] = {
+const char drbob_data_cmap[256][3] = {
 	{ 44,  2, 17},
 	{ 25,  9,  8},
 	{ 32,  7,  8},

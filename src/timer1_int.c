@@ -455,13 +455,18 @@ void __ISR( _EXTERNAL_1_VECTOR, ipl1) Int1Interrupt(void)
 }
 
 
+#include "assetList.h"
+unsigned char G_assetId = 255;
+
 int G_frame = 0; /* perisisten current "frame" of audio, like a "frame" of video */
 unsigned short G_duration = 8192;
 unsigned short G_duration_cnt = 0;
 unsigned short G_freq_cnt = 0;
 unsigned short G_freq = 0;
 
+/*
 void (*G_nextNote_cb)(int) = NULL;
+*/
 
 // RA9
 void do_audio()
@@ -481,18 +486,19 @@ void do_audio()
    }
    else {
        LATAbits.LATA9 = 0; // off
-       if (G_nextNote_cb != NULL) (*G_nextNote_cb)(G_frame) ; /* callback routine */
+       if (G_assetId != 255) assetList[G_assetId].datacb(G_assetId, G_frame) ; /* callback routine */
    }
 }
 
-
-#include "mario.h"
-
-extern const struct marioNotes mario[];
-extern unsigned short marioNumNotes;
+void playAsset(unsigned char assetId) 
+{
+    G_assetId = assetId;
+    assetList[assetId].datacb(assetId, 0);
+}
 
 /* callback to feed next note to the audio function */
-void mario_cb(int frame) 
+// void mario_cb(int frame) 
+void nextNote_cb(unsigned char assetId, int frame) 
 {
    static unsigned short currentNote=0;
 
@@ -503,14 +509,20 @@ void mario_cb(int frame)
        currentNote = 0;
        G_freq = 0;
        G_duration = 0;
-       G_nextNote_cb = mario_cb; /* install our callback */
+//       G_nextNote_cb = assetList[assetId].datacb;
    } else {
-       if (currentNote < marioNumNotes) {
-           G_duration = mario[currentNote].duration;
-           G_freq = mario[currentNote].offTime;
+       //if (currentNote < marioNumNotes) {
+       if (currentNote < assetList[assetId].x) {
+//           G_duration = mario[currentNote].duration;
+           G_duration = assetList[assetId].data_cmap[currentNote];
+
+//           G_freq = mario[currentNote].offTime;
+           G_freq = assetList[assetId].pixdata[currentNote];
+
            currentNote++;
        }
        else
-          G_nextNote_cb = NULL;
+          G_assetId = 255;
+//          G_nextNote_cb = NULL;
    }
 }

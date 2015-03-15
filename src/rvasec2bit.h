@@ -1,5 +1,5 @@
-const static unsigned int rvasec2_width = 132;
-const static unsigned int rvasec2_height = 132;
+#define rvasec2_width 132
+#define rvasec2_height 132
 const static char rvasec2_data_cmap[16][3] = {
 { 0, 2, 66 },
 { 66, 68, 95 },
