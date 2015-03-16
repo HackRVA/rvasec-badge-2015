@@ -176,7 +176,7 @@ void drawLCD8(unsigned char assetId, int frame)
 unsigned char G_audioAssetId = 255;
 unsigned int G_audioFrame = 0; /* perisisten current "frame" of audio, like a "frame" of video */
 unsigned short G_currentNote=0;
-unsigned short G_duration = 8192;
+unsigned short G_duration = 2048;
 unsigned short G_duration_cnt = 0;
 unsigned short G_freq_cnt = 0;
 unsigned short G_freq = 0;
