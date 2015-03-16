@@ -87,6 +87,9 @@
 #define T2_TICK       		(SYS_FREQ/TOGGLES_PER_SEC)
 #define T2_TICK_DIV2       	(SYS_FREQ/TOGGLES_PER_SEC/2)
 
+/* for touchPad and screen compositing*/
+#define T3_TICK       		(SYS_FREQ/2)
+
 void TimerInit(void)
 {
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -102,10 +105,16 @@ void TimerInit(void)
 
     //OpenTimer2(T2_ON | T2_SOURCE_INT | T2_PS_1_256, T2_TICK);
     //OpenTimer1(T1_ON | T1_SYNC_EXT_ON | T1_PS_1_64, 0x0);
-    OpenTimer2(T2_ON | T2_SOURCE_INT, T2_TICK);
 
+    OpenTimer2(T2_ON | T2_SOURCE_INT, T2_TICK);
     // set up the timer interrupt with a priority of 2
     ConfigIntTimer2(T2_INT_ON | T2_INT_PRIOR_2);
+
+
+    OpenTimer3(T3_ON | T3_SOURCE_INT, T3_TICK);
+    // set up the timer interrupt with a priority of 3
+    ConfigIntTimer3(T3_INT_ON | T3_INT_PRIOR_3);
+
 
     // enable multi-vector interrupts
     INTEnableSystemMultiVectoredInt();
@@ -453,6 +462,18 @@ void __ISR( _EXTERNAL_1_VECTOR, ipl1) Int1Interrupt(void)
 	G_IRrecvVal = 0;
 
    }
+}
+
+void __ISR(_TIMER_3_VECTOR, IPL3SOFT) Timer3Handler(void)
+{
+   void getTouch();
+
+   // clear the interrupt flag
+   mT3ClearIntFlag();
+
+//   getTouch();
+
+   LATCbits.LATC0 = !LATCbits.LATC0;      /* RED */
 }
 
 

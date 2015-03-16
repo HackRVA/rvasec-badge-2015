@@ -275,6 +275,7 @@ static void InitializeSystem(void)
    init_display_list();
    init_states();
    
+   initTouch();
 /*
    clearscreen(RED);
 
@@ -724,6 +725,12 @@ PEB: Morgan- bypass if button is push?
 				USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_freq       ) & 0xF];
 				
 				USB_Out_Buffer[NextUSBOut++] = ' ';
+				USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_freq_cnt  >> 12) & 0xF];
+				USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_freq_cnt  >>  8) & 0xF];
+				USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_freq_cnt  >>  4) & 0xF];
+				USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_freq_cnt       ) & 0xF];
+				
+				USB_Out_Buffer[NextUSBOut++] = ' ';
 				USB_Out_Buffer[NextUSBOut++] = 'D';
 				USB_Out_Buffer[NextUSBOut++] = 'U';
 				USB_Out_Buffer[NextUSBOut++] = 'R';
@@ -734,6 +741,12 @@ PEB: Morgan- bypass if button is push?
 				USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_duration  >>  4) & 0xF];
 				USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_duration       ) & 0xF];
 				
+				USB_Out_Buffer[NextUSBOut++] = ' ';
+				USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_duration_cnt  >> 12) & 0xF];
+				USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_duration_cnt  >>  8) & 0xF];
+				USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_duration_cnt  >>  4) & 0xF];
+				USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_duration_cnt       ) & 0xF];
+
 				USB_Out_Buffer[NextUSBOut++] = '\r';
 				USB_Out_Buffer[NextUSBOut++] = '\n';
 				USB_Out_Buffer[NextUSBOut++] = 0;
@@ -960,7 +973,7 @@ PEB: Morgan- bypass if button is push?
             }
 
             if (USB_In_Buffer[0] == '.') {
-				getTouch();
+//				getTouch();
 
                 USB_Out_Buffer[NextUSBOut++] = 'B';
                 USB_Out_Buffer[NextUSBOut++] = 'T';

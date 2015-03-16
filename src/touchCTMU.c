@@ -2,6 +2,14 @@
 #include "plib.h"
 #include "touchCTMU.h"
 
+/*
+
+need to rewrite to use interupts with the ADC
+
+
+*/
+
+
 // PEB#define NUM_DIRECT_KEYS  8
 // PEB static unsigned short int ButtonADCChannels[NUM_DIRECT_KEYS] = {0,1,4,5,6,7,8,9};
 
@@ -17,21 +25,11 @@ static unsigned short int ButtonADCChannels[NUM_DIRECT_KEYS] = {0,1,3,4};
 
 unsigned short int ButtonVmeasADC[NUM_DIRECT_KEYS]; // Report out all voltages at once
 
-unsigned char Nnops=3;
+unsigned char Nnops=5;
 short int CurrentButtonStatus=0; // Bit field of buttons that are pressed
 
-void getTouch()
+void initTouch()
 {
-    unsigned long int  ADC_Sum; // For averaging multiple ADC measurements
-    unsigned short int iAvg, // Averaging index
-                       //Naverages = 32, // Number of averages < 2^22 (22=32-10 bits of ADC)
-                       //Log2Naverages = 5; // Right shift equal to 1/Naverages
-                       Naverages = 16, // Number of averages < 2^22 (22=32-10 bits of ADC)
-                       Log2Naverages = 4; // Right shift equal to 1/Naverages
-    short int          iButton, // Button Index
-                       iChan; // ADC channel index
-    unsigned short int VmeasADC, VavgADC, nops; // Measured Voltages, 65536 = Full Scale
-
      /* setup analog pins */
     // PEB RA0/CTED1 RA1/CTED2 RB1/CTED12 RB2/CTED13
     // make them inputs
@@ -39,6 +37,7 @@ void getTouch()
     TRISAbits.TRISA1 = 1;
     TRISBbits.TRISB1 = 1;
     TRISBbits.TRISB2 = 1;
+
     ANSELA = (1<<0) | (1<<1); //RA0,1
     ANSELB = (1<<1) | (1<<2); //RB1,2
     DelayMs(1);
@@ -56,11 +55,24 @@ void getTouch()
     // Tadc = 2*(    1       +1)*Tpbus
     // Tadc = 2*(AD1CON3<7:0>+1)*Tpbus
     AD1CON3 = 1;    // PEB 16 * Tpb;
+}
+
+void getTouch()
+{
+    unsigned long int  ADC_Sum; // For averaging multiple ADC measurements
+    unsigned short int iAvg, // Averaging index
+                       //Naverages = 32, // Number of averages < 2^22 (22=32-10 bits of ADC)
+                       //Log2Naverages = 5; // Right shift equal to 1/Naverages
+//                       Naverages = 16, // Number of averages < 2^22 (22=32-10 bits of ADC)
+//                       Log2Naverages = 4; // Right shift equal to 1/Naverages
+                       Naverages = 8, // Number of averages < 2^22 (22=32-10 bits of ADC)
+                       Log2Naverages = 3; // Right shift equal to 1/Naverages
+    short int          iButton, // Button Index
+                       iChan; // ADC channel index
+    unsigned short int VmeasADC, VavgADC, nops; // Measured Voltages, 65536 = Full Scale
 
     AD1CSSL = 0x0;        // No channels scanned
-
     IEC0bits.AD1IE = 0; // Dis-enable ADC interrupts
-
     AD1CON1bits.ON = 1; // Turn on ADC
 
     CurrentButtonStatus = 0;
@@ -75,7 +87,8 @@ void getTouch()
         {
             AD1CON1bits.SAMP = 1;     // Manual sampling start
             CTMUCONbits.IDISSEN = 1;  // Ground charge pump
-            DelayMs(1);               // Wait 1 msecs for grounding
+            //DelayMs(1);               // Wait 1 msecs for grounding
+            for (nops=0; nops<Nnops; nops++) ;
             CTMUCONbits.IDISSEN = 0;  // End drain of circuit
 
             switch (iButton)
@@ -120,6 +133,8 @@ void getTouch()
         ButtonVmeasADC[iButton] = VavgADC;
 
     }//end for ( iButton = 0; iButton < NUM_DIRECT_KEYS; iButton++ )
+
+    AD1CON1bits.ON = 0; // Turn on ADC
 
 }
 
