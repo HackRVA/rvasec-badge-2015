@@ -655,7 +655,9 @@ PEB: Morgan- bypass if button is push?
 			   extern unsigned short G_duration_cnt ;
 			   extern unsigned short G_freq ;
 			   extern unsigned short G_freq_cnt ;
-			   extern int G_frame ;
+			   extern unsigned int G_audioFrame ;
+			   extern unsigned char G_audioAssetId ;
+			   extern unsigned char G_currentNote ;
 
                void setBeep(unsigned short freq) {
 				  G_freq = freq;
@@ -664,12 +666,12 @@ PEB: Morgan- bypass if button is push?
                }
 
 			   if (USB_In_Buffer[0] == '<') {
-				  G_duration -= 2048;
+				  G_duration -= 256;
 				  USB_In_Buffer[0] = 0;
                }
 
 			   if (USB_In_Buffer[0] == '>') {
-				  G_duration += 2048;
+				  G_duration += 256;
 				  USB_In_Buffer[0] = 0;
                }
 
@@ -707,29 +709,35 @@ PEB: Morgan- bypass if button is push?
 			   }
 
 			   if ((USB_In_Buffer[0] == 'M') || (USB_In_Buffer[0] == 'm')) {
-					if (USB_In_Buffer[0] == 'm') drawAsset(MARIO);
-
-					USB_Out_Buffer[NextUSBOut++] = 'F';
-					USB_Out_Buffer[NextUSBOut++] = 'R';
-					USB_Out_Buffer[NextUSBOut++] = 'M';
-					USB_Out_Buffer[NextUSBOut++] = ' ';
-
-					USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)G_frame  >> 28) & 0xF];
-					USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)G_frame  >> 24) & 0xF];
-					USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)G_frame  >> 20) & 0xF];
-					USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)G_frame  >> 16) & 0xF];
-					USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)G_frame  >> 12) & 0xF];
-					USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)G_frame  >>  8) & 0xF];
-					USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)G_frame  >>  4) & 0xF];
-					USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)G_frame       ) & 0xF];
-
-					USB_Out_Buffer[NextUSBOut++] = '\r';
-					USB_Out_Buffer[NextUSBOut++] = '\n';
-					USB_Out_Buffer[NextUSBOut++] = 0;
-
-					USB_In_Buffer[0] = 0;
+					if (USB_In_Buffer[0] == 'm') playAsset(MARIO);
 			   }
 
+				USB_Out_Buffer[NextUSBOut++] = 'F';
+				USB_Out_Buffer[NextUSBOut++] = 'R';
+				USB_Out_Buffer[NextUSBOut++] = 'E';
+				USB_Out_Buffer[NextUSBOut++] = 'Q';
+				USB_Out_Buffer[NextUSBOut++] = ' ';
+				
+				USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_freq  >> 12) & 0xF];
+				USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_freq  >>  8) & 0xF];
+				USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_freq  >>  4) & 0xF];
+				USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_freq       ) & 0xF];
+				
+				USB_Out_Buffer[NextUSBOut++] = ' ';
+				USB_Out_Buffer[NextUSBOut++] = 'D';
+				USB_Out_Buffer[NextUSBOut++] = 'U';
+				USB_Out_Buffer[NextUSBOut++] = 'R';
+				USB_Out_Buffer[NextUSBOut++] = ' ';
+				
+				USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_duration  >> 12) & 0xF];
+				USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_duration  >>  8) & 0xF];
+				USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_duration  >>  4) & 0xF];
+				USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_duration       ) & 0xF];
+				
+				USB_Out_Buffer[NextUSBOut++] = '\r';
+				USB_Out_Buffer[NextUSBOut++] = '\n';
+				USB_Out_Buffer[NextUSBOut++] = 0;
+		
          }
 
             if (USB_In_Buffer[0] == '0') {

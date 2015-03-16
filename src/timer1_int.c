@@ -185,6 +185,7 @@ unsigned char G_halfCount = 0;
 */
 void __ISR(_TIMER_2_VECTOR, IPL2SOFT) Timer2Handler(void)
 {
+   void do_audio();
    static unsigned int sendOne = 0;
    static unsigned int sendZero = 0;
    static unsigned char lowHalf = 1;
@@ -455,74 +456,3 @@ void __ISR( _EXTERNAL_1_VECTOR, ipl1) Int1Interrupt(void)
 }
 
 
-#include "assetList.h"
-unsigned char G_assetId = 255;
-
-int G_frame = 0; /* perisisten current "frame" of audio, like a "frame" of video */
-unsigned short G_duration = 8192;
-unsigned short G_duration_cnt = 0;
-unsigned short G_freq_cnt = 0;
-unsigned short G_freq = 0;
-
-/*
-void (*G_nextNote_cb)(int) = NULL;
-*/
-
-// RA9
-void do_audio()
-{
-   G_frame++; /* global counter */
-
-   G_freq_cnt++; /* current note freq counter */
-
-   if (G_duration_cnt != G_duration) {
-       G_duration_cnt++;
-       if (G_freq_cnt == G_freq)  {
-          G_freq_cnt = 0;
-          LATAbits.LATA9 = 1; // on
-       }
-       else 
-          LATAbits.LATA9 = 0; // off
-   }
-   else {
-       LATAbits.LATA9 = 0; // off
-       if (G_assetId != 255) assetList[G_assetId].datacb(G_assetId, G_frame) ; /* callback routine */
-   }
-}
-
-void playAsset(unsigned char assetId) 
-{
-    G_assetId = assetId;
-    assetList[assetId].datacb(assetId, 0);
-}
-
-/* callback to feed next note to the audio function */
-// void mario_cb(int frame) 
-void nextNote_cb(unsigned char assetId, int frame) 
-{
-   static unsigned short currentNote=0;
-
-   G_freq_cnt = 0;
-   G_duration_cnt = 0;
-
-   if (frame == 0) {
-       currentNote = 0;
-       G_freq = 0;
-       G_duration = 0;
-//       G_nextNote_cb = assetList[assetId].datacb;
-   } else {
-       //if (currentNote < marioNumNotes) {
-       if (currentNote < assetList[assetId].x) {
-//           G_duration = mario[currentNote].duration;
-           G_duration = assetList[assetId].data_cmap[currentNote];
-
-//           G_freq = mario[currentNote].offTime;
-           G_freq = assetList[assetId].pixdata[currentNote];
-
-           currentNote++;
-       }
-       else
-          G_assetId = 255;
-//          G_nextNote_cb = NULL;
-   }
-}

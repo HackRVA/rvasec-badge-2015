@@ -32,6 +32,6 @@ const struct asset assetList[] = {
     { RVASEC, rvasec_width, rvasec_height, (const char *)rvasec_data_cmap, (const char *)rvasec_data, (drawLCD4) },
     { RVASEC2, rvasec2_width, rvasec2_height, (const char *)rvasec2_data_cmap, (const char *)rvasec2_data, (drawLCD2) },
     { HACKRVA2, 88, 48, (const char *)BW_cmap, (const char *)hackrva_bits, (drawLCD1) },
-    { MARIO, marioNumNotes, 0, mario, mario, (nextNote_cb) },
+    { MARIO, marioSamples, 0, (const char *)marioDuration, (const char *)marioOfftime, (nextNote_cb) },
 };
 

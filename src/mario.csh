@@ -4,7 +4,8 @@
 # hacked to c by peb */
 
 
-cat << END | mysql -sr -upaul -ppaul paul
+#cat << END | mysql -sr -upaul -ppaul paul
+cat << END | mysql -sr -upaul -ppaulDev pauldev
     drop table if exists mario
     ;
 
@@ -329,28 +330,30 @@ cat << END | mysql -sr -upaul -ppaul paul
     insert into mario select NULL,380, 100 ; 
     insert into mario select NULL,0, 575 ; 
 
-    update mario 
-    set freq = NULL 
-    where freq=0
-    ;
+    select 'const unsigned char marioDuration[] = { ';
 
-    select 'struct marioNotes { ';
-    select '   unsigned short duration ; ';
-    select '   unsigned short offTime ; ';
-    select '} marioNotes ; ';
-
-    select 'const struct marioNotes mario[] = { ';
-
-    select concat('{ ', dur, ',', offTime, ' }, ') 
+    select concat(dur, ', ') 
     from (
         select id, 
-          dur * 38 as dur,
-          round(38000 / ifnull(freq,1), 0) as offTime
+          round(dur/3,0) as dur
         from mario
     ) SUB
     order by id asc
     ;
 
     select '};';
-    select 'const unsigned short marioNotesSize = sizeof(mario)/4;';
+
+    select 'const unsigned char marioOfftime[] = { ';
+
+    select concat(offTime, ', ') 
+    from (
+        select id, 
+          round(ifnull((freq/8),0), 0) as offTime
+        from mario
+    ) SUB
+    order by id asc
+    ;
+
+    select '};';
+    select '#define marioSamples sizeof(marioDuration)';
 END

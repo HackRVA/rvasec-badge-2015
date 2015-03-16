@@ -1,10 +1,20 @@
+#include <plib.h>
 #include "S6B33.h"
 #include "assets.h"
 #include "assetList.h"
 
+
+/* 
+   255 = asset active
+*/
+unsigned char G_videoAssetId = 255;
+
+unsigned int G_videoFrame = 0;
+
 void drawAsset(unsigned char assetId)
 {
-    assetList[assetId].datacb(assetId, 0);
+    G_videoAssetId = assetId;
+    assetList[assetId].datacb(assetId, G_videoFrame);
 }
 
 void drawLCD1(unsigned char assetId, int frame)
@@ -163,4 +173,114 @@ void drawLCD8(unsigned char assetId, int frame)
     }
 }
 
+unsigned char G_audioAssetId = 255;
+unsigned int G_audioFrame = 0; /* perisisten current "frame" of audio, like a "frame" of video */
+unsigned short G_currentNote=0;
+unsigned short G_duration = 8192;
+unsigned short G_duration_cnt = 0;
+unsigned short G_freq_cnt = 0;
+unsigned short G_freq = 0;
 
+void playAsset(unsigned char assetId) 
+{
+    G_audioAssetId = assetId;
+    assetList[assetId].datacb(assetId, 0); /* install asset frame=0 */
+}
+
+// RA9
+void do_audio()
+{
+   G_freq_cnt++; /* current note freq counter */
+   G_duration_cnt++;
+
+   if (G_duration_cnt != G_duration) {
+       if (G_freq_cnt == G_freq)  {
+          G_freq_cnt = 0;
+          LATAbits.LATA9 = 1; // on
+       }
+       else 
+          LATAbits.LATA9 = 0; // off
+   }
+   else {
+       LATAbits.LATA9 = 0; // off
+       if (G_audioAssetId != 255) assetList[G_audioAssetId].datacb(G_audioAssetId, G_audioFrame) ; /* callback routine */
+   }
+   G_audioFrame++;
+}
+
+#ifdef DEBUGAUDIO
+#include "./USB/usb_function_cdc.h"
+#endif
+
+/* callback to feed next note to the audio function */
+// void mario_cb(int frame) 
+void nextNote_cb(unsigned char assetId, int frame) 
+{
+   G_duration_cnt = 0;
+   G_freq_cnt = 0;
+
+   if (frame == 0) {
+       G_freq = 0;
+       G_duration = 0;
+       G_currentNote = 0;
+   } 
+
+   if (G_currentNote < assetList[assetId].x) {
+		extern char USB_Out_Buffer[];
+		extern unsigned char NextUSBOut;
+		extern char hextab[];
+
+		/* unsigned char to short conversion turns out to have weird sign extension problems */
+		G_duration = ((unsigned short)(assetList[assetId].data_cmap[G_currentNote] & 0xFF) * 3 * 38) ;
+
+		if (assetList[assetId].pixdata[G_currentNote] == 0)
+			G_freq = 0;
+		else
+			G_freq = 38000 / ((unsigned short)(assetList[assetId].pixdata[G_currentNote] & 0xFF) * 8);
+
+#ifdef DEBUGAUDIO
+		USB_Out_Buffer[NextUSBOut++] = 'N';
+		USB_Out_Buffer[NextUSBOut++] = 'T';
+		USB_Out_Buffer[NextUSBOut++] = ' ';
+		
+		USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_currentNote  >> 12) & 0xF];
+		USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_currentNote  >>  8) & 0xF];
+		USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_currentNote  >>  4) & 0xF];
+		USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_currentNote       ) & 0xF];
+		
+		USB_Out_Buffer[NextUSBOut++] = 'F';
+		USB_Out_Buffer[NextUSBOut++] = 'R';
+		USB_Out_Buffer[NextUSBOut++] = ' ';
+		
+		USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)assetList[assetId].pixdata[G_currentNote]  >> 12) & 0xF];
+		USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)assetList[assetId].pixdata[G_currentNote]  >>  8) & 0xF];
+		USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)assetList[assetId].pixdata[G_currentNote]  >>  4) & 0xF];
+		USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)assetList[assetId].pixdata[G_currentNote]       ) & 0xF];
+		
+		USB_Out_Buffer[NextUSBOut++] = 'F';
+		USB_Out_Buffer[NextUSBOut++] = 'C';
+		
+		USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_freq  >> 12) & 0xF];
+		USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_freq  >>  8) & 0xF];
+		USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_freq  >>  4) & 0xF];
+		USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_freq       ) & 0xF];
+		
+		USB_Out_Buffer[NextUSBOut++] = '\r';
+		USB_Out_Buffer[NextUSBOut++] = '\n';
+		USB_Out_Buffer[NextUSBOut++] = 0;
+		
+		if ((USBUSARTIsTxTrfReady()) && (NextUSBOut > 0)) {
+		   putUSBUSART(&USB_Out_Buffer[0], NextUSBOut);
+		   NextUSBOut = 0;
+		}
+#endif
+		
+		G_currentNote++;
+   }
+   else {
+		G_freq = 0;
+		G_duration = 0;
+		G_currentNote = 0;      /* reset for next asset */
+		G_audioAssetId = 255; /* clear curent asset */
+   }
+}
