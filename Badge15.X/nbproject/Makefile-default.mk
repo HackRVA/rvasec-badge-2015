@@ -45,17 +45,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=../src/USB/usb_device.c ../src/USB/usb_function_cdc.c ../src/badge15.c ../src/badge_common.c ../src/main.c ../src/usb_descriptors.c ../src/Sound.c ../src/LCDcolor.c ../src/S6B33.c ../src/time_date.c ../src/timer1_int.c ../src/jonesforth.S ../src/TimeDelay.c ../src/touchCTMU.c ../src/flash.c ../src/mario.c ../src/piano.c ../src/assets.c
+SOURCEFILES_QUOTED_IF_SPACED=../src/USB/usb_device.c ../src/USB/usb_function_cdc.c ../src/badge15.c ../src/badge_common.c ../src/main.c ../src/usb_descriptors.c ../src/Sound.c ../src/LCDcolor.c ../src/S6B33.c ../src/time_date.c ../src/timer1_int.c ../src/jonesforth.S ../src/TimeDelay.c ../src/touchCTMU.c ../src/flash.c ../src/mario.c ../src/piano.c ../src/assets.c ../src/assetList.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/_ext/659838314/usb_device.o ${OBJECTDIR}/_ext/659838314/usb_function_cdc.o ${OBJECTDIR}/_ext/1360937237/badge15.o ${OBJECTDIR}/_ext/1360937237/badge_common.o ${OBJECTDIR}/_ext/1360937237/main.o ${OBJECTDIR}/_ext/1360937237/usb_descriptors.o ${OBJECTDIR}/_ext/1360937237/Sound.o ${OBJECTDIR}/_ext/1360937237/LCDcolor.o ${OBJECTDIR}/_ext/1360937237/S6B33.o ${OBJECTDIR}/_ext/1360937237/time_date.o ${OBJECTDIR}/_ext/1360937237/timer1_int.o ${OBJECTDIR}/_ext/1360937237/jonesforth.o ${OBJECTDIR}/_ext/1360937237/TimeDelay.o ${OBJECTDIR}/_ext/1360937237/touchCTMU.o ${OBJECTDIR}/_ext/1360937237/flash.o ${OBJECTDIR}/_ext/1360937237/mario.o ${OBJECTDIR}/_ext/1360937237/piano.o ${OBJECTDIR}/_ext/1360937237/assets.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/_ext/659838314/usb_device.o.d ${OBJECTDIR}/_ext/659838314/usb_function_cdc.o.d ${OBJECTDIR}/_ext/1360937237/badge15.o.d ${OBJECTDIR}/_ext/1360937237/badge_common.o.d ${OBJECTDIR}/_ext/1360937237/main.o.d ${OBJECTDIR}/_ext/1360937237/usb_descriptors.o.d ${OBJECTDIR}/_ext/1360937237/Sound.o.d ${OBJECTDIR}/_ext/1360937237/LCDcolor.o.d ${OBJECTDIR}/_ext/1360937237/S6B33.o.d ${OBJECTDIR}/_ext/1360937237/time_date.o.d ${OBJECTDIR}/_ext/1360937237/timer1_int.o.d ${OBJECTDIR}/_ext/1360937237/jonesforth.o.d ${OBJECTDIR}/_ext/1360937237/TimeDelay.o.d ${OBJECTDIR}/_ext/1360937237/touchCTMU.o.d ${OBJECTDIR}/_ext/1360937237/flash.o.d ${OBJECTDIR}/_ext/1360937237/mario.o.d ${OBJECTDIR}/_ext/1360937237/piano.o.d ${OBJECTDIR}/_ext/1360937237/assets.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/_ext/659838314/usb_device.o ${OBJECTDIR}/_ext/659838314/usb_function_cdc.o ${OBJECTDIR}/_ext/1360937237/badge15.o ${OBJECTDIR}/_ext/1360937237/badge_common.o ${OBJECTDIR}/_ext/1360937237/main.o ${OBJECTDIR}/_ext/1360937237/usb_descriptors.o ${OBJECTDIR}/_ext/1360937237/Sound.o ${OBJECTDIR}/_ext/1360937237/LCDcolor.o ${OBJECTDIR}/_ext/1360937237/S6B33.o ${OBJECTDIR}/_ext/1360937237/time_date.o ${OBJECTDIR}/_ext/1360937237/timer1_int.o ${OBJECTDIR}/_ext/1360937237/jonesforth.o ${OBJECTDIR}/_ext/1360937237/TimeDelay.o ${OBJECTDIR}/_ext/1360937237/touchCTMU.o ${OBJECTDIR}/_ext/1360937237/flash.o ${OBJECTDIR}/_ext/1360937237/mario.o ${OBJECTDIR}/_ext/1360937237/piano.o ${OBJECTDIR}/_ext/1360937237/assets.o ${OBJECTDIR}/_ext/1360937237/assetList.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/_ext/659838314/usb_device.o.d ${OBJECTDIR}/_ext/659838314/usb_function_cdc.o.d ${OBJECTDIR}/_ext/1360937237/badge15.o.d ${OBJECTDIR}/_ext/1360937237/badge_common.o.d ${OBJECTDIR}/_ext/1360937237/main.o.d ${OBJECTDIR}/_ext/1360937237/usb_descriptors.o.d ${OBJECTDIR}/_ext/1360937237/Sound.o.d ${OBJECTDIR}/_ext/1360937237/LCDcolor.o.d ${OBJECTDIR}/_ext/1360937237/S6B33.o.d ${OBJECTDIR}/_ext/1360937237/time_date.o.d ${OBJECTDIR}/_ext/1360937237/timer1_int.o.d ${OBJECTDIR}/_ext/1360937237/jonesforth.o.d ${OBJECTDIR}/_ext/1360937237/TimeDelay.o.d ${OBJECTDIR}/_ext/1360937237/touchCTMU.o.d ${OBJECTDIR}/_ext/1360937237/flash.o.d ${OBJECTDIR}/_ext/1360937237/mario.o.d ${OBJECTDIR}/_ext/1360937237/piano.o.d ${OBJECTDIR}/_ext/1360937237/assets.o.d ${OBJECTDIR}/_ext/1360937237/assetList.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/_ext/659838314/usb_device.o ${OBJECTDIR}/_ext/659838314/usb_function_cdc.o ${OBJECTDIR}/_ext/1360937237/badge15.o ${OBJECTDIR}/_ext/1360937237/badge_common.o ${OBJECTDIR}/_ext/1360937237/main.o ${OBJECTDIR}/_ext/1360937237/usb_descriptors.o ${OBJECTDIR}/_ext/1360937237/Sound.o ${OBJECTDIR}/_ext/1360937237/LCDcolor.o ${OBJECTDIR}/_ext/1360937237/S6B33.o ${OBJECTDIR}/_ext/1360937237/time_date.o ${OBJECTDIR}/_ext/1360937237/timer1_int.o ${OBJECTDIR}/_ext/1360937237/jonesforth.o ${OBJECTDIR}/_ext/1360937237/TimeDelay.o ${OBJECTDIR}/_ext/1360937237/touchCTMU.o ${OBJECTDIR}/_ext/1360937237/flash.o ${OBJECTDIR}/_ext/1360937237/mario.o ${OBJECTDIR}/_ext/1360937237/piano.o ${OBJECTDIR}/_ext/1360937237/assets.o
+OBJECTFILES=${OBJECTDIR}/_ext/659838314/usb_device.o ${OBJECTDIR}/_ext/659838314/usb_function_cdc.o ${OBJECTDIR}/_ext/1360937237/badge15.o ${OBJECTDIR}/_ext/1360937237/badge_common.o ${OBJECTDIR}/_ext/1360937237/main.o ${OBJECTDIR}/_ext/1360937237/usb_descriptors.o ${OBJECTDIR}/_ext/1360937237/Sound.o ${OBJECTDIR}/_ext/1360937237/LCDcolor.o ${OBJECTDIR}/_ext/1360937237/S6B33.o ${OBJECTDIR}/_ext/1360937237/time_date.o ${OBJECTDIR}/_ext/1360937237/timer1_int.o ${OBJECTDIR}/_ext/1360937237/jonesforth.o ${OBJECTDIR}/_ext/1360937237/TimeDelay.o ${OBJECTDIR}/_ext/1360937237/touchCTMU.o ${OBJECTDIR}/_ext/1360937237/flash.o ${OBJECTDIR}/_ext/1360937237/mario.o ${OBJECTDIR}/_ext/1360937237/piano.o ${OBJECTDIR}/_ext/1360937237/assets.o ${OBJECTDIR}/_ext/1360937237/assetList.o
 
 # Source Files
-SOURCEFILES=../src/USB/usb_device.c ../src/USB/usb_function_cdc.c ../src/badge15.c ../src/badge_common.c ../src/main.c ../src/usb_descriptors.c ../src/Sound.c ../src/LCDcolor.c ../src/S6B33.c ../src/time_date.c ../src/timer1_int.c ../src/jonesforth.S ../src/TimeDelay.c ../src/touchCTMU.c ../src/flash.c ../src/mario.c ../src/piano.c ../src/assets.c
+SOURCEFILES=../src/USB/usb_device.c ../src/USB/usb_function_cdc.c ../src/badge15.c ../src/badge_common.c ../src/main.c ../src/usb_descriptors.c ../src/Sound.c ../src/LCDcolor.c ../src/S6B33.c ../src/time_date.c ../src/timer1_int.c ../src/jonesforth.S ../src/TimeDelay.c ../src/touchCTMU.c ../src/flash.c ../src/mario.c ../src/piano.c ../src/assets.c ../src/assetList.c
 
 
 CFLAGS=
@@ -207,6 +207,12 @@ ${OBJECTDIR}/_ext/1360937237/assets.o: ../src/assets.c  nbproject/Makefile-${CND
 	@${RM} ${OBJECTDIR}/_ext/1360937237/assets.o 
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/assets.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/1360937237/assets.o.d" -o ${OBJECTDIR}/_ext/1360937237/assets.o ../src/assets.c   -save-temps=obj -w -G0
 	
+${OBJECTDIR}/_ext/1360937237/assetList.o: ../src/assetList.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
+	@${RM} ${OBJECTDIR}/_ext/1360937237/assetList.o.d 
+	@${RM} ${OBJECTDIR}/_ext/1360937237/assetList.o 
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/assetList.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/1360937237/assetList.o.d" -o ${OBJECTDIR}/_ext/1360937237/assetList.o ../src/assetList.c   -save-temps=obj -w -G0
+	
 else
 ${OBJECTDIR}/_ext/659838314/usb_device.o: ../src/USB/usb_device.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/659838314 
@@ -309,6 +315,12 @@ ${OBJECTDIR}/_ext/1360937237/assets.o: ../src/assets.c  nbproject/Makefile-${CND
 	@${RM} ${OBJECTDIR}/_ext/1360937237/assets.o.d 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/assets.o 
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/assets.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/1360937237/assets.o.d" -o ${OBJECTDIR}/_ext/1360937237/assets.o ../src/assets.c   -save-temps=obj -w -G0
+	
+${OBJECTDIR}/_ext/1360937237/assetList.o: ../src/assetList.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
+	@${RM} ${OBJECTDIR}/_ext/1360937237/assetList.o.d 
+	@${RM} ${OBJECTDIR}/_ext/1360937237/assetList.o 
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/assetList.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -mno-float -O1 -fno-schedule-insns -DPIC32MX460F512L_PIM -I"../src" -Wall -MMD -MF "${OBJECTDIR}/_ext/1360937237/assetList.o.d" -o ${OBJECTDIR}/_ext/1360937237/assetList.o ../src/assetList.c   -save-temps=obj -w -G0
 	
 endif
 

@@ -30,6 +30,7 @@
       <itemPath>../src/TimeDelay.h</itemPath>
       <itemPath>../src/touchCTMU.h</itemPath>
       <itemPath>../src/assets.h</itemPath>
+      <itemPath>../src/assetList.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -61,6 +62,7 @@
       <itemPath>../src/mario.c</itemPath>
       <itemPath>../src/piano.c</itemPath>
       <itemPath>../src/assets.c</itemPath>
+      <itemPath>../src/assetList.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
