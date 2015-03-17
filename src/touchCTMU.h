@@ -4,4 +4,6 @@
 #define GetPeripheralClock()  (GetSystemClock())
 #define GetInstructionClock() (GetSystemClock())
 
+short int CurrentButtonStatus;
+
 

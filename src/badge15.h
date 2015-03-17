@@ -8,41 +8,42 @@
 #include "badge_common.h"
 #include "touchCTMU.h"
 
-typedef struct badge_state{
+unsigned char touchStat;//remove when touch is properly implemented
+int click;//remove when button is really implemented
 
-     unsigned char current_state;
-     unsigned char previous_state;
-     unsigned char selected_object;
-     unsigned char button_state_last;
-     unsigned char state_drawn;
+/******************************************************************************/
+/***************************[Badge State Machine]******************************/
+/******************************************************************************/
+
+
+typedef struct badge_state{//structure that controls state flow
+
+     unsigned char current_state;//used by run_states to determine current badge state
+     unsigned char previous_state;//used to return to previous state
+     unsigned char selected_object;//counter for choosing options in states
+     unsigned char state_drawn;//used to redraw state on change in selected object
 
 }badge_state;
 
-typedef enum state{
-        MAIN,
-        SCHEDULE,
-        SETTINGS,
-        GAMES,
-        DAY1,
-        DAY2,
-        LED,
-        CONTRAST,
-        SPEAKER,
-        SET_TIME,
-        SCREENSAVER,
-        SCREENSAVER_ON,
+void run_states(void);//case statement that controls badge state
 
-}state;
+void main_menu(void);//displays main menu provides links to sub menus
 
-void main_menu(void);
+void schedule_menu(void);//menu for schedule days
 
-void schedule_menu(void);
+void settings_menu(void);//menu for various system settings and functions
 
-void settings_menu(void);
+void game_menu(void);//menu of games &| entertainment applications
 
-void game_menu(void);
+void init_states(void);//initializes states at badge start
 
-void init_states(void);
+void unlocked_achievments(void);//shows unlocked achievments
+
+/******************************************************************************/
+/****************************[End State Machine]*******************************/
+/******************************************************************************/
+
+
 
 
 /******************************************************************************/

@@ -18,6 +18,9 @@
 #define WHITE 0b1111111111111111
 #define BLACK 0b0000000000000000
 
+int touchcount;//REMOVE THIS WHEN INTEGRATING ::TOUCH::
+
+
 #if defined (__C30__) || defined(__C32__) || defined __XC16__
 //    #include "uart2.h"
 #endif
@@ -161,6 +164,7 @@ int main(void)
     char sample_i = 0, sample_val = 0;
 
     InitializeSystem();
+    touchcount = 0;//remove this when integrating ::TOUCH::
 
     #if defined(USB_INTERRUPT)
         USBDeviceAttach();
@@ -211,9 +215,10 @@ int main(void)
             handle USB serial port/terminal
             can be used for debug or printing
         */
+        
         ProcessIO();
         //C short circuit makes this work
-        main_menu();
+        run_states();
 
     #if defined(GAME_MODE)
         // Run_Game(&game_state);
@@ -270,7 +275,7 @@ static void InitializeSystem(void)
    LCDReset();
    LATCbits.LATC1 = 1;      /* BLUE */
   
-   //LCDgreen();
+   drawAsset(1);
 
    init_display_list();
    init_states();
@@ -538,6 +543,17 @@ void ProcessIO(void)
     //very handy if you lock up when trying to run off of battery
     BlinkUSBStatus();
 
+    if(touchcount == 40001)//remove when integrating ::TOUCH::
+    {
+
+        getTouch();
+        touchStat = (((unsigned char)CurrentButtonStatus % 100) % 10);
+        touchcount = 0;
+
+    }
+    click = PORTCbits.RC3;//remove when button empleminted properly
+    touchcount++;
+    
 /*
 
 PEB: Morgan- bypass if button is push?
@@ -922,6 +938,7 @@ PEB: Morgan- bypass if button is push?
 
             if (USB_In_Buffer[0] == '[') {
 				Nnops -= 1;
+				Nnops -= 1;
 
                 USB_Out_Buffer[NextUSBOut++] = 'N';
                 USB_Out_Buffer[NextUSBOut++] = 'O';
@@ -937,8 +954,10 @@ PEB: Morgan- bypass if button is push?
 
                 USB_In_Buffer[0] = 0;
             }
+            }
 
             if (USB_In_Buffer[0] == ']') {
+				Nnops += 1;
 				Nnops += 1;
 
                 USB_Out_Buffer[NextUSBOut++] = 'N';
@@ -955,8 +974,10 @@ PEB: Morgan- bypass if button is push?
 
                 USB_In_Buffer[0] = 0;
             }
+            
 
             if (USB_In_Buffer[0] == ',') {
+                USB_Out_Buffer[NextUSBOut++] = 'N';
                 USB_Out_Buffer[NextUSBOut++] = 'N';
                 USB_Out_Buffer[NextUSBOut++] = 'O';
                 USB_Out_Buffer[NextUSBOut++] = 'P';
@@ -971,6 +992,7 @@ PEB: Morgan- bypass if button is push?
 
                 USB_In_Buffer[0] = 0;
             }
+            
 
             if (USB_In_Buffer[0] == '.') {
 //				getTouch();
@@ -988,6 +1010,7 @@ PEB: Morgan- bypass if button is push?
 
                 USB_In_Buffer[0] = 0;
             }
+            
 
             // print anything not handled above
             if (USB_In_Buffer[0] != 0)  {
@@ -1013,7 +1036,7 @@ PEB: Morgan- bypass if button is push?
             putUSBUSART(&USB_Out_Buffer[0], NextUSBOut);
             NextUSBOut = 0;
         }
-    }
+    
 
     CDCTxService();
 }//end ProcessIO

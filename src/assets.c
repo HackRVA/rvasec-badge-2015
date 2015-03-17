@@ -11,6 +11,7 @@ unsigned char G_videoAssetId = 255;
 
 unsigned int G_videoFrame = 0;
 
+
 void drawAsset(unsigned char assetId)
 {
     G_videoAssetId = assetId;
@@ -22,10 +23,10 @@ void drawLCD1(unsigned char assetId, int frame)
     unsigned char i, j, p, r, g, b, pixbyte, *cmap, *pixdata;
     unsigned short pixel ;
 
-    S6B33_rect(0, 0, assetList[assetId].y - 1, assetList[assetId].x - 1);
+    S6B33_rect(0, 0, assetList[assetId].y - 1, assetList[assetId].x - 1);//comment this out
 
-    pixdata = &(assetList[assetId].pixdata[0]);
-    for (i=0; i < assetList[assetId].y; i++) {
+    pixdata = &(assetList[assetId].pixdata[0]);//0 is starting point need a skip line amount for each asset to scanline 66 for 132
+    for (i=0; i < assetList[assetId].y; i++) {//edit this for end of line
        for (j=0; j < assetList[assetId].x/8; j++ ) { // 8 pixels at a ime
             pixbyte = *pixdata++; /* 8 pixels per byte */
 

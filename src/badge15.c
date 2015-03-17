@@ -2,38 +2,162 @@
 #include "badge15.h"
 #include "touchCTMU.h"
 
+//------------------------------LCD COLORS-------------------------------------
+
 #define BLUE 0b0000000000011111
 #define GREEN 0b0000011111100000
 #define RED 0b1111100000000000
 #define WHITE 0b1111111111111111
 #define BLACK 0b0000000000000000
 
-//typedef enum state{
-//        MAIN,
-//        SCHEDULE,
-//        SETTINGS,
-//        GAMES,
-//        DAY1,
-//        DAY2,
-//        LED,
-//        CONTRAST,
-//        SPEAKER,
-//        SET_TIME,
-//        SCREENSAVER,
-//        SCREENSAVER_ON,
-//
-//}state;
+//-------------------------------END COLORS------------------------------------
 
-state set_state;
-badge_state b_state;
+//---------------ALL STATES ON DEVICE-ADD NEW STATES TO END--------------------
+#define MAIN 0
+#define SCHEDULE 1
+#define SETTINGS 2
+#define GAMES 3
+#define DAY1 4
+#define DAY2 5
+#define LED 6
+#define CONTRAST 7
+#define SPEAKER 8
+#define SET_TIME 9
+#define SCREENSAVER 10
+#define SCREENSAVER_ON 11
+#define ACHIEVMENTS 12
+//-------------------------------END STATES------------------------------------
+
+badge_state b_state;//badge state structure
+display_list display;//display list structure
+ResourceType resource;//enumerator for display resource type
+
+/***********************[CASE STATE MACHINE FOR BADGE]************************
+ *      Add new states at the end inside run_states() function               *
+ *****************************************************************************/
+
+void run_states(void){
+    switch(b_state.current_state){
+        case MAIN:
+            main_menu();
+            break;
+        case SCHEDULE:
+            schedule_menu();
+            break;
+        case SETTINGS:
+            settings_menu();
+            break;
+        case GAMES:
+            game_menu();
+            break;
+        case DAY1:
+            break;
+        case DAY2:
+            break;
+        case LED:
+            break;
+        case CONTRAST:
+            break;
+        case SPEAKER:
+            break;
+        case SET_TIME:
+            break;
+        case SCREENSAVER:
+            break;
+        case SCREENSAVER_ON:
+            break;
+        case ACHIEVMENTS:
+            unlocked_achievments();
+            break;
+    }
+}
+
+/*****************************[MAIN MENU STATE]*******************************
+ *    Add links to all new states under the games or settings menu           *
+ *****************************************************************************/
 
 void main_menu(void){
-    //Schedule2343234453
-    //Games
-    //Settings
 
-    //Date
-    //Time
+    if(touchStat > 3)//Edit this when integrating ::TOUCH:: this if statement scrolls through menu
+    {
+        touchStat = 0;
+        clear_display_list();
+        if(b_state.selected_object == 3)
+            b_state.selected_object = 0;
+        else
+            b_state.selected_object++;
+
+        b_state.state_drawn = 0;
+    }
+
+    unsigned short selected[4];//menue items selection array
+
+    selected[0] = GREEN;//  This sets
+    selected[1] = GREEN;//  all of the
+    selected[2] = GREEN;//  menu items to
+    selected[3] = GREEN;//  the color green
+
+    selected[b_state.selected_object] = RED; // this outlines the selected one in red
+
+    if(b_state.state_drawn == 0){//this draws the menu on first entry or if selection has changed
+        clearscreen(BLACK);
+        rectangle(10,11,108,15, selected[0]);
+        rectangle(10,30,108,15, selected[1]);
+        rectangle(10,49,108,15, selected[2]);
+        rectangle(10,68,108,15, selected[3]);
+        writeline("Schedule",    8,  44, 23, GREEN);
+        writeline("Games",       5,  51, 42, GREEN);
+        writeline("Settings",    8,  44, 61, GREEN);
+        writeline("Achievments", 11, 37, 80, GREEN);
+        b_state.state_drawn = 1;
+    }
+
+    if(click == 0 && display.new_item == 0)//enters a new state on button click
+    {
+        click = 1;
+        switch(b_state.selected_object){
+            case 0:
+                b_state.current_state = SCHEDULE;
+                break;
+            case 1:
+                b_state.current_state = GAMES;
+                break;
+            case 2:
+                b_state.current_state = SETTINGS;
+                break;
+            case 3:
+                b_state.current_state = ACHIEVMENTS;
+                break;
+            default:
+                break;
+        }
+                clear_display_list();
+                b_state.previous_state = MAIN;
+                b_state.state_drawn = 0;
+                b_state.selected_object = 0;
+    }
+}
+
+
+/***************************[SCHEDULE MENU STATE]*****************************
+ *    Add links to all new states under the games or settings menu           *
+ *****************************************************************************/
+
+void schedule_menu(void){
+
+
+    if(touchStat > 3)//Edit this when integrating ::TOUCH::
+    {
+        touchStat = 0;//Edit this when integrating ::TOUCH::
+        clear_display_list();
+        if(b_state.selected_object == 3)
+            b_state.selected_object = 0;
+        else
+            b_state.selected_object++;
+
+        b_state.state_drawn = 0;
+    }
+
     unsigned short selected[4];
 
     selected[0] = GREEN;
@@ -48,39 +172,214 @@ void main_menu(void){
         rectangle(10,11,108,15, selected[0]);
         rectangle(10,30,108,15, selected[1]);
         rectangle(10,49,108,15, selected[2]);
-        rectangle(10,68,108,15, selected[3]);
-        writeline("Schedule", 8, 44, 23, GREEN);
-        writeline("Games", 5, 51, 42, GREEN);
-        writeline("Settings", 8, 44, 61, GREEN);
-        writeline("Achievments", 11, 37, 80, GREEN);
+        writeline("day1", 4,  55, 23, GREEN);
+        writeline("day2", 4,  55, 42, GREEN);
+        writeline("back", 4,  55, 61, GREEN);
         b_state.state_drawn = 1;
     }
 
+    if(click == 0  && display.new_item == 0)
+    {
+        click = 1;
+        switch(b_state.selected_object){
+            case 0:
+                b_state.current_state = DAY1;
+                break;
+            case 1:
+                b_state.current_state = DAY2;
+                break;
+            case 2:
+                b_state.current_state = b_state.previous_state;
+                break;
+            default:
+                break;
+        }
+        clear_display_list();
+        b_state.previous_state = SCHEDULE;
+        b_state.state_drawn = 0;
+        b_state.selected_object = 0;
+    }
 }
 
-void schedule_menu(void){
-    //Day 1
-    //Day 2
-    //Back
-    //Main
-}
+/***************************[SETTINGS MENU STATE]*****************************
+ *    Add links to apps that change or manage functionality here             *
+ *****************************************************************************/
 
 void settings_menu(void){
-    //LED
-    //Contrast
-    //Speaker
-    //Set Time
-    //Screen Saver
-    //Screen Saver On
+
+    if(touchStat > 3)//Edit this when integrating ::TOUCH::
+    {
+        touchStat = 0;//Edit this when integrating ::TOUCH::
+        clear_display_list();
+        if(b_state.selected_object == 5)
+            b_state.selected_object = 0;
+        else
+            b_state.selected_object++;
+
+        b_state.state_drawn = 0;
+    }
+
+    unsigned short selected[6];
+
+    selected[0] = GREEN;
+    selected[1] = GREEN;
+    selected[2] = GREEN;
+    selected[3] = GREEN;
+    selected[4] = GREEN;
+    selected[5] = GREEN;
+
+    selected[b_state.selected_object] = RED;
+
+    if(b_state.state_drawn == 0){
+        clearscreen(BLACK);
+        rectangle(10,11, 108,15, selected[0]);
+        rectangle(10,30, 108,15, selected[1]);
+        rectangle(10,49, 108,15, selected[2]);
+        rectangle(10,68, 108,15, selected[3]);
+        rectangle(10,87, 108,15, selected[4]);
+        rectangle(10,106,108,15, selected[5]);
+        writeline("led",        3,  57, 23,  GREEN);
+        writeline("contrast",   8,  44, 42,  GREEN);
+        writeline("speaker",    7,  47, 61,  GREEN);
+        writeline("time_date",  9,  42, 80,  GREEN);
+        writeline("screensaver",11, 37, 99,  GREEN);
+        writeline("back",       4,  55, 118, GREEN);
+        b_state.state_drawn = 1;
+    }
+
+    if(click == 0  && display.new_item == 0)
+    {
+        click = 1;
+        switch(b_state.selected_object){
+            case 0:
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 5:
+                b_state.current_state = b_state.previous_state;
+                break;
+            default:
+                break;
+        }
+        clear_display_list();
+        b_state.previous_state = SETTINGS;
+        b_state.state_drawn = 0;
+        b_state.selected_object = 0;
+    }
 }
+
+/*****************************[GAME MENU STATE]*******************************
+ *    Add links to all new states under the games or settings menu           *
+ *****************************************************************************/
 
 void game_menu(void){
-    //need stuff here
+
+    if(touchStat > 3)//Edit this when integrating ::TOUCH::
+    {
+        touchStat = 0;//Edit this when integrating ::TOUCH::
+        clear_display_list();
+        if(b_state.selected_object == 5)
+            b_state.selected_object = 0;
+        else
+            b_state.selected_object++;
+
+        b_state.state_drawn = 0;
+    }
+
+    unsigned short selected[6];
+
+    selected[0] = GREEN;
+    selected[1] = GREEN;
+    selected[2] = GREEN;
+    selected[3] = GREEN;
+    selected[4] = GREEN;
+    selected[5] = GREEN;
+
+    selected[b_state.selected_object] = RED;
+
+    if(b_state.state_drawn == 0){
+        clearscreen(BLACK);
+        rectangle(10,11, 108,15, selected[0]);
+        rectangle(10,30, 108,15, selected[1]);
+        rectangle(10,49, 108,15, selected[2]);
+        rectangle(10,68, 108,15, selected[3]);
+        rectangle(10,87, 108,15, selected[4]);
+        rectangle(10,106,108,15, selected[5]);
+        writeline("Firewall",8,  44, 23,  GREEN);
+        writeline("Bowling", 7,  47, 42,  GREEN);
+        writeline("Hacker",  6,  50, 61,  GREEN);
+        writeline("Aliens",  6,  50, 80,  GREEN);
+        writeline("More",    4,  55, 99,  GREEN);
+        writeline("back",    4,  55, 118, GREEN);
+        b_state.state_drawn = 1;
+    }
+
+    if(click == 0  && display.new_item == 0)
+    {
+        click = 1;
+        switch(b_state.selected_object){
+            case 0:
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 5:
+                b_state.current_state = b_state.previous_state;
+                break;
+            default:
+                break;
+        }
+        clear_display_list();
+        b_state.previous_state = GAMES;
+        b_state.state_drawn = 0;
+        b_state.selected_object = 0;
+    }
 }
 
+void unlocked_achievments(void){
+
+    if(b_state.state_drawn == 0){
+        clearscreen(BLACK);
+        writeline("Locked",  6,  50, 23,  RED);
+        writeline("Locked",  6,  50, 42,  RED);
+        writeline("Locked",  6,  50, 61,  RED);
+        writeline("Locked",  6,  50, 80,  RED);
+        writeline("Locked",  6,  50, 99,  RED);
+        writeline("Locked",  6,  50, 118, RED);
+        b_state.state_drawn = 1;
+    }
+
+    if(click == 0  && display.new_item == 0 )
+    {
+        click = 1;
+        b_state.current_state = b_state.previous_state;
+        clear_display_list();
+        b_state.previous_state = ACHIEVMENTS;
+        b_state.state_drawn = 0;
+        b_state.selected_object = 0;
+    }
+}
+
+/**************************[STATE INITIALIZATION]*****************************
+ *    Called only once during start up to provide entry point                *
+ *****************************************************************************/
+
 void init_states(void){
+   b_state.previous_state = MAIN;
+   b_state.current_state = MAIN;
    b_state.state_drawn = 0;
-   b_state.selected_object = 2;
+   b_state.selected_object = 0;
 }
 
 
@@ -110,9 +409,8 @@ void init_states(void){
 * }display_list;                                                              *
 *                                                                             *                                                                *
 *******************************************************************************/
-display_list display;
-
-ResourceType resource;
+//display_list display;
+//ResourceType resource;
 
 void init_display_list(void)
 {
@@ -148,7 +446,7 @@ void add_to_display_list(unsigned char ResourceType,
     else
         display.queue_counter++;
 
-    display.new_item = 1;
+    display.new_item = 3;
 }
 
 void writeline(unsigned char * charin, unsigned char no_of_chars, unsigned char x, unsigned char y, unsigned short color)
@@ -213,7 +511,7 @@ void clear_display_list(void)
 /*************************[Compositing Functions]******************************/
 void LCDComposite(void)
 {
-    if (display.new_item == 1);
+    if (display.new_item > 0);
     {
         switch(display.lineReady){
             case 1:
@@ -222,7 +520,7 @@ void LCDComposite(void)
                     display.lineReady = 0;
                     if(display.scan_line == 131){
                         display.scan_line = 0;
-                        display.new_item = 0;
+                        display.new_item--;
                     }
                     else{
                         display.scan_line++;
@@ -237,7 +535,7 @@ void LCDComposite(void)
 
 void LCDCompositeLine(void)
 {
-    if(display.new_item == 1){
+    if(display.new_item > 0){
     for(display.queue_reader=0;display.queue_reader<100;display.queue_reader++){
 
         if(display.composite_queue[display.queue_reader][0] != 7){
