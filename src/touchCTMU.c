@@ -138,4 +138,82 @@ void getTouch()
 
 }
 
+int G_buttonADCdone=1; /* will be set by interupt when ADC done */
+void touchInterupt()
+{
+    unsigned long int  ADC_Sum; // For averaging multiple ADC measurements
+
+    unsigned short int iAvg, // Averaging index
+                       Naverages = 8, // Number of averages < 2^22 (22=32-10 bits of ADC)
+                       Log2Naverages = 3; // Right shift equal to 1/Naverages
+
+    short int          iButton=0, // Button Index
+                       iChan; // ADC channel index
+
+    unsigned short int VmeasADC, VavgADC, nops; // Measured Voltages, 65536 = Full Scale
+
+
+    if (!G_buttonADCdone) return;
+    G_buttonADCdone = 0;
+
+    AD1CSSL = 0x0;        // No channels scanned
+    AD1CON1bits.ON = 1; // Turn on ADC
+
+    mAD1IntEnable(1); // enable AD1 interupts
+
+    if (iAvg < Naverages) {
+       iAvg++;
+    } else {
+	   iButton++;
+	   if (iButton == NUM_DIRECT_KEYS) {
+		   iButton = 0;
+	   }
+    }
+
+	/* RA0 = AN0, RA1 = AN1, RB1 = AN3, RB2 = AN4 */
+	iChan = ButtonADCChannels[iButton];
+	AD1CHSbits.CH0SA = iChan;
+	ADC_Sum = 0;
+
+	AD1CON1bits.SAMP = 1;     // Manual sampling start
+	CTMUCONbits.IDISSEN = 1;  // Ground charge pump
+	//DelayMs(1);               // Wait 1 msecs for grounding
+	for (nops=0; nops<Nnops; nops++) ;
+	CTMUCONbits.IDISSEN = 0;  // End drain of circuit
+	
+	CTMUCONbits.EDG1STAT = 1; // Begin charging the circuit
+	
+	for (nops=0; nops<Nnops; nops++);
+	
+	AD1CON1bits.SAMP = 0;     // Begin analog-to-digital conversion
+	CTMUCONbits.EDG1STAT = 0; // Stop charging circuit
+	
+
+#ifdef THISGOESINTHEINTERUPT
+            while (!AD1CON1bits.DONE) // Wait for ADC conversion
+            {
+                //Do Nothing
+            }
+            AD1CON1bits.DONE = 0; // ADC conversion done, clear flag
+            VmeasADC = ADC1BUF0;  // Get the value from the ADC
+            ADC_Sum += VmeasADC;  // Update averaging sum
+
+
+        if ( Log2Naverages-6 > 0 )
+        {
+            VavgADC = ADC_Sum >> (Log2Naverages-6); // Full scale = 2^10<<6 = 65536
+        }
+        else
+        {
+            VavgADC = ADC_Sum << (6-Log2Naverages); // Full scale = 2^10<<6 = 65536
+        }
+        if ( VavgADC < 32768 )
+        {
+            CurrentButtonStatus += 1<<iButton;
+        }
+        ButtonVmeasADC[iButton] = VavgADC;
+#endif
+
+}
+
 

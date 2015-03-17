@@ -88,7 +88,7 @@
 #define T2_TICK_DIV2       	(SYS_FREQ/TOGGLES_PER_SEC/2)
 
 /* for touchPad and screen compositing*/
-#define T3_TICK       		(SYS_FREQ/2)
+#define T3_TICK       		(SYS_FREQ/15)
 
 void TimerInit(void)
 {
@@ -471,9 +471,21 @@ void __ISR(_TIMER_3_VECTOR, IPL3SOFT) Timer3Handler(void)
    // clear the interrupt flag
    mT3ClearIntFlag();
 
-//   getTouch();
+   touchInterupt(); /* starts ADC for each button */
 
    LATCbits.LATC0 = !LATCbits.LATC0;      /* RED */
 }
 
+extern int G_buttonADCdone; /* set when ADC done */
+void __ISR(_ADC_VECTOR, IPL1) ADC1Handler(void)
+{
+	// clear the interrupt flag for the ADC converstiion
+	mAD1ClearIntFlag();
+
+	G_buttonADCdone=1; /* flag ADC done and touchInterupt can run again */
+
+	AD1CON1bits.DONE = 0; // ADC conversion done, clear flag
+
+	LATCbits.LATC1 = !LATCbits.LATC1;      /* GREEN */
+}
 
