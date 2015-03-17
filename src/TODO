@@ -1,7 +1,3 @@
-!!!!!!!!!!!!!!!!!!!!!!!!
-NOTE SWAPPED X DIRECTION ON THE LCD
-!!!!!!!!!!!!!!!!!!!!!!!!
-
 ------------------------------------
   high priority ASAP
 ------------------------------------
@@ -26,7 +22,8 @@ X   - 1 bit image.h  colormap[2], 1 bit data
 X   - 2 bit image.h  colormap[4], 2 bit data
 X   - 4 bit image.h  colormap[16], 4 bitdata
 X   - 8 bit image.h  colormap[256], 8 bitdata
-    - 8 bit audio.h  PWM(offtime, duration)
+X   - 8 bit audio.h  PWM(offtime, duration)
+    - tweaks
 
 X - conversion util, convert 8 bit colormap 
     to 4 bit colormap
@@ -36,18 +33,23 @@ X - conversion util, convert 8 bit colormap
   - IR recv callback to empty
 
   - touchCTMU 
+    X - started under timer3.
+        needs rewrite to use ADC and interupts
+
       - "trends" for sliders
         - value increasing/descreasing
         - relative offsets:
     X - on/off cutoff
     X - array of average
 
-  - Calibrate touch pad-> the lower right one takes a 
-    while longer to charge for some reason. 
+  - HW calibration/charge time for touch pad
+    the lower right one takes a while longer to charge for some reason. 
     * profile the final board(s)
     * beta badges appear to be consistent
 
 ------------------------------------
+
+X - note swapped x direction on the lcd
 
 X - LCD (Jon)
     X - basic compositing
