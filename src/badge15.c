@@ -13,6 +13,8 @@
 //-------------------------------END COLORS------------------------------------
 
 //---------------ALL STATES ON DEVICE-ADD NEW STATES TO END--------------------
+
+//Menu States
 #define MAIN 0
 #define SCHEDULE 1
 #define SETTINGS 2
@@ -26,6 +28,7 @@
 #define SCREENSAVER 10
 #define SCREENSAVER_ON 11
 #define ACHIEVMENTS 12
+
 //-------------------------------END STATES------------------------------------
 
 badge_state b_state;//badge state structure
@@ -51,8 +54,10 @@ void run_states(void){
             game_menu();
             break;
         case DAY1:
+            day1();
             break;
         case DAY2:
+            day2();
             break;
         case LED:
             break;
@@ -347,6 +352,800 @@ void game_menu(void){
     }
 }
 
+/*****************************[SCHEDULE STATE]********************************
+ *    Contains schedule for confrence miniature self contained state machine *
+ *****************************************************************************/
+
+void day1(void){
+    
+    if(touchStat > 3)//Edit this when integrating ::TOUCH::
+    {
+        touchStat = 0;//Edit this when integrating ::TOUCH::
+        clear_display_list();
+        if(b_state.selected_object == 5)
+            b_state.selected_object = 0;
+        else
+            b_state.selected_object++;
+
+        b_state.state_drawn = 0;
+    }
+
+    unsigned short selected[6];
+
+    selected[0] = GREEN;
+    selected[1] = GREEN;
+    selected[2] = GREEN;
+    selected[3] = GREEN;
+    selected[4] = GREEN;
+    selected[5] = GREEN;
+
+    selected[b_state.selected_object] = RED;
+    
+    switch(b_state.counter1){
+
+        case 0:
+                if(b_state.state_drawn == 0){
+                clearscreen(BLACK);
+                rectangle(10,11, 108,15, selected[0]);
+                rectangle(10,30, 108,15, selected[1]);
+                rectangle(10,49, 108,15, selected[2]);
+                rectangle(10,68, 108,15, selected[3]);
+                rectangle(10,87, 108,15, selected[4]);
+                rectangle(10,106,108,15, selected[5]);
+                writeline("8:00 9:00AM",11,  37, 23,  GREEN);
+                writeline("Breakfast",   9,  42, 42,  GREEN);
+                writeline("9:00 9:10AM",11,  37, 61,  GREEN);
+                writeline("Welcome",     7,  47, 80,  GREEN);
+                writeline("next",        4,  55, 99,  GREEN);
+                writeline("menu",        4,  55, 118, GREEN);
+                b_state.state_drawn = 1;
+            }
+
+            if(click == 0  && display.new_item == 0)
+            {
+                click = 1;
+                switch(b_state.selected_object){
+                    case 4:
+                        b_state.counter1++;
+                        break;
+                    case 5:
+                        b_state.current_state = SCHEDULE;
+                        b_state.counter1 = 0;
+                        break;
+                    default:
+                        break;
+                }
+                clear_display_list();
+                b_state.previous_state = MAIN;
+                b_state.state_drawn = 0;
+                b_state.selected_object = 0;
+            }
+            break;
+        case 1:
+                if(b_state.state_drawn == 0){
+                clearscreen(BLACK);
+                rectangle(10,11, 108,15, selected[0]);
+                rectangle(10,30, 108,15, selected[1]);
+                rectangle(10,49, 108,15, selected[2]);
+                rectangle(10,68, 108,15, selected[3]);
+                rectangle(10,87, 108,15, selected[4]);
+                rectangle(10,106,108,15, selected[5]);
+                writeline("9:10 10:10AM", 12,  35, 23,  GREEN);
+                writeline("David Kennedy",13,  33, 42,  GREEN);
+                writeline("10:10 10:30AM",13,  33, 61,  GREEN);
+                writeline("Break",         5,  52, 80,  GREEN);
+                writeline("next",          4,  55, 99,  GREEN);
+                writeline("menu",          4,  55, 118, GREEN);
+                b_state.state_drawn = 1;
+            }
+
+            if(click == 0  && display.new_item == 0)
+            {
+                click = 1;
+                switch(b_state.selected_object){
+                    case 4:
+                        b_state.counter1++;
+                        break;
+                    case 5:
+                        b_state.current_state = SCHEDULE;
+                        b_state.counter1 = 0;
+                        break;
+                    default:
+                        break;
+                }
+                clear_display_list();
+                b_state.previous_state = MAIN;
+                b_state.state_drawn = 0;
+                b_state.selected_object = 0;
+            }
+            break;
+        case 2:
+                if(b_state.state_drawn == 0){
+                clearscreen(BLACK);
+                rectangle(10,11, 108,15, selected[0]);
+                rectangle(10,30, 108,15, selected[1]);
+                rectangle(10,49, 108,15, selected[2]);
+                rectangle(10,68, 108,15, selected[3]);
+                rectangle(10,87, 108,15, selected[4]);
+                rectangle(10,106,108,15, selected[5]);
+                writeline("10:30 10:40AM",13,  33, 23,  GREEN);
+                writeline("Nick-Steve",   10,  40, 42,  GREEN);
+                writeline("10:40 10:50AM",13,  33, 61,  GREEN);
+                writeline("Paul-Morgan",  11,  37, 80,  GREEN);
+                writeline("next",          4,  55, 99,  GREEN);
+                writeline("menu",          4,  55, 118, GREEN);
+                b_state.state_drawn = 1;
+            }
+
+            if(click == 0  && display.new_item == 0)
+            {
+                click = 1;
+                switch(b_state.selected_object){
+                    case 4:
+                        b_state.counter1++;
+                        break;
+                    case 5:
+                        b_state.current_state = SCHEDULE;
+                        b_state.counter1 = 0;
+                        break;
+                    default:
+                        break;
+                }
+                clear_display_list();
+                b_state.previous_state = MAIN;
+                b_state.state_drawn = 0;
+                b_state.selected_object = 0;
+            }
+            break;
+        case 3:
+                if(b_state.state_drawn == 0){
+                clearscreen(BLACK);
+                rectangle(10,11, 108,15, selected[0]);
+                rectangle(10,30, 108,15, selected[1]);
+                rectangle(10,49, 108,15, selected[2]);
+                rectangle(10,68, 108,15, selected[3]);
+                rectangle(10,87, 108,15, selected[4]);
+                rectangle(10,106,108,15, selected[5]);
+                writeline("10:50 11:00AM",13,  33, 23,  GREEN);
+                writeline("Break",         5,  53, 42,  GREEN);
+                writeline("11:00 12:00PM",13,  33, 61,  GREEN);
+                writeline("Welcome",       7,  47, 80,  GREEN);
+                writeline("next",          4,  55, 99,  GREEN);
+                writeline("menu",          4,  55, 118, GREEN);
+                b_state.state_drawn = 1;
+            }
+
+            if(click == 0  && display.new_item == 0)
+            {
+                click = 1;
+                switch(b_state.selected_object){
+                    case 4:
+                        b_state.counter1++;
+                        break;
+                    case 5:
+                        b_state.current_state = SCHEDULE;
+                        b_state.counter1 = 0;
+                        break;
+                    default:
+                        break;
+                }
+                clear_display_list();
+                b_state.previous_state = MAIN;
+                b_state.state_drawn = 0;
+                b_state.selected_object = 0;
+            }
+            break;
+        case 4:
+                if(b_state.state_drawn == 0){
+                clearscreen(BLACK);
+                rectangle(10,11, 108,15, selected[0]);
+                rectangle(10,30, 108,15, selected[1]);
+                rectangle(10,49, 108,15, selected[2]);
+                rectangle(10,68, 108,15, selected[3]);
+                rectangle(10,87, 108,15, selected[4]);
+                rectangle(10,106,108,15, selected[5]);
+                writeline("12:00 1:00PM",12,  35, 23,  GREEN);
+                writeline("Lunch",        5,  53, 42,  GREEN);
+                writeline("1:00 1:50PM", 11,  37, 61,  GREEN);
+                writeline("Ben Tomchune",12,  35, 80,  GREEN);
+                writeline("next",         4,  55, 99,  GREEN);
+                writeline("menu",         4,  55, 118, GREEN);
+                b_state.state_drawn = 1;
+            }
+
+            if(click == 0  && display.new_item == 0)
+            {
+                click = 1;
+                switch(b_state.selected_object){
+                    case 4:
+                        b_state.counter1++;
+                        break;
+                    case 5:
+                        b_state.current_state = SCHEDULE;
+                        b_state.counter1 = 0;
+                        break;
+                    default:
+                        break;
+                }
+                clear_display_list();
+                b_state.previous_state = MAIN;
+                b_state.state_drawn = 0;
+                b_state.selected_object = 0;
+            }
+            break;
+        case 5:
+                if(b_state.state_drawn == 0){
+                clearscreen(BLACK);
+                rectangle(10,11, 108,15, selected[0]);
+                rectangle(10,30, 108,15, selected[1]);
+                rectangle(10,49, 108,15, selected[2]);
+                rectangle(10,68, 108,15, selected[3]);
+                rectangle(10,87, 108,15, selected[4]);
+                rectangle(10,106,108,15, selected[5]);
+                writeline("1:50 2:00PM", 11,  37, 23,  GREEN);
+                writeline("Break",        5,  53, 42,  GREEN);
+                writeline("2:00 2:50PM", 11,  37, 61,  GREEN);
+                writeline("Brian Baskin",12,  35, 80,  GREEN);
+                writeline("next",         4,  55, 99,  GREEN);
+                writeline("menu",         4,  55, 118, GREEN);
+                b_state.state_drawn = 1;
+            }
+
+            if(click == 0  && display.new_item == 0)
+            {
+                click = 1;
+                switch(b_state.selected_object){
+                    case 4:
+                        b_state.counter1++;
+                        break;
+                    case 5:
+                        b_state.current_state = SCHEDULE;
+                        b_state.counter1 = 0;
+                        break;
+                    default:
+                        break;
+                }
+                clear_display_list();
+                b_state.previous_state = MAIN;
+                b_state.state_drawn = 0;
+                b_state.selected_object = 0;
+            }
+            break;
+        case 6:
+                if(b_state.state_drawn == 0){
+                clearscreen(BLACK);
+                rectangle(10,11, 108,15, selected[0]);
+                rectangle(10,30, 108,15, selected[1]);
+                rectangle(10,49, 108,15, selected[2]);
+                rectangle(10,68, 108,15, selected[3]);
+                rectangle(10,87, 108,15, selected[4]);
+                rectangle(10,106,108,15, selected[5]);
+                writeline("2:50 3:00PM",11,  37, 23,  GREEN);
+                writeline("Break",       5,  53, 42,  GREEN);
+                writeline("3:00 3:50PM",11,  37, 61,  GREEN);
+                writeline("Inga Goddin",11,  37, 80,  GREEN);
+                writeline("next",        4,  55, 99,  GREEN);
+                writeline("menu",        4,  55, 118, GREEN);
+                b_state.state_drawn = 1;
+            }
+
+            if(click == 0  && display.new_item == 0)
+            {
+                click = 1;
+                switch(b_state.selected_object){
+                    case 4:
+                        b_state.counter1++;
+                        break;
+                    case 5:
+                        b_state.current_state = SCHEDULE;
+                        b_state.counter1 = 0;
+                        break;
+                    default:
+                        break;
+                }
+                clear_display_list();
+                b_state.previous_state = MAIN;
+                b_state.state_drawn = 0;
+                b_state.selected_object = 0;
+            }
+            break;
+        case 7:
+                if(b_state.state_drawn == 0){
+                clearscreen(BLACK);
+                rectangle(10,11, 108,15, selected[0]);
+                rectangle(10,30, 108,15, selected[1]);
+                rectangle(10,49, 108,15, selected[2]);
+                rectangle(10,68, 108,15, selected[3]);
+                rectangle(10,87, 108,15, selected[4]);
+                rectangle(10,106,108,15, selected[5]);
+                writeline("3:50 4:00PM", 11,  37, 23,  GREEN);
+                writeline("Break",        5,  53, 42,  GREEN);
+                writeline("4:00 4:50PM", 11,  37, 61,  GREEN);
+                writeline("Seth Hanford",12,  35, 80,  GREEN);
+                writeline("next",         4,  55, 99,  GREEN);
+                writeline("menu",         4,  55, 118, GREEN);
+                b_state.state_drawn = 1;
+            }
+
+            if(click == 0  && display.new_item == 0)
+            {
+                click = 1;
+                switch(b_state.selected_object){
+                    case 4:
+                        b_state.counter1++;
+                        break;
+                    case 5:
+                        b_state.current_state = SCHEDULE;
+                        b_state.counter1 = 0;
+                        break;
+                    default:
+                        break;
+                }
+                clear_display_list();
+                b_state.previous_state = MAIN;
+                b_state.state_drawn = 0;
+                b_state.selected_object = 0;
+            }
+            break;
+        case 8:
+                if(b_state.state_drawn == 0){
+                clearscreen(BLACK);
+                rectangle(10,11, 108,15, selected[0]);
+                rectangle(10,30, 108,15, selected[1]);
+                rectangle(10,49, 108,15, selected[2]);
+                rectangle(10,68, 108,15, selected[3]);
+                rectangle(10,87, 108,15, selected[4]);
+                rectangle(10,106,108,15, selected[5]);
+                writeline("4:50 5:00PM",  11,  37, 23,  GREEN);
+                writeline("Break",         5,  53, 42,  GREEN);
+                writeline("5:00 5:50PM",  11,  37, 61,  GREEN);
+                writeline("Schyler Towne",13,  33, 80,  GREEN);
+                writeline("next",          4,  55, 99,  GREEN);
+                writeline("menu",          4,  55, 118, GREEN);
+                b_state.state_drawn = 1;
+            }
+
+            if(click == 0  && display.new_item == 0)
+            {
+                click = 1;
+                switch(b_state.selected_object){
+                    case 4:
+                        b_state.counter1++;
+                        break;
+                    case 5:
+                        b_state.current_state = SCHEDULE;
+                        b_state.counter1 = 0;
+                        break;
+                    default:
+                        break;
+                }
+                clear_display_list();
+                b_state.previous_state = MAIN;
+                b_state.state_drawn = 0;
+                b_state.selected_object = 0;
+            }
+            break;
+        case 9:
+                if(b_state.state_drawn == 0){
+                clearscreen(BLACK);
+                rectangle(10,11, 108,15, selected[0]);
+                rectangle(10,30, 108,15, selected[1]);
+                rectangle(10,49, 108,15, selected[2]);
+                rectangle(10,68, 108,15, selected[3]);
+                rectangle(10,87, 108,15, selected[4]);
+                rectangle(10,106,108,15, selected[5]);
+                writeline("5:50 6:00PM",11,  37, 23,  GREEN);
+                writeline("Closing",     7,  47, 42,  GREEN);
+                writeline("6:30 8:00PM",11,  37, 61,  GREEN);
+                writeline("After Party",11,  37, 80,  GREEN);
+                writeline("start",       5,  53, 99,  GREEN);
+                writeline("menu",        4,  55, 118, GREEN);
+                b_state.state_drawn = 1;
+            }
+
+            if(click == 0  && display.new_item == 0)
+            {
+                click = 1;
+                switch(b_state.selected_object){
+                    case 4:
+                        b_state.counter1=0;
+                        break;
+                    case 5:
+                        b_state.current_state = SCHEDULE;
+                        b_state.counter1 = 0;
+                        break;
+                    default:
+                        break;
+                }
+                clear_display_list();
+                b_state.previous_state = MAIN;
+                b_state.state_drawn = 0;
+                b_state.selected_object = 0;
+            }
+            break;
+    }
+    
+}
+
+
+void day2(void){
+
+    if(touchStat > 3)//Edit this when integrating ::TOUCH::
+    {
+        touchStat = 0;//Edit this when integrating ::TOUCH::
+        clear_display_list();
+        if(b_state.selected_object == 5)
+            b_state.selected_object = 0;
+        else
+            b_state.selected_object++;
+
+        b_state.state_drawn = 0;
+    }
+
+    unsigned short selected[6];
+
+    selected[0] = GREEN;
+    selected[1] = GREEN;
+    selected[2] = GREEN;
+    selected[3] = GREEN;
+    selected[4] = GREEN;
+    selected[5] = GREEN;
+
+    selected[b_state.selected_object] = RED;
+
+    switch(b_state.counter1){
+
+        case 0:
+                if(b_state.state_drawn == 0){
+                clearscreen(BLACK);
+                rectangle(10,11, 108,15, selected[0]);
+                rectangle(10,30, 108,15, selected[1]);
+                rectangle(10,49, 108,15, selected[2]);
+                rectangle(10,68, 108,15, selected[3]);
+                rectangle(10,87, 108,15, selected[4]);
+                rectangle(10,106,108,15, selected[5]);
+                writeline("6:00 8:00AM", 11,  37,  23,  GREEN);
+                writeline("Registration",12,  35,  42,  GREEN);
+                writeline("8:00 8:50AM", 11,  37,  61,  GREEN);
+                writeline("Breakfast",    9,  42,  80,  GREEN);
+                writeline("next",         4,  55,  99,  GREEN);
+                writeline("menu",         4,  55, 118,  GREEN);
+                b_state.state_drawn = 1;
+            }
+
+            if(click == 0  && display.new_item == 0)
+            {
+                click = 1;
+                switch(b_state.selected_object){
+                    case 4:
+                        b_state.counter1++;
+                        break;
+                    case 5:
+                        b_state.current_state = SCHEDULE;
+                        b_state.counter1 = 0;
+                        break;
+                    default:
+                        break;
+                }
+                clear_display_list();
+                b_state.previous_state = MAIN;
+                b_state.state_drawn = 0;
+                b_state.selected_object = 0;
+            }
+            break;
+        case 1:
+                if(b_state.state_drawn == 0){
+                clearscreen(BLACK);
+                rectangle(10,11, 108,15, selected[0]);
+                rectangle(10,30, 108,15, selected[1]);
+                rectangle(10,49, 108,15, selected[2]);
+                rectangle(10,68, 108,15, selected[3]);
+                rectangle(10,87, 108,15, selected[4]);
+                rectangle(10,106,108,15, selected[5]);
+                writeline("8:50 9:00AM", 11,  37, 23,  GREEN);
+                writeline("Welcome",      7,  47, 42,  GREEN);
+                writeline("9:00 10:00AM",12,  35, 61,  GREEN);
+                writeline("Gene Fishel", 11,  37, 80,  GREEN);
+                writeline("next",         4,  55, 99,  GREEN);
+                writeline("menu",         4,  55,118,  GREEN);
+                b_state.state_drawn = 1;
+            }
+
+            if(click == 0  && display.new_item == 0)
+            {
+                click = 1;
+                switch(b_state.selected_object){
+                    case 4:
+                        b_state.counter1++;
+                        break;
+                    case 5:
+                        b_state.current_state = SCHEDULE;
+                        b_state.counter1 = 0;
+                        break;
+                    default:
+                        break;
+                }
+                clear_display_list();
+                b_state.previous_state = MAIN;
+                b_state.state_drawn = 0;
+                b_state.selected_object = 0;
+            }
+            break;
+        case 2:
+                if(b_state.state_drawn == 0){
+                clearscreen(BLACK);
+                rectangle(10,11, 108,15, selected[0]);
+                rectangle(10,30, 108,15, selected[1]);
+                rectangle(10,49, 108,15, selected[2]);
+                rectangle(10,68, 108,15, selected[3]);
+                rectangle(10,87, 108,15, selected[4]);
+                rectangle(10,106,108,15, selected[5]);
+                writeline("10:00 10:10AM",13,  33, 23,  GREEN);
+                writeline("Break",         5,  53, 42,  GREEN);
+                writeline("10:10 11:00AM",13,  33, 61,  GREEN);
+                writeline("Evan Booth",   10,  40, 80,  GREEN);
+                writeline("next",          4,  55, 99,  GREEN);
+                writeline("menu",          4,  55,118,  GREEN);
+                b_state.state_drawn = 1;
+            }
+
+            if(click == 0  && display.new_item == 0)
+            {
+                click = 1;
+                switch(b_state.selected_object){
+                    case 4:
+                        b_state.counter1++;
+                        break;
+                    case 5:
+                        b_state.current_state = SCHEDULE;
+                        b_state.counter1 = 0;
+                        break;
+                    default:
+                        break;
+                }
+                clear_display_list();
+                b_state.previous_state = MAIN;
+                b_state.state_drawn = 0;
+                b_state.selected_object = 0;
+            }
+            break;
+        case 3:
+                if(b_state.state_drawn == 0){
+                clearscreen(BLACK);
+                rectangle(10,11, 108,15, selected[0]);
+                rectangle(10,30, 108,15, selected[1]);
+                rectangle(10,49, 108,15, selected[2]);
+                rectangle(10,68, 108,15, selected[3]);
+                rectangle(10,87, 108,15, selected[4]);
+                rectangle(10,106,108,15, selected[5]);
+                writeline("11:00 11:10AM",   13,  33, 23,  GREEN);
+                writeline("Break",            5,  53, 42,  GREEN);
+                writeline("11:10 12:00PM",   13,  33, 61,  GREEN);
+                writeline("Jonathan Dambrot",16,  25, 80,  GREEN);
+                writeline("next",             4,  55, 99,  GREEN);
+                writeline("menu",             4,  55, 118, GREEN);
+                b_state.state_drawn = 1;
+            }
+
+            if(click == 0  && display.new_item == 0)
+            {
+                click = 1;
+                switch(b_state.selected_object){
+                    case 4:
+                        b_state.counter1++;
+                        break;
+                    case 5:
+                        b_state.current_state = SCHEDULE;
+                        b_state.counter1 = 0;
+                        break;
+                    default:
+                        break;
+                }
+                clear_display_list();
+                b_state.previous_state = MAIN;
+                b_state.state_drawn = 0;
+                b_state.selected_object = 0;
+            }
+            break;
+        case 4:
+                if(b_state.state_drawn == 0){
+                clearscreen(BLACK);
+                rectangle(10,11, 108,15, selected[0]);
+                rectangle(10,30, 108,15, selected[1]);
+                rectangle(10,49, 108,15, selected[2]);
+                rectangle(10,68, 108,15, selected[3]);
+                rectangle(10,87, 108,15, selected[4]);
+                rectangle(10,106,108,15, selected[5]);
+                writeline("12:00 1:00PM",   12,  35, 23,  GREEN);
+                writeline("Lunch",           5,  53, 42,  GREEN);
+                writeline("1:00 1:50PM",    11,  37, 61,  GREEN);
+                writeline("Carmrn-Kimberly",15,  27, 80,  GREEN);
+                writeline("next",            4,  55, 99,  GREEN);
+                writeline("menu",            4,  55, 118, GREEN);
+                b_state.state_drawn = 1;
+            }
+
+            if(click == 0  && display.new_item == 0)
+            {
+                click = 1;
+                switch(b_state.selected_object){
+                    case 4:
+                        b_state.counter1++;
+                        break;
+                    case 5:
+                        b_state.current_state = SCHEDULE;
+                        b_state.counter1 = 0;
+                        break;
+                    default:
+                        break;
+                }
+                clear_display_list();
+                b_state.previous_state = MAIN;
+                b_state.state_drawn = 0;
+                b_state.selected_object = 0;
+            }
+            break;
+        case 5:
+                if(b_state.state_drawn == 0){
+                clearscreen(BLACK);
+                rectangle(10,11, 108,15, selected[0]);
+                rectangle(10,30, 108,15, selected[1]);
+                rectangle(10,49, 108,15, selected[2]);
+                rectangle(10,68, 108,15, selected[3]);
+                rectangle(10,87, 108,15, selected[4]);
+                rectangle(10,106,108,15, selected[5]);
+                writeline("1:50 2:00PM",  11,  37, 23,  GREEN);
+                writeline("Break",         5,  53, 42,  GREEN);
+                writeline("2:00 2:50PM",  11,  37, 61,  GREEN);
+                writeline("Dan-Elizabeth",13,  33, 80,  GREEN);
+                writeline("next",          4,  55, 99,  GREEN);
+                writeline("menu",          4,  55, 118, GREEN);
+                b_state.state_drawn = 1;
+            }
+
+            if(click == 0  && display.new_item == 0)
+            {
+                click = 1;
+                switch(b_state.selected_object){
+                    case 4:
+                        b_state.counter1++;
+                        break;
+                    case 5:
+                        b_state.current_state = SCHEDULE;
+                        b_state.counter1 = 0;
+                        break;
+                    default:
+                        break;
+                }
+                clear_display_list();
+                b_state.previous_state = MAIN;
+                b_state.state_drawn = 0;
+                b_state.selected_object = 0;
+            }
+            break;
+        case 6:
+                if(b_state.state_drawn == 0){
+                clearscreen(BLACK);
+                rectangle(10,11, 108,15, selected[0]);
+                rectangle(10,30, 108,15, selected[1]);
+                rectangle(10,49, 108,15, selected[2]);
+                rectangle(10,68, 108,15, selected[3]);
+                rectangle(10,87, 108,15, selected[4]);
+                rectangle(10,106,108,15, selected[5]);
+                writeline("2:50 3:10PM",    11,  37, 23,  GREEN);
+                writeline("Break",           5,  53, 42,  GREEN);
+                writeline("3:10 4:00PM",    11,  37, 61,  GREEN);
+                writeline("David-Katherine",15,  27, 80,  GREEN);
+                writeline("next",            4,  55, 99,  GREEN);
+                writeline("menu",            4,  55, 118, GREEN);
+                b_state.state_drawn = 1;
+            }
+
+            if(click == 0  && display.new_item == 0)
+            {
+                click = 1;
+                switch(b_state.selected_object){
+                    case 4:
+                        b_state.counter1++;
+                        break;
+                    case 5:
+                        b_state.current_state = SCHEDULE;
+                        b_state.counter1 = 0;
+                        break;
+                    default:
+                        break;
+                }
+                clear_display_list();
+                b_state.previous_state = MAIN;
+                b_state.state_drawn = 0;
+                b_state.selected_object = 0;
+            }
+            break;
+        case 7:
+                if(b_state.state_drawn == 0){
+                clearscreen(BLACK);
+                rectangle(10,11, 108,15, selected[0]);
+                rectangle(10,30, 108,15, selected[1]);
+                rectangle(10,49, 108,15, selected[2]);
+                rectangle(10,68, 108,15, selected[3]);
+                rectangle(10,87, 108,15, selected[4]);
+                rectangle(10,106,108,15, selected[5]);
+                writeline("4:00 4:10PM", 11,  37, 23,  GREEN);
+                writeline("Break",        5,  53, 42,  GREEN);
+                writeline("4:10 5:00PM", 11,  37, 61,  GREEN);
+                writeline("Pete Herzog", 11,  35, 80,  GREEN);
+                writeline("next",         4,  55, 99,  GREEN);
+                writeline("menu",         4,  55, 118, GREEN);
+                b_state.state_drawn = 1;
+            }
+
+            if(click == 0  && display.new_item == 0)
+            {
+                click = 1;
+                switch(b_state.selected_object){
+                    case 4:
+                        b_state.counter1++;
+                        break;
+                    case 5:
+                        b_state.current_state = SCHEDULE;
+                        b_state.counter1 = 0;
+                        break;
+                    default:
+                        break;
+                }
+                clear_display_list();
+                b_state.previous_state = MAIN;
+                b_state.state_drawn = 0;
+                b_state.selected_object = 0;
+            }
+            break;
+        case 8:
+                if(b_state.state_drawn == 0){
+                clearscreen(BLACK);
+                rectangle(10,11, 108,15, selected[0]);
+                rectangle(10,30, 108,15, selected[1]);
+                rectangle(10,49, 108,15, selected[2]);
+                rectangle(10,68, 108,15, selected[3]);
+                rectangle(10,87, 108,15, selected[4]);
+                rectangle(10,106,108,15, selected[5]);
+                writeline("5:00 6:30PM",11,  37, 23,  GREEN);
+                writeline("Reception",   9,  37, 42,  GREEN);
+                writeline("See you at", 10,  35, 61,  GREEN);
+                writeline("RVASec 2016",11,  33, 80,  GREEN);
+                writeline("start",       5,  52, 99,  GREEN);
+                writeline("menu",        4,  55, 118, GREEN);
+                b_state.state_drawn = 1;
+            }
+
+            if(click == 0  && display.new_item == 0)
+            {
+                click = 1;
+                switch(b_state.selected_object){
+                    case 4:
+                        b_state.counter1=0;
+                        break;
+                    case 5:
+                        b_state.current_state = SCHEDULE;
+                        b_state.counter1 = 0;
+                        break;
+                    default:
+                        break;
+                }
+                clear_display_list();
+                b_state.previous_state = MAIN;
+                b_state.state_drawn = 0;
+                b_state.selected_object = 0;
+            }
+            break;
+    }
+
+}
+
+/********************************END SCHEDULE*********************************/
+
+
+
+
 void unlocked_achievments(void){
 
     if(b_state.state_drawn == 0){
@@ -371,6 +1170,8 @@ void unlocked_achievments(void){
     }
 }
 
+
+
 /**************************[STATE INITIALIZATION]*****************************
  *    Called only once during start up to provide entry point                *
  *****************************************************************************/
@@ -380,6 +1181,8 @@ void init_states(void){
    b_state.current_state = MAIN;
    b_state.state_drawn = 0;
    b_state.selected_object = 0;
+   b_state.counter1 = 0;
+   b_state.counter2 = 0;
 }
 
 

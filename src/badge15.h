@@ -22,6 +22,8 @@ typedef struct badge_state{//structure that controls state flow
      unsigned char previous_state;//used to return to previous state
      unsigned char selected_object;//counter for choosing options in states
      unsigned char state_drawn;//used to redraw state on change in selected object
+     unsigned char counter1;
+     unsigned char counter2;
 
 }badge_state;
 
@@ -38,6 +40,10 @@ void game_menu(void);//menu of games &| entertainment applications
 void init_states(void);//initializes states at badge start
 
 void unlocked_achievments(void);//shows unlocked achievments
+
+void day1(void);//first day's schedule
+
+void day2(void);//second day's schedule
 
 /******************************************************************************/
 /****************************[End State Machine]*******************************/

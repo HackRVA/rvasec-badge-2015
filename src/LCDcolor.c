@@ -406,6 +406,24 @@ void LCDCharacterScan(unsigned char y,//Hard coded font. Scans
     {
         LCDlineScan(x-3,y-1,x-3,y-1,lineCurrent,color);
     }
+    else if(charin == ':')
+    {
+        LCDlineScan(x-3,y-1,x-3,y-1,lineCurrent,color);
+        LCDlineScan(x-3,y-4,x-3,y-4,lineCurrent,color);
+    }
+    else if(charin == '!')
+    {
+        LCDlineScan(x-3,y-1,x-3,y-1,lineCurrent,color);
+        LCDlineScan(x-3,y-8,x-3,y-3,lineCurrent,color);
+    }
+    else if(charin == '-')
+    {
+        LCDlineScan(x-4,y-4,x-2,y-4,lineCurrent,color);
+    }
+    else if(charin == ' ')
+    {
+        
+    }
     else
     {
         LCDlineScan(x-5,y-1,x-1,y-1,lineCurrent,color);
