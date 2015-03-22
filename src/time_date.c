@@ -43,6 +43,7 @@
 
 // Master header file for all peripheral library includes
 #include <plib.h>
+#include "time_date.h"
 
 
 //	local function prototypes
@@ -196,6 +197,81 @@ void setupRTCC(void)
 
 	return ;
 #endif
+}
+
+void setTime_Date(unsigned char *time, unsigned char *date)//time character format 12:00P  date character format MM-DD-YY
+{
+    unsigned char tensPlace = (time[3] - 30)*10;
+    G_time.min = tensPlace + (time[4]-30);
+    switch(time[0])
+    {
+        case '1':
+            switch(time[1]){
+                case '0':
+                    if(time[5] == 'A' || time[5] == 'a')
+                        G_time.hour = 10;
+                    else
+                        G_time.hour = 22;
+                    break;
+                case '1':
+                    if(time[5] == 'A' || time[5] == 'a')
+                        G_time.hour = 11;
+                    else
+                        G_time.hour = 23;
+                    break;
+                case '2':
+                    if(time[5] == 'A' || time[5] == 'a')
+                        G_time.hour = 12;
+                    else
+                        G_time.hour = 24;
+                    break;
+                default:
+                    G_time.hour = 0;
+                    break;
+            }
+            break;
+        case ' ':
+            if(time[5] == 'A' || time[5] == 'a')
+                G_time.hour = time[1]-30;
+            else
+                G_time.hour = time[1]-18;
+            break;
+        default:
+            G_time.hour = 0;
+            break;
+    }
+    tensPlace = (date[0] - 30)*10;
+    G_date.mon = tensPlace + (date[1]-30);
+    tensPlace = (date[3] - 30)*10;
+    G_date.mday = tensPlace + (date[4]-30);
+    tensPlace = (date[6] - 30)*10;
+    G_date.year = tensPlace + (date[7]-30);
+    setRTCC();
+}
+
+void getTime_Date(unsigned char *time, unsigned char *date){
+    getRTCC();
+    date[0] = (G_date.mon/10) + 30;
+    date[1] = (G_date.mon%10) + 30;
+    date[2] = '-';
+    date[3] = (G_date.mday/10) + 30;
+    date[4] = (G_date.mday%10) + 30;
+    date[5] = '-';
+    date[6] = (G_date.year/10) + 30;
+    date[7] = (G_date.year%10) + 30;
+    time[2] = ':';
+    if(G_time.hour > 11){
+        time[5] = 'P';
+        time[0] = (G_time.hour-12)/10;
+        time[1] = (G_time.hour-12)%10;
+    }
+    else{
+        time[5] = 'A';
+        time[0] = G_time.hour/10;
+        time[1] = G_time.hour%10;
+    }
+    time[3] = G_time.min/10;
+    time[4] = G_time.min%10;
 }
 
 void setRTCC() {

@@ -1,6 +1,7 @@
 #include "badge_common.h"
 #include "badge15.h"
 #include "touchCTMU.h"
+#include "time_date.h"
 
 //------------------------------LCD COLORS-------------------------------------
 
@@ -14,20 +15,21 @@
 
 //---------------ALL STATES ON DEVICE-ADD NEW STATES TO END--------------------
 
-//Menu States
-#define MAIN 0
-#define SCHEDULE 1
-#define SETTINGS 2
-#define GAMES 3
-#define DAY1 4
-#define DAY2 5
-#define LED 6
-#define CONTRAST 7
-#define SPEAKER 8
-#define SET_TIME 9
-#define SCREENSAVER 10
-#define SCREENSAVER_ON 11
-#define ACHIEVMENTS 12
+enum states{
+ MAIN,
+ SCHEDULE,
+ SETTINGS,
+ GAMES, 
+ DAY1,
+ DAY2,
+ LED,
+ CONTRAST,
+ SPEAKER,
+ SET_TIME,
+ SCREENSAVER,
+ SCREENSAVER_ON,
+ ACHIEVMENTS
+};
 
 //-------------------------------END STATES------------------------------------
 
@@ -83,37 +85,23 @@ void run_states(void){
 
 void main_menu(void){
 
-    if(touchStat > 3)//Edit this when integrating ::TOUCH:: this if statement scrolls through menu
-    {
-        touchStat = 0;
-        clear_display_list();
-        if(b_state.selected_object == 3)
-            b_state.selected_object = 0;
-        else
-            b_state.selected_object++;
-
-        b_state.state_drawn = 0;
-    }
+    do_touch(4);
 
     unsigned short selected[4];//menue items selection array
 
-    selected[0] = GREEN;//  This sets
-    selected[1] = GREEN;//  all of the
-    selected[2] = GREEN;//  menu items to
-    selected[3] = GREEN;//  the color green
+    clear_selected(selected, 4);
 
     selected[b_state.selected_object] = RED; // this outlines the selected one in red
 
     if(b_state.state_drawn == 0){//this draws the menu on first entry or if selection has changed
         clearscreen(BLACK);
-        rectangle(10,11,108,15, selected[0]);
-        rectangle(10,30,108,15, selected[1]);
-        rectangle(10,49,108,15, selected[2]);
-        rectangle(10,68,108,15, selected[3]);
+        drawMenu(selected, 4);
         writeline("Schedule",    8,  44, 23, GREEN);
         writeline("Games",       5,  51, 42, GREEN);
         writeline("Settings",    8,  44, 61, GREEN);
         writeline("Achievments", 11, 37, 80, GREEN);
+        //writeline(badge_time, 6, 50, 99, GREEN);
+        //writeline(badge_date, 8, 44, 118, GREEN);
         b_state.state_drawn = 1;
     }
 
@@ -136,10 +124,8 @@ void main_menu(void){
             default:
                 break;
         }
-                clear_display_list();
-                b_state.previous_state = MAIN;
-                b_state.state_drawn = 0;
-                b_state.selected_object = 0;
+        on_exit();
+        b_state.previous_state = MAIN;
     }
 }
 
@@ -151,32 +137,17 @@ void main_menu(void){
 void schedule_menu(void){
 
 
-    if(touchStat > 3)//Edit this when integrating ::TOUCH::
-    {
-        touchStat = 0;//Edit this when integrating ::TOUCH::
-        clear_display_list();
-        if(b_state.selected_object == 3)
-            b_state.selected_object = 0;
-        else
-            b_state.selected_object++;
-
-        b_state.state_drawn = 0;
-    }
+    do_touch(4);
 
     unsigned short selected[4];
 
-    selected[0] = GREEN;
-    selected[1] = GREEN;
-    selected[2] = GREEN;
-    selected[3] = GREEN;
+    clear_selected(selected, 4);
 
     selected[b_state.selected_object] = RED;
 
     if(b_state.state_drawn == 0){
         clearscreen(BLACK);
-        rectangle(10,11,108,15, selected[0]);
-        rectangle(10,30,108,15, selected[1]);
-        rectangle(10,49,108,15, selected[2]);
+        drawMenu(selected, 3);
         writeline("day1", 4,  55, 23, GREEN);
         writeline("day2", 4,  55, 42, GREEN);
         writeline("back", 4,  55, 61, GREEN);
@@ -199,10 +170,8 @@ void schedule_menu(void){
             default:
                 break;
         }
-        clear_display_list();
+        on_exit();
         b_state.previous_state = SCHEDULE;
-        b_state.state_drawn = 0;
-        b_state.selected_object = 0;
     }
 }
 
@@ -212,37 +181,17 @@ void schedule_menu(void){
 
 void settings_menu(void){
 
-    if(touchStat > 3)//Edit this when integrating ::TOUCH::
-    {
-        touchStat = 0;//Edit this when integrating ::TOUCH::
-        clear_display_list();
-        if(b_state.selected_object == 5)
-            b_state.selected_object = 0;
-        else
-            b_state.selected_object++;
-
-        b_state.state_drawn = 0;
-    }
+    do_touch(6);
 
     unsigned short selected[6];
 
-    selected[0] = GREEN;
-    selected[1] = GREEN;
-    selected[2] = GREEN;
-    selected[3] = GREEN;
-    selected[4] = GREEN;
-    selected[5] = GREEN;
+    clear_selected(selected, 6);
 
     selected[b_state.selected_object] = RED;
 
     if(b_state.state_drawn == 0){
         clearscreen(BLACK);
-        rectangle(10,11, 108,15, selected[0]);
-        rectangle(10,30, 108,15, selected[1]);
-        rectangle(10,49, 108,15, selected[2]);
-        rectangle(10,68, 108,15, selected[3]);
-        rectangle(10,87, 108,15, selected[4]);
-        rectangle(10,106,108,15, selected[5]);
+        drawMenu(selected, 6);
         writeline("led",        3,  57, 23,  GREEN);
         writeline("contrast",   8,  44, 42,  GREEN);
         writeline("speaker",    7,  47, 61,  GREEN);
@@ -272,10 +221,8 @@ void settings_menu(void){
             default:
                 break;
         }
-        clear_display_list();
+        on_exit();
         b_state.previous_state = SETTINGS;
-        b_state.state_drawn = 0;
-        b_state.selected_object = 0;
     }
 }
 
@@ -285,37 +232,17 @@ void settings_menu(void){
 
 void game_menu(void){
 
-    if(touchStat > 3)//Edit this when integrating ::TOUCH::
-    {
-        touchStat = 0;//Edit this when integrating ::TOUCH::
-        clear_display_list();
-        if(b_state.selected_object == 5)
-            b_state.selected_object = 0;
-        else
-            b_state.selected_object++;
-
-        b_state.state_drawn = 0;
-    }
+    do_touch(6);
 
     unsigned short selected[6];
 
-    selected[0] = GREEN;
-    selected[1] = GREEN;
-    selected[2] = GREEN;
-    selected[3] = GREEN;
-    selected[4] = GREEN;
-    selected[5] = GREEN;
+    clear_selected(selected, 6);
 
     selected[b_state.selected_object] = RED;
 
     if(b_state.state_drawn == 0){
         clearscreen(BLACK);
-        rectangle(10,11, 108,15, selected[0]);
-        rectangle(10,30, 108,15, selected[1]);
-        rectangle(10,49, 108,15, selected[2]);
-        rectangle(10,68, 108,15, selected[3]);
-        rectangle(10,87, 108,15, selected[4]);
-        rectangle(10,106,108,15, selected[5]);
+        drawMenu(selected, 6);
         writeline("Firewall",8,  44, 23,  GREEN);
         writeline("Bowling", 7,  47, 42,  GREEN);
         writeline("Hacker",  6,  50, 61,  GREEN);
@@ -328,6 +255,7 @@ void game_menu(void){
     if(click == 0  && display.new_item == 0)
     {
         click = 1;
+
         switch(b_state.selected_object){
             case 0:
                 break;
@@ -345,12 +273,11 @@ void game_menu(void){
             default:
                 break;
         }
-        clear_display_list();
+        on_exit();
         b_state.previous_state = GAMES;
-        b_state.state_drawn = 0;
-        b_state.selected_object = 0;
     }
 }
+
 
 /*****************************[SCHEDULE STATE]********************************
  *    Contains schedule for confrence miniature self contained state machine *
@@ -358,26 +285,11 @@ void game_menu(void){
 
 void day1(void){
     
-    if(touchStat > 3)//Edit this when integrating ::TOUCH::
-    {
-        touchStat = 0;//Edit this when integrating ::TOUCH::
-        clear_display_list();
-        if(b_state.selected_object == 5)
-            b_state.selected_object = 0;
-        else
-            b_state.selected_object++;
-
-        b_state.state_drawn = 0;
-    }
+    do_touch(6);
 
     unsigned short selected[6];
 
-    selected[0] = GREEN;
-    selected[1] = GREEN;
-    selected[2] = GREEN;
-    selected[3] = GREEN;
-    selected[4] = GREEN;
-    selected[5] = GREEN;
+    clear_selected(selected, 6);
 
     selected[b_state.selected_object] = RED;
     
@@ -386,12 +298,7 @@ void day1(void){
         case 0:
                 if(b_state.state_drawn == 0){
                 clearscreen(BLACK);
-                rectangle(10,11, 108,15, selected[0]);
-                rectangle(10,30, 108,15, selected[1]);
-                rectangle(10,49, 108,15, selected[2]);
-                rectangle(10,68, 108,15, selected[3]);
-                rectangle(10,87, 108,15, selected[4]);
-                rectangle(10,106,108,15, selected[5]);
+                drawMenu(selected, 6);
                 writeline("8:00 9:00AM",11,  37, 23,  GREEN);
                 writeline("Breakfast",   9,  42, 42,  GREEN);
                 writeline("9:00 9:10AM",11,  37, 61,  GREEN);
@@ -401,35 +308,12 @@ void day1(void){
                 b_state.state_drawn = 1;
             }
 
-            if(click == 0  && display.new_item == 0)
-            {
-                click = 1;
-                switch(b_state.selected_object){
-                    case 4:
-                        b_state.counter1++;
-                        break;
-                    case 5:
-                        b_state.current_state = SCHEDULE;
-                        b_state.counter1 = 0;
-                        break;
-                    default:
-                        break;
-                }
-                clear_display_list();
-                b_state.previous_state = MAIN;
-                b_state.state_drawn = 0;
-                b_state.selected_object = 0;
-            }
+            schedule_click();
             break;
         case 1:
                 if(b_state.state_drawn == 0){
                 clearscreen(BLACK);
-                rectangle(10,11, 108,15, selected[0]);
-                rectangle(10,30, 108,15, selected[1]);
-                rectangle(10,49, 108,15, selected[2]);
-                rectangle(10,68, 108,15, selected[3]);
-                rectangle(10,87, 108,15, selected[4]);
-                rectangle(10,106,108,15, selected[5]);
+                drawMenu(selected, 6);
                 writeline("9:10 10:10AM", 12,  35, 23,  GREEN);
                 writeline("David Kennedy",13,  33, 42,  GREEN);
                 writeline("10:10 10:30AM",13,  33, 61,  GREEN);
@@ -439,35 +323,12 @@ void day1(void){
                 b_state.state_drawn = 1;
             }
 
-            if(click == 0  && display.new_item == 0)
-            {
-                click = 1;
-                switch(b_state.selected_object){
-                    case 4:
-                        b_state.counter1++;
-                        break;
-                    case 5:
-                        b_state.current_state = SCHEDULE;
-                        b_state.counter1 = 0;
-                        break;
-                    default:
-                        break;
-                }
-                clear_display_list();
-                b_state.previous_state = MAIN;
-                b_state.state_drawn = 0;
-                b_state.selected_object = 0;
-            }
+            schedule_click();
             break;
         case 2:
                 if(b_state.state_drawn == 0){
                 clearscreen(BLACK);
-                rectangle(10,11, 108,15, selected[0]);
-                rectangle(10,30, 108,15, selected[1]);
-                rectangle(10,49, 108,15, selected[2]);
-                rectangle(10,68, 108,15, selected[3]);
-                rectangle(10,87, 108,15, selected[4]);
-                rectangle(10,106,108,15, selected[5]);
+                drawMenu(selected, 6);
                 writeline("10:30 10:40AM",13,  33, 23,  GREEN);
                 writeline("Nick-Steve",   10,  40, 42,  GREEN);
                 writeline("10:40 10:50AM",13,  33, 61,  GREEN);
@@ -477,35 +338,12 @@ void day1(void){
                 b_state.state_drawn = 1;
             }
 
-            if(click == 0  && display.new_item == 0)
-            {
-                click = 1;
-                switch(b_state.selected_object){
-                    case 4:
-                        b_state.counter1++;
-                        break;
-                    case 5:
-                        b_state.current_state = SCHEDULE;
-                        b_state.counter1 = 0;
-                        break;
-                    default:
-                        break;
-                }
-                clear_display_list();
-                b_state.previous_state = MAIN;
-                b_state.state_drawn = 0;
-                b_state.selected_object = 0;
-            }
+            schedule_click();
             break;
         case 3:
                 if(b_state.state_drawn == 0){
                 clearscreen(BLACK);
-                rectangle(10,11, 108,15, selected[0]);
-                rectangle(10,30, 108,15, selected[1]);
-                rectangle(10,49, 108,15, selected[2]);
-                rectangle(10,68, 108,15, selected[3]);
-                rectangle(10,87, 108,15, selected[4]);
-                rectangle(10,106,108,15, selected[5]);
+                drawMenu(selected, 6);
                 writeline("10:50 11:00AM",13,  33, 23,  GREEN);
                 writeline("Break",         5,  53, 42,  GREEN);
                 writeline("11:00 12:00PM",13,  33, 61,  GREEN);
@@ -515,35 +353,12 @@ void day1(void){
                 b_state.state_drawn = 1;
             }
 
-            if(click == 0  && display.new_item == 0)
-            {
-                click = 1;
-                switch(b_state.selected_object){
-                    case 4:
-                        b_state.counter1++;
-                        break;
-                    case 5:
-                        b_state.current_state = SCHEDULE;
-                        b_state.counter1 = 0;
-                        break;
-                    default:
-                        break;
-                }
-                clear_display_list();
-                b_state.previous_state = MAIN;
-                b_state.state_drawn = 0;
-                b_state.selected_object = 0;
-            }
+            schedule_click();
             break;
         case 4:
                 if(b_state.state_drawn == 0){
                 clearscreen(BLACK);
-                rectangle(10,11, 108,15, selected[0]);
-                rectangle(10,30, 108,15, selected[1]);
-                rectangle(10,49, 108,15, selected[2]);
-                rectangle(10,68, 108,15, selected[3]);
-                rectangle(10,87, 108,15, selected[4]);
-                rectangle(10,106,108,15, selected[5]);
+                drawMenu(selected, 6);
                 writeline("12:00 1:00PM",12,  35, 23,  GREEN);
                 writeline("Lunch",        5,  53, 42,  GREEN);
                 writeline("1:00 1:50PM", 11,  37, 61,  GREEN);
@@ -553,35 +368,12 @@ void day1(void){
                 b_state.state_drawn = 1;
             }
 
-            if(click == 0  && display.new_item == 0)
-            {
-                click = 1;
-                switch(b_state.selected_object){
-                    case 4:
-                        b_state.counter1++;
-                        break;
-                    case 5:
-                        b_state.current_state = SCHEDULE;
-                        b_state.counter1 = 0;
-                        break;
-                    default:
-                        break;
-                }
-                clear_display_list();
-                b_state.previous_state = MAIN;
-                b_state.state_drawn = 0;
-                b_state.selected_object = 0;
-            }
+            schedule_click();
             break;
         case 5:
                 if(b_state.state_drawn == 0){
                 clearscreen(BLACK);
-                rectangle(10,11, 108,15, selected[0]);
-                rectangle(10,30, 108,15, selected[1]);
-                rectangle(10,49, 108,15, selected[2]);
-                rectangle(10,68, 108,15, selected[3]);
-                rectangle(10,87, 108,15, selected[4]);
-                rectangle(10,106,108,15, selected[5]);
+                drawMenu(selected, 6);
                 writeline("1:50 2:00PM", 11,  37, 23,  GREEN);
                 writeline("Break",        5,  53, 42,  GREEN);
                 writeline("2:00 2:50PM", 11,  37, 61,  GREEN);
@@ -591,35 +383,12 @@ void day1(void){
                 b_state.state_drawn = 1;
             }
 
-            if(click == 0  && display.new_item == 0)
-            {
-                click = 1;
-                switch(b_state.selected_object){
-                    case 4:
-                        b_state.counter1++;
-                        break;
-                    case 5:
-                        b_state.current_state = SCHEDULE;
-                        b_state.counter1 = 0;
-                        break;
-                    default:
-                        break;
-                }
-                clear_display_list();
-                b_state.previous_state = MAIN;
-                b_state.state_drawn = 0;
-                b_state.selected_object = 0;
-            }
+            schedule_click();
             break;
         case 6:
                 if(b_state.state_drawn == 0){
                 clearscreen(BLACK);
-                rectangle(10,11, 108,15, selected[0]);
-                rectangle(10,30, 108,15, selected[1]);
-                rectangle(10,49, 108,15, selected[2]);
-                rectangle(10,68, 108,15, selected[3]);
-                rectangle(10,87, 108,15, selected[4]);
-                rectangle(10,106,108,15, selected[5]);
+                drawMenu(selected, 6);
                 writeline("2:50 3:00PM",11,  37, 23,  GREEN);
                 writeline("Break",       5,  53, 42,  GREEN);
                 writeline("3:00 3:50PM",11,  37, 61,  GREEN);
@@ -629,35 +398,12 @@ void day1(void){
                 b_state.state_drawn = 1;
             }
 
-            if(click == 0  && display.new_item == 0)
-            {
-                click = 1;
-                switch(b_state.selected_object){
-                    case 4:
-                        b_state.counter1++;
-                        break;
-                    case 5:
-                        b_state.current_state = SCHEDULE;
-                        b_state.counter1 = 0;
-                        break;
-                    default:
-                        break;
-                }
-                clear_display_list();
-                b_state.previous_state = MAIN;
-                b_state.state_drawn = 0;
-                b_state.selected_object = 0;
-            }
+            schedule_click();
             break;
         case 7:
                 if(b_state.state_drawn == 0){
                 clearscreen(BLACK);
-                rectangle(10,11, 108,15, selected[0]);
-                rectangle(10,30, 108,15, selected[1]);
-                rectangle(10,49, 108,15, selected[2]);
-                rectangle(10,68, 108,15, selected[3]);
-                rectangle(10,87, 108,15, selected[4]);
-                rectangle(10,106,108,15, selected[5]);
+                drawMenu(selected, 6);
                 writeline("3:50 4:00PM", 11,  37, 23,  GREEN);
                 writeline("Break",        5,  53, 42,  GREEN);
                 writeline("4:00 4:50PM", 11,  37, 61,  GREEN);
@@ -667,35 +413,12 @@ void day1(void){
                 b_state.state_drawn = 1;
             }
 
-            if(click == 0  && display.new_item == 0)
-            {
-                click = 1;
-                switch(b_state.selected_object){
-                    case 4:
-                        b_state.counter1++;
-                        break;
-                    case 5:
-                        b_state.current_state = SCHEDULE;
-                        b_state.counter1 = 0;
-                        break;
-                    default:
-                        break;
-                }
-                clear_display_list();
-                b_state.previous_state = MAIN;
-                b_state.state_drawn = 0;
-                b_state.selected_object = 0;
-            }
+            schedule_click();
             break;
         case 8:
                 if(b_state.state_drawn == 0){
                 clearscreen(BLACK);
-                rectangle(10,11, 108,15, selected[0]);
-                rectangle(10,30, 108,15, selected[1]);
-                rectangle(10,49, 108,15, selected[2]);
-                rectangle(10,68, 108,15, selected[3]);
-                rectangle(10,87, 108,15, selected[4]);
-                rectangle(10,106,108,15, selected[5]);
+                drawMenu(selected, 6);
                 writeline("4:50 5:00PM",  11,  37, 23,  GREEN);
                 writeline("Break",         5,  53, 42,  GREEN);
                 writeline("5:00 5:50PM",  11,  37, 61,  GREEN);
@@ -705,35 +428,12 @@ void day1(void){
                 b_state.state_drawn = 1;
             }
 
-            if(click == 0  && display.new_item == 0)
-            {
-                click = 1;
-                switch(b_state.selected_object){
-                    case 4:
-                        b_state.counter1++;
-                        break;
-                    case 5:
-                        b_state.current_state = SCHEDULE;
-                        b_state.counter1 = 0;
-                        break;
-                    default:
-                        break;
-                }
-                clear_display_list();
-                b_state.previous_state = MAIN;
-                b_state.state_drawn = 0;
-                b_state.selected_object = 0;
-            }
+            schedule_click();
             break;
         case 9:
                 if(b_state.state_drawn == 0){
                 clearscreen(BLACK);
-                rectangle(10,11, 108,15, selected[0]);
-                rectangle(10,30, 108,15, selected[1]);
-                rectangle(10,49, 108,15, selected[2]);
-                rectangle(10,68, 108,15, selected[3]);
-                rectangle(10,87, 108,15, selected[4]);
-                rectangle(10,106,108,15, selected[5]);
+                drawMenu(selected, 6);
                 writeline("5:50 6:00PM",11,  37, 23,  GREEN);
                 writeline("Closing",     7,  47, 42,  GREEN);
                 writeline("6:30 8:00PM",11,  37, 61,  GREEN);
@@ -743,25 +443,7 @@ void day1(void){
                 b_state.state_drawn = 1;
             }
 
-            if(click == 0  && display.new_item == 0)
-            {
-                click = 1;
-                switch(b_state.selected_object){
-                    case 4:
-                        b_state.counter1=0;
-                        break;
-                    case 5:
-                        b_state.current_state = SCHEDULE;
-                        b_state.counter1 = 0;
-                        break;
-                    default:
-                        break;
-                }
-                clear_display_list();
-                b_state.previous_state = MAIN;
-                b_state.state_drawn = 0;
-                b_state.selected_object = 0;
-            }
+            schedule_click();
             break;
     }
     
@@ -770,26 +452,11 @@ void day1(void){
 
 void day2(void){
 
-    if(touchStat > 3)//Edit this when integrating ::TOUCH::
-    {
-        touchStat = 0;//Edit this when integrating ::TOUCH::
-        clear_display_list();
-        if(b_state.selected_object == 5)
-            b_state.selected_object = 0;
-        else
-            b_state.selected_object++;
-
-        b_state.state_drawn = 0;
-    }
+    do_touch(6);
 
     unsigned short selected[6];
 
-    selected[0] = GREEN;
-    selected[1] = GREEN;
-    selected[2] = GREEN;
-    selected[3] = GREEN;
-    selected[4] = GREEN;
-    selected[5] = GREEN;
+    clear_selected(selected, 6);
 
     selected[b_state.selected_object] = RED;
 
@@ -798,12 +465,7 @@ void day2(void){
         case 0:
                 if(b_state.state_drawn == 0){
                 clearscreen(BLACK);
-                rectangle(10,11, 108,15, selected[0]);
-                rectangle(10,30, 108,15, selected[1]);
-                rectangle(10,49, 108,15, selected[2]);
-                rectangle(10,68, 108,15, selected[3]);
-                rectangle(10,87, 108,15, selected[4]);
-                rectangle(10,106,108,15, selected[5]);
+                drawMenu(selected, 6);
                 writeline("6:00 8:00AM", 11,  37,  23,  GREEN);
                 writeline("Registration",12,  35,  42,  GREEN);
                 writeline("8:00 8:50AM", 11,  37,  61,  GREEN);
@@ -813,35 +475,12 @@ void day2(void){
                 b_state.state_drawn = 1;
             }
 
-            if(click == 0  && display.new_item == 0)
-            {
-                click = 1;
-                switch(b_state.selected_object){
-                    case 4:
-                        b_state.counter1++;
-                        break;
-                    case 5:
-                        b_state.current_state = SCHEDULE;
-                        b_state.counter1 = 0;
-                        break;
-                    default:
-                        break;
-                }
-                clear_display_list();
-                b_state.previous_state = MAIN;
-                b_state.state_drawn = 0;
-                b_state.selected_object = 0;
-            }
+            schedule_click();
             break;
         case 1:
                 if(b_state.state_drawn == 0){
                 clearscreen(BLACK);
-                rectangle(10,11, 108,15, selected[0]);
-                rectangle(10,30, 108,15, selected[1]);
-                rectangle(10,49, 108,15, selected[2]);
-                rectangle(10,68, 108,15, selected[3]);
-                rectangle(10,87, 108,15, selected[4]);
-                rectangle(10,106,108,15, selected[5]);
+                drawMenu(selected, 6);
                 writeline("8:50 9:00AM", 11,  37, 23,  GREEN);
                 writeline("Welcome",      7,  47, 42,  GREEN);
                 writeline("9:00 10:00AM",12,  35, 61,  GREEN);
@@ -851,35 +490,12 @@ void day2(void){
                 b_state.state_drawn = 1;
             }
 
-            if(click == 0  && display.new_item == 0)
-            {
-                click = 1;
-                switch(b_state.selected_object){
-                    case 4:
-                        b_state.counter1++;
-                        break;
-                    case 5:
-                        b_state.current_state = SCHEDULE;
-                        b_state.counter1 = 0;
-                        break;
-                    default:
-                        break;
-                }
-                clear_display_list();
-                b_state.previous_state = MAIN;
-                b_state.state_drawn = 0;
-                b_state.selected_object = 0;
-            }
+            schedule_click();
             break;
         case 2:
                 if(b_state.state_drawn == 0){
                 clearscreen(BLACK);
-                rectangle(10,11, 108,15, selected[0]);
-                rectangle(10,30, 108,15, selected[1]);
-                rectangle(10,49, 108,15, selected[2]);
-                rectangle(10,68, 108,15, selected[3]);
-                rectangle(10,87, 108,15, selected[4]);
-                rectangle(10,106,108,15, selected[5]);
+                drawMenu(selected, 6);
                 writeline("10:00 10:10AM",13,  33, 23,  GREEN);
                 writeline("Break",         5,  53, 42,  GREEN);
                 writeline("10:10 11:00AM",13,  33, 61,  GREEN);
@@ -889,35 +505,12 @@ void day2(void){
                 b_state.state_drawn = 1;
             }
 
-            if(click == 0  && display.new_item == 0)
-            {
-                click = 1;
-                switch(b_state.selected_object){
-                    case 4:
-                        b_state.counter1++;
-                        break;
-                    case 5:
-                        b_state.current_state = SCHEDULE;
-                        b_state.counter1 = 0;
-                        break;
-                    default:
-                        break;
-                }
-                clear_display_list();
-                b_state.previous_state = MAIN;
-                b_state.state_drawn = 0;
-                b_state.selected_object = 0;
-            }
+            schedule_click();
             break;
         case 3:
                 if(b_state.state_drawn == 0){
                 clearscreen(BLACK);
-                rectangle(10,11, 108,15, selected[0]);
-                rectangle(10,30, 108,15, selected[1]);
-                rectangle(10,49, 108,15, selected[2]);
-                rectangle(10,68, 108,15, selected[3]);
-                rectangle(10,87, 108,15, selected[4]);
-                rectangle(10,106,108,15, selected[5]);
+                drawMenu(selected, 6);
                 writeline("11:00 11:10AM",   13,  33, 23,  GREEN);
                 writeline("Break",            5,  53, 42,  GREEN);
                 writeline("11:10 12:00PM",   13,  33, 61,  GREEN);
@@ -927,35 +520,12 @@ void day2(void){
                 b_state.state_drawn = 1;
             }
 
-            if(click == 0  && display.new_item == 0)
-            {
-                click = 1;
-                switch(b_state.selected_object){
-                    case 4:
-                        b_state.counter1++;
-                        break;
-                    case 5:
-                        b_state.current_state = SCHEDULE;
-                        b_state.counter1 = 0;
-                        break;
-                    default:
-                        break;
-                }
-                clear_display_list();
-                b_state.previous_state = MAIN;
-                b_state.state_drawn = 0;
-                b_state.selected_object = 0;
-            }
+            schedule_click();
             break;
         case 4:
                 if(b_state.state_drawn == 0){
                 clearscreen(BLACK);
-                rectangle(10,11, 108,15, selected[0]);
-                rectangle(10,30, 108,15, selected[1]);
-                rectangle(10,49, 108,15, selected[2]);
-                rectangle(10,68, 108,15, selected[3]);
-                rectangle(10,87, 108,15, selected[4]);
-                rectangle(10,106,108,15, selected[5]);
+                drawMenu(selected, 6);
                 writeline("12:00 1:00PM",   12,  35, 23,  GREEN);
                 writeline("Lunch",           5,  53, 42,  GREEN);
                 writeline("1:00 1:50PM",    11,  37, 61,  GREEN);
@@ -965,35 +535,12 @@ void day2(void){
                 b_state.state_drawn = 1;
             }
 
-            if(click == 0  && display.new_item == 0)
-            {
-                click = 1;
-                switch(b_state.selected_object){
-                    case 4:
-                        b_state.counter1++;
-                        break;
-                    case 5:
-                        b_state.current_state = SCHEDULE;
-                        b_state.counter1 = 0;
-                        break;
-                    default:
-                        break;
-                }
-                clear_display_list();
-                b_state.previous_state = MAIN;
-                b_state.state_drawn = 0;
-                b_state.selected_object = 0;
-            }
+            schedule_click();
             break;
         case 5:
                 if(b_state.state_drawn == 0){
                 clearscreen(BLACK);
-                rectangle(10,11, 108,15, selected[0]);
-                rectangle(10,30, 108,15, selected[1]);
-                rectangle(10,49, 108,15, selected[2]);
-                rectangle(10,68, 108,15, selected[3]);
-                rectangle(10,87, 108,15, selected[4]);
-                rectangle(10,106,108,15, selected[5]);
+                drawMenu(selected, 6);
                 writeline("1:50 2:00PM",  11,  37, 23,  GREEN);
                 writeline("Break",         5,  53, 42,  GREEN);
                 writeline("2:00 2:50PM",  11,  37, 61,  GREEN);
@@ -1003,35 +550,12 @@ void day2(void){
                 b_state.state_drawn = 1;
             }
 
-            if(click == 0  && display.new_item == 0)
-            {
-                click = 1;
-                switch(b_state.selected_object){
-                    case 4:
-                        b_state.counter1++;
-                        break;
-                    case 5:
-                        b_state.current_state = SCHEDULE;
-                        b_state.counter1 = 0;
-                        break;
-                    default:
-                        break;
-                }
-                clear_display_list();
-                b_state.previous_state = MAIN;
-                b_state.state_drawn = 0;
-                b_state.selected_object = 0;
-            }
+            schedule_click();
             break;
         case 6:
                 if(b_state.state_drawn == 0){
                 clearscreen(BLACK);
-                rectangle(10,11, 108,15, selected[0]);
-                rectangle(10,30, 108,15, selected[1]);
-                rectangle(10,49, 108,15, selected[2]);
-                rectangle(10,68, 108,15, selected[3]);
-                rectangle(10,87, 108,15, selected[4]);
-                rectangle(10,106,108,15, selected[5]);
+                drawMenu(selected, 6);
                 writeline("2:50 3:10PM",    11,  37, 23,  GREEN);
                 writeline("Break",           5,  53, 42,  GREEN);
                 writeline("3:10 4:00PM",    11,  37, 61,  GREEN);
@@ -1041,35 +565,12 @@ void day2(void){
                 b_state.state_drawn = 1;
             }
 
-            if(click == 0  && display.new_item == 0)
-            {
-                click = 1;
-                switch(b_state.selected_object){
-                    case 4:
-                        b_state.counter1++;
-                        break;
-                    case 5:
-                        b_state.current_state = SCHEDULE;
-                        b_state.counter1 = 0;
-                        break;
-                    default:
-                        break;
-                }
-                clear_display_list();
-                b_state.previous_state = MAIN;
-                b_state.state_drawn = 0;
-                b_state.selected_object = 0;
-            }
+            schedule_click();
             break;
         case 7:
                 if(b_state.state_drawn == 0){
                 clearscreen(BLACK);
-                rectangle(10,11, 108,15, selected[0]);
-                rectangle(10,30, 108,15, selected[1]);
-                rectangle(10,49, 108,15, selected[2]);
-                rectangle(10,68, 108,15, selected[3]);
-                rectangle(10,87, 108,15, selected[4]);
-                rectangle(10,106,108,15, selected[5]);
+                drawMenu(selected, 6);
                 writeline("4:00 4:10PM", 11,  37, 23,  GREEN);
                 writeline("Break",        5,  53, 42,  GREEN);
                 writeline("4:10 5:00PM", 11,  37, 61,  GREEN);
@@ -1079,35 +580,12 @@ void day2(void){
                 b_state.state_drawn = 1;
             }
 
-            if(click == 0  && display.new_item == 0)
-            {
-                click = 1;
-                switch(b_state.selected_object){
-                    case 4:
-                        b_state.counter1++;
-                        break;
-                    case 5:
-                        b_state.current_state = SCHEDULE;
-                        b_state.counter1 = 0;
-                        break;
-                    default:
-                        break;
-                }
-                clear_display_list();
-                b_state.previous_state = MAIN;
-                b_state.state_drawn = 0;
-                b_state.selected_object = 0;
-            }
+            schedule_click();
             break;
         case 8:
                 if(b_state.state_drawn == 0){
                 clearscreen(BLACK);
-                rectangle(10,11, 108,15, selected[0]);
-                rectangle(10,30, 108,15, selected[1]);
-                rectangle(10,49, 108,15, selected[2]);
-                rectangle(10,68, 108,15, selected[3]);
-                rectangle(10,87, 108,15, selected[4]);
-                rectangle(10,106,108,15, selected[5]);
+                drawMenu(selected, 6);
                 writeline("5:00 6:30PM",11,  37, 23,  GREEN);
                 writeline("Reception",   9,  37, 42,  GREEN);
                 writeline("See you at", 10,  35, 61,  GREEN);
@@ -1117,12 +595,31 @@ void day2(void){
                 b_state.state_drawn = 1;
             }
 
-            if(click == 0  && display.new_item == 0)
+            schedule_click();
+            break;
+    }
+
+}
+
+void schedule_click(void){
+    if(click == 0  && display.new_item == 0)
             {
                 click = 1;
                 switch(b_state.selected_object){
                     case 4:
-                        b_state.counter1=0;
+                        if(b_state.current_state == DAY1 &&
+                                b_state.counter1 == 9)
+                        {
+                            b_state.counter1 = 0;
+                        }
+                        else if(b_state.current_state == DAY2 &&
+                                b_state.counter1 == 8)
+                        {
+                            b_state.counter1 = 0;
+                        }
+                        else{
+                            b_state.counter1++;
+                        }
                         break;
                     case 5:
                         b_state.current_state = SCHEDULE;
@@ -1131,14 +628,9 @@ void day2(void){
                     default:
                         break;
                 }
-                clear_display_list();
+                on_exit();
                 b_state.previous_state = MAIN;
-                b_state.state_drawn = 0;
-                b_state.selected_object = 0;
             }
-            break;
-    }
-
 }
 
 /********************************END SCHEDULE*********************************/
@@ -1163,12 +655,62 @@ void unlocked_achievments(void){
     {
         click = 1;
         b_state.current_state = b_state.previous_state;
-        clear_display_list();
+        on_exit();
         b_state.previous_state = ACHIEVMENTS;
-        b_state.state_drawn = 0;
-        b_state.selected_object = 0;
     }
 }
+/***********************[MENU FUNCTIONS USE CAREFULLY]*************************
+ *        Functions used to emplement functionality of the menu system        *
+ ******************************************************************************/
+
+void on_exit(void){
+    clear_display_list();
+    b_state.state_drawn = 0;
+    b_state.selected_object = 0;
+}
+
+void do_touch(unsigned char menuSize){
+    if(touchStat > 3)//Edit this when integrating ::TOUCH::
+    {
+        touchStat = 0;//Edit this when integrating ::TOUCH::
+        clear_display_list();
+        if(b_state.selected_object == (menuSize-1))
+            b_state.selected_object = 0;
+        else
+            b_state.selected_object++;
+
+        b_state.state_drawn = 0;
+    }
+}
+
+void drawMenu(unsigned short * selected, unsigned char menuSize){
+    rectangle(10,11, 108,15, selected[0]);
+    if(menuSize > 1)
+        rectangle(10,30, 108,15, selected[1]);
+    if(menuSize > 2)
+        rectangle(10,49, 108,15, selected[2]);
+    if(menuSize > 3)
+        rectangle(10,68, 108,15, selected[3]);
+    if(menuSize > 4)
+        rectangle(10,87, 108,15, selected[4]);
+    if(menuSize > 5)
+        rectangle(10,106,108,15, selected[5]);
+}
+
+void clear_selected(unsigned short * selected, unsigned char menuSize){
+    selected[0] = GREEN;
+    if(menuSize > 1)
+        selected[1] = GREEN;
+    if(menuSize > 2)
+        selected[2] = GREEN;
+    if(menuSize > 3)
+        selected[3] = GREEN;
+    if(menuSize > 4)
+        selected[4] = GREEN;
+    if(menuSize > 5)
+        selected[5] = GREEN;
+}
+/***************************[END MENU FUNCTIONS]******************************/
 
 
 
@@ -1177,12 +719,14 @@ void unlocked_achievments(void){
  *****************************************************************************/
 
 void init_states(void){
+
    b_state.previous_state = MAIN;
    b_state.current_state = MAIN;
    b_state.state_drawn = 0;
    b_state.selected_object = 0;
    b_state.counter1 = 0;
    b_state.counter2 = 0;
+
 }
 
 

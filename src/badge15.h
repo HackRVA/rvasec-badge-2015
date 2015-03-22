@@ -5,11 +5,11 @@
  * Created on March 28, 2014, 8:24 PM
  */
 
-#include "badge_common.h"
 #include "touchCTMU.h"
 
 unsigned char touchStat;//remove when touch is properly implemented
 int click;//remove when button is really implemented
+
 
 /******************************************************************************/
 /***************************[Badge State Machine]******************************/
@@ -44,6 +44,14 @@ void unlocked_achievments(void);//shows unlocked achievments
 void day1(void);//first day's schedule
 
 void day2(void);//second day's schedule
+
+void drawMenu(unsigned short * selected, unsigned char menuSize);
+
+void do_touch(unsigned char menuSize);
+
+void schedule_click(void);
+
+void on_exit(void);
 
 /******************************************************************************/
 /****************************[End State Machine]*******************************/

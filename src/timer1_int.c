@@ -313,40 +313,19 @@ void __ISR(_TIMER_2_VECTOR, IPL2SOFT) Timer2Handler(void)
            // 2014
            // LATCbits.LATC1 = 1;
 
-	   LATBbits.LATB13 = 1;
-	   LATBbits.LATB13 = 1;
-	   LATBbits.LATB13 = 1;
-	   LATBbits.LATB13 = 1;
+	   LATB_13_1();
 
-	   LATBbits.LATB13 = 1;
-	   LATBbits.LATB13 = 1;
-	   LATBbits.LATB13 = 1;
-	   LATBbits.LATB13 = 1;
+	   LATB_13_1();
 
-	   LATBbits.LATB13 = 1;
-	   LATBbits.LATB13 = 1;
-	   LATBbits.LATB13 = 1;
-	   LATBbits.LATB13 = 1;
+	   LATB_13_1();
 
-	   LATBbits.LATB13 = 1;
-	   LATBbits.LATB13 = 1;
-	   LATBbits.LATB13 = 1;
-	   LATBbits.LATB13 = 1;
+	   LATB_13_1();
 
-	   LATBbits.LATB13 = 1;
-	   LATBbits.LATB13 = 1;
-	   LATBbits.LATB13 = 1;
-	   LATBbits.LATB13 = 1;
+	   LATB_13_1();
 
-	   LATBbits.LATB13 = 1;
-	   LATBbits.LATB13 = 1;
-	   LATBbits.LATB13 = 1;
-	   LATBbits.LATB13 = 1;
+	   LATB_13_1();
 
-	   LATBbits.LATB13 = 1;
-	   LATBbits.LATB13 = 1;
-	   LATBbits.LATB13 = 1;
-	   LATBbits.LATB13 = 1;
+	   LATB_13_1();
 
 	   LATBbits.LATB13 = 0;
 
@@ -381,40 +360,19 @@ void __ISR(_TIMER_2_VECTOR, IPL2SOFT) Timer2Handler(void)
            // 2014
            // LATCbits.LATC1 = 1;
 
-	   LATBbits.LATB13 = 1;
-	   LATBbits.LATB13 = 1;
-	   LATBbits.LATB13 = 1;
-	   LATBbits.LATB13 = 1;
+	   LATB_13_1();
 
-	   LATBbits.LATB13 = 1;
-	   LATBbits.LATB13 = 1;
-	   LATBbits.LATB13 = 1;
-	   LATBbits.LATB13 = 1;
+	   LATB_13_1();
 
-	   LATBbits.LATB13 = 1;
-	   LATBbits.LATB13 = 1;
-	   LATBbits.LATB13 = 1;
-	   LATBbits.LATB13 = 1;
+	   LATB_13_1();
 
-	   LATBbits.LATB13 = 1;
-	   LATBbits.LATB13 = 1;
-	   LATBbits.LATB13 = 1;
-	   LATBbits.LATB13 = 1;
+	   LATB_13_1();
 
-	   LATBbits.LATB13 = 1;
-	   LATBbits.LATB13 = 1;
-	   LATBbits.LATB13 = 1;
-	   LATBbits.LATB13 = 1;
+	   LATB_13_1();
 
-	   LATBbits.LATB13 = 1;
-	   LATBbits.LATB13 = 1;
-	   LATBbits.LATB13 = 1;
-	   LATBbits.LATB13 = 1;
+	   LATB_13_1();
 
-	   LATBbits.LATB13 = 1;
-	   LATBbits.LATB13 = 1;
-	   LATBbits.LATB13 = 1;
-	   LATBbits.LATB13 = 1;
+           LATB_13_1();
 
 	   LATBbits.LATB13 = 0;
 
@@ -487,5 +445,12 @@ void __ISR(_ADC_VECTOR, IPL1) ADC1Handler(void)
 	AD1CON1bits.DONE = 0; // ADC conversion done, clear flag
 
 	LATCbits.LATC1 = !LATCbits.LATC1;      /* GREEN */
+}
+
+void LATB_13_1(void){
+    LATBbits.LATB13 = 1;
+    LATBbits.LATB13 = 1;
+    LATBbits.LATB13 = 1;
+    LATBbits.LATB13 = 1;
 }
 

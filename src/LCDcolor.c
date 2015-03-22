@@ -1,6 +1,13 @@
+#define NEWCHARFUNCT
+
 #include "plib.h"
 #include "S6B33.h"
 #include "LCDcolor.h"
+#include "font.h"
+
+
+
+
 /* lame */
 void MS(unsigned char ms)
 {
@@ -65,18 +72,6 @@ void LCDReset(void) {
    S6B33_init_device(); /* set important internal registers */
 }
 
-void LCDLogo(void) {
-}
-
-/* need a 1 bit shadow array to draw to then blit */
-void LCDputPixel(unsigned char x,//places one pixel
-        unsigned char y,
-        unsigned short color)
-{
-    S6B33_rect(y, x, 0, 0);
-    S6B33_pixel(color);
-}
-
 void LCDinit_scan(void){
     S6B33_rect(0, 0, 131, 131);
 }
@@ -112,21 +107,6 @@ void LCDBackgroundScan(unsigned short color){
         scan_bucket[j] = color;
 }
 
-void LCDline(int x0, int y0, int x1, int y1, unsigned short color) {//do not use unless line is diagonal
-  void LCDputPixel(unsigned char x, unsigned char y, unsigned short color);
-
-  int dx = abs(x1-x0), sx = x0<x1 ? 1 : -1;
-  int dy = abs(y1-y0), sy = y0<y1 ? 1 : -1; 
-  int err = (dx>dy ? dx : -dy)/2, e2;
- 
-  for(;;){
-    LCDputPixel(x0,y0, color);
-    if (x0==x1 && y0==y1) break;
-    e2 = err;
-    if (e2 > -dx) { err -= dy; x0 += sx; }
-    if (e2 < dy) { err += dx; y0 += sy; }
-  }
-}
 
 void LCDrectangleScan(unsigned char x, //calls 4 line scans for rectangle
         unsigned char y,
@@ -141,7 +121,88 @@ void LCDrectangleScan(unsigned char x, //calls 4 line scans for rectangle
     LCDlineScan(x,y+height-1,x+width,y+height-1,lineCurrent, color);
 }
 
+#ifdef NEWCHARFUNCT
 
+void LCDCharacterScan(unsigned char y,//Hard coded font. Scans
+        unsigned char x,              //Calls scan line function for
+        unsigned char charin,         //character values
+        unsigned char lineCurrent,
+        unsigned short color)
+{
+    if(charin >= 'a' && charin <= 'z')
+    {
+        LCDScanLowSet(x,y,charin,lineCurrent,color,97);
+    }
+    if(charin >= 'A' && charin <= 'Z')
+    {
+        LCDScanLowSet(x,y,charin,lineCurrent,color,65);
+    }
+    if(charin >= '0' && charin <= '9')
+    {
+        LCDScanLowSet(x,y,charin,lineCurrent,color,22);
+    }
+    if(charin == '.')
+    {
+        LCDlineScan(x-3,y-1,x-3,y-1,lineCurrent,color);
+    }
+    if(charin == ':')
+    {
+        LCDlineScan(x-3,y-1,x-3,y-1,lineCurrent,color);
+        LCDlineScan(x-3,y-4,x-3,y-4,lineCurrent,color);
+    }
+    if(charin == '!')
+    {
+        LCDlineScan(x-3,y-1,x-3,y-1,lineCurrent,color);
+        LCDlineScan(x-3,y-8,x-3,y-3,lineCurrent,color);
+    }
+    if(charin == '-')
+    {
+        LCDlineScan(x-4,y-4,x-2,y-4,lineCurrent,color);
+    }
+    if(charin == '_')
+    {
+        LCDlineScan(x-5,y-1,x-1,y-1,lineCurrent,color);
+    }
+    if(charin == ' ')
+    {
+
+    }
+}
+
+void LCDCharScanLow(unsigned char x,
+        unsigned char y,
+        unsigned char charin,
+        unsigned char lineCurrent,
+        unsigned short color,
+        unsigned char line,
+        unsigned char asciioffset){
+    LCDlineScan(x-font[charin-asciioffset][line][0],
+                y-font[charin-asciioffset][line][1],
+                x-font[charin-asciioffset][line][2],
+                y-font[charin-asciioffset][line][3],
+                lineCurrent,color);
+}
+
+void LCDScanLowSet(unsigned char x,
+        unsigned char y,
+        unsigned char charin,
+        unsigned char lineCurrent,
+        unsigned short color,
+        unsigned char asciioffset){
+
+        LCDCharScanLow(x,y,charin,lineCurrent,color,0,asciioffset);
+        LCDCharScanLow(x,y,charin,lineCurrent,color,1,asciioffset);
+        LCDCharScanLow(x,y,charin,lineCurrent,color,2,asciioffset);
+        LCDCharScanLow(x,y,charin,lineCurrent,color,3,asciioffset);
+        LCDCharScanLow(x,y,charin,lineCurrent,color,4,asciioffset);
+        LCDCharScanLow(x,y,charin,lineCurrent,color,5,asciioffset);
+        LCDCharScanLow(x,y,charin,lineCurrent,color,6,asciioffset);
+}
+
+//LCDCharScanLow(x,y,charin,lineCurrent,color,0,97)
+#endif
+
+#ifndef NEWCHARFUNCT
 void LCDCharacterScan(unsigned char y,//Hard coded font. Scans
         unsigned char x,              //Calls scan line function for
         unsigned char charin,         //character values
@@ -420,15 +481,16 @@ void LCDCharacterScan(unsigned char y,//Hard coded font. Scans
     {
         LCDlineScan(x-4,y-4,x-2,y-4,lineCurrent,color);
     }
-    else if(charin == ' ')
-    {
-        
-    }
-    else
+    else if(charin == '_')
     {
         LCDlineScan(x-5,y-1,x-1,y-1,lineCurrent,color);
     }
+    else
+    {
+        
+    }
 }
+#endif
 
 /*
  void LCDCharacter()
@@ -716,5 +778,36 @@ void LCDBars()
 {
 }
 #endif
+
+#ifdef NONSCAN
+void LCDline(int x0, int y0, int x1, int y1, unsigned short color) {//do not use unless line is diagonal
+  void LCDputPixel(unsigned char x, unsigned char y, unsigned short color);
+
+  int dx = abs(x1-x0), sx = x0<x1 ? 1 : -1;
+  int dy = abs(y1-y0), sy = y0<y1 ? 1 : -1;
+  int err = (dx>dy ? dx : -dy)/2, e2;
+
+  for(;;){
+    LCDputPixel(x0,y0, color);
+    if (x0==x1 && y0==y1) break;
+    e2 = err;
+    if (e2 > -dx) { err -= dy; x0 += sx; }
+    if (e2 < dy) { err += dx; y0 += sy; }
+  }
+}
+
+void LCDLogo(void) {
+}
+
+// need a 1 bit shadow array to draw to then blit
+void LCDputPixel(unsigned char x,//places one pixel
+        unsigned char y,
+        unsigned short color)
+{
+    S6B33_rect(y, x, 0, 0);
+    S6B33_pixel(color);
+}
+
+#endif 
 
 

@@ -11,6 +11,7 @@
 #include "HardwareProfile.h"
 #include "badge15.h"
 #include "assetList.h"
+#include "time_date.h"
 
 #define BLUE 0b0000000000011111
 #define GREEN 0b0000011111100000
@@ -281,6 +282,8 @@ static void InitializeSystem(void)
    init_states();
    
    initTouch();
+
+   setTime_Date("08:00A","06-04-15");
 /*
    clearscreen(RED);
 

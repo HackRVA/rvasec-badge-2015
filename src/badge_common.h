@@ -11,7 +11,7 @@
 //#include "Compiler.h"
 //#include "HardwareProfile.h"
 
-int setupRTCC(void);
+//int setupRTCC(void);
 unsigned long get_time(void);
 // union/structure for read/write of time into the RTCC device
 typedef union
