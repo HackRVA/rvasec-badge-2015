@@ -176,11 +176,18 @@ void LCDCharScanLow(unsigned char x,
         unsigned short color,
         unsigned char line,
         unsigned char asciioffset){
-    LCDlineScan(x-font[charin-asciioffset][line][0],
+    if(font[charin-asciioffset][line][0] == 0 &&
+            font[charin-asciioffset][line][1] == 0 &&
+            font[charin-asciioffset][line][2] == 0 &&
+            font[charin-asciioffset][line][3] == 0
+            ){}
+    else{
+        LCDlineScan(x-font[charin-asciioffset][line][0],
                 y-font[charin-asciioffset][line][1],
                 x-font[charin-asciioffset][line][2],
                 y-font[charin-asciioffset][line][3],
                 lineCurrent,color);
+    }
 }
 
 void LCDScanLowSet(unsigned char x,
