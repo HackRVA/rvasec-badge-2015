@@ -1,8 +1,8 @@
 enum {
 //    MAYO=1,
-    DRBOB=0,
-    HACKRVA,
-    RVASEC,
+//    DRBOB=0,
+    HACKRVA=0,
+//    RVASEC,
     RVASEC2,
     HACKRVA2,
     MARIO,
