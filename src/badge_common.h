@@ -3,7 +3,7 @@
  * Author: morgan
  *
  * Created on March 28, 2014, 9:28 PM
- */
+ *
 
 #ifndef BADGE_COMMON_H
 #define	BADGE_COMMON_H

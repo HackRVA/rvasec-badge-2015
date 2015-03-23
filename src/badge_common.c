@@ -1,6 +1,6 @@
 #include "badge_common.h"
 #include "Common/Compiler.h"
-
+/*
 void b_strcpy(char* dest, const char* src)
 {
     unsigned char offset = 0;
@@ -83,3 +83,4 @@ void uINT_to_chars(unsigned int in, char *out)
     out[3] = (in) & 0xf;
 }
 
+*/

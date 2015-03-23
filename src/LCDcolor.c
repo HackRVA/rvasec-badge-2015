@@ -8,14 +8,14 @@
 
 
 
-/* lame */
+/* lame 
 void MS(unsigned char ms)
 {
 //   unsigned char i, m;
 //   for (m=0; m<ms; m++) {
 //      for (i=0; i<2; i++) ;
 //   }
-}
+}*/
 
 /* CS_ and _RESET are held low */
 /* so the LCD is doing nothing  until lcd_init_device happens */
@@ -513,6 +513,7 @@ void LCD_RVASec_Logo()
 }
 */
 
+
 void LCDcolor(unsigned short pixel)
 {
     unsigned char i,j;
@@ -548,6 +549,7 @@ void LCDblue()
 {
     LCDcolor(0b0000000000011111);
 }
+
 
 #ifdef BARS
 void LCDBars()
