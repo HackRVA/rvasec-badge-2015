@@ -14,6 +14,7 @@
 #include "time_date.h"
 
 #define JON
+//#define TOUCHHACK
 
 #define BLUE 0b0000000000011111
 #define GREEN 0b0000011111100000
@@ -561,7 +562,7 @@ void ProcessIO(void)
 #endif
 
 #ifdef TOUCHHACK
-    if(touchcount == 40001)//remove when integrating ::TOUCH::
+    if(touchcount == 2001)//remove when integrating ::TOUCH::
     {
 
         //getTouch();

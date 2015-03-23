@@ -726,6 +726,7 @@ void init_states(void){
    b_state.selected_object = 0;
    b_state.counter1 = 0;
    b_state.counter2 = 0;
+   click = 0;
 
 }
 
