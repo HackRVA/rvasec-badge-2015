@@ -88,7 +88,9 @@
 #define T2_TICK_DIV2       	(SYS_FREQ/TOGGLES_PER_SEC/2)
 
 /* for touchPad and screen compositing*/
-#define T3_TICK       		(SYS_FREQ/15)
+/* changing this number will definitely change up touchpad timings */
+#define TOUCH_TOGGLES       120
+#define T3_TICK       		(SYS_FREQ/TOUCH_TOGGLES)
 
 void TimerInit(void)
 {
@@ -112,8 +114,8 @@ void TimerInit(void)
 
 
     OpenTimer3(T3_ON | T3_SOURCE_INT, T3_TICK);
-    // set up the timer interrupt with a priority of 3
-    ConfigIntTimer3(T3_INT_ON | T3_INT_PRIOR_3);
+    // set up the timer interrupt with a priority of 6
+    ConfigIntTimer3(T3_INT_ON | T3_INT_PRIOR_6);
 
 
     // enable multi-vector interrupts
@@ -195,6 +197,7 @@ unsigned char G_halfCount = 0;
 void __ISR(_TIMER_2_VECTOR, IPL2SOFT) Timer2Handler(void)
 {
    void do_audio();
+   void do_leds();
    static unsigned int sendOne = 0;
    static unsigned int sendZero = 0;
    static unsigned char lowHalf = 1;
@@ -204,6 +207,7 @@ void __ISR(_TIMER_2_VECTOR, IPL2SOFT) Timer2Handler(void)
    mT2ClearIntFlag();
 
    do_audio();
+   do_leds();
 
    // LATBbits.LATB8 == DBG pin shake sensor near LCD pins
    // each timer interrupt is 1/38khz
@@ -444,7 +448,7 @@ void __ISR(_TIMER_2_VECTOR, IPL2SOFT) Timer2Handler(void)
 // 2014
 //void __ISR( _EXTERNAL_4_VECTOR, ipl1) Int4Interrupt(void)
 // input changed on RB0
-void __ISR( _EXTERNAL_1_VECTOR, ipl1) Int1Interrupt(void)
+void __ISR( _EXTERNAL_1_VECTOR, IPL1) Int1Interrupt(void)
 { 
    // clear flag 2014
    //IFS0bits.INT4IF = 0;
@@ -464,28 +468,75 @@ void __ISR( _EXTERNAL_1_VECTOR, ipl1) Int1Interrupt(void)
    }
 }
 
-void __ISR(_TIMER_3_VECTOR, IPL3SOFT) Timer3Handler(void)
+void __ISR(_TIMER_3_VECTOR, IPL6) Timer3Handler(void)
 {
-   void getTouch();
+   void touchInterrupt();
 
-   // clear the interrupt flag
-   mT3ClearIntFlag();
+   mT3ClearIntFlag(); // clear the interrupt flag
+   touchInterrupt(); /* ADC for each button */
 
-   touchInterupt(); /* starts ADC for each button */
-
-   LATCbits.LATC0 = !LATCbits.LATC0;      /* RED */
 }
 
-extern int G_buttonADCdone; /* set when ADC done */
-void __ISR(_ADC_VECTOR, IPL1) ADC1Handler(void)
-{
-	// clear the interrupt flag for the ADC converstiion
-	mAD1ClearIntFlag();
+unsigned char G_red_cnt=0;
+unsigned char G_red_pwm=0;
 
-	G_buttonADCdone=1; /* flag ADC done and touchInterupt can run again */
+unsigned char G_green_cnt=0;
+unsigned char G_green_pwm=0;
 
-	AD1CON1bits.DONE = 0; // ADC conversion done, clear flag
+unsigned char G_blue_cnt=0;
+unsigned char G_blue_pwm=0;
 
-	LATCbits.LATC1 = !LATCbits.LATC1;      /* GREEN */
+unsigned char G_bright=2;
+
+void brightness(unsigned char bright) {
+   G_bright = bright;
 }
 
+void red(unsigned char onPWM) {
+    onPWM <<= G_bright;
+    G_red_pwm = onPWM; 
+    G_red_cnt = 0;
+}
+
+void green(unsigned char onPWM) {
+    onPWM <<= G_bright;
+    G_green_pwm = onPWM; 
+    G_green_cnt = 0;
+}
+
+void blue(unsigned char onPWM) {
+    onPWM <<= G_bright;
+    G_blue_pwm = onPWM; 
+    G_blue_cnt = 0;
+}
+
+void do_leds()
+{
+    /* red */
+    G_red_cnt++;
+    if (G_red_cnt > G_red_pwm)
+        LATCbits.LATC0 = 1;
+    else
+        LATCbits.LATC0 = 0;
+
+    if (G_red_cnt == 255) G_red_cnt = 0;
+
+
+    /* Green */
+    G_green_cnt++;
+    if (G_green_cnt > G_green_pwm)
+        LATBbits.LATB3 = 1;
+    else
+        LATBbits.LATB3 = 0;
+
+    if (G_green_cnt == 255) G_green_cnt = 0;
+
+    /* Blue */
+    G_blue_cnt++;
+    if (G_blue_cnt > G_blue_pwm)
+        LATCbits.LATC1 = 1;
+    else
+        LATCbits.LATC1 = 0;
+
+    if (G_blue_cnt == 255) G_blue_cnt = 0;
+}

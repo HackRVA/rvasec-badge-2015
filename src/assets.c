@@ -3,6 +3,8 @@
 #include "assets.h"
 #include "assetList.h"
 
+#include "timer1_int.h"
+
 
 /* 
    255 = asset active
@@ -234,10 +236,14 @@ void nextNote_cb(unsigned char assetId, int frame)
 		/* unsigned char to short conversion turns out to have weird sign extension problems */
 		G_duration = ((unsigned short)(assetList[assetId].data_cmap[G_currentNote] & 0xFF) * 3 * 38) ;
 
+green(assetList[assetId].data_cmap[G_currentNote] & 0xFF);
+
 		if (assetList[assetId].pixdata[G_currentNote] == 0)
 			G_freq = 0;
 		else
 			G_freq = 38000 / ((unsigned short)(assetList[assetId].pixdata[G_currentNote] & 0xFF) * 8);
+
+blue((unsigned short)(assetList[assetId].pixdata[G_currentNote] & 0xFF));
 
 #ifdef DEBUGAUDIO
 		USB_Out_Buffer[NextUSBOut++] = 'N';
