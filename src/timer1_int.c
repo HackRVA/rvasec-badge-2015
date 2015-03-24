@@ -519,7 +519,7 @@ void do_leds()
     else
         LATCbits.LATC0 = 0;
 
-    if (G_red_cnt == 255) G_red_cnt = 0;
+    // just let it wrap around if (G_red_cnt == 255) G_red_cnt = 0;
 
 
     /* Green */
@@ -529,7 +529,7 @@ void do_leds()
     else
         LATBbits.LATB3 = 0;
 
-    if (G_green_cnt == 255) G_green_cnt = 0;
+    // just let it wrap around if (G_green_cnt == 255) G_green_cnt = 0;
 
     /* Blue */
     G_blue_cnt++;
@@ -538,5 +538,5 @@ void do_leds()
     else
         LATCbits.LATC1 = 0;
 
-    if (G_blue_cnt == 255) G_blue_cnt = 0;
+    // just let it wrap around if (G_blue_cnt == 255) G_blue_cnt = 0;
 }

@@ -1,7 +1,6 @@
 /** I N C L U D E S **********************************************************/
 #include "./USB/usb.h"
 #include "./USB/usb_function_cdc.h"
-#include "Sound.h"
 #include "HardwareProfile.h"
 #include "GenericTypeDefs.h"
 #include "./Common/Compiler.h"
@@ -574,32 +573,6 @@ void ProcessIO(void)
     touchcount++;
 #endif
     
-/*
-
-PEB: Morgan- bypass if button is push?
-
-*/
-//    //C short circuit makes this work
-//    if(PORTBbits.RB13 && button_pressed < 250)
-//    {
-//        button_pressed += 1;
-//    }
-//    else if (!PORTBbits.RB13)
-//    {
-//        button_cnt = 0;
-//        button_pressed = 0;
-//    }
-//
-//    getTouchUL();
-//    getTouchUR();
-//
-//    getTouchRU();
-//    getTouchRL();
-
-//    frontBack = PORTAbits.RA8 ;
-//    shake = PORTBbits.RB8 ;
-
-    // User Application USB tasks
     if((USBDeviceState < CONFIGURED_STATE)||(USBSuspendControl==1)) return;
 
     {
@@ -607,15 +580,6 @@ PEB: Morgan- bypass if button is push?
 
         nread = getsUSBUSART(USB_In_Buffer, CDC_DATA_IN_EP_SIZE); //until the buffer is free.
         if(nread > 0) {
-            /* speaker */
-            //LATAbits.LATA9 = !LATAbits.LATA9;
-//            if (USB_In_Buffer[0] == 92)
-//                play_count ^= 0x8000;
-//            play_count |= 0x0001;
-
-            /* serial byte led */
-            //LATBbits.LATB15 = !LATBbits.LATB15;
-            //LATBbits.LATB1 = 1;//!LATBbits.LATB1;
 
 			// if first char == ! then call Forth system. currently never returns
             if (USB_In_Buffer[0] == '!') {
@@ -1008,7 +972,6 @@ PEB: Morgan- bypass if button is push?
 
                 USB_In_Buffer[0] = 0;
             }
-            }
 
             if (USB_In_Buffer[0] == ']') {
                 if (Nnops != 255) Nnops += 1;
@@ -1115,13 +1078,14 @@ PEB: Morgan- bypass if button is push?
             for (i=0; i<nread; i++,NextUSBOut++) {
                 USB_Out_Buffer[NextUSBOut] = USB_In_Buffer[i];
             }
+            }
 
-        }
 
-        // echo back to USB
-        if ((USBUSARTIsTxTrfReady()) && (NextUSBOut > 0)) {
-            putUSBUSART(&USB_Out_Buffer[0], NextUSBOut);
-            NextUSBOut = 0;
+            // echo back to USB
+            if ((USBUSARTIsTxTrfReady()) && (NextUSBOut > 0)) {
+                putUSBUSART(&USB_Out_Buffer[0], NextUSBOut);
+                NextUSBOut = 0;
+            }
         }
     
 

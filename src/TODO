@@ -4,7 +4,7 @@
 
   - USB footprint on battery board
 
-  - etch paste stencil
+X  - etch paste stencil
 
   - power usage and scope 
     * Profile new pre-production boards
@@ -34,7 +34,7 @@ X - conversion util, convert 8 bit colormap
 
   - touchCTMU 
     X - started under timer3.
-        needs rewrite to use ADC and interupts
+    X - needs rewrite to use ADC and interupts
 
       - "trends" for sliders
         - value increasing/descreasing
@@ -42,7 +42,7 @@ X - conversion util, convert 8 bit colormap
     X - on/off cutoff
     X - array of average
 
-  - HW calibration/charge time for touch pad
+  X HW calibration/charge time for touch pad
     the lower right one takes a while longer to charge for some reason. 
     * profile the final board(s)
     * beta badges appear to be consistent
