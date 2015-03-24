@@ -486,7 +486,7 @@ unsigned char G_green_pwm=0;
 unsigned char G_blue_cnt=0;
 unsigned char G_blue_pwm=0;
 
-unsigned char G_bright=2;
+unsigned char G_bright=1;
 
 void brightness(unsigned char bright) {
    G_bright = bright;
@@ -514,7 +514,7 @@ void do_leds()
 {
     /* red */
     G_red_cnt++;
-    if (G_red_cnt > G_red_pwm)
+    if (G_red_cnt < G_red_pwm)
         LATCbits.LATC0 = 1;
     else
         LATCbits.LATC0 = 0;
@@ -524,7 +524,7 @@ void do_leds()
 
     /* Green */
     G_green_cnt++;
-    if (G_green_cnt > G_green_pwm)
+    if (G_green_cnt < G_green_pwm)
         LATBbits.LATB3 = 1;
     else
         LATBbits.LATB3 = 0;
@@ -533,7 +533,7 @@ void do_leds()
 
     /* Blue */
     G_blue_cnt++;
-    if (G_blue_cnt > G_blue_pwm)
+    if (G_blue_cnt < G_blue_pwm)
         LATCbits.LATC1 = 1;
     else
         LATCbits.LATC1 = 0;

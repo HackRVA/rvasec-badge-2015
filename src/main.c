@@ -812,20 +812,36 @@ PEB: Morgan- bypass if button is push?
                USB_In_Buffer[0] = 0;
             }
 
-            if (USB_In_Buffer[0] == '1') {
-               LATCbits.LATC0 = !LATCbits.LATC0;      /* red toggle */
-               USB_In_Buffer[0] = 0;
+            if ((USB_In_Buffer[0] == 'a') || (USB_In_Buffer[0] == 'A')) {
+				unsigned static r=0;
+
+				if (USB_In_Buffer[0] == 'A') r--;
+				if (USB_In_Buffer[0] == 'a') r++;
+				red(r);
+
+				USB_In_Buffer[0] = 0;
             }
 
-            if (USB_In_Buffer[0] == '2') {
-               LATBbits.LATB3 = !LATBbits.LATB3;      /* green toggle */
-               USB_In_Buffer[0] = 0;
+            if ((USB_In_Buffer[0] == 's') || (USB_In_Buffer[0] == 'S')) {
+				unsigned static g=0;
+
+				if (USB_In_Buffer[0] == 'S') g--;
+				if (USB_In_Buffer[0] == 's') g++;
+				green(g);
+
+				USB_In_Buffer[0] = 0;
             }
 
-            if (USB_In_Buffer[0] == '3') {
-               LATCbits.LATC1 = !LATCbits.LATC1;      /* blue toggle */
-               USB_In_Buffer[0] = 0;
+            if ((USB_In_Buffer[0] == 'd') || (USB_In_Buffer[0] == 'D')) {
+				unsigned static b=0;
+
+				if (USB_In_Buffer[0] == 'D') b--;
+				if (USB_In_Buffer[0] == 'd') b++;
+				blue(b);
+
+				USB_In_Buffer[0] = 0;
             }
+
 
 			if (USB_In_Buffer[0] == '&') {
 			   const unsigned char *writeaddr; 
