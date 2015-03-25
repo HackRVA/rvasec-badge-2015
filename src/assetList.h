@@ -6,6 +6,7 @@ enum {
     RVASEC2,
     HACKRVA2,
     MARIO,
+    GAMEOTHRONES,
     LASTASSET,
 };
 

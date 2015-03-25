@@ -229,23 +229,24 @@ void nextNote_cb(unsigned char assetId, int frame)
    } 
 
    if (G_currentNote < assetList[assetId].x) {
-		extern char USB_Out_Buffer[];
-		extern unsigned char NextUSBOut;
-		extern char hextab[];
-
 		/* unsigned char to short conversion turns out to have weird sign extension problems */
 		G_duration = ((unsigned short)(assetList[assetId].data_cmap[G_currentNote] & 0xFF) * 3 * 38) ;
 
-green(assetList[assetId].data_cmap[G_currentNote] & 0xFF);
+        green(assetList[assetId].data_cmap[G_currentNote] & 0xFF);
 
 		if (assetList[assetId].pixdata[G_currentNote] == 0)
 			G_freq = 0;
 		else
 			G_freq = 38000 / ((unsigned short)(assetList[assetId].pixdata[G_currentNote] & 0xFF) * 8);
 
-blue((unsigned short)(assetList[assetId].pixdata[G_currentNote] & 0xFF));
+        blue((unsigned short)(assetList[assetId].pixdata[G_currentNote] & 0xFF));
 
 #ifdef DEBUGAUDIO
+{
+		extern char USB_Out_Buffer[];
+		extern unsigned char NextUSBOut;
+		extern char hextab[];
+
 		USB_Out_Buffer[NextUSBOut++] = 'N';
 		USB_Out_Buffer[NextUSBOut++] = 'T';
 		USB_Out_Buffer[NextUSBOut++] = ' ';
@@ -280,8 +281,61 @@ blue((unsigned short)(assetList[assetId].pixdata[G_currentNote] & 0xFF));
 		   putUSBUSART(&USB_Out_Buffer[0], NextUSBOut);
 		   NextUSBOut = 0;
 		}
+}
 #endif
 		
+		G_currentNote++;
+   }
+   else {
+		G_freq = 0;
+		G_duration = 0;
+		G_currentNote = 0;      /* reset for next asset */
+		G_audioAssetId = 255; /* clear curent asset */
+   }
+}
+
+static unsigned char midi_offTime[] = {
+    /* a_  0 */ 173, 
+    /* a#  1 */ 163, 
+    /* b_  2 */ 154, 
+    /* c_  3 */ 145, 
+    /* c#  4 */ 137, 
+    /* d_  5 */ 129, 
+    /* d#  6 */ 122, 
+    /* e_  7 */ 115, 
+    /* f_  8 */ 109, 
+    /* f#  9 */ 103, 
+    /* g_ 10 */ 97, 
+    /* g# 11 */ 91 
+}; 
+
+void nextMIDI_cb(unsigned char assetId, int frame) 
+{
+   G_duration_cnt = 0;
+   G_freq_cnt = 0;
+
+   if (frame == 0) {
+       G_freq = 0;
+       G_duration = 0;
+       G_currentNote = 0;
+   } 
+
+   if (G_currentNote < assetList[assetId].x) {
+        unsigned char note;
+
+        /* midi sample 1/43 = 0.0116 sec */
+        /* 38000 * (11/1000) = 418 */
+		G_duration = 345;
+
+        red(assetList[assetId].data_cmap[G_currentNote]);
+
+        /* midi c = 60 */
+        note = assetList[assetId].data_cmap[G_currentNote] % 12;
+        note += 3;  /* 3 = c */
+        if (note > 11) note -= 11; /* wrapped */
+
+        G_freq = ((midi_offTime[note] - 91) * 4);
+
 		G_currentNote++;
    }
    else {

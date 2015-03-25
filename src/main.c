@@ -768,7 +768,9 @@ void ProcessIO(void)
            }
 
 		   if ((USB_In_Buffer[0] == 'M') || (USB_In_Buffer[0] == 'm')) {
-				if (USB_In_Buffer[0] == 'm') playAsset(MARIO);
+                if (USB_In_Buffer[0] == 'm') playAsset(MARIO);
+                if (USB_In_Buffer[0] == 'M') playAsset(GAMEOTHRONES);
+                USB_In_Buffer[0] = 0;
 		   }
 
             if (USB_In_Buffer[0] == '0') {
@@ -1061,20 +1063,6 @@ void ProcessIO(void)
                 USB_In_Buffer[0] = 0;
             }
             
-
-            // print anything not handled above
-            if (USB_In_Buffer[0] != 0)  {
-               char printme[32];
-
-               for (i=0; i<nread; i++)
-                    printme[i] = USB_In_Buffer[i];
-
-               printme[i] = 0;
-
-//               LCDString(printme);
-
-            }
-
             for (i=0; i<nread; i++,NextUSBOut++) {
                 USB_Out_Buffer[NextUSBOut] = USB_In_Buffer[i];
             }
@@ -1087,7 +1075,6 @@ void ProcessIO(void)
                 NextUSBOut = 0;
             }
         }
-    
 
     CDCTxService();
 }//end ProcessIO

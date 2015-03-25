@@ -23,7 +23,8 @@ X   - 2 bit image.h  colormap[4], 2 bit data
 X   - 4 bit image.h  colormap[16], 4 bitdata
 X   - 8 bit image.h  colormap[256], 8 bitdata
 X   - 8 bit audio.h  PWM(offtime, duration)
-    - tweaks
+X   - 8 bit mario.h  PWM(offtime, duration)
+    - 8 bit got.h  game of thrones. minimal midi player
 
 X - conversion util, convert 8 bit colormap 
     to 4 bit colormap
