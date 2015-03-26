@@ -334,7 +334,7 @@ void nextMIDI_cb(unsigned char assetId, int frame)
         note += 3;  /* 3 = c */
         if (note > 11) note -= 11; /* wrapped */
 
-        G_freq = ((midi_offTime[note] - 91) * 4);
+        G_freq = ((midi_offTime[note] - 91) * 3);
 
 		G_currentNote++;
    }
