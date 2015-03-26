@@ -13,7 +13,7 @@
 #include "time_date.h"
 
 #define JON
-//#define TOUCHHACK
+#define TOUCHHACK
 
 #define BLUE 0b0000000000011111
 #define GREEN 0b0000011111100000
@@ -280,7 +280,7 @@ static void InitializeSystem(void)
    LCDReset();
    LATCbits.LATC1 = 1;      /* BLUE */
   
-   //drawAsset(1);
+   drawAsset(1);
 
 #ifdef JON
    init_display_list();
@@ -288,54 +288,6 @@ static void InitializeSystem(void)
 #endif
    
    initTouch();
-
-#ifdef PEBNEEDSPACE
-   clearscreen(RED);
-
-   rectangle(15,32,114,40, GREEN);
-   
-   printchar('a', 19,45,GREEN);
-   printchar('b', 25,45,GREEN);
-   printchar('c', 31,45,GREEN);
-   printchar('d', 37,45,GREEN);
-   printchar('e', 43,45,GREEN);
-   printchar('f', 49,45,GREEN);
-   printchar('g', 55,45,GREEN);
-   printchar('h', 61,45,GREEN);
-   printchar('i', 67,45,GREEN);
-   printchar('j', 73,45,GREEN);
-   printchar('k', 79,45,GREEN);
-   printchar('l', 85,45,GREEN);
-   printchar('m', 91,45,GREEN);
-   printchar('n', 97,45,GREEN);
-   printchar('o', 103,45,GREEN);
-   printchar('p', 109,45,GREEN);
-   printchar('q', 115,45,GREEN);
-
-   printchar('r', 19,56,GREEN);
-   printchar('s', 25,56,GREEN);
-   printchar('t', 31,56,GREEN);
-   printchar('u', 37,56,GREEN);
-   printchar('v', 43,56,GREEN);
-   printchar('w', 49,56,GREEN);
-   printchar('x', 55,56,GREEN);
-   printchar('y', 61,56,GREEN);
-   printchar('z', 67,56,GREEN);
-   printchar('_', 73,56,GREEN);
-   printchar('0', 79,56,GREEN);
-   printchar('1', 85,56,GREEN);
-   printchar('2', 91,56,GREEN);
-   printchar('3', 97,56,GREEN);
-   printchar('4', 103,56,GREEN);
-   printchar('5', 109,56,GREEN);
-   printchar('6', 115,56,GREEN);
-
-   printchar('7', 19,67,GREEN);
-   printchar('8', 25,67,GREEN);
-   printchar('9', 31,67,GREEN);
-
-   writeline("Woot", 4, 115, 15);
-#endif
 
    LATBbits.LATB3 = 1;      /* GREEN */
    LATCbits.LATC9 = 1;      /* backlight on. you will see nothing if it is off */
@@ -360,7 +312,7 @@ static void InitializeSystem(void)
    setupRTCC();
 
 #ifdef JON
-   setTime_Date("08:00A","06-04-15");
+   setTime_Date("11:58P","06-04-15");
 #endif
 
 
@@ -561,7 +513,7 @@ void ProcessIO(void)
 #endif
 
 #ifdef TOUCHHACK
-    if(touchcount == 2001)//remove when integrating ::TOUCH::
+    if(touchcount == 201)//remove when integrating ::TOUCH::
     {
 
         //getTouch();

@@ -31,6 +31,11 @@ enum states{
  ACHIEVMENTS
 };
 
+unsigned char badge_date[8];
+unsigned char badge_time[6];
+unsigned char badge_date_last[8];
+unsigned char badge_time_last[6];
+
 //-------------------------------END STATES------------------------------------
 
 badge_state b_state;//badge state structure
@@ -85,6 +90,8 @@ void run_states(void){
 
 void main_menu(void){
 
+    update_badge_time();
+
     do_touch(4);
 
     unsigned short selected[4];//menue items selection array
@@ -100,8 +107,8 @@ void main_menu(void){
         writeline("Games",       5,  51, 42, GREEN);
         writeline("Settings",    8,  44, 61, GREEN);
         writeline("Achievments", 11, 37, 80, GREEN);
-        //writeline(badge_time, 6, 50, 99, GREEN);
-        //writeline(badge_date, 8, 44, 118, GREEN);
+        writeline(badge_time, 6, 50, 99, GREEN);
+        writeline(badge_date, 8, 44, 118, GREEN);
         b_state.state_drawn = 1;
     }
 
@@ -127,8 +134,51 @@ void main_menu(void){
         on_exit();
         b_state.previous_state = MAIN;
     }
+
+
 }
 
+void update_badge_time(void){
+
+    badge_time_last[0] = badge_time[0];
+    badge_time_last[1] = badge_time[1];
+    badge_time_last[2] = badge_time[2];
+    badge_time_last[3] = badge_time[3];
+    badge_time_last[4] = badge_time[4];
+    badge_time_last[5] = badge_time[5];
+    badge_date_last[0] = badge_date[0];
+    badge_date_last[1] = badge_date[1];
+    badge_date_last[2] = badge_date[2];
+    badge_date_last[3] = badge_date[3];
+    badge_date_last[4] = badge_date[4];
+    badge_date_last[5] = badge_date[5];
+    badge_date_last[6] = badge_date[6];
+    badge_date_last[7] = badge_date[7];
+
+    getTime_Date(badge_time, badge_date);
+
+    if(badge_time_last[0] == badge_time[0] &&
+    badge_time_last[1] == badge_time[1] &&
+    badge_time_last[2] == badge_time[2] &&
+    badge_time_last[3] == badge_time[3] &&
+    badge_time_last[4] == badge_time[4] &&
+    badge_time_last[5] == badge_time[5] &&
+    badge_date_last[0] == badge_date[0] &&
+    badge_date_last[1] == badge_date[1] &&
+    badge_date_last[2] == badge_date[2] &&
+    badge_date_last[3] == badge_date[3] &&
+    badge_date_last[4] == badge_date[4] &&
+    badge_date_last[5] == badge_date[5] &&
+    badge_date_last[6] == badge_date[6] &&
+    badge_date_last[7] == badge_date[7])
+    {
+        return;
+    }
+    else{
+        clear_display_list();
+        b_state.state_drawn=0;
+    }
+}
 
 /***************************[SCHEDULE MENU STATE]*****************************
  *    Add links to all new states under the games or settings menu           *

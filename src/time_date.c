@@ -45,6 +45,18 @@
 #include <plib.h>
 #include "time_date.h"
 
+unsigned char BcdToByte(unsigned char Bin)
+{
+    return ((Bin & 0xF0) >> 4) * 10 + (Bin & 0x0F); 
+}
+
+unsigned char ByteToBcd(unsigned char Byte)
+{
+    unsigned char BCD;
+    BCD = (Byte / 10) << 4;
+    BCD = BCD | (Byte % 10);
+    return (BCD);
+}
 
 //	local function prototypes
 
@@ -201,77 +213,115 @@ void setupRTCC(void)
 
 void setTime_Date(unsigned char *time, unsigned char *date)//time character format 12:00P  date character format MM-DD-YY
 {
-    unsigned char tensPlace = (time[3] - 30)*10;
-    G_time.min = tensPlace + (time[4]-30);
+    unsigned char tensPlace = (time[3] - 48)*10;
+    setMinute((tensPlace + (time[4]-48)));
     switch(time[0])
     {
         case '1':
             switch(time[1]){
                 case '0':
                     if(time[5] == 'A' || time[5] == 'a')
-                        G_time.hour = 10;
+                        setHour(10);
                     else
-                        G_time.hour = 22;
+                        setHour(22);
                     break;
                 case '1':
                     if(time[5] == 'A' || time[5] == 'a')
-                        G_time.hour = 11;
+                        setHour(11);
                     else
-                        G_time.hour = 23;
+                        setHour(23);
                     break;
                 case '2':
                     if(time[5] == 'A' || time[5] == 'a')
-                        G_time.hour = 12;
+                        setHour(12);
                     else
-                        G_time.hour = 24;
+                        setHour(24);
                     break;
                 default:
-                    G_time.hour = 0;
+                    setHour(0);
                     break;
             }
             break;
-        case ' ':
+        case '0':
             if(time[5] == 'A' || time[5] == 'a')
-                G_time.hour = time[1]-30;
+                setHour((time[1]-48));
             else
-                G_time.hour = time[1]-18;
+                setHour((time[1]-36));
             break;
+
         default:
-            G_time.hour = 0;
+            setHour(0);
             break;
     }
-    tensPlace = (date[0] - 30)*10;
-    G_date.mon = tensPlace + (date[1]-30);
-    tensPlace = (date[3] - 30)*10;
-    G_date.mday = tensPlace + (date[4]-30);
-    tensPlace = (date[6] - 30)*10;
-    G_date.year = tensPlace + (date[7]-30);
+    tensPlace = (date[0] - 48)*10;
+    setMonth((tensPlace + (date[1]-48)));
+    tensPlace = (date[3] - 48)*10;
+    setDay((tensPlace + (date[4]-48)));
+    tensPlace = (date[6] - 48)*10;
+    setYear((tensPlace + (date[7]-48)));
+
     setRTCC();
+}
+
+void setHour(unsigned char hour)
+{
+    G_time.hour = ByteToBcd(hour);
+}
+
+void setMinute(unsigned char min)
+{
+    G_time.min = ByteToBcd(min);
+}
+
+void setMonth(unsigned char month)
+{   
+    G_date.mon = ByteToBcd(month);
+}
+
+void setDay(unsigned char day)
+{
+    G_date.mday = ByteToBcd(day);
+}
+
+void setYear(unsigned char year)
+{
+    G_date.year = ByteToBcd(year);
 }
 
 void getTime_Date(unsigned char *time, unsigned char *date){
     getRTCC();
-    date[0] = (G_date.mon/10) + 30;
-    date[1] = (G_date.mon%10) + 30;
+    unsigned char decimal = BcdToByte(G_date.mon);
+    date[0] = (decimal/10) + 48;
+    date[1] = (decimal%10) + 48;
     date[2] = '-';
-    date[3] = (G_date.mday/10) + 30;
-    date[4] = (G_date.mday%10) + 30;
+    decimal = BcdToByte(G_date.mday);
+    date[3] = (decimal/10) + 48;
+    date[4] = (decimal%10) + 48;
     date[5] = '-';
-    date[6] = (G_date.year/10) + 30;
-    date[7] = (G_date.year%10) + 30;
+    decimal = BcdToByte(G_date.year);
+    date[6] = ((decimal)/10) + 48;
+    date[7] = ((decimal)%10) + 48;
     time[2] = ':';
-    if(G_time.hour > 11){
+    decimal = BcdToByte(G_time.hour);
+    if(decimal > 11){
         time[5] = 'P';
-        time[0] = (G_time.hour-12)/10;
-        time[1] = (G_time.hour-12)%10;
+        time[0] = ((decimal-12)/10) + 48;
+        time[1] = ((decimal-12)%10) + 48;
     }
     else{
         time[5] = 'A';
-        time[0] = G_time.hour/10;
-        time[1] = G_time.hour%10;
+        time[0] = (decimal/10) + 48;
+        time[1] = (decimal%10) + 48;
+        if(time[0] == '0' && time [1] == '0'){
+            time[0] = '1';
+            time[1] = '2';
+        }
     }
-    time[3] = G_time.min/10;
-    time[4] = G_time.min%10;
+
+    decimal = BcdToByte(G_time.min);
+    time[3] = decimal/10 + 48;
+    time[4] = decimal%10 + 48;
+    //itoa(date, decimal, 2);
 }
 
 void setRTCC() {

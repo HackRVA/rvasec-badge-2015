@@ -1,13 +1,13 @@
 #include "assetList.h"
 #include "assets.h"
 
-#include "drbob.h"         // 14% Program
+//#include "drbob.h"         // 14% Program
 //#include "mayo.h"
 #include "rvasec4bit.h"    // 7% Program
 #include "hackrva4bit.h"   // 7% Program
 #include "rvasec2bit.h"    // 3% Program
 #include "hackrva1bit.xbm" // 2% Program
-                           // 2% Old Character functions
+                      
 #include "mario.h"         // 1% Program
 #include "got.h"         // 1% Program
 
@@ -28,7 +28,7 @@ const struct asset assetList[] = {
     //{ MAYO, 132, 132, (const char **)mayo_data_cmap, (const char *)mayo_data, (void)(*drawLCD) },
 //    { MAYO, 132, 132, (const char **)mayo_data_cmap, (const char *)mayo_data, (*drawLCD)},
 
-    { DRBOB, drbob_width, drbob_height, (const char *)drbob_data_cmap, (const char *)drbob_data, (drawLCD8) },
+//    { DRBOB, drbob_width, drbob_height, (const char *)drbob_data_cmap, (const char *)drbob_data, (drawLCD8) },
     { HACKRVA, hackrva4_width, hackrva4_height, (const char *)hackrva4_data_cmap, (const char *)hackrva4_data, (drawLCD4) },
 //    { RVASEC, rvasec_width, rvasec_height, (const char *)rvasec_data_cmap, (const char *)rvasec_data, (drawLCD4) },
     { RVASEC2, rvasec2_width, rvasec2_height, (const char *)rvasec2_data_cmap, (const char *)rvasec2_data, (drawLCD2) },
