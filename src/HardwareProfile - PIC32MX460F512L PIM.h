@@ -9,8 +9,8 @@
  Software License Agreement:
 
  The software supplied herewith by Microchip Technology Incorporated
- (the �Company�) for its PIC� Microcontroller is intended and
- supplied to you, the Company�s customer, for use solely and
+ (the Company) for its PIC Microcontroller is intended and
+ supplied to you, the Companys customer, for use solely and
  exclusively on Microchip PIC Microcontroller products. The
  software is owned by the Company and/or its supplier, and is
  protected under applicable copyright laws. All rights are reserved.
@@ -19,7 +19,7 @@
  civil liability for the breach of the terms and conditions of this
  license.
 
- THIS SOFTWARE IS PROVIDED IN AN �AS IS� CONDITION. NO WARRANTIES,
+ THIS SOFTWARE IS PROVIDED IN AN AS IS CONDITION. NO WARRANTIES,
  WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING, BUT NOT LIMITED
  TO, IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
  PARTICULAR PURPOSE APPLY TO THIS SOFTWARE. THE COMPANY SHALL NOT,
