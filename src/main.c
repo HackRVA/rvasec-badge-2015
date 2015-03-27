@@ -117,45 +117,45 @@ unsigned char getcUSART ();
 void ForthUSB() {
 //  BlinkUSBStatus();
 
-  if((USBDeviceState < CONFIGURED_STATE)||(USBSuspendControl==1)) return;
+    if((USBDeviceState < CONFIGURED_STATE)||(USBSuspendControl==1)) return;
 
-   // if all read, reset buffer
-   if (usbkey_fillptr == usbkey_ptr) {
-	usbkey_fillptr = 0;
-	usbkey_ptr = 0;
-   }
+	// if all read, reset buffer
+	if (usbkey_fillptr == usbkey_ptr) {
+        usbkey_fillptr = 0;
+        usbkey_ptr = 0;
+	}
 
-   // if not full see if more available
-   //if (usbkey_fillptr != MAX_USBKEYBUFFER) {
-   if ( (MAX_USBKEYBUFFER - usbkey_fillptr) > 0) {
-      int cnt=0;
+	// if not full see if more available
+	//if (usbkey_fillptr != MAX_USBKEYBUFFER) {
+	if ( (MAX_USBKEYBUFFER - usbkey_fillptr) > 0) {
+        int cnt=0;
 
-      if ( (cnt = getsUSBUSART(&(usbkey_buffer[usbkey_fillptr]), (MAX_USBKEYBUFFER - usbkey_fillptr) )) != 0) {
-         usbkey_fillptr += cnt;
-      }
-   }
+        if ( (cnt = getsUSBUSART(&(usbkey_buffer[usbkey_fillptr]), (MAX_USBKEYBUFFER - usbkey_fillptr) )) != 0) {
+            usbkey_fillptr += cnt;
+        }
+	}
 
-   // forth key buffer empty?
-   if (key_buffer == -1) {
-      // any chars available?
-      if (usbkey_ptr != usbkey_fillptr) {
-	 key_buffer = usbkey_buffer[usbkey_ptr];
-	 usbkey_ptr++;
-      }
-   }
+	// forth key buffer empty?
+	if (key_buffer == -1) {
+        // any chars available?
+        if (usbkey_ptr != usbkey_fillptr) {
+            key_buffer = usbkey_buffer[usbkey_ptr];
+            usbkey_ptr++;
+        }
+	}
 
-   // buffer output chars
-   if (emit_buffer != -1) {
-      USB_Out_Buffer[NextUSBOut++] = emit_buffer;
-      emit_buffer = -1;
-   }
+	// buffer output chars
+	if (emit_buffer != -1) {
+        USB_Out_Buffer[NextUSBOut++] = emit_buffer;
+        emit_buffer = -1;
+	}
 
-   if((USBUSARTIsTxTrfReady()) && (NextUSBOut > 0)) {
+	if((USBUSARTIsTxTrfReady()) && (NextUSBOut > 0)) {
         putUSBUSART(&USB_Out_Buffer[0], NextUSBOut);
         NextUSBOut = 0;
-   }
+	}
 
-   CDCTxService();
+	CDCTxService();
 }
 /******************************************************************************
  * - - - - - - - - - - - ENTRY POINT - - - - - - - - - - - - -
@@ -246,70 +246,70 @@ int main(void)
  *******************************************************************/
 static void InitializeSystem(void)
 {
-   SYSTEMConfig(40000000, SYS_CFG_WAIT_STATES | SYS_CFG_PCACHE);
+	SYSTEMConfig(40000000, SYS_CFG_WAIT_STATES | SYS_CFG_PCACHE);
 
-   CFGCONbits.JTAGEN = 0;
+	CFGCONbits.JTAGEN = 0;
 
-   /* RGB LED */
-   TRISCbits.TRISC0 = 0;    /* output */
-   LATCbits.LATC0 = 0;      /* red init low */
-   CNPDCbits.CNPDC0 = 0;    /* pulldown == off */
-
-
-   TRISCbits.TRISC1 = 0;    /* output */
-   LATCbits.LATC1 = 0;      /* blue init low */
-   CNPDCbits.CNPDC1 = 0;    /* pulldown == off */
-
-   TRISBbits.TRISB3 = 0;    /* output */
-   LATBbits.LATB3 = 0;      /* green init low */
-   CNPDBbits.CNPDB3 = 0;    /* pulldown == off */
+	/* RGB LED */
+	TRISCbits.TRISC0 = 0;    /* output */
+	LATCbits.LATC0 = 0;      /* red init low */
+	CNPDCbits.CNPDC0 = 0;    /* pulldown == off */
 
 
-   ANSELA = 0x00;
-   ANSELB = 0x00;
-   ANSELC = 0x00;
-   TRISA = 0;
-   LATA = 0;
-   TRISB = 0;
-   LATB = 0;
-   TRISC = 0;
-   LATC = 0;
+	TRISCbits.TRISC1 = 0;    /* output */
+	LATCbits.LATC1 = 0;      /* blue init low */
+	CNPDCbits.CNPDC1 = 0;    /* pulldown == off */
 
-   LCDInitPins();
-   LATCbits.LATC0 = 1;      /* RED */
-   LCDReset();
-   LATCbits.LATC1 = 1;      /* BLUE */
+	TRISBbits.TRISB3 = 0;    /* output */
+	LATBbits.LATB3 = 0;      /* green init low */
+	CNPDBbits.CNPDB3 = 0;    /* pulldown == off */
+
+
+	ANSELA = 0x00;
+	ANSELB = 0x00;
+	ANSELC = 0x00;
+	TRISA = 0;
+	LATA = 0;
+	TRISB = 0;
+	LATB = 0;
+	TRISC = 0;
+	LATC = 0;
+
+	LCDInitPins();
+	LATCbits.LATC0 = 1;      /* RED */
+	LCDReset();
+	LATCbits.LATC1 = 1;      /* BLUE */
   
 #ifdef JON
-   init_display_list();
-   init_states();
+	init_display_list();
+	init_states();
 #endif
-   
-   initTouch();
+	
+	initTouch();
 
-   LATBbits.LATB3 = 1;      /* GREEN */
-   LATCbits.LATC9 = 1;      /* backlight on. you will see nothing if it is off */
+	LATBbits.LATB3 = 1;      /* GREEN */
+	LATCbits.LATC9 = 1;      /* backlight on. you will see nothing if it is off */
 
-   /* button init */
-   TRISCbits.TRISC3 = 1; // button == input
-   CNPUCbits.CNPUC3 = 1; // pullup == on
+	/* button init */
+	TRISCbits.TRISC3 = 1; // button == input
+	CNPUCbits.CNPUC3 = 1; // pullup == on
 
-   /* dev board with hot wired RC4 */
-   TRISCbits.TRISC4 = 0;
-   CNPUCbits.CNPUC4 = 0;
-   CNPDCbits.CNPDC4 = 1;
+	/* dev board with hot wired RC4 */
+	TRISCbits.TRISC4 = 0;
+	CNPUCbits.CNPUC4 = 0;
+	CNPDCbits.CNPDC4 = 1;
 
-   /* speaker pull down init */
-   TRISAbits.TRISA9 = 0;	// piezo == output
-   LATAbits.LATA9 = 0;      // piezo init off
-   CNPUAbits.CNPUA9 = 0;    // RA9  pull up == off
-   CNPDAbits.CNPDA9 = 0;    /* pulldown == off */
+	/* speaker pull down init */
+	TRISAbits.TRISA9 = 0;	// piezo == output
+	LATAbits.LATA9 = 0;      // piezo init off
+	CNPUAbits.CNPUA9 = 0;    // RA9  pull up == off
+	CNPDAbits.CNPDA9 = 0;    /* pulldown == off */
 
-   TimerInit();
-   setupRTCC();
+	TimerInit();
+	setupRTCC();
 
 #ifdef JON
-   setTime_Date("11:58P","06-04-15");
+	setTime_Date("11:58P","06-04-15");
 #endif
 
 
@@ -367,11 +367,11 @@ static void InitializeSystem(void)
  *****************************************************************************/
 void UserInit(void)
 {
-        unsigned char i;
+    unsigned char i;
 
-        for (i=0; i<CDC_DATA_IN_EP_SIZE; i++) USB_In_Buffer[i] = 0;
+    for (i=0; i<CDC_DATA_IN_EP_SIZE; i++) USB_In_Buffer[i] = 0;
 
-        for (i=0; i<CDC_DATA_OUT_EP_SIZE; i++) USB_Out_Buffer[i] = 0;
+    for (i=0; i<CDC_DATA_OUT_EP_SIZE; i++) USB_Out_Buffer[i] = 0;
 
 #ifdef FORTH
 	emit_buffer = -1;
