@@ -374,23 +374,10 @@ void UserInit(void)
         for (i=0; i<CDC_DATA_OUT_EP_SIZE; i++) USB_Out_Buffer[i] = 0;
 
 #ifdef FORTH
-   emit_buffer = -1;
-   key_buffer = -1;
+	emit_buffer = -1;
+	key_buffer = -1;
 #endif
 
-    // RA8 == front/back sensor
-    // config as input
-//    TRISAbits.TRISA8 = 1;
-    // pull up on
-//    CNPUAbits.CNPUA8 = 1;
-
-    // RB8 == shake sensor
-    // config as input
-//    TRISBbits.TRISB8 = 1;
-    // pull up off
-//    CNPUBbits.CNPUB8 = 0;
-
-//    mInitAllLEDs();
 }//end UserInit
 
 

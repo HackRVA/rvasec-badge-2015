@@ -2826,6 +2826,7 @@ errTable:	.int	2, errOk
 	jr	$t0
 	NEXT			// never returns here
 
+/*
 	.global ReadCoreTimer
 	defcode "readCoreTimer",13,,FreadCoreTimer,EXECUTE
 	la	$t0, ReadCoreTimer
@@ -2833,8 +2834,10 @@ errTable:	.int	2, errOk
 	nop
 	PUSH	$v0		// return value
 	NEXT
-
 	defword "/",1,,DIVIDE,FreadCoreTimer
+*/
+
+	defword "/",1,,DIVIDE,EXECUTE
 	.int	DIVMOD
 	.int	SWAP
 	.int	DROP
