@@ -280,8 +280,6 @@ static void InitializeSystem(void)
    LCDReset();
    LATCbits.LATC1 = 1;      /* BLUE */
   
-   drawAsset(1);
-
 #ifdef JON
    init_display_list();
    init_states();
@@ -307,14 +305,12 @@ static void InitializeSystem(void)
    CNPUAbits.CNPUA9 = 0;    // RA9  pull up == off
    CNPDAbits.CNPDA9 = 0;    /* pulldown == off */
 
-
    TimerInit();
    setupRTCC();
 
 #ifdef JON
    setTime_Date("11:58P","06-04-15");
 #endif
-
 
 
 //	The USB specifications require that USB peripheral devices must never source
@@ -371,15 +367,11 @@ static void InitializeSystem(void)
  *****************************************************************************/
 void UserInit(void)
 {
-	unsigned char i;
-
-    {
         unsigned char i;
 
         for (i=0; i<CDC_DATA_IN_EP_SIZE; i++) USB_In_Buffer[i] = 0;
 
         for (i=0; i<CDC_DATA_OUT_EP_SIZE; i++) USB_Out_Buffer[i] = 0;
-    }
 
 #ifdef FORTH
    emit_buffer = -1;
@@ -536,6 +528,9 @@ void ProcessIO(void)
 			resume();
 		}
 
+/* 3% of flash */
+#define DEBUG
+#ifdef DEBUG
 		if (USB_In_Buffer[0] == 'p') {
 			void clearscreen(unsigned short color);
 			static unsigned char y=0;
@@ -548,11 +543,16 @@ void ProcessIO(void)
 			USB_In_Buffer[0] = 0;
 		}
 
-		if (USB_In_Buffer[0] == 'b') {
-			LCDBars();
+		if ((USB_In_Buffer[0] == 'b') || (USB_In_Buffer[0] == 'B')) {
+			static unsigned char bright = 255;
+
+			if (USB_In_Buffer[0] == 'b') bright += 10; // let it wrap
+			if (USB_In_Buffer[0] == 'B') bright -= 10; // let it wrap
+
+			backlight(bright);
+
 			USB_In_Buffer[0] = 0;
 		}
-
 
 		if ((USB_In_Buffer[0] == 'N') || (USB_In_Buffer[0] == 'n')) {
 			static unsigned char imgno = 0;
@@ -601,6 +601,7 @@ void ProcessIO(void)
 		}
 
 
+		// keyboard audio
 		if ( (USB_In_Buffer[0] == 'q') 
 		|| (USB_In_Buffer[0] == 'w')
 		|| (USB_In_Buffer[0] == 'e')
@@ -610,66 +611,24 @@ void ProcessIO(void)
 		|| (USB_In_Buffer[0] == 'u')
 		|| (USB_In_Buffer[0] == 'i')
 		|| (USB_In_Buffer[0] == '<')
-		|| (USB_In_Buffer[0] == '>') ) { // audio
-			extern unsigned short G_duration ;
-			extern unsigned short G_duration_cnt ;
-			extern unsigned short G_freq ;
-			extern unsigned short G_freq_cnt ;
-			extern unsigned int G_audioFrame ;
-			extern unsigned char G_audioAssetId ;
-			extern unsigned char G_currentNote ;
-			void setBeep(unsigned short freq) ;
+		|| (USB_In_Buffer[0] == '>') ) {
+			static unsigned short freq=0;
+			static unsigned short dur=0;
 
+			if (USB_In_Buffer[0] == '<') dur -= 256;
+			if (USB_In_Buffer[0] == '>') dur += 256;
+			if (USB_In_Buffer[0] == 'q') freq = 512;
+			if (USB_In_Buffer[0] == 'w') freq = 256;
+			if (USB_In_Buffer[0] == 'e') freq = 128;
+			if (USB_In_Buffer[0] == 'r') freq = 64;
+			if (USB_In_Buffer[0] == 't') freq = 32;
+			if (USB_In_Buffer[0] == 'y') freq = 16;
+			if (USB_In_Buffer[0] == 'u') freq = 8;
+			if (USB_In_Buffer[0] == 'i') freq = 4;
 
-			if (USB_In_Buffer[0] == '<') {
-				G_duration -= 256;
-				USB_In_Buffer[0] = 0;
-			}
+			setNote(freq, dur);
 
-			if (USB_In_Buffer[0] == '>') {
-				G_duration += 256;
-				USB_In_Buffer[0] = 0;
-			}
-
-			if (USB_In_Buffer[0] == 'q') {
-				setBeep(512);
-				USB_In_Buffer[0] = 0;
-			}
-			
-			if (USB_In_Buffer[0] == 'w') {
-				setBeep(256);
-				USB_In_Buffer[0] = 0;
-			}
-			
-			if (USB_In_Buffer[0] == 'e') {
-				setBeep(128);
-				USB_In_Buffer[0] = 0;
-			}
-			
-			if (USB_In_Buffer[0] == 'r') {
-				setBeep(64);
-				USB_In_Buffer[0] = 0;
-			}
-			
-			if (USB_In_Buffer[0] == 't') {
-				setBeep(32);
-				USB_In_Buffer[0] = 0;
-			}
-			
-			if (USB_In_Buffer[0] == 'y') {
-				setBeep(16);
-				USB_In_Buffer[0] = 0;
-			}
-			
-			if (USB_In_Buffer[0] == 'u') {
-				setBeep(8);
-				USB_In_Buffer[0] = 0;
-			}
-			
-			if (USB_In_Buffer[0] == 'i') {
-				setBeep(4);
-				USB_In_Buffer[0] = 0;
-			}
+			USB_In_Buffer[0] = 0;
 
 			USB_Out_Buffer[NextUSBOut++] = 'F';
 			USB_Out_Buffer[NextUSBOut++] = 'R';
@@ -677,16 +636,16 @@ void ProcessIO(void)
 			USB_Out_Buffer[NextUSBOut++] = 'Q';
 			USB_Out_Buffer[NextUSBOut++] = ' ';
 
-			USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_freq  >> 12) & 0xF];
-			USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_freq  >>  8) & 0xF];
-			USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_freq  >>  4) & 0xF];
-			USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_freq       ) & 0xF];
+			USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)freq >> 12) & 0xF];
+			USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)freq >>  8) & 0xF];
+			USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)freq >>  4) & 0xF];
+			USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)freq      ) & 0xF];
 
 			USB_Out_Buffer[NextUSBOut++] = ' ';
-			USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_freq_cnt  >> 12) & 0xF];
-			USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_freq_cnt  >>  8) & 0xF];
-			USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_freq_cnt  >>  4) & 0xF];
-			USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_freq_cnt       ) & 0xF];
+			USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)freq >> 12) & 0xF];
+			USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)freq >>  8) & 0xF];
+			USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)freq >>  4) & 0xF];
+			USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)freq      ) & 0xF];
 
 			USB_Out_Buffer[NextUSBOut++] = ' ';
 			USB_Out_Buffer[NextUSBOut++] = 'D';
@@ -694,16 +653,16 @@ void ProcessIO(void)
 			USB_Out_Buffer[NextUSBOut++] = 'R';
 			USB_Out_Buffer[NextUSBOut++] = ' ';
 
-			USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_duration  >> 12) & 0xF];
-			USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_duration  >>  8) & 0xF];
-			USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_duration  >>  4) & 0xF];
-			USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_duration       ) & 0xF];
+			USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)dur  >> 12) & 0xF];
+			USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)dur  >>  8) & 0xF];
+			USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)dur  >>  4) & 0xF];
+			USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)dur       ) & 0xF];
 
 			USB_Out_Buffer[NextUSBOut++] = ' ';
-			USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_duration_cnt  >> 12) & 0xF];
-			USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_duration_cnt  >>  8) & 0xF];
-			USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_duration_cnt  >>  4) & 0xF];
-			USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_duration_cnt       ) & 0xF];
+			USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)dur  >> 12) & 0xF];
+			USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)dur  >>  8) & 0xF];
+			USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)dur  >>  4) & 0xF];
+			USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)dur       ) & 0xF];
 
 			USB_Out_Buffer[NextUSBOut++] = '\r';
 			USB_Out_Buffer[NextUSBOut++] = '\n';
@@ -723,7 +682,7 @@ void ProcessIO(void)
 		}
 
 		if ((USB_In_Buffer[0] == 'a') || (USB_In_Buffer[0] == 'A')) {
-			unsigned static r=0;
+			static unsigned int r=0;
 
 			if (USB_In_Buffer[0] == 'A') r--;
 			if (USB_In_Buffer[0] == 'a') r++;
@@ -733,7 +692,7 @@ void ProcessIO(void)
 		}
 
 		if ((USB_In_Buffer[0] == 's') || (USB_In_Buffer[0] == 'S')) {
-			unsigned static g=0;
+			static unsigned int g=0;
 
 			if (USB_In_Buffer[0] == 'S') g--;
 			if (USB_In_Buffer[0] == 's') g++;
@@ -743,7 +702,7 @@ void ProcessIO(void)
 		}
 
 		if ((USB_In_Buffer[0] == 'd') || (USB_In_Buffer[0] == 'D')) {
-			unsigned static b=0;
+			static unsigned int b=0;
 
 			if (USB_In_Buffer[0] == 'D') b--;
 			if (USB_In_Buffer[0] == 'd') b++;
@@ -757,8 +716,16 @@ void ProcessIO(void)
 			const unsigned char *writeaddr; 
 
 			// 
+			// IMPORTANT NOTE FOR SELF WRITE FLASH
+			// 
+			// The flash can handle 10,000 writes and then it is worn out
+			// do not put an Erase OR WriteWord in any kind of loop
+			// 
+
+			// 
 			// PEB tested working 20150310
 			// 
+
 			// align addr on a 1k boundary within the 2k block we allocated
 			writeaddr = (const unsigned char *)(((unsigned long)(&G_flashstart)+1024) & 0b11111111111111111111110000000000); // 1k flash boundary
 
@@ -1006,6 +973,7 @@ void ProcessIO(void)
 
 			USB_In_Buffer[0] = 0;
 		}
+#endif
 		
 		for (i=0; i<nread; i++,NextUSBOut++) {
 			 USB_Out_Buffer[NextUSBOut] = USB_In_Buffer[i];
@@ -1054,7 +1022,7 @@ void BlinkUSBStatus(void)
     }
     else
     {
-        if(USBDeviceState == DETACHED_STATE)
+	if(USBDeviceState == DETACHED_STATE)
         {
             mLED_Both_Off();
         }
@@ -1083,25 +1051,25 @@ void BlinkUSBStatus(void)
             if(debugBlink && (led_count==0))
             {
                 if (mGetLED_1()) {
-					mLED_1_Off();
-				}
-				else {
-					mLED_1_On();
-				}
+			mLED_1_Off();
+		}
+		else {
+			mLED_1_On();
+		}
 
                 if (mGetLED_2()) {
-					mLED_2_Off();
-				}
-				else {
-					mLED_2_On();
-				}
+			mLED_2_Off();
+		}
+		else {
+			mLED_2_On();
+		}
 
                 if (mGetLED_3())  {
-					mLED_3_Off();
-				}
-				else {
-					mLED_3_On();
-				}
+			mLED_3_Off();
+		}
+		else {
+			mLED_3_On();
+		}
 
             }//end if
         }//end if(...)

@@ -7,12 +7,10 @@
 
 
 /* 
-   255 = asset active
+   255 = no asset active
 */
 unsigned char G_videoAssetId = 255;
-
 unsigned int G_videoFrame = 0;
-
 
 void drawAsset(unsigned char assetId)
 {
@@ -25,10 +23,10 @@ void drawLCD1(unsigned char assetId, int frame)
     unsigned char i, j, p, r, g, b, pixbyte, *cmap, *pixdata;
     unsigned short pixel ;
 
-    S6B33_rect(0, 0, assetList[assetId].y - 1, assetList[assetId].x - 1);//comment this out
+    S6B33_rect(0, 0, assetList[assetId].y - 1, assetList[assetId].x - 1);//comment this out ?PEB WTF?
 
-    pixdata = &(assetList[assetId].pixdata[0]);//0 is starting point need a skip line amount for each asset to scanline 66 for 132
-    for (i=0; i < assetList[assetId].y; i++) {//edit this for end of line
+    pixdata = &(assetList[assetId].pixdata[0]);	//0 is starting point need a skip line amount for each asset to scanline 66 for 132
+    for (i=0; i < assetList[assetId].y; i++) {	//edit this for end of line
        for (j=0; j < assetList[assetId].x/8; j++ ) { // 8 pixels at a ime
             pixbyte = *pixdata++; /* 8 pixels per byte */
 
@@ -190,6 +188,13 @@ void playAsset(unsigned char assetId)
     assetList[assetId].datacb(assetId, 0); /* install asset frame=0 */
 }
 
+void setNote(unsigned short freq, unsigned short dur) {
+   G_freq = freq;
+   G_duration = dur;
+   G_freq_cnt = 0;
+   G_duration_cnt = 0;
+}
+
 // RA9
 void do_audio()
 {
@@ -229,84 +234,82 @@ void nextNote_cb(unsigned char assetId, int frame)
    } 
 
    if (G_currentNote < assetList[assetId].x) {
-		/* unsigned char to short conversion turns out to have weird sign extension problems */
-		G_duration = ((unsigned short)(assetList[assetId].data_cmap[G_currentNote] & 0xFF) * 3 * 38) ;
+	/* unsigned char to short conversion turns out to have weird sign extension problems */
+	G_duration = ((unsigned short)(assetList[assetId].data_cmap[G_currentNote] & 0xFF) * 3 * 38) ;
 
-        green(assetList[assetId].data_cmap[G_currentNote] & 0xFF);
+	green(assetList[assetId].data_cmap[G_currentNote] & 0xFF);
 
-		if (assetList[assetId].pixdata[G_currentNote] == 0)
-			G_freq = 0;
-		else
-			G_freq = 38000 / ((unsigned short)(assetList[assetId].pixdata[G_currentNote] & 0xFF) * 8);
+	if (assetList[assetId].pixdata[G_currentNote] == 0)
+		G_freq = 0;
+	else
+		G_freq = 38000 / ((unsigned short)(assetList[assetId].pixdata[G_currentNote] & 0xFF) * 8);
 
-        blue((unsigned short)(assetList[assetId].pixdata[G_currentNote] & 0xFF));
-
+	blue((unsigned short)(assetList[assetId].pixdata[G_currentNote] & 0xFF));
 #ifdef DEBUGAUDIO
 {
-		extern char USB_Out_Buffer[];
-		extern unsigned char NextUSBOut;
-		extern char hextab[];
+	extern char USB_Out_Buffer[];
+	extern unsigned char NextUSBOut;
+	extern char hextab[];
 
-		USB_Out_Buffer[NextUSBOut++] = 'N';
-		USB_Out_Buffer[NextUSBOut++] = 'T';
-		USB_Out_Buffer[NextUSBOut++] = ' ';
-		
-		USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_currentNote  >> 12) & 0xF];
-		USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_currentNote  >>  8) & 0xF];
-		USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_currentNote  >>  4) & 0xF];
-		USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_currentNote       ) & 0xF];
-		
-		USB_Out_Buffer[NextUSBOut++] = 'F';
-		USB_Out_Buffer[NextUSBOut++] = 'R';
-		USB_Out_Buffer[NextUSBOut++] = ' ';
-		
-		USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)assetList[assetId].pixdata[G_currentNote]  >> 12) & 0xF];
-		USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)assetList[assetId].pixdata[G_currentNote]  >>  8) & 0xF];
-		USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)assetList[assetId].pixdata[G_currentNote]  >>  4) & 0xF];
-		USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)assetList[assetId].pixdata[G_currentNote]       ) & 0xF];
-		
-		USB_Out_Buffer[NextUSBOut++] = 'F';
-		USB_Out_Buffer[NextUSBOut++] = 'C';
-		
-		USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_freq  >> 12) & 0xF];
-		USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_freq  >>  8) & 0xF];
-		USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_freq  >>  4) & 0xF];
-		USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_freq       ) & 0xF];
-		
-		USB_Out_Buffer[NextUSBOut++] = '\r';
-		USB_Out_Buffer[NextUSBOut++] = '\n';
-		USB_Out_Buffer[NextUSBOut++] = 0;
-		
-		if ((USBUSARTIsTxTrfReady()) && (NextUSBOut > 0)) {
-		   putUSBUSART(&USB_Out_Buffer[0], NextUSBOut);
-		   NextUSBOut = 0;
-		}
+	USB_Out_Buffer[NextUSBOut++] = 'N';
+	USB_Out_Buffer[NextUSBOut++] = 'T';
+	USB_Out_Buffer[NextUSBOut++] = ' ';
+	
+	USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_currentNote  >> 12) & 0xF];
+	USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_currentNote  >>  8) & 0xF];
+	USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_currentNote  >>  4) & 0xF];
+	USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_currentNote       ) & 0xF];
+	
+	USB_Out_Buffer[NextUSBOut++] = 'F';
+	USB_Out_Buffer[NextUSBOut++] = 'R';
+	USB_Out_Buffer[NextUSBOut++] = ' ';
+	
+	USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)assetList[assetId].pixdata[G_currentNote]  >> 12) & 0xF];
+	USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)assetList[assetId].pixdata[G_currentNote]  >>  8) & 0xF];
+	USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)assetList[assetId].pixdata[G_currentNote]  >>  4) & 0xF];
+	USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)assetList[assetId].pixdata[G_currentNote]       ) & 0xF];
+	
+	USB_Out_Buffer[NextUSBOut++] = 'F';
+	USB_Out_Buffer[NextUSBOut++] = 'C';
+	
+	USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_freq  >> 12) & 0xF];
+	USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_freq  >>  8) & 0xF];
+	USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_freq  >>  4) & 0xF];
+	USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned short)G_freq       ) & 0xF];
+	
+	USB_Out_Buffer[NextUSBOut++] = '\r';
+	USB_Out_Buffer[NextUSBOut++] = '\n';
+	USB_Out_Buffer[NextUSBOut++] = 0;
+	
+	if ((USBUSARTIsTxTrfReady()) && (NextUSBOut > 0)) {
+	putUSBUSART(&USB_Out_Buffer[0], NextUSBOut);
+	NextUSBOut = 0;
+	}
 }
 #endif
-		
-		G_currentNote++;
+	G_currentNote++;
    }
    else {
-		G_freq = 0;
-		G_duration = 0;
-		G_currentNote = 0;      /* reset for next asset */
-		G_audioAssetId = 255; /* clear curent asset */
+	G_freq = 0;
+	G_duration = 0;
+	G_currentNote = 0;      /* reset for next asset */
+	G_audioAssetId = 255; /* clear curent asset */
    }
 }
 
 static unsigned char midi_offTime[] = {
-    /* a_  0 */ 173, 
-    /* a#  1 */ 163, 
-    /* b_  2 */ 154, 
-    /* c_  3 */ 145, 
-    /* c#  4 */ 137, 
-    /* d_  5 */ 129, 
-    /* d#  6 */ 122, 
-    /* e_  7 */ 115, 
-    /* f_  8 */ 109, 
-    /* f#  9 */ 103, 
-    /* g_ 10 */ 97, 
-    /* g# 11 */ 91 
+/* a_  0 */ 173, 
+/* a#  1 */ 163, 
+/* b_  2 */ 154, 
+/* c_  3 */ 145, 
+/* c#  4 */ 137, 
+/* d_  5 */ 129, 
+/* d#  6 */ 122, 
+/* e_  7 */ 115, 
+/* f_  8 */ 109, 
+/* f#  9 */ 103, 
+/* g_ 10 */ 97, 
+/* g# 11 */ 91 
 }; 
 
 void nextMIDI_cb(unsigned char assetId, int frame) 
@@ -315,41 +318,35 @@ void nextMIDI_cb(unsigned char assetId, int frame)
    G_freq_cnt = 0;
 
    if (frame == 0) {
-       G_freq = 0;
-       G_duration = 0;
-       G_currentNote = 0;
+	   G_freq = 0;
+	   G_duration = 0;
+	   G_currentNote = 0;
    } 
 
    if (G_currentNote < assetList[assetId].x) {
-        unsigned char note;
+	unsigned char note;
 
-        /* midi sample 1/43 = 0.0116 sec */
-        /* 38000 * (11/1000) = 418 */
-		G_duration = 345;
+	/* midi sample 1/43 = 0.0116 sec */
+	/* 38000 * (11/1000) = 418 */
+	G_duration = 345;
 
-        red(assetList[assetId].data_cmap[G_currentNote]);
+	red(assetList[assetId].data_cmap[G_currentNote]);
 
-        /* midi c = 60 */
-        note = assetList[assetId].data_cmap[G_currentNote] % 12;
-        note += 3;  /* 3 = c */
-        if (note > 11) note -= 11; /* wrapped */
+	/* midi c = 60 */
+	note = assetList[assetId].data_cmap[G_currentNote] % 12;
+	note += 3;  /* 3 = c */
+	if (note > 11) note -= 11; /* wrapped */
 
-        G_freq = ((midi_offTime[note] - 91) * 3);
+	G_freq = ((midi_offTime[note] - 91) * 3);
 
-		G_currentNote++;
+	G_currentNote++;
    }
    else {
-		G_freq = 0;
-		G_duration = 0;
-		G_currentNote = 0;      /* reset for next asset */
-		G_audioAssetId = 255; /* clear curent asset */
+	G_freq = 0;
+	G_duration = 0;
+	G_currentNote = 0;	  /* reset for next asset */
+	G_audioAssetId = 255; /* clear curent asset */
    }
-}
-
-void setBeep(unsigned short freq) {
-   G_freq = freq;
-   G_freq_cnt = 0;
-   G_duration_cnt = 0;
 }
 
 

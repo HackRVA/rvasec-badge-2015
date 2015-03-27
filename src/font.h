@@ -1,6 +1,7 @@
 #ifdef NEWCHARFUNCT
 
-unsigned char font[36][7][4] = {
+/* PEB made this const */
+const unsigned char font[36][7][4] = {
 
 //  Line 0     Line 1     Line 2     Line 3     Line 4     Line 5     Line 6
   {{1,1,3,8}, {2,3,4,3}, {5,1,3,8}, {0,0,0,0}, {0,0,0,0}, {0,0,0,0}, {0,0,0,0}},//a 0
