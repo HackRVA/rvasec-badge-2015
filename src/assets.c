@@ -345,3 +345,11 @@ void nextMIDI_cb(unsigned char assetId, int frame)
 		G_audioAssetId = 255; /* clear curent asset */
    }
 }
+
+void setBeep(unsigned short freq) {
+   G_freq = freq;
+   G_freq_cnt = 0;
+   G_duration_cnt = 0;
+}
+
+

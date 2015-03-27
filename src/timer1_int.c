@@ -15,8 +15,8 @@
  * Software License Agreement
  *
  * The software supplied herewith by Microchip Technology Incorporated
- * (the �Company�) for its PIC32MX Microcontroller is intended
- * and supplied to you, the Company�s customer, for use solely and
+ * (the Company) for its PIC32MX Microcontroller is intended
+ * and supplied to you, the Companys customer, for use solely and
  * exclusively on Microchip Microcontroller products.
  * The software is owned by the Company and/or its supplier, and is
  * protected under applicable copyright laws. All rights are reserved.
@@ -25,7 +25,7 @@
  * civil liability for the breach of the terms and conditions of this
  * license.
  *
- * THIS SOFTWARE IS PROVIDED IN AN �AS IS� CONDITION. NO WARRANTIES,
+ * THIS SOFTWARE IS PROVIDED IN AN AS IS CONDITION. NO WARRANTIES,
  * WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING, BUT NOT LIMITED
  * TO, IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
  * PARTICULAR PURPOSE APPLY TO THIS SOFTWARE. THE COMPANY SHALL NOT,
@@ -206,9 +206,6 @@ void __ISR(_TIMER_2_VECTOR, IPL2SOFT) Timer2Handler(void)
    // clear the interrupt flag
    mT2ClearIntFlag();
 
-   do_audio();
-   do_leds();
-
    // LATBbits.LATB8 == DBG pin shake sensor near LCD pins
    // each timer interrupt is 1/38khz
    if (G_IRrecv == 1) {
@@ -246,6 +243,11 @@ void __ISR(_TIMER_2_VECTOR, IPL2SOFT) Timer2Handler(void)
 	}
 	return;
    }
+
+   do_audio();
+   do_PWM();
+
+
 
    if (G_IRsend) {
         // 3 sections for IR send:
@@ -488,7 +490,11 @@ unsigned char G_blue_pwm=0;
 
 unsigned char G_bright=1;
 
-void brightness(unsigned char bright) {
+unsigned char G_backlight=255;
+unsigned char G_backlight_cnt=0;
+
+
+void led_brightness(unsigned char bright) {
    G_bright = bright;
 }
 
@@ -510,7 +516,7 @@ void blue(unsigned char onPWM) {
     G_blue_cnt = 0;
 }
 
-void do_leds()
+void do_PWM()
 {
     /* red */
     G_red_cnt++;
@@ -539,4 +545,16 @@ void do_leds()
         LATCbits.LATC1 = 0;
 
     // just let it wrap around if (G_blue_cnt == 255) G_blue_cnt = 0;
+
+
+    G_backlight_cnt++;
+    if (G_backlight_cnt < G_backlight)
+        LATCbits.LATC9 = 1;
+    else
+        LATCbits.LATC9 = 0;
+}
+
+void backlight(unsigned char bright) {
+    G_backlight = bright; 
+    G_backlight_cnt = 0;
 }

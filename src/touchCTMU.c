@@ -173,6 +173,7 @@ void touchInterrupt()
 
         if (G_buttonCnt == 255) {
            if (menu_escape_cb != NULL) menu_escape_cb();
+           G_buttonCnt=0;
         }
         else
            G_buttonCnt++;
