@@ -2,6 +2,7 @@
 #include "badge15.h"
 #include "touchCTMU.h"
 #include "time_date.h"
+#include "assetList.h"
 
 //------------------------------LCD COLORS-------------------------------------
 
@@ -1085,6 +1086,13 @@ void filled_rectangle(unsigned char x,
     add_to_display_list(FILLED_RECTANGLE, color, x, y, width, height);
 }
 
+void show_pic(unsigned char picId,
+              unsigned char x,
+              unsigned char y)
+{
+    add_to_display_list(PIC, picId, x, y, 0, 0);
+}
+
 void line(unsigned char x1,
           unsigned char y1,
           unsigned char x2,
@@ -1097,7 +1105,8 @@ void line(unsigned char x1,
 void clearscreen(unsigned short colorbg)
 {
     clear_display_list();
-    add_to_display_list(BACKGROUND, colorbg, 0, 0, 0, 0);
+    //add_to_display_list(BACKGROUND, colorbg, 0, 0, 0, 0);
+    show_pic(DRBOB, 0, 0);
 }
 
 void setbackground(unsigned short colorbg)
@@ -1207,7 +1216,10 @@ void LCDCompositeLine(void)
 
             }
             else if(display.composite_queue[display.queue_reader][0] == PIC){
-                //Later
+                scanLCD8(display.composite_queue[display.queue_reader][1],
+                         display.composite_queue[display.queue_reader][2],
+                         display.composite_queue[display.queue_reader][3],
+                         display.scan_line);
             }     
             else if(display.composite_queue[display.queue_reader][0] == BACKGROUND){
                     LCDBackgroundScan(display.composite_color[display.queue_reader]);

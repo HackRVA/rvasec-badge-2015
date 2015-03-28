@@ -3,6 +3,7 @@ void drawLCD1(unsigned char assetId, int frame);
 void drawLCD2(unsigned char assetId, int frame);
 void drawLCD4(unsigned char assetId, int frame);
 void drawLCD8(unsigned char assetId, int frame);
+void scanLCD8(unsigned char assetId, unsigned char y, unsigned char x, unsigned char lineCurrent);
 void setBeep(unsigned short freq);
 
 void nextNote_cb(unsigned char assetId, int frame);

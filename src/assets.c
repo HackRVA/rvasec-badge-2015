@@ -2,7 +2,7 @@
 #include "S6B33.h"
 #include "assets.h"
 #include "assetList.h"
-
+#include "LCDcolor.h"
 #include "timer1_int.h"
 
 
@@ -23,11 +23,11 @@ void drawLCD1(unsigned char assetId, int frame)
     unsigned char i, j, p, r, g, b, pixbyte, *cmap, *pixdata;
     unsigned short pixel ;
 
-    S6B33_rect(0, 0, assetList[assetId].y - 1, assetList[assetId].x - 1);//comment this out ?PEB WTF?
+    S6B33_rect(0, 0, assetList[assetId].y - 1, assetList[assetId].x - 1);
 
-    pixdata = &(assetList[assetId].pixdata[0]);	//0 is starting point need a skip line amount for each asset to scanline 66 for 132
-    for (i=0; i < assetList[assetId].y; i++) {	//edit this for end of line
-       for (j=0; j < assetList[assetId].x/8; j++ ) { // 8 pixels at a ime
+    pixdata = &(assetList[assetId].pixdata[0]);	
+    for (i=0; i < assetList[assetId].y; i++) {	
+       for (j=0; j < assetList[assetId].x/8; j++ ) { 
             pixbyte = *pixdata++; /* 8 pixels per byte */
 
             for (p=0; p<8; p++) {
@@ -150,16 +150,16 @@ void drawLCD4(unsigned char assetId, int frame)
     }
 }
 
-void drawLCD8(unsigned char assetId, int frame)
+void drawLCD8(unsigned char assetId, int frame)//add x, y and line current
 {
     unsigned char i, j, r, g, b, pixbyte, *cmap;
     unsigned short pixel;
 
-    S6B33_rect(0, 0, assetList[assetId].x - 1, assetList[assetId].y - 1);
+    S6B33_rect(0, 0, assetList[assetId].x - 1, assetList[assetId].y - 1);//this is x width and height with a starting of 0,0
 
-    for (i=0; i < assetList[assetId].y; i++) {
+    for (i=0; i < assetList[assetId].y; i++) {//change 'i' to reflect line current
        for (j=0; j < assetList[assetId].x; j++) {
-            pixbyte = assetList[assetId].pixdata[i * assetList[assetId].x + j];
+            pixbyte = assetList[assetId].pixdata[i * assetList[assetId].x + j];//replace i with line current
             cmap = &(assetList[assetId].data_cmap[(unsigned short)pixbyte * 3]);
             r = cmap[0];
             g = cmap[1];
@@ -169,9 +169,34 @@ void drawLCD8(unsigned char assetId, int frame)
                       ( ((g >> 3) & 0b11111) <<  6 ) |
                       ( ((b >> 3) & 0b11111)       )) ;
 
-            S6B33_pixel(pixel);
+            S6B33_pixel(pixel);//send to data bucket array off set by x
        }
     }
+}
+
+void scanLCD8(unsigned char assetId, unsigned char y, unsigned char x, unsigned char lineCurrent)//add x, y and line current
+{
+    if(y <= lineCurrent && y + assetList[assetId].y >= lineCurrent){
+    unsigned char j, r, g, b, pixbyte, *cmap;
+    unsigned short pixel;
+
+    //S6B33_rect(0, 0, assetList[assetId].x - 1, assetList[assetId].y - 1);//this is x width and height with a starting of 0,0
+
+    //for (i=0; i < assetList[assetId].y; i++) {//change 'i' to reflect line current
+       for (j=0; j < assetList[assetId].x; j++) {
+            pixbyte = assetList[assetId].pixdata[(lineCurrent-(y+1)) * assetList[assetId].x + j];//replace i with line current
+            cmap = &(assetList[assetId].data_cmap[(unsigned short)pixbyte * 3]);
+            r = cmap[0];
+            g = cmap[1];
+            b = cmap[2];
+
+            pixel = ( ( ((r >> 3) & 0b11111) << 11 ) |
+                      ( ((g >> 3) & 0b11111) <<  6 ) |
+                      ( ((b >> 3) & 0b11111)       )) ;
+
+            scan_bucket[j+x] = pixel;//send to data bucket array off set by x
+       }
+   }
 }
 
 unsigned char G_audioAssetId = 255;

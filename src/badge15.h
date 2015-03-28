@@ -113,6 +113,10 @@ void rectangle(unsigned char x,//draws a rectangle to the display list
         unsigned char height,
         unsigned short color);
 
+void show_pic(unsigned char picId,
+              unsigned char x,
+              unsigned char y);
+
 void filled_rectangle(unsigned char x,
                       unsigned char y,
                       unsigned char width,
