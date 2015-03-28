@@ -28,13 +28,16 @@ enum states{
  SET_TIME,
  SCREENSAVER,
  SCREENSAVER_ON,
- ACHIEVMENTS
+ ACHIEVMENTS,
+ DATE_TIME,
+ DATE_TIME_
 };
 
 unsigned char badge_date[8];
+unsigned char badge_date_set[8];
 unsigned char badge_time[6];
-unsigned char badge_date_last[8];
-unsigned char badge_time_last[6];
+unsigned char badge_time_set[6];
+unsigned char badge_time_last;
 
 //-------------------------------END STATES------------------------------------
 
@@ -81,6 +84,15 @@ void run_states(void){
         case ACHIEVMENTS:
             unlocked_achievments();
             break;
+        case DATE_TIME:
+            date_time();
+            break;
+        case DATE_TIME_:
+            date_time_d();
+            break;
+        default:
+            main_menu();
+
     }
 }
 
@@ -140,37 +152,11 @@ void main_menu(void){
 
 void update_badge_time(void){
 
-    badge_time_last[0] = badge_time[0];
-    badge_time_last[1] = badge_time[1];
-    badge_time_last[2] = badge_time[2];
-    badge_time_last[3] = badge_time[3];
-    badge_time_last[4] = badge_time[4];
-    badge_time_last[5] = badge_time[5];
-    badge_date_last[0] = badge_date[0];
-    badge_date_last[1] = badge_date[1];
-    badge_date_last[2] = badge_date[2];
-    badge_date_last[3] = badge_date[3];
-    badge_date_last[4] = badge_date[4];
-    badge_date_last[5] = badge_date[5];
-    badge_date_last[6] = badge_date[6];
-    badge_date_last[7] = badge_date[7];
+    badge_time_last = badge_time[4];
 
     getTime_Date(badge_time, badge_date);
 
-    if(badge_time_last[0] == badge_time[0] &&
-    badge_time_last[1] == badge_time[1] &&
-    badge_time_last[2] == badge_time[2] &&
-    badge_time_last[3] == badge_time[3] &&
-    badge_time_last[4] == badge_time[4] &&
-    badge_time_last[5] == badge_time[5] &&
-    badge_date_last[0] == badge_date[0] &&
-    badge_date_last[1] == badge_date[1] &&
-    badge_date_last[2] == badge_date[2] &&
-    badge_date_last[3] == badge_date[3] &&
-    badge_date_last[4] == badge_date[4] &&
-    badge_date_last[5] == badge_date[5] &&
-    badge_date_last[6] == badge_date[6] &&
-    badge_date_last[7] == badge_date[7])
+    if(badge_time_last == badge_time[4])
     {
         return;
     }
@@ -262,6 +248,8 @@ void settings_menu(void){
             case 2:
                 break;
             case 3:
+                b_state.current_state = DATE_TIME;
+                b_state.counter1 = 0;
                 break;
             case 4:
                 break;
@@ -709,6 +697,194 @@ void unlocked_achievments(void){
         b_state.previous_state = ACHIEVMENTS;
     }
 }
+
+void date_time(void){
+
+    do_touch(6);
+
+    unsigned short selected[6];
+    clear_selected(selected,6);
+    selected[b_state.selected_object] = RED;
+
+    if(b_state.state_drawn == 0){
+        clearscreen(BLACK);
+        rectangle(10,11,108,15, GREEN);
+        writeline("time", 4, 56, 23,GREEN);
+
+        rectangle(10,49, 20, 15, selected[0]);//0
+        printchar((badge_time_set[0]), 23,61,GREEN);
+
+        rectangle(39,49, 20, 15, selected[1]);//0
+        printchar((badge_time_set[1]), 52,61,GREEN);
+
+        printchar(':',66, 61,GREEN);//:
+
+        rectangle(68,49, 20, 15, selected[2]);//0
+        printchar((badge_time_set[3]), 81,61,GREEN);
+
+        rectangle(97,49, 20, 15, selected[3]);//0
+        printchar((badge_time_set[4]),110,61,GREEN);
+
+        rectangle(39,68, 49, 15, selected[4]);//AM-PM
+        switch(badge_time_set[5]){
+            case 'A':
+                writeline("AM", 2, 61, 80, GREEN);
+                break;
+            default:
+                writeline("PM", 2, 61, 80, GREEN);
+                break;
+        }
+
+        rectangle(39,106, 49, 15, selected[5]);
+        writeline("NEXT", 4, 56, 118, GREEN);
+        b_state.state_drawn = 1;
+    }
+
+    if(click == 0  && display.new_item == 0){
+        click = 1;
+        switch(b_state.selected_object){
+            case 0:
+                if(badge_time_set[0] == '1')
+                    badge_time_set[0] = '0';
+                else
+                    badge_time_set[0]++;
+                break;
+            case 1:
+                if(badge_time_set[1] == '9')
+                    badge_time_set[1] = '0';
+                else
+                    badge_time_set[1]++;
+                break;
+            case 2:
+                if(badge_time_set[3] == '5')
+                    badge_time_set[3] = '0';
+                else
+                    badge_time_set[3]++;
+                break;
+            case 3:
+                if(badge_time_set[4] == '9')
+                    badge_time_set[4] = '0';
+                else
+                    badge_time_set[4]++;
+                break;
+            case 4:
+                if(badge_time_set[5] == 'P')
+                    badge_time_set[5] = 'A';
+                else
+                    badge_time_set[5] = 'P';
+                break;
+            case 5:
+                b_state.current_state = DATE_TIME_;
+                on_exit();
+                break;
+        }
+        clear_display_list();
+        b_state.state_drawn = 0;
+    }
+}
+
+void date_time_d(void){
+
+    unsigned short selected[7];
+
+    do_touch(7);
+
+    clear_selected(selected,7);
+
+    selected[b_state.selected_object] = RED;
+    
+    if(b_state.state_drawn == 0){
+            clearscreen(BLACK);
+            rectangle(10,11,108,15, GREEN);
+            writeline("date",   4, 56, 23, GREEN);
+
+            rectangle(10,30, 49,15, GREEN);
+            writeline("Month:", 6, 20, 42, GREEN);
+
+            rectangle(68,30, 20, 15, selected[0]);//m
+            printchar((badge_date_set[0]), 81,42,GREEN);
+
+            rectangle(97,30, 20, 15, selected[1]);//m
+            printchar((badge_date_set[1]),110,42,GREEN);
+
+
+            rectangle(10,49, 49,15, GREEN);
+            writeline("Day:", 4, 20, 61, GREEN);
+
+            rectangle(68,49, 20, 15, selected[2]);//m
+            printchar((badge_date_set[3]), 81,61,GREEN);
+
+            rectangle(97,49, 20, 15, selected[3]);//m
+            printchar((badge_date_set[4]),110,61,GREEN);
+
+
+            rectangle(10,68, 49,15, GREEN);
+            writeline("Year:", 5, 20, 80, GREEN);
+
+            rectangle(68,68, 20, 15, selected[4]);//m
+            printchar((badge_date_set[6]), 81,80,GREEN);
+
+            rectangle(97,68, 20, 15, selected[5]);//m
+            printchar((badge_date_set[7]),110,80,GREEN);
+
+            //setup date menu/rectangles here
+            rectangle(10,106,108,15, selected[6]);
+            writeline("save", 4,  55, 118, GREEN);
+
+            b_state.state_drawn = 1;
+    }
+
+    if(click == 0  && display.new_item == 0){
+        click = 1;
+        switch(b_state.selected_object){
+            case 0:
+                if(badge_date_set[0] == '1')
+                    badge_date_set[0] = '0';
+                else
+                    badge_date_set[0]++;
+                break;
+            case 1:
+                if(badge_date_set[1] == '9')
+                    badge_date_set[1] = '0';
+                else
+                    badge_date_set[1]++;
+                break;
+            case 2:
+                if(badge_date_set[3] == '9')
+                    badge_date_set[3] = '0';
+                else
+                    badge_date_set[3]++;
+                break;
+            case 3:
+                if(badge_date_set[4] == '9')
+                    badge_date_set[4] = '0';
+                else
+                    badge_date_set[4]++;
+                break;
+            case 4:
+                if(badge_date_set[6] == '9')
+                    badge_date_set[6] = '0';
+                else
+                    badge_date_set[6]++;
+                break;
+            case 5:
+                if(badge_date_set[7] == '9')
+                    badge_date_set[7] = '0';
+                else
+                    badge_date_set[7]++;
+                break;
+            case 6:
+                setTime_Date(badge_time_set,badge_date_set);
+                b_state.current_state = SETTINGS;
+                b_state.previous_state = MAIN;
+                on_exit();
+                break;
+        }
+        clear_display_list();
+        b_state.state_drawn = 0;
+    }
+}
+
 /***********************[MENU FUNCTIONS USE CAREFULLY]*************************
  *        Functions used to emplement functionality of the menu system        *
  ******************************************************************************/
@@ -717,6 +893,8 @@ void on_exit(void){
     clear_display_list();
     b_state.state_drawn = 0;
     b_state.selected_object = 0;
+    b_state.counter1 = 0;
+    b_state.counter2 = 0;
 }
 
 void do_touch(unsigned char menuSize){
@@ -759,6 +937,10 @@ void clear_selected(unsigned short * selected, unsigned char menuSize){
         selected[4] = GREEN;
     if(menuSize > 5)
         selected[5] = GREEN;
+    if(menuSize > 6)
+        selected[6] = GREEN;
+    if(menuSize > 7)
+        selected[7] = GREEN;
 }
 /***************************[END MENU FUNCTIONS]******************************/
 
@@ -777,6 +959,21 @@ void init_states(void){
    b_state.counter1 = 0;
    b_state.counter2 = 0;
    click = 0;
+   badge_time_set[0] = '0';
+   badge_time_set[1] = '0';
+   badge_time_set[2] = ':';
+   badge_time_set[3] = '0';
+   badge_time_set[4] = '0';
+   badge_time_set[5] = 'A';
+
+   badge_date_set[0] = '0';
+   badge_date_set[1] = '0';
+   badge_date_set[2] = '-';
+   badge_date_set[3] = '0';
+   badge_date_set[4] = '0';
+   badge_date_set[5] = '-';
+   badge_date_set[6] = '0';
+   badge_date_set[7] = '0';
 
 }
 
@@ -879,6 +1076,15 @@ void rectangle(unsigned char x,
     add_to_display_list(RECTANGLE, color, x, y, width, height);
 }
 
+void filled_rectangle(unsigned char x,
+                      unsigned char y,
+                      unsigned char width,
+                      unsigned char height,
+                      unsigned short color)
+{
+    add_to_display_list(FILLED_RECTANGLE, color, x, y, width, height);
+}
+
 void line(unsigned char x1,
           unsigned char y1,
           unsigned char x2,
@@ -889,6 +1095,12 @@ void line(unsigned char x1,
 }
 
 void clearscreen(unsigned short colorbg)
+{
+    clear_display_list();
+    add_to_display_list(BACKGROUND, colorbg, 0, 0, 0, 0);
+}
+
+void setbackground(unsigned short colorbg)
 {
     add_to_display_list(BACKGROUND, colorbg, 0, 0, 0, 0);
 }
@@ -959,6 +1171,21 @@ void LCDCompositeLine(void)
                    + display.composite_queue[display.queue_reader][5]))
                 {
                     LCDrectangleScan(display.composite_queue[display.queue_reader][2],
+                                     display.composite_queue[display.queue_reader][3],
+                                     display.composite_queue[display.queue_reader][4],
+                                     display.composite_queue[display.queue_reader][5],
+                                     display.scan_line,
+                                     display.composite_color[display.queue_reader]);
+                }
+
+            }
+            else if(display.composite_queue[display.queue_reader][0] == FILLED_RECTANGLE){
+
+                if(display.scan_line >= display.composite_queue[display.queue_reader][3] &&
+                   display.scan_line <= (display.composite_queue[display.queue_reader][3]
+                   + display.composite_queue[display.queue_reader][5]))
+                {
+                    LCDFilledRectangleScan(display.composite_queue[display.queue_reader][2],
                                      display.composite_queue[display.queue_reader][3],
                                      display.composite_queue[display.queue_reader][4],
                                      display.composite_queue[display.queue_reader][5],

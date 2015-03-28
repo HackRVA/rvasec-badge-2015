@@ -53,6 +53,10 @@ void schedule_click(void);
 
 void on_exit(void);
 
+void date_time(void);
+
+void date_time_(void);
+
 /******************************************************************************/
 /****************************[End State Machine]*******************************/
 /******************************************************************************/
@@ -70,6 +74,7 @@ typedef enum ResourceType {//this is used to indicate type of graphics resource
     CHARACTER,
     PIC,
     BACKGROUND,
+    FILLED_RECTANGLE,
 }ResourceType;
 
 typedef struct display_list{//this structure contains the display list and its counters
@@ -107,6 +112,12 @@ void rectangle(unsigned char x,//draws a rectangle to the display list
         unsigned char width,
         unsigned char height,
         unsigned short color);
+
+void filled_rectangle(unsigned char x,
+                      unsigned char y,
+                      unsigned char width,
+                      unsigned char height,
+                      unsigned short color);
 
 void line(unsigned char x1,//draws a line to the display list and decides
         unsigned char y1,  //which line function to use based on coordinates

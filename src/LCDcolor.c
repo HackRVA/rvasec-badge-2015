@@ -121,6 +121,19 @@ void LCDrectangleScan(unsigned char x, //calls 4 line scans for rectangle
     LCDlineScan(x,y+height-1,x+width,y+height-1,lineCurrent, color);
 }
 
+void LCDFilledRectangleScan(unsigned char x,
+        unsigned char y,
+        unsigned char width,
+        unsigned char height,
+        unsigned char lineCurrent,
+        unsigned short color
+        )
+{
+    if(lineCurrent >= y && lineCurrent <= y+height){
+        LCDlineScan(x,lineCurrent-1,x+width,lineCurrent-1,lineCurrent,color);
+    }
+}
+
 #ifdef NEWCHARFUNCT
 
 void LCDCharacterScan(unsigned char y,//Hard coded font. Scans
