@@ -15,6 +15,30 @@ unsigned short int ButtonVmeasADC[NUM_DIRECT_KEYS]={0,0,0,0}; // Report out all 
 unsigned char Nnops=4;
 short int CurrentButtonStatus=0; // Bit field of buttons that are pressed
 
+
+/* 
+   a sample collection
+*/
+struct sample_t {
+    unsigned int timestamp; // incremented every 1/120 sec. it will wrap around in 414 days
+                            // the SAMPLES are not necessarily updated every 1/120
+    short int buttonStatus; // updated when all sampling and average for all 4 button is done
+    unsigned short int ButtonVmeasADC[NUM_DIRECT_KEYS]; // updated when all sampling and average for all 4 button is done
+} ;
+
+/* 
+   these values are updated at the last state of the touchInterrupt() 
+   sample+averaging cycle so are valid anytime
+   they can be used in conjunction with the timestamp
+   by  touch functions to see how fast buttons are changing
+*/
+static struct sample_t sample[3] = {{0, 0, {0 ,0 ,0 ,0}}, {0, 0, {0 ,0 ,0 ,0}}, {0, 0, {0 ,0 ,0 ,0}}};
+
+
+/* 
+   Using this function is not recommended and it does NOT run from the interrupt
+   see touchInterrupt() for that code.
+*/
 void getTouch()
 {
     unsigned long int  ADC_Sum; // For averaging multiple ADC measurements
@@ -141,7 +165,7 @@ enum {
       TOUCH_ATOD_NEXTBUTTON
 } ;
 
-unsigned char touchState=TOUCH_INIT;
+unsigned char touchState = TOUCH_INIT;
 
 initTouch() {
     touchState = TOUCH_INIT;
@@ -165,7 +189,12 @@ void touchInterrupt()
     static short int iButton=0; // Button Index, persistent across calls
 
     static unsigned short int VmeasADC, VavgADC; // Measured Voltages, 65536 = Full Scale
+
     static short int tmpCurrentButtonStatus=0; // temp version of Bit field of buttons that are pressed. not updated till all are ready
+    static unsigned int timestamp=0;
+
+
+    timestamp++; // 1/120 sec. this will wrap around in 414 days = ((((pow(2, 32))/ 120) / 3600) / 24)
 
     /* See if button is pushed and debounce-  Bit 3 of port C */
     if (PORTCbits.RC3) {
@@ -334,10 +363,37 @@ void touchInterrupt()
             break;
 
         default:
+            /*
+                last state action is to swap curr/prev samples 
+                and then copy results to curr 
+            */
+            sample[2].timestamp = sample[1].timestamp;
+            sample[2].buttonStatus = sample[1].buttonStatus;
+            sample[2].ButtonVmeasADC[0] = sample[1].ButtonVmeasADC[0];
+            sample[2].ButtonVmeasADC[1] = sample[1].ButtonVmeasADC[1];
+            sample[2].ButtonVmeasADC[2] = sample[1].ButtonVmeasADC[2];
+            sample[2].ButtonVmeasADC[3] = sample[1].ButtonVmeasADC[3];
+
+            sample[1].timestamp = sample[0].timestamp;
+            sample[1].buttonStatus = sample[0].buttonStatus;
+            sample[1].ButtonVmeasADC[0] = sample[0].ButtonVmeasADC[0];
+            sample[1].ButtonVmeasADC[1] = sample[0].ButtonVmeasADC[1];
+            sample[1].ButtonVmeasADC[2] = sample[0].ButtonVmeasADC[2];
+            sample[1].ButtonVmeasADC[3] = sample[0].ButtonVmeasADC[3];
+
             /* copy to output status */
-            CurrentButtonStatus = tmpCurrentButtonStatus;
+            sample[0].timestamp = timestamp;
+            sample[0].buttonStatus = tmpCurrentButtonStatus;
+            sample[0].ButtonVmeasADC[0] = ButtonVmeasADC[0];
+            sample[0].ButtonVmeasADC[1] = ButtonVmeasADC[1];
+            sample[0].ButtonVmeasADC[2] = ButtonVmeasADC[2];
+            sample[0].ButtonVmeasADC[3] = ButtonVmeasADC[3];
+
             tmpCurrentButtonStatus = 0;
+            CurrentButtonStatus = tmpCurrentButtonStatus;
+
             touchState = TOUCH_IDLE;
+
             break;
     }
 

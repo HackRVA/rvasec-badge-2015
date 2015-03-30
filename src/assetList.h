@@ -2,7 +2,7 @@ enum {
 //    MAYO=1,
     DRBOB=0,
     HACKRVA,
-//    RVASEC,
+    RVASEC,
     RVASEC2,
     HACKRVA2,
     MARIO,
