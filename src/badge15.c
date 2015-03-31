@@ -250,14 +250,6 @@ void settings_menu(void){
     }
 }
 
-void game_2048_Init()
-{
-}
-
-void game_2048_Run()
-{
-}
-
 /*****************************[GAME MENU STATE]*******************************
  *    Add links to all new states under the games or settings menu           *
  *****************************************************************************/

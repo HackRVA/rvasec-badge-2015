@@ -12,9 +12,8 @@
 static unsigned short int ButtonADCChannels[NUM_DIRECT_KEYS] = {0,1,3,4};
 unsigned short int ButtonVmeasADC[NUM_DIRECT_KEYS]={0,0,0,0}; // Report out all voltages at once
 
-unsigned char Nnops=4;
+unsigned char Nnops=3;
 short int CurrentButtonStatus=0; // Bit field of buttons that are pressed
-
 
 /* 
    a sample collection
@@ -32,8 +31,16 @@ struct sample_t {
    they can be used in conjunction with the timestamp
    by  touch functions to see how fast buttons are changing
 */
-static struct sample_t sample[3] = {{0, 0, {0 ,0 ,0 ,0}}, {0, 0, {0 ,0 ,0 ,0}}, {0, 0, {0 ,0 ,0 ,0}}};
+#define NUMSAMPLES 3
+static struct sample_t sample[NUMSAMPLES] = {{0, 0, {0 ,0 ,0 ,0}}};
 
+/* a MAXSAMPLE is kept to use for testing if a button is pressed, it is sample NUMSAMPLE-1 */
+# define MAXSAMPLE (NUMSAMPLES-1)
+
+/* new way using MAXSAMPLE to calculate */
+short int sampleButtonStatus = 0; // Bit field of buttons that are pressed
+
+short int G_buttonDetectValue=0x800; // cap touch detect value. old way was 32767, the midpoint between  0..65535
 
 /* 
    Using this function is not recommended and it does NOT run from the interrupt
@@ -162,7 +169,9 @@ enum {
       TOUCH_ATOD_STOP,
       TOUCH_ATOD_SAMPLE,
       TOUCH_ATOD_MATH,
-      TOUCH_ATOD_NEXTBUTTON
+      TOUCH_ATOD_NEXTBUTTON,
+      TOUCH_STORE_SAMPLES,
+      TOUCH_COMPUTE_BUTTONS
 } ;
 
 unsigned char touchState = TOUCH_INIT;
@@ -198,10 +207,11 @@ void touchInterrupt()
 
     /* See if button is pushed and debounce-  Bit 3 of port C */
     if (!PORTCbits.RC3) {
-        if (G_buttonCnt > 4)
+        if (G_buttonCnt > 4) /* 4/120 = 1/30 sec. plenty of debounce */
         {
             G_button = 1;
         }
+
         if (G_buttonCnt == 255) {
            if (menu_escape_cb != NULL) menu_escape_cb();
            G_buttonCnt=0;
@@ -248,6 +258,14 @@ void touchInterrupt()
             AD1CON1bits.ON = 1; // Turn on ADC
             CurrentButtonStatus = 0;
             tmpCurrentButtonStatus = 0;
+
+            sample[MAXSAMPLE].ButtonVmeasADC[0] = 0;
+            sample[MAXSAMPLE].ButtonVmeasADC[1] = 0;
+            sample[MAXSAMPLE].ButtonVmeasADC[2] = 0;
+            sample[MAXSAMPLE].ButtonVmeasADC[3] = 0;
+            sample[MAXSAMPLE].timestamp = 0;
+            sample[MAXSAMPLE].buttonStatus = 0;
+
             touchState++;
             break;
 
@@ -289,20 +307,19 @@ void touchInterrupt()
             switch (iButton) {
                 unsigned char nops;
 
-                case 0:
-                    for (nops=0; nops<Nnops; nops++);
-                    break;
-
-                case 1:
-                    //for (nops=0; nops<Nnops+2; nops++);
+                case LOWER_LEFT:
                     for (nops=0; nops<Nnops+1; nops++);
                     break;
 
-                case 2:
+                case LOWER_RIGHT:
+                    for (nops=0; nops<Nnops+2; nops++);
+                    break;
+
+                case RIGHT_TOP:
                     for (nops=0; nops<Nnops; nops++);
                     break;
 
-                case 3:
+                case RIGHT_BOTTOM:
                     for (nops=0; nops<Nnops; nops++);
                     break;
             }
@@ -364,20 +381,17 @@ void touchInterrupt()
             }
             break;
 
-        default:
-            /*
-                last state action is to swap curr/prev samples 
-                and then copy results to curr 
-            */
-            sample[2].timestamp = sample[1].timestamp;
-            sample[2].buttonStatus = sample[1].buttonStatus;
-            sample[2].ButtonVmeasADC[0] = sample[1].ButtonVmeasADC[0];
-            sample[2].ButtonVmeasADC[1] = sample[1].ButtonVmeasADC[1];
-            sample[2].ButtonVmeasADC[2] = sample[1].ButtonVmeasADC[2];
-            sample[2].ButtonVmeasADC[3] = sample[1].ButtonVmeasADC[3];
+        case TOUCH_STORE_SAMPLES:
+            /* store MAX values in MAXSAMPLE */
+            if (sample[MAXSAMPLE].ButtonVmeasADC[0] < ButtonVmeasADC[0])    sample[MAXSAMPLE].ButtonVmeasADC[0] = ButtonVmeasADC[0];
+            if (sample[MAXSAMPLE].ButtonVmeasADC[1] < ButtonVmeasADC[1])    sample[MAXSAMPLE].ButtonVmeasADC[1] = ButtonVmeasADC[1];
+            if (sample[MAXSAMPLE].ButtonVmeasADC[2] < ButtonVmeasADC[2])    sample[MAXSAMPLE].ButtonVmeasADC[2] = ButtonVmeasADC[2];
+            if (sample[MAXSAMPLE].ButtonVmeasADC[3] < ButtonVmeasADC[3])    sample[MAXSAMPLE].ButtonVmeasADC[3] = ButtonVmeasADC[3];
+            sample[MAXSAMPLE].timestamp =         sample[1].timestamp;
+            sample[MAXSAMPLE].buttonStatus =      sample[1].buttonStatus;
 
-            sample[1].timestamp = sample[0].timestamp;
-            sample[1].buttonStatus = sample[0].buttonStatus;
+            sample[1].timestamp =         sample[0].timestamp;
+            sample[1].buttonStatus =      sample[0].buttonStatus;
             sample[1].ButtonVmeasADC[0] = sample[0].ButtonVmeasADC[0];
             sample[1].ButtonVmeasADC[1] = sample[0].ButtonVmeasADC[1];
             sample[1].ButtonVmeasADC[2] = sample[0].ButtonVmeasADC[2];
@@ -391,15 +405,31 @@ void touchInterrupt()
             sample[0].ButtonVmeasADC[2] = ButtonVmeasADC[2];
             sample[0].ButtonVmeasADC[3] = ButtonVmeasADC[3];
 
-            tmpCurrentButtonStatus = 0;
+            touchState++;
+            break;
+
+
+        case TOUCH_COMPUTE_BUTTONS:
+            /* new MAXSAMPLED button values */
+            sampleButtonStatus = 0;
+            if ( (sample[0].ButtonVmeasADC[0] + G_buttonDetectValue) < sample[MAXSAMPLE].ButtonVmeasADC[0])    sampleButtonStatus |= (1 << 0);
+            if ( (sample[0].ButtonVmeasADC[1] + G_buttonDetectValue) < sample[MAXSAMPLE].ButtonVmeasADC[1])    sampleButtonStatus |= (1 << 1);
+            if ( (sample[0].ButtonVmeasADC[2] + G_buttonDetectValue) < sample[MAXSAMPLE].ButtonVmeasADC[2])    sampleButtonStatus |= (1 << 2);
+            if ( (sample[0].ButtonVmeasADC[3] + G_buttonDetectValue) < sample[MAXSAMPLE].ButtonVmeasADC[3])    sampleButtonStatus |= (1 << 3);
+            if (G_button == 1)  sampleButtonStatus |= (1 <<4);
+ 
+
+            /* old way */
             CurrentButtonStatus = tmpCurrentButtonStatus;
             if (G_button == 1)
                 CurrentButtonStatus |= (1 <<4);
             
             tmpCurrentButtonStatus = 0;
-            touchState = TOUCH_IDLE;
+            touchState++;
+            break;
 
+        default:
+            touchState = TOUCH_IDLE;
             break;
     }
-
 }

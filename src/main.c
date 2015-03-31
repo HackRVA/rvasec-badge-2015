@@ -456,10 +456,6 @@ unsigned char getcUSART ()
  *                  non-USB tasks.
  *******************************************************************/
 
-// in used in S6B33 samsung controller
-extern unsigned char G_bias;
-extern unsigned char G_contrast1;
-
 // used in touchCTMU, charge time
 extern unsigned char Nnops;
 
@@ -467,7 +463,8 @@ extern unsigned char Nnops;
 extern short int CurrentButtonStatus; 
 
 // array of 4 touch slides sample averages from touchCTMU
-unsigned short int ButtonVmeasADC[];
+extern unsigned short int ButtonVmeasADC[];
+
 
 const char hextab[]={"0123456789ABCDEF"};
 
@@ -775,9 +772,11 @@ void ProcessIO(void)
 
 
 		if (USB_In_Buffer[0] == '{') {
-			void LCDReset(void);
-
 /*
+			void LCDReset(void);
+            // in used in S6B33 samsung controller
+            extern unsigned char G_bias;
+
 			if (G_bias != 0) G_bias -= 1;
 
 			USB_Out_Buffer[NextUSBOut++] = 48 +  (unsigned char)G_bias / 100;
@@ -794,8 +793,10 @@ void ProcessIO(void)
 		}
 
 		if (USB_In_Buffer[0] == '}') {
-			void LCDReset(void);
 /*
+			void LCDReset(void);
+            // in used in S6B33 samsung controller
+            extern unsigned char G_bias;
 
 			if (G_bias != 3) G_bias += 1;
 
@@ -814,6 +815,8 @@ void ProcessIO(void)
 
 		if (USB_In_Buffer[0] == '-') {
 			void LCDReset(void);
+            // in used in S6B33 samsung controller
+            extern unsigned char G_contrast1;
 
 			G_contrast1 -= 4;
 
@@ -831,6 +834,8 @@ void ProcessIO(void)
 
 		if ((USB_In_Buffer[0] == '=') || (USB_In_Buffer[0] == '+')) {
 			void LCDReset(void);
+            // in used in S6B33 samsung controller
+            extern unsigned char G_contrast1;
 
 			G_contrast1 += 4;
 
@@ -855,9 +860,12 @@ void ProcessIO(void)
 		}
 
 		if (USB_In_Buffer[0] == '[') {
+            void initTouch();
+
 			Nnops -= 1;
 			if (Nnops == 255) Nnops = 0;
 
+            initTouch();
 			USB_Out_Buffer[NextUSBOut++] = 'N';
 			USB_Out_Buffer[NextUSBOut++] = 'O';
 			USB_Out_Buffer[NextUSBOut++] = 'P';
@@ -874,8 +882,11 @@ void ProcessIO(void)
 		}
 
 		if (USB_In_Buffer[0] == ']') {
+            void initTouch();
+
 			if (Nnops != 255) Nnops += 1;
 
+            initTouch();
 			USB_Out_Buffer[NextUSBOut++] = 'N';
 			USB_Out_Buffer[NextUSBOut++] = 'O';
 			USB_Out_Buffer[NextUSBOut++] = 'P';
@@ -911,13 +922,18 @@ void ProcessIO(void)
 		
 
 		if (USB_In_Buffer[0] == '.') {
+            extern short int sampleButtonStatus; // Bit field of buttons that are pressed
+
 			USB_Out_Buffer[NextUSBOut++] = 'B';
 			USB_Out_Buffer[NextUSBOut++] = 'T';
 			USB_Out_Buffer[NextUSBOut++] = 'N';
 			USB_Out_Buffer[NextUSBOut++] = 32;
-			USB_Out_Buffer[NextUSBOut++] = 48 +  (unsigned char)CurrentButtonStatus / 100;
-			USB_Out_Buffer[NextUSBOut++] = 48 + ((unsigned char)CurrentButtonStatus % 100) / 10;
-			USB_Out_Buffer[NextUSBOut++] = 48 + ((unsigned char)CurrentButtonStatus % 100) % 10;
+			USB_Out_Buffer[NextUSBOut++] = 48 + ((sampleButtonStatus >> 4) & 0x1);
+			USB_Out_Buffer[NextUSBOut++] = 48 + ((sampleButtonStatus >> 3) & 0x1);
+			USB_Out_Buffer[NextUSBOut++] = 48 + ((sampleButtonStatus >> 2) & 0x1);
+			USB_Out_Buffer[NextUSBOut++] = 48 + ((sampleButtonStatus >> 1) & 0x1);
+			USB_Out_Buffer[NextUSBOut++] = 48 + ((sampleButtonStatus >> 0) & 0x1);
+;
 			USB_Out_Buffer[NextUSBOut++] = '\r';
 			USB_Out_Buffer[NextUSBOut++] = '\n';
 			USB_Out_Buffer[NextUSBOut++] = 0;

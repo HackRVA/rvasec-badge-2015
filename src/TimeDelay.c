@@ -41,8 +41,7 @@ MWM 2011.03     Added Delay1us
 *******************************************************************************/
 #include <plib.h>
 #include "TimeDelay.h"
-//#include "HardwareProfile.h"
-#include "touchCTMU.h"
+#include "HardwareProfile.h"
 
 /****************************************************************************
   Function:
