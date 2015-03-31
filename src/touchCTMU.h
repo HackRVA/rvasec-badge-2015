@@ -4,6 +4,8 @@
 #define GetPeripheralClock()  (GetSystemClock())
 #define GetInstructionClock() (GetSystemClock())
 
+#define TOUCH_BUTTON_THRESHOLD 12000
+
 short int CurrentButtonStatus;
 
 

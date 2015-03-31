@@ -14,7 +14,26 @@ int click;//remove when button is really implemented
 /******************************************************************************/
 /***************************[Badge State Machine]******************************/
 /******************************************************************************/
+//---------------ALL STATES ON DEVICE-ADD NEW STATES TO END--------------------
 
+enum states{
+ MAIN,
+ SCHEDULE,
+ SETTINGS,
+ GAMES,
+ DAY1,
+ DAY2,
+ LED,
+ CONTRAST,
+ SPEAKER,
+ SET_TIME,
+ SCREENSAVER,
+ SCREENSAVER_ON,
+ ACHIEVMENTS,
+ DATE_TIME,
+ DATE_TIME_,
+ GAME_2048
+};
 
 typedef struct badge_state{//structure that controls state flow
 
@@ -24,7 +43,6 @@ typedef struct badge_state{//structure that controls state flow
      unsigned char state_drawn;//used to redraw state on change in selected object
      unsigned char counter1;
      unsigned char counter2;
-
 }badge_state;
 
 void run_states(void);//case statement that controls badge state
@@ -80,8 +98,8 @@ typedef enum ResourceType {//this is used to indicate type of graphics resource
 typedef struct display_list{//this structure contains the display list and its counters
     unsigned char queue_counter;
     unsigned char queue_reader;
-    unsigned char composite_queue[100][6];
-    unsigned short composite_color[100];
+    unsigned char composite_queue[150][6];
+    unsigned short composite_color[150];
     unsigned char lineReady;
     unsigned char scan_line;
     unsigned char new_item;

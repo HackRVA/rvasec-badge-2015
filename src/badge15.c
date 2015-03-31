@@ -14,25 +14,7 @@
 
 //-------------------------------END COLORS------------------------------------
 
-//---------------ALL STATES ON DEVICE-ADD NEW STATES TO END--------------------
 
-enum states{
- MAIN,
- SCHEDULE,
- SETTINGS,
- GAMES, 
- DAY1,
- DAY2,
- LED,
- CONTRAST,
- SPEAKER,
- SET_TIME,
- SCREENSAVER,
- SCREENSAVER_ON,
- ACHIEVMENTS,
- DATE_TIME,
- DATE_TIME_
-};
 
 unsigned char badge_date[8];
 unsigned char badge_date_set[8];
@@ -90,6 +72,9 @@ void run_states(void){
             break;
         case DATE_TIME_:
             date_time_d();
+            break;
+        case GAME_2048:
+            game_2048_Run();
             break;
         default:
             main_menu();
@@ -282,7 +267,7 @@ void game_menu(void){
     if(b_state.state_drawn == 0){
         clearscreen(BLACK);
         drawMenu(selected, 6);
-        writeline("Firewall",8,  44, 23,  GREEN);
+        writeline("2048",8,  60, 23,  GREEN);
         writeline("Bowling", 7,  47, 42,  GREEN);
         writeline("Hacker",  6,  50, 61,  GREEN);
         writeline("Aliens",  6,  50, 80,  GREEN);
@@ -297,6 +282,8 @@ void game_menu(void){
 
         switch(b_state.selected_object){
             case 0:
+                game_2048_Init();
+                b_state.current_state = GAME_2048;
                 break;
             case 1:
                 break;
@@ -312,7 +299,7 @@ void game_menu(void){
             default:
                 break;
         }
-        on_exit();
+        //on_exit();
         b_state.previous_state = GAMES;
     }
 }
@@ -1011,7 +998,7 @@ void init_states(void){
 void init_display_list(void)
 {
     LCDinit_scan();
-    for(display.queue_counter=0;display.queue_counter<100;display.queue_counter++){
+    for(display.queue_counter=0;display.queue_counter<150;display.queue_counter++){
          display.composite_color[display.queue_counter] = 7;
         for(display.queue_reader=0;display.queue_reader<6;display.queue_reader++){
             display.composite_queue[display.queue_counter][display.queue_reader] = 7;
@@ -1037,7 +1024,7 @@ void add_to_display_list(unsigned char ResourceType,
     display.composite_queue[display.queue_counter][5] = y2_height;
     display.composite_color[display.queue_counter] = color_picID;
 
-    if(display.queue_counter == 99)
+    if(display.queue_counter == 149)
         display.queue_counter = 0;
     else
         display.queue_counter++;
@@ -1047,8 +1034,8 @@ void add_to_display_list(unsigned char ResourceType,
 
 void writeline(unsigned char * charin, unsigned char no_of_chars, unsigned char x, unsigned char y, unsigned short color)
 {
-    if(y<15)
-        y=15;
+    if(y<10)
+        y=10;
 
     unsigned char j;
     if(no_of_chars > 22)
@@ -1116,7 +1103,7 @@ void setbackground(unsigned short colorbg)
 
 void clear_display_list(void)
 {
-     for(display.queue_counter=0;display.queue_counter<100;display.queue_counter++)
+     for(display.queue_counter=0;display.queue_counter<150;display.queue_counter++)
         for(display.queue_reader=0;display.queue_reader<6;display.queue_reader++)
             display.composite_queue[display.queue_counter][display.queue_reader] = 7;
 
@@ -1155,7 +1142,7 @@ void LCDComposite(void)
 void LCDCompositeLine(void)
 {
     if(display.new_item > 0){
-    for(display.queue_reader=0;display.queue_reader<100;display.queue_reader++){
+    for(display.queue_reader=0;display.queue_reader<150;display.queue_reader++){
 
         if(display.composite_queue[display.queue_reader][0] != 7){
 

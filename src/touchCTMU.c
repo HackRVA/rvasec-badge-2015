@@ -132,7 +132,7 @@ void getTouch()
         {
             VavgADC = ADC_Sum << (6-Log2Naverages); // Full scale = 2^10<<6 = 65536
         }
-        if ( VavgADC < 32768 )
+        if ( VavgADC < TOUCH_BUTTON_THRESHOLD )
         {
             CurrentButtonStatus += 1<<iButton;
         }
@@ -197,9 +197,11 @@ void touchInterrupt()
     timestamp++; // 1/120 sec. this will wrap around in 414 days = ((((pow(2, 32))/ 120) / 3600) / 24)
 
     /* See if button is pushed and debounce-  Bit 3 of port C */
-    if (PORTCbits.RC3) {
-        if (G_buttonCnt > 4) G_button = 1;
-
+    if (!PORTCbits.RC3) {
+        if (G_buttonCnt > 4)
+        {
+            G_button = 1;
+        }
         if (G_buttonCnt == 255) {
            if (menu_escape_cb != NULL) menu_escape_cb();
            G_buttonCnt=0;
@@ -341,7 +343,7 @@ void touchInterrupt()
             else {
                 VavgADC = ADC_Sum << (6-Log2Naverages); // Full scale = 2^10<<6 = 65536
             }
-            if ( VavgADC < 32768 ) {
+            if ( VavgADC < TOUCH_BUTTON_THRESHOLD ) {
                 tmpCurrentButtonStatus |= (1 << iButton);
             }
 
@@ -391,7 +393,10 @@ void touchInterrupt()
 
             tmpCurrentButtonStatus = 0;
             CurrentButtonStatus = tmpCurrentButtonStatus;
-
+            if (G_button == 1)
+                CurrentButtonStatus |= (1 <<4);
+            
+            tmpCurrentButtonStatus = 0;
             touchState = TOUCH_IDLE;
 
             break;
