@@ -150,16 +150,16 @@ void drawLCD4(unsigned char assetId, int frame)
     }
 }
 
-void drawLCD8(unsigned char assetId, int frame)//add x, y and line current
+void drawLCD8(unsigned char assetId, int frame)
 {
     unsigned char i, j, r, g, b, pixbyte, *cmap;
     unsigned short pixel;
 
-    S6B33_rect(0, 0, assetList[assetId].x - 1, assetList[assetId].y - 1);//this is x width and height with a starting of 0,0
+    S6B33_rect(0, 0, assetList[assetId].x - 1, assetList[assetId].y - 1);
 
-    for (i=0; i < assetList[assetId].y; i++) {//change 'i' to reflect line current
+    for (i=0; i < assetList[assetId].y; i++) {
        for (j=0; j < assetList[assetId].x; j++) {
-            pixbyte = assetList[assetId].pixdata[i * assetList[assetId].x + j];//replace i with line current
+            pixbyte = assetList[assetId].pixdata[i * assetList[assetId].x + j];
             cmap = &(assetList[assetId].data_cmap[(unsigned short)pixbyte * 3]);
             r = cmap[0];
             g = cmap[1];
@@ -169,7 +169,7 @@ void drawLCD8(unsigned char assetId, int frame)//add x, y and line current
                       ( ((g >> 3) & 0b11111) <<  6 ) |
                       ( ((b >> 3) & 0b11111)       )) ;
 
-            S6B33_pixel(pixel);//send to data bucket array off set by x
+            S6B33_pixel(pixel);
        }
     }
 }
@@ -200,7 +200,7 @@ void scanLCD8(unsigned char assetId, unsigned char y, unsigned char x, unsigned 
 }
 
 unsigned char G_audioAssetId = 255;
-unsigned int G_audioFrame = 0; /* perisisten current "frame" of audio, like a "frame" of video */
+unsigned int G_audioFrame = 0; /* persistant current "frame" of audio, like a "frame" of video */
 unsigned short G_currentNote=0;
 unsigned short G_duration = 2048;
 unsigned short G_duration_cnt = 2048;
