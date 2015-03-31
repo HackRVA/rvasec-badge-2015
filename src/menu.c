@@ -1,24 +1,24 @@
 #define NULL 0
 
-enum {
-   RED_BG=0,
-   GREEN_BG,
-   BLUE_BG,
+enum attrib {
+   RED_BG=0,  /* color/text attrib */
+   GREEN_BG,  /* color/text attrib */
+   BLUE_BG,  /* color/text attrib */
 };
 
-enum {
-   MORE=0,
-   TEXT,
-   BACK,
-   MENU,
-   FUNCTION
+enum type {
+   MORE=0, /* if the menu is too long to fit */
+   TEXT,   /* text to display */
+   BACK,    /* return to previous menu */
+   MENU,    /* sub menu type */
+   FUNCTION /* c function */
 };
 
 struct menu_t {
    char name[16];
    unsigned char attrib;
    unsigned char type;
-   union {
+   union {                      /* when initing the union, coerce non void data to a menu_t to keep compiler from whining */
       struct menu_t *menu;
       void (*func)();
       void *generic;
@@ -26,8 +26,8 @@ struct menu_t {
 };
 
 struct menu_t breakfast_m[] = {
-   {"yummy", GREEN_BG, TEXT, {NULL}},
-   {"back", GREEN_BG, BACK, NULL},
+   {"yummy", GREEN_BG, TEXT, {NULL}}, /* can init union either with or without {} */
+   {"back", GREEN_BG, BACK, NULL}, /* can init union either with or without {} */
 };
 
 struct menu_t welcome_m[] = {
@@ -98,7 +98,7 @@ void hacker_cb() { puts("FUNCTION hack\n"); };
 void aliens_cb() { puts("FUNCTION aliens\n"); };
 
 struct menu_t games_m[] = {
-   {"Firewall",	GREEN_BG, FUNCTION, (struct menu_t *)firewall_cb},
+   {"Firewall",	GREEN_BG, FUNCTION, (struct menu_t *)firewall_cb}, /* coerce/cast to a menu_t data pointer */
    {"Bowling",	GREEN_BG, FUNCTION, (struct menu_t *)bowling_cb},
    {"Hacker",	GREEN_BG, FUNCTION, (struct menu_t *)hacker_cb},
    {"Aliens",	GREEN_BG, FUNCTION, (struct menu_t *)aliens_cb},
@@ -113,7 +113,7 @@ void screensaver_cb() { puts("FUNCTION screensave\n"); };
 void backlight_cb() { puts("FUNCTION backlight\n"); };
 
 struct menu_t settings_m[] = {
-   {"led",	GREEN_BG, FUNCTION, (struct menu_t *)led_cb}, /* have to cast call backs as menu_t to stop compiler whining */
+   {"led",	GREEN_BG, FUNCTION, (struct menu_t *)led_cb},  /* coerce/cast to a menu_t data pointer */
    {"contrast",	GREEN_BG, FUNCTION, (struct menu_t *)contrast_cb},
    {"time & date",GREEN_BG, FUNCTION, (struct menu_t *)timedate_cb},
    {"screensaver",GREEN_BG, FUNCTION, (struct menu_t *)screensaver_cb},
