@@ -123,7 +123,6 @@ struct menu_t settings_m[] = {
 
 struct menu_t achievements_m[] = {
    {"back", GREEN_BG, BACK, NULL},
-   {"", 0, NULL}
 };
 
 struct menu_t main_m[] = {
