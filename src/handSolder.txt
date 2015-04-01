@@ -4,7 +4,7 @@ Badge2015 Hand soldering instructions
 
 - check for shorts
   - Typical problem areas
-    - {rocessor pins
+    - Processor pins
 
       Fix:
       - use fine soldering iron to wick solder bridge away from
@@ -18,13 +18,14 @@ Badge2015 Hand soldering instructions
 
       Fix:
       - use fine or normal soldering iron to wick solder down along trace
-        Flux the traces and the solder will follow.
+        flux the traces and the solder will follow
+      - can also melt and carefully flick a blob off the board
 
       - If there is a lot of excess solder a solder sucker or copper wick 
         may be usefull.
 
-- check for capacitors that "submarine" or "tombstone" where the part 
-    tilts up during the reflow process instead of staying flat
+- check for capacitors that "submarine" or "tombstone" this is where the 
+    part tilts up during the reflow process instead of staying flat
 
     Fix:
 
@@ -32,11 +33,11 @@ Badge2015 Hand soldering instructions
       *** Try not to heat and blow away nearby parts ***
       - Hold part with a tweezer while pointing the air at the part
         Avoid heating to long in one spot. 
-        Temps are 6 or 700 and air flow is 4 or 5 out of 10.
+        Temps are 6 or 700F and air flow is 4 or 5 out of 10.
 
     - Solder iron
       - DONT PRY ON THE PART -SERIOUSLY- the traces tear very easily when hot
-      - Heat up the part by applying heat alternating on each end and even the middle.
+      - Heat up the part by applying heat alternating on each end and the middle
         You can also use the side of the iron tip (not the point) to apply heat
         After a minute or two the part will either stick to the iron or one end 
         will come loose, then the other end can be desoldered while the part is 
@@ -58,3 +59,19 @@ Badge2015 Hand soldering instructions
       Put a big blob of solder on the iron and apply to pin using the side/edge of the tip 
       to contact the pin to transfer the most heat. 
     
+
+ - IR LED
+   - "L" bend leads
+   - Dot faces left
+
+ - IR Receiver
+   - "L" bend leads
+   - Curved dome faces left
+
+ - Piezo
+   - "L" bend leads
+   - Piezo point towards USB so it doesn't cover hackrva logo
+
+ - 32768 clock crystal
+   - short leds so it doesnt reach the ground line
+   - part should not touch capactors
