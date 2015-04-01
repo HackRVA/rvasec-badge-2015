@@ -184,7 +184,10 @@ initTouch() {
 unsigned char G_button=0; // physical button on/off
 unsigned char G_buttonCnt=0; // physical button on period
 
-/* run from timer3 interrupt */
+/*
+   This code is run from timer3 interrupt in timer1_int.c
+   It is an unrolled / statefull version of getTouch()
+*/
 void touchInterrupt()
 {
     static unsigned long int ADC_Sum; // For averaging multiple ADC measurements, persistant
@@ -224,9 +227,6 @@ void touchInterrupt()
         G_button = 0;
     }
 
-    /* setup analog pins */
-    // PEB RA0/CTED1 RA1/CTED2 RB1/CTED12 RB2/CTED13
-    // make them inputs
     switch (touchState) {
         case TOUCH_INIT:
             /* setup analog pins */
@@ -256,9 +256,11 @@ void touchInterrupt()
             AD1CSSL = 0x0;        // No channels scanned
             IEC0bits.AD1IE = 0; // Disable ADC interrupts
             AD1CON1bits.ON = 1; // Turn on ADC
+
             CurrentButtonStatus = 0;
             tmpCurrentButtonStatus = 0;
 
+            sampleButtonStatus = 0;
             sample[MAXSAMPLE].ButtonVmeasADC[0] = 0;
             sample[MAXSAMPLE].ButtonVmeasADC[1] = 0;
             sample[MAXSAMPLE].ButtonVmeasADC[2] = 0;
@@ -334,7 +336,7 @@ void touchInterrupt()
             touchState++;
             break;
 
-        case TOUCH_ATOD_STOP:       // wait for AtoD to finish
+        case TOUCH_ATOD_STOP:       // wait for AtoD to finish. This could take several interrupts
             if (AD1CON1bits.DONE) touchState++;
             break;
 

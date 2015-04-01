@@ -142,8 +142,8 @@ struct menu_t *G_menu = NULL ; // current menu item in stack
 #define MORE_INC 4
 
 #define MAX_MENU_DEPTH 8
-static unsigned char menu_cnt=0; // index for menu_stack
-struct menu_t *menu_stack[MAX_MENU_DEPTH]; // track user traversing menus
+static unsigned char G_menuCnt=0; // index for G_menuStack
+struct menu_t *G_menuStack[MAX_MENU_DEPTH] = { main_m }; // track user traversing menus
 
 /*
 cc -o menu menu.c -DMAINMENU
@@ -179,8 +179,8 @@ main() {
             depth--;
             printf("back depth = %d\n", depth);
             fflush(stdout);
-            if (menu_cnt > 0) menu_cnt--; /* check for menu stack underflow should assert it > 0 */
-            G_menu = menu_stack[menu_cnt] ;
+            if (G_menuCnt > 0) G_menuCnt--; /* check for menu stack underflow should assert it > 0 */
+            G_menu = G_menuStack[G_menuCnt] ;
 
             break;
 
@@ -195,8 +195,8 @@ main() {
             fflush(stdout);
             sub_menu = G_menu->data.menu; /* go into this menu */
             G_menu++;                        /* advance past this item so when we return we are position for next loop */
-            menu_stack[menu_cnt++] = G_menu; /* push onto stack  */
-            if (menu_cnt == MAX_MENU_DEPTH) menu_cnt--; /* too deep, undo */
+            G_menuStack[G_menuCnt++] = G_menu; /* push onto stack  */
+            if (G_menuCnt == MAX_MENU_DEPTH) G_menuCnt--; /* too deep, undo */
 
             G_menu = sub_menu; /* go into menu */
             depth++;
@@ -213,5 +213,91 @@ main() {
             break;
       }
    }
+}
+#endif
+
+#ifndef MAINMENU
+enum input_mask {
+   L_LEFT =  0b00001,
+   L_RIGHT = 0b00010,
+   R_UPPER = 0b00100,
+   R_LOWER = 0b01000,
+   BUTTON  = 0b10000,
+};
+
+extern short int sampleButtonStatus;  // Bit field of buttons that are pressed
+void draw_menu(struct menu_t *menu) ;
+
+
+void menus() {
+        static struct menu_t *currMenu = NULL; /* init */
+
+        if (currMenu == NULL) currMenu = G_menuStack[0];
+
+        if (sampleButtonStatus & BUTTON) {
+                /* click */
+                draw_menu(currMenu);
+        }
+        else {
+                if (sampleButtonStatus & R_UPPER) {
+                        /* make sure not on first menu item */
+                        if (currMenu > G_menuStack[G_menuCnt]) currMenu--;
+                }
+
+                if (sampleButtonStatus & R_LOWER) {
+                        /* make sure not on last menu item */
+                        if (currMenu->type != BACK) currMenu++;
+                }
+        }
+}
+
+void draw_menu(struct menu_t *menu) {
+    struct menu_t *tmp_menu;
+
+	switch (menu->type) {
+	    case MORE: /* display next page of menu */
+		//printf("more\n");
+		//fflush(stdout);
+		//G_menu += MORE_INC;
+		G_menu++;
+		break;
+
+	    case BACK: /* return from menu */
+		if (G_menuCnt == 0) return; /* stack is empty, error or main menu */
+
+		//printf("back depth = %d\n", depth);
+		//fflush(stdout);
+		G_menuCnt--; 
+		G_menu = G_menuStack[G_menuCnt] ;
+
+		break;
+
+	    case TEXT: /* display some text (clock perhaps) */
+		//printf("%s\n", G_menu->name);
+		//fflush(stdout);
+		G_menu++;
+		break;
+
+	    case MENU: /* drill down into menu */
+		//printf("menu\n");
+		//fflush(stdout);
+		tmp_menu = G_menu->data.menu; /* go into this menu */
+		G_menu++;                        /* advance past this item so when we return we are position for next loop */
+		G_menuStack[G_menuCnt++] = G_menu; /* push onto stack  */
+		if (G_menuCnt == MAX_MENU_DEPTH) G_menuCnt--; /* too deep, undo */
+
+		G_menu = tmp_menu; /* go into menu */
+		break;
+
+	    case FUNCTION: /* call the function pointer */
+		//printf("function\n");
+		//fflush(stdout);
+		(*G_menu->data.func)();
+		G_menu++;
+		break;
+
+	    default:
+		break;
+	}
 }
 #endif

@@ -223,6 +223,8 @@ int main(void)
         //C short circuit makes this work
 #ifdef JON
         run_states();
+#else
+        menus();
 #endif
 
     #if defined(GAME_MODE)
