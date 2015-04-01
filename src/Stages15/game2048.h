@@ -13,6 +13,4 @@ bool moveRight();
 bool hasWon();
 bool canMove();
 
-
-
 #endif

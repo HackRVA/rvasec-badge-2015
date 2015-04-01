@@ -3,11 +3,15 @@
 #include "game2048.h"
 #include "badge15.h"
 
-#define GAME_2048_WELCOME           1
-#define GAME_2048_PLAY              2
-#define GAME_2048_GAME_MENU         3
-#define GAME_2048_GAME_WON          4
-#define GAME_2048_GAME_OVER         5
+enum GAME_2048_STATES
+{
+    GAME_2048_WELCOME,
+    GAME_2048_PLAY,
+    GAME_2048_DRAW_GRID,
+    GAME_2048_MENU,
+    GAME_2048_GAME_WON,
+    GAME_2048_GAME_OVER
+};
 
 #define SWIPE_LEFT   (1 << 0)
 #define SWIPE_RIGHT  (1 << 1)
@@ -22,6 +26,7 @@
 #define BLACK 0b0000000000000000
 
 #define TILE_SIZE 29
+#define GAME_2048_STATE b_state.selected_object
 
 extern badge_state b_state;//badge state structure
 unsigned char grid[4][4];
@@ -30,7 +35,6 @@ unsigned char processInput;
 short int lastButtonState;
 
 extern void (*menu_escape_cb)(void);
-
 
 char vals[12][4] = {{' ', ' ', ' ', ' '}, {' ', ' ', '2', ' '},
                     {' ' ,' ', '4', ' '}, {' ' ,' ', '8', ' '},
@@ -68,7 +72,7 @@ void game_2048_Run()
         processInput = 1;
     }
 
-    switch(b_state.selected_object)
+    switch(GAME_2048_STATE)
     {
         case GAME_2048_WELCOME:
             game_2048_welcome();
@@ -76,13 +80,16 @@ void game_2048_Run()
         case GAME_2048_PLAY:
             game_2048_play();
             break;
+        case GAME_2048_DRAW_GRID:
+            printGrid();
+            break;
         case GAME_2048_GAME_OVER:
             game_2048_game_over();
             break;
         case GAME_2048_GAME_WON:
             game_2048_game_won();
             break;
-        case GAME_2048_GAME_MENU:
+        case GAME_2048_MENU:
             game_2048_game_menu();
             break;
     }
@@ -101,47 +108,41 @@ void game_2048_welcome()
     }
     if ((processInput==1) && (CurrentButtonStatus & BUTTON_PRESS))
     {
-        b_state.selected_object = GAME_2048_PLAY;
+        GAME_2048_STATE = GAME_2048_DRAW_GRID;
         b_state.state_drawn = 0;
     }
 }
 
 void game_2048_play()
 {
-    if(b_state.state_drawn == 0)
-    {
-        clear_display_list();
-        printGrid();
-        b_state.state_drawn = 1;
-    }
 
     if (processInput == 1)
     {
         if (CurrentButtonStatus & BUTTON_PRESS)
         {
-            b_state.selected_object = GAME_2048_GAME_MENU;
+            GAME_2048_STATE = GAME_2048_MENU;
             b_state.state_drawn = 0;
             b_state.counter1 = 0;
         }
         else if(CurrentButtonStatus & SWIPE_UP)
         {
             up();
-            b_state.state_drawn = 0;
+            GAME_2048_STATE = GAME_2048_DRAW_GRID;
         }
         else if (CurrentButtonStatus & SWIPE_DOWN)
         {
             down();
-            b_state.state_drawn = 0;
+            GAME_2048_STATE = GAME_2048_DRAW_GRID;
         }
         else if (CurrentButtonStatus & SWIPE_LEFT)
         {
             left();
-            b_state.state_drawn = 0;
+            GAME_2048_STATE = GAME_2048_DRAW_GRID;
         }
         else if (CurrentButtonStatus & SWIPE_RIGHT)
         {
             right();
-            b_state.state_drawn = 0;
+            GAME_2048_STATE = GAME_2048_DRAW_GRID;
         }
     }
 }
@@ -188,7 +189,7 @@ void game_2048_game_menu()
         if(CurrentButtonStatus & BUTTON_PRESS)
         {
             if (b_state.counter1 == 0)
-                b_state.selected_object = GAME_2048_PLAY;
+                GAME_2048_STATE = GAME_2048_DRAW_GRID;
             else if (b_state.counter1 == 1)
                 game_2048_Init();
             else if (b_state.counter1 == 2)
@@ -337,7 +338,7 @@ void placeTile(unsigned char val) {
      
 }
 
-char buf[25];
+char buf[20];
 
 void printScore(){
     unsigned char i = 0;;
@@ -373,7 +374,7 @@ void printGrid() {
             writeline(&buf, 4, x+8, y+20, BLACK);//(val <=2) ? BLACK : WHITE);
         }
     }
-    
+    GAME_2048_STATE = GAME_2048_PLAY;
 }
 
 bool moveUp() {
