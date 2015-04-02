@@ -114,13 +114,11 @@ struct menu_t main_m[] = {
 usage case
 */
 
-struct menu_t *G_menu = NULL ; // current menu item in stack
-
 #define MORE_INC 4
 
 #define MAX_MENU_DEPTH 8
 static unsigned char G_menuCnt=0; // index for G_menuStack
-struct menu_t *G_menuStack[MAX_MENU_DEPTH] = { main_m }; // track user traversing menus
+struct menu_t *G_menuStack[MAX_MENU_DEPTH] = { 0 }; // track user traversing menus
 
 /*
 cc -o menu menu.c -DMAINMENU
@@ -129,6 +127,8 @@ cc -o menu menu.c -DMAINMENU
 #ifdef MAINMENU
 #include <stdio.h>
 char spaces[16] = "                ";
+
+struct menu_t *G_menu = NULL ; // current menu item in stack
 
 /* traverse menus */
 main() {
@@ -211,7 +211,7 @@ main() {
 #define CHAR_WIDTH 6
 #define CHAR_HEIGHT 10
 
-void display_menu(struct menu_t *menu)
+void display_menu(struct menu_t *menu, struct menu_t *selected)
 {
 	static unsigned char cursor_x, cursor_y;
 	unsigned char c;
@@ -224,7 +224,7 @@ void display_menu(struct menu_t *menu)
 	while (menu->type != BACK) {
 		for (c=0; (menu->name[c] != 0); c++) {
 			// add_to_display_list(CHARACTER, menu->attrib, cursor_x + (c * CHAR_WIDTH), cursor_y, menu->name[c], 0);
-			add_to_display_list(CHARACTER, 0, cursor_x + (c * CHAR_WIDTH), cursor_y, menu->name[c], 0);
+			add_to_display_list(CHARACTER, ((menu == selected) ? RED : 0), cursor_x + (c * CHAR_WIDTH), cursor_y, menu->name[c], 0);
 		}
 		cursor_y += CHAR_HEIGHT;
 		menu++;
@@ -233,61 +233,83 @@ void display_menu(struct menu_t *menu)
 
 /* for this increment the units are menu items */
 #define PAGESIZE 8
-extern short int sampleButtonStatus;  // Bit field of buttons that are pressed
 
+struct menu_t *currMenu = NULL; /* init */
+struct menu_t *selectedMenu = NULL; /* item the cursor is on */
 void menus()
 {
-        static struct menu_t *currMenu = NULL; /* init */
+	static unsigned int last_buttonTimestmap=0;
 
-        if (currMenu == NULL) currMenu = G_menuStack[0];
+        if (currMenu == NULL) {
+		G_menuStack[G_menuCnt] = main_m;
+		currMenu = main_m;
+		selectedMenu = currMenu;
+           	display_menu(currMenu, selectedMenu);
+	}
 
-	/* see if physical button has been clicked */
-        if (sampleButtonStatus & BUTTON_MASK) {
-	   struct menu_t *tmp_menu;
+        /* see if physical button has been clicked */
+	if ((sampleButtonStatus & BUTTON_MASK) && (buttonTimestamp[BUTTON] != last_buttonTimestmap)) {
+		struct menu_t *tmp_menu;
 
-	   switch (currMenu->type) {
-	       case MORE: /* jump to next page of menu */
-		   currMenu += PAGESIZE;
-		   break;
-
-	       case BACK: /* return from menu */
-		   if (G_menuCnt == 0) return; /* stack is empty, error or main menu */
-		   G_menuCnt--; 
-		   currMenu = G_menuStack[G_menuCnt] ;
-		   break;
-
-	       case TEXT: /* maybe highlight if clicked?? */
-		   break;
-
-	       case MENU: /* drills down into menu if clicked */
-		   tmp_menu = currMenu->data.menu; /* go into this menu */
-		   G_menuStack[G_menuCnt++] = currMenu; /* push onto stack  */
-		   if (G_menuCnt == MAX_MENU_DEPTH) G_menuCnt--; /* too deep, undo */
-		   currMenu = tmp_menu; /* go into menu */
-		   break;
-
-	       case FUNCTION: /* call the function pointer if clicked */
-		   (*currMenu->data.func)();
-		   break;
-
-	       default:
-		   break;
-	   }
-
-           display_menu(currMenu);
+		last_buttonTimestmap = buttonTimestamp[BUTTON];
+	
+		switch (selectedMenu->type) {
+		case MORE: /* jump to next page of menu */
+			currMenu += PAGESIZE;
+			selectedMenu = currMenu;
+			break;
+	
+		case BACK: /* return from menu */
+			if (G_menuCnt == 0) return; /* stack is empty, error or main menu */
+			G_menuCnt--; 
+			currMenu = G_menuStack[G_menuCnt] ;
+			selectedMenu = currMenu;
+			break;
+	
+		case TEXT: /* maybe highlight if clicked?? */
+			break;
+	
+		case MENU: /* drills down into menu if clicked */
+			G_menuStack[G_menuCnt++] = currMenu; /* push onto stack  */
+			if (G_menuCnt == MAX_MENU_DEPTH) G_menuCnt--; /* too deep, undo */
+			currMenu = selectedMenu->data.menu; /* go into this menu */
+			selectedMenu = currMenu;
+			break;
+	
+		case FUNCTION: /* call the function pointer if clicked */
+			(*selectedMenu->data.func)();
+			break;
+	
+		default:
+			break;
+		}
+	
+           	display_menu(currMenu, selectedMenu);
         }
-	/* handle slider/soft button clicks */
-        else {
+        else { /* handle slider/soft button clicks */
+		static unsigned int last_topTimestmap=0, last_bottomTimestmap=0; /* init */
+
                 if (sampleButtonStatus & TOP_SLIDER_MASK) {
-                        /* make sure not on first menu item */
-                        if (currMenu > G_menuStack[G_menuCnt]) currMenu--;
+			setNote(64, 1024);
+
+			if (buttonTimestamp[TOP_SLIDER] != last_topTimestmap) {
+				/* make sure not on first menu item */
+				if (selectedMenu > currMenu) selectedMenu--;
+
+				last_topTimestmap = buttonTimestamp[TOP_SLIDER];
+			}
                 }
 
                 if (sampleButtonStatus & BOTTOM_SLIDER_MASK) {
-                        /* make sure not on last menu item */
-                        if (currMenu->type != BACK) currMenu++;
-                }
-        }
+			setNote(64, 1024);
+			if (buttonTimestamp[BOTTOM_SLIDER] != last_bottomTimestmap) {
+                        	/* make sure not on last menu item */
+                        	if (selectedMenu->type != BACK) selectedMenu++;
+
+				last_bottomTimestmap = buttonTimestamp[BOTTOM_SLIDER];
+                	}
+        	}
+	}
 }
 
 #endif

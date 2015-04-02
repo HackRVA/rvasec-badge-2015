@@ -25,5 +25,9 @@ struct menu_t {
    } data;
 };
 
-void display_menu(struct menu_t *menu);
+void display_menu(struct menu_t *menu, struct menu_t *selected);
+
+extern struct menu_t *currMenu;
+extern struct menu_t *selectedMenu;
+extern unsigned int buttonTimestamp[];
 #endif

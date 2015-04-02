@@ -4,6 +4,7 @@
 
 #define TOUCH_BUTTON_THRESHOLD 12000
 
+extern short int sampleButtonStatus;  // Bit field of buttons that are pressed
 extern short int CurrentButtonStatus;
 
 /* button numbering */

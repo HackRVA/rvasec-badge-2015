@@ -215,9 +215,11 @@ int main(void)
         ProcessIO();
         //C short circuit makes this work
 #ifdef JON
+#ifdef OLDMENUS
         run_states();
 #else
         menus();
+#endif
 #endif
 
     #if defined(GAME_MODE)
@@ -277,7 +279,9 @@ static void InitializeSystem(void)
   
 #ifdef JON
 	init_display_list();
+#ifdef OLDMENUS
 	init_states();
+#endif
 #endif
 	
 	initTouch();
@@ -525,7 +529,7 @@ void ProcessIO(void)
 			if (USB_In_Buffer[0] == 'P') {
 				extern struct menu_t day2_m[]; /* longest menu currently */
 
-				display_menu(day2_m);
+				display_menu(day2_m, 0);
 			}
 
 			USB_In_Buffer[0] = 0;
@@ -572,17 +576,33 @@ void ProcessIO(void)
 		}
 			 
 		if ((USB_In_Buffer[0] == 13) || (USB_In_Buffer[0] == 10)) {
-			char *l = &(USB_Out_Buffer[NextUSBOut]);
+			USB_Out_Buffer[NextUSBOut++] = 'M';
+			USB_Out_Buffer[NextUSBOut++] = 'E';
+			USB_Out_Buffer[NextUSBOut++] = 'N';
+			USB_Out_Buffer[NextUSBOut++] = 'U';
+			USB_Out_Buffer[NextUSBOut++] = ' ';
+			USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)currMenu >> 28) & 0xF];
+			USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)currMenu >> 24) & 0xF];
+			USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)currMenu >> 20) & 0xF];
+			USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)currMenu >> 16) & 0xF];
+			USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)currMenu >> 12) & 0xF];
+			USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)currMenu >>  8) & 0xF];
+			USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)currMenu >>  4) & 0xF];
+			USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)currMenu	    ) & 0xF];
+			USB_Out_Buffer[NextUSBOut++] = ' ';
+			USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)selectedMenu >> 28) & 0xF];
+			USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)selectedMenu >> 24) & 0xF];
+			USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)selectedMenu >> 20) & 0xF];
+			USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)selectedMenu >> 16) & 0xF];
+			USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)selectedMenu >> 12) & 0xF];
+			USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)selectedMenu >>  8) & 0xF];
+			USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)selectedMenu >>  4) & 0xF];
+			USB_Out_Buffer[NextUSBOut++] = hextab[((unsigned long)selectedMenu	    ) & 0xF];
 			
-			USB_Out_Buffer[NextUSBOut++] = 'H';
-			USB_Out_Buffer[NextUSBOut++] = 'e';
-			USB_Out_Buffer[NextUSBOut++] = 'l';
-			USB_Out_Buffer[NextUSBOut++] = 'l';
-			USB_Out_Buffer[NextUSBOut++] = 'o';
 			USB_Out_Buffer[NextUSBOut++] = '\r';
 			USB_Out_Buffer[NextUSBOut++] = '\n';
 			USB_Out_Buffer[NextUSBOut++] = 0;
-			
+
 			USB_In_Buffer[0] = 0;
 			
 			// writeline(l, &(USB_In_Buffer[NextUSBOut]) - l, 10, 15, WHITE);

@@ -32,13 +32,14 @@ struct sample_t {
    by  touch functions to see how fast buttons are changing
 */
 #define NUMSAMPLES 3
-static struct sample_t sample[NUMSAMPLES] = {{0, 0, {0 ,0 ,0 ,0}}};
+struct sample_t sample[NUMSAMPLES] = {{0, 0, {0 ,0 ,0 ,0}}};
 
 /* a MAXSAMPLE is kept to use for testing if a button is pressed, it is sample NUMSAMPLE-1 */
 # define MAXSAMPLE (NUMSAMPLES-1)
 
 /* new way using MAXSAMPLE to calculate */
 short int sampleButtonStatus = 0; // Bit field of buttons that are pressed
+unsigned int buttonTimestamp[NUMSAMPLES] = {0}; /* timestamp of when a button last changed state */
 
 short int G_buttonDetectValue=0x800; // cap touch detect value. old way was 32767, the midpoint between  0..65535
 
@@ -269,6 +270,12 @@ void touchInterrupt()
             sample[MAXSAMPLE].timestamp = 0;
             sample[MAXSAMPLE].buttonStatus = 0;
 
+	    buttonTimestamp[LEFT_SLIDER] = 0;
+	    buttonTimestamp[RIGHT_SLIDER] = 0;
+	    buttonTimestamp[TOP_SLIDER] = 0;
+	    buttonTimestamp[BOTTOM_SLIDER] = 0;
+	    buttonTimestamp[BUTTON] = 0;
+
             touchState++;
             break;
 
@@ -419,7 +426,7 @@ void touchInterrupt()
 		/* check if already on, otherwise ignore and DONT update timestamp  */
 		if (!(sampleButtonStatus & LEFT_SLIDER_MASK)) {
 			sampleButtonStatus |= LEFT_SLIDER_MASK;
-			sample[MAXSAMPLE].timestamp = timestamp; /* apps can tell if start/stop by checking timestamp */
+			buttonTimestamp[LEFT_SLIDER] = timestamp; /* apps can tell if start/stop by checking timestamp */
 		}
 	    }
 
@@ -427,7 +434,7 @@ void touchInterrupt()
 		/* check if already on, otherwise ignore and DONT update timestamp  */
 		if (!(sampleButtonStatus & RIGHT_SLIDER_MASK)) {
 			sampleButtonStatus |= RIGHT_SLIDER_MASK;
-			sample[MAXSAMPLE].timestamp = timestamp; /* apps can tell if start/stop by checking timestamp */
+			buttonTimestamp[RIGHT_SLIDER] = timestamp; /* apps can tell if start/stop by checking timestamp */
 		}
 	    }
 
@@ -435,7 +442,7 @@ void touchInterrupt()
 		/* check if already on, otherwise ignore and DONT update timestamp  */
 		if (!(sampleButtonStatus & TOP_SLIDER_MASK)) {
 			sampleButtonStatus |= TOP_SLIDER_MASK;
-			sample[MAXSAMPLE].timestamp = timestamp; /* apps can tell if start/stop by checking timestamp */
+			buttonTimestamp[TOP_SLIDER] = timestamp; /* apps can tell if start/stop by checking timestamp */
 		}
 	    }
 
@@ -443,14 +450,14 @@ void touchInterrupt()
 		/* check if already on, otherwise ignore and DONT update timestamp  */
 		if (!(sampleButtonStatus & BOTTOM_SLIDER_MASK)) {
 			sampleButtonStatus |= BOTTOM_SLIDER_MASK;
-			sample[MAXSAMPLE].timestamp = timestamp; /* apps can tell if start/stop by checking timestamp */
+			buttonTimestamp[BOTTOM_SLIDER] = timestamp; /* apps can tell if start/stop by checking timestamp */
 		}
 	    }
 
             if (G_button == 1)  {
 		if (!(sampleButtonStatus & BUTTON_MASK)) {
 			sampleButtonStatus |= BUTTON_MASK;
-			sample[MAXSAMPLE].timestamp = timestamp; /* apps can tell if start/stop by checking timestamp */
+			buttonTimestamp[BUTTON] = timestamp; /* apps can tell if start/stop by checking timestamp */
 		}
 	    }
 
