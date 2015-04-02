@@ -31,9 +31,10 @@ Badge2015 Hand soldering instructions
 
     - Hot air station is recommended
       *** Try not to heat and blow away nearby parts ***
-      - Hold part with a tweezer while pointing the air at the part
-        Avoid heating to long in one spot. 
-        Temps are 6 or 700F and air flow is 4 or 5 out of 10.
+      - Hold part with a tweezer while pointing the air towards the part
+        and moving maybe 1/4 - 1/2" circles around it, this is to avoid heating 
+        to long in one spot and cooking the board or the part. 
+        1 minute should do it. Temps are 6 or 700F and air flow is 4 or 5 out of 10.
 
     - Solder iron
       - DONT PRY ON THE PART -SERIOUSLY- the traces tear very easily when hot
@@ -61,17 +62,17 @@ Badge2015 Hand soldering instructions
     
 
  - IR LED
-   - "L" bend leads
+   - "L" bend leads, cut maybe 1/4 - 1/2" long
    - Dot faces left
 
  - IR Receiver
-   - "L" bend leads
+   - "L" bend leads, cut maybe 1/4 - 3/8" long
    - Curved dome faces left
 
  - Piezo
-   - "L" bend leads
+   - "L" bend leads, medium length maybe 1/2
    - Piezo point towards USB so it doesn't cover hackrva logo
 
- - 32768 clock crystal
-   - short leds so it doesnt reach the ground line
-   - part should not touch capactors
+ - 32768 clock crystal 
+   - cut leads to about 1/4" so it doesnt reach the ground line when lying almost flat
+   - part should not touch capactors, it should be between them
