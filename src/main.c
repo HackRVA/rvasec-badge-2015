@@ -8,18 +8,11 @@
 #include "USB/usb_device.h"
 #include "USB/usb.h"
 #include "HardwareProfile.h"
+
 #include "badge15.h"
-#include "assetList.h"
-#include "time_date.h"
 
 #define JON
 #define TOUCHHACK
-
-#define BLUE 0b0000000000011111
-#define GREEN 0b0000011111100000
-#define RED 0b1111100000000000
-#define WHITE 0b1111111111111111
-#define BLACK 0b0000000000000000
 
 int touchcount;//REMOVE THIS WHEN INTEGRATING ::TOUCH::
 
@@ -514,18 +507,27 @@ void ProcessIO(void)
 			resume();
 		}
 
-/* 3% of flash */
+/* 3% of flash (new processor) */
 #define DEBUG
 #ifdef DEBUG
-		if (USB_In_Buffer[0] == 'p') {
+		if ((USB_In_Buffer[0] == 'p') || (USB_In_Buffer[0] == 'P')) {
 			void clearscreen(unsigned short color);
-			static unsigned char y=0;
+			if (USB_In_Buffer[0] == 'p') {
+			   static unsigned char y=0;
 
-			//clearscreen(RED);
-			printchar(' ', 115,63,BLACK);
-			writeline("Woot", 4, 80, y, WHITE);
-			y += 8;
-			if (y>128) y = 0;
+			   //clearscreen(RED);
+			   printchar(' ', 115,63,BLACK);
+			   writeline("Woot", 4, 80, y, WHITE);
+			   y += 8;
+			   if (y>128) y = 0;
+			}
+
+			if (USB_In_Buffer[0] == 'P') {
+				extern struct menu_t day2_m[]; /* longest menu currently */
+
+				display_menu(day2_m);
+			}
+
 			USB_In_Buffer[0] = 0;
 		}
 
@@ -817,8 +819,8 @@ void ProcessIO(void)
 
 		if (USB_In_Buffer[0] == '-') {
 			void LCDReset(void);
-            // in used in S6B33 samsung controller
-            extern unsigned char G_contrast1;
+			// in used in S6B33 samsung controller
+			extern unsigned char G_contrast1;
 
 			G_contrast1 -= 4;
 
@@ -836,8 +838,8 @@ void ProcessIO(void)
 
 		if ((USB_In_Buffer[0] == '=') || (USB_In_Buffer[0] == '+')) {
 			void LCDReset(void);
-            // in used in S6B33 samsung controller
-            extern unsigned char G_contrast1;
+			// in used in S6B33 samsung controller
+			extern unsigned char G_contrast1;
 
 			G_contrast1 += 4;
 
@@ -924,7 +926,7 @@ void ProcessIO(void)
 		
 
 		if (USB_In_Buffer[0] == '.') {
-            extern short int sampleButtonStatus; // Bit field of buttons that are pressed
+			extern short int sampleButtonStatus; // Bit field of buttons that are pressed
 
 			USB_Out_Buffer[NextUSBOut++] = 'B';
 			USB_Out_Buffer[NextUSBOut++] = 'T';
@@ -935,7 +937,7 @@ void ProcessIO(void)
 			USB_Out_Buffer[NextUSBOut++] = 48 + ((sampleButtonStatus >> 2) & 0x1);
 			USB_Out_Buffer[NextUSBOut++] = 48 + ((sampleButtonStatus >> 1) & 0x1);
 			USB_Out_Buffer[NextUSBOut++] = 48 + ((sampleButtonStatus >> 0) & 0x1);
-;
+
 			USB_Out_Buffer[NextUSBOut++] = '\r';
 			USB_Out_Buffer[NextUSBOut++] = '\n';
 			USB_Out_Buffer[NextUSBOut++] = 0;

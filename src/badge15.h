@@ -5,7 +5,22 @@
  * Created on March 28, 2014, 8:24 PM
  */
 
+/* in case this gets included more than once */
+#ifndef badge15_h
+#define badge15_h
+
 #include "touchCTMU.h"
+#include "assetList.h"
+#include "time_date.h"
+#include "menu.h"
+
+
+#define BLUE 0b0000000000011111
+#define GREEN 0b0000011111100000
+#define RED 0b1111100000000000
+#define WHITE 0b1111111111111111
+#define BLACK 0b0000000000000000
+
 
 unsigned char touchStat;//remove when touch is properly implemented
 int click;//remove when button is really implemented
@@ -161,3 +176,4 @@ void LCDComposite(void);//this function retrieves the next queued item in the
 
 void LCDCompositeLine(void);//writes display list to current scan line
 /******************************************************************************/
+#endif

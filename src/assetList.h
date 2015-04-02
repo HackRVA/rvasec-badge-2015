@@ -1,3 +1,5 @@
+#ifndef assetList_h
+#define assetList_h
 enum {
 //    MAYO=1,
     DRBOB=0,
@@ -19,3 +21,4 @@ struct asset {
     void (*datacb)(unsigned char, int);
 };
 extern const struct asset assetList[];
+#endif

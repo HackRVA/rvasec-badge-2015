@@ -21,7 +21,7 @@ short int CurrentButtonStatus=0; // Bit field of buttons that are pressed
 struct sample_t {
     unsigned int timestamp; // incremented every 1/120 sec. it will wrap around in 414 days
                             // the SAMPLES are not necessarily updated every 1/120
-    short int buttonStatus; // updated when all sampling and average for all 4 button is done
+    short int buttonStatus; // updated when all sampling and averaging for all 4 buttons is done
     unsigned short int ButtonVmeasADC[NUM_DIRECT_KEYS]; // updated when all sampling and average for all 4 button is done
 } ;
 
@@ -176,9 +176,10 @@ enum {
 
 unsigned char touchState = TOUCH_INIT;
 
-initTouch() {
+void initTouch()
+{
     touchState = TOUCH_INIT;
-    touchInterrupt();
+    // touchInterrupt(); // PEB: don't force it, as this may overlap a real interrupt happening
 }
 
 unsigned char G_button=0; // physical button on/off
@@ -309,19 +310,19 @@ void touchInterrupt()
             switch (iButton) {
                 unsigned char nops;
 
-                case LOWER_LEFT:
+                case LEFT_SLIDER:
                     for (nops=0; nops<Nnops+1; nops++);
                     break;
 
-                case LOWER_RIGHT:
+                case RIGHT_SLIDER:
                     for (nops=0; nops<Nnops+2; nops++);
                     break;
 
-                case RIGHT_TOP:
+                case TOP_SLIDER:
                     for (nops=0; nops<Nnops; nops++);
                     break;
 
-                case RIGHT_BOTTOM:
+                case BOTTOM_SLIDER:
                     for (nops=0; nops<Nnops; nops++);
                     break;
             }
@@ -414,12 +415,44 @@ void touchInterrupt()
         case TOUCH_COMPUTE_BUTTONS:
             /* new MAXSAMPLED button values */
             sampleButtonStatus = 0;
-            if ( (sample[0].ButtonVmeasADC[0] + G_buttonDetectValue) < sample[MAXSAMPLE].ButtonVmeasADC[0])    sampleButtonStatus |= (1 << 0);
-            if ( (sample[0].ButtonVmeasADC[1] + G_buttonDetectValue) < sample[MAXSAMPLE].ButtonVmeasADC[1])    sampleButtonStatus |= (1 << 1);
-            if ( (sample[0].ButtonVmeasADC[2] + G_buttonDetectValue) < sample[MAXSAMPLE].ButtonVmeasADC[2])    sampleButtonStatus |= (1 << 2);
-            if ( (sample[0].ButtonVmeasADC[3] + G_buttonDetectValue) < sample[MAXSAMPLE].ButtonVmeasADC[3])    sampleButtonStatus |= (1 << 3);
-            if (G_button == 1)  sampleButtonStatus |= (1 <<4);
- 
+            if ( (sample[0].ButtonVmeasADC[LEFT_SLIDER] + G_buttonDetectValue) < sample[MAXSAMPLE].ButtonVmeasADC[LEFT_SLIDER]) {
+		/* check if already on, otherwise ignore and DONT update timestamp  */
+		if (!(sampleButtonStatus & LEFT_SLIDER_MASK)) {
+			sampleButtonStatus |= LEFT_SLIDER_MASK;
+			sample[MAXSAMPLE].timestamp = timestamp; /* apps can tell if start/stop by checking timestamp */
+		}
+	    }
+
+            if ( (sample[0].ButtonVmeasADC[RIGHT_SLIDER] + G_buttonDetectValue) < sample[MAXSAMPLE].ButtonVmeasADC[RIGHT_SLIDER]) {
+		/* check if already on, otherwise ignore and DONT update timestamp  */
+		if (!(sampleButtonStatus & RIGHT_SLIDER_MASK)) {
+			sampleButtonStatus |= RIGHT_SLIDER_MASK;
+			sample[MAXSAMPLE].timestamp = timestamp; /* apps can tell if start/stop by checking timestamp */
+		}
+	    }
+
+            if ( (sample[0].ButtonVmeasADC[TOP_SLIDER] + G_buttonDetectValue) < sample[MAXSAMPLE].ButtonVmeasADC[TOP_SLIDER]) {
+		/* check if already on, otherwise ignore and DONT update timestamp  */
+		if (!(sampleButtonStatus & TOP_SLIDER_MASK)) {
+			sampleButtonStatus |= TOP_SLIDER_MASK;
+			sample[MAXSAMPLE].timestamp = timestamp; /* apps can tell if start/stop by checking timestamp */
+		}
+	    }
+
+            if ( (sample[0].ButtonVmeasADC[BOTTOM_SLIDER] + G_buttonDetectValue) < sample[MAXSAMPLE].ButtonVmeasADC[BOTTOM_SLIDER]) {
+		/* check if already on, otherwise ignore and DONT update timestamp  */
+		if (!(sampleButtonStatus & BOTTOM_SLIDER_MASK)) {
+			sampleButtonStatus |= BOTTOM_SLIDER_MASK;
+			sample[MAXSAMPLE].timestamp = timestamp; /* apps can tell if start/stop by checking timestamp */
+		}
+	    }
+
+            if (G_button == 1)  {
+		if (!(sampleButtonStatus & BUTTON_MASK)) {
+			sampleButtonStatus |= BUTTON_MASK;
+			sample[MAXSAMPLE].timestamp = timestamp; /* apps can tell if start/stop by checking timestamp */
+		}
+	    }
 
             /* old way */
             CurrentButtonStatus = tmpCurrentButtonStatus;

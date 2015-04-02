@@ -1,29 +1,6 @@
+#include "badge15.h"
+
 #define NULL 0
-
-enum attrib {
-   RED_BG=0,  /* color/text attrib */
-   GREEN_BG,  /* color/text attrib */
-   BLUE_BG,  /* color/text attrib */
-};
-
-enum type {
-   MORE=0, /* if the menu is too long to fit */
-   TEXT,   /* text to display */
-   BACK,    /* return to previous menu */
-   MENU,    /* sub menu type */
-   FUNCTION /* c function */
-};
-
-struct menu_t {
-   char name[16];
-   unsigned char attrib;
-   unsigned char type;
-   union {                      /* when initing the union, coerce non void data to a menu_t to keep compiler from whining */
-      struct menu_t *menu;
-      void (*func)();
-      void *generic;
-   } data;
-};
 
 struct menu_t breakfast_m[] = {
    {"yummy", GREEN_BG, TEXT, {NULL}}, /* can init union either with or without {} */
@@ -217,24 +194,55 @@ main() {
 #endif
 
 #ifndef MAINMENU
-enum input_mask {
-   L_LEFT =  0b00001,
-   L_RIGHT = 0b00010,
-   R_UPPER = 0b00100,
-   R_LOWER = 0b01000,
-   BUTTON  = 0b10000,
-};
+
+
+/*
+  NOTE- the LCD is running in mirrored mode on the X axis
+
+  When oriented with USB connector at top it looks like this:
+  128 .... 64 ... 0
+
+  so everything drawn in increasing order goes right to left
+
+  currently the char routine draws Y in decreasing (up), 
+  so 1st Y position has to offset down CHAR_HEIGHT to account for that
+*/
+
+#define CHAR_WIDTH 6
+#define CHAR_HEIGHT 10
+
+void display_menu(struct menu_t *menu)
+{
+	static unsigned char cursor_x, cursor_y;
+	unsigned char c;
+	struct menu_t *tmp_menu;
+
+	cursor_x = 32;
+	cursor_y = CHAR_HEIGHT;
+
+	clearscreen(0); /* assume color 0 == BACKGROUND */
+	while (menu->type != BACK) {
+		for (c=0; (menu->name[c] != 0); c++) {
+			// add_to_display_list(CHARACTER, menu->attrib, cursor_x + (c * CHAR_WIDTH), cursor_y, menu->name[c], 0);
+			add_to_display_list(CHARACTER, 0, cursor_x + (c * CHAR_WIDTH), cursor_y, menu->name[c], 0);
+		}
+		cursor_y += CHAR_HEIGHT;
+		menu++;
+	}
+}
 
 /* for this increment the units are menu items */
 #define PAGESIZE 8
 extern short int sampleButtonStatus;  // Bit field of buttons that are pressed
 
-void menus() {
+void menus()
+{
         static struct menu_t *currMenu = NULL; /* init */
 
         if (currMenu == NULL) currMenu = G_menuStack[0];
 
-        if (sampleButtonStatus & BUTTON) { /* click */
+	/* see if physical button has been clicked */
+        if (sampleButtonStatus & BUTTON_MASK) {
 	   struct menu_t *tmp_menu;
 
 	   switch (currMenu->type) {
@@ -248,7 +256,7 @@ void menus() {
 		   currMenu = G_menuStack[G_menuCnt] ;
 		   break;
 
-	       case TEXT: /* does nothing if clicked */
+	       case TEXT: /* maybe highlight if clicked?? */
 		   break;
 
 	       case MENU: /* drills down into menu if clicked */
@@ -266,20 +274,16 @@ void menus() {
 		   break;
 	   }
 
-	   /* clear screen */
-	   tmp_menu = currMenu;
-	   while (tmp_menu->type != BACK) {
-		writeline("%s\n", tmp_menu->name); /* need to use attributes */
-		tmp_menu++;
-	   }
+           display_menu(currMenu);
         }
+	/* handle slider/soft button clicks */
         else {
-                if (sampleButtonStatus & R_UPPER) {
+                if (sampleButtonStatus & TOP_SLIDER_MASK) {
                         /* make sure not on first menu item */
                         if (currMenu > G_menuStack[G_menuCnt]) currMenu--;
                 }
 
-                if (sampleButtonStatus & R_LOWER) {
+                if (sampleButtonStatus & BOTTOM_SLIDER_MASK) {
                         /* make sure not on last menu item */
                         if (currMenu->type != BACK) currMenu++;
                 }
