@@ -249,12 +249,10 @@ void menus() {
 		   break;
 
 	       case TEXT: /* does nothing if clicked */
-		   currMenu++;
 		   break;
 
 	       case MENU: /* drills down into menu if clicked */
 		   tmp_menu = currMenu->data.menu; /* go into this menu */
-		   currMenu++;                        /* advance past this item so when we return we are position for next loop */
 		   G_menuStack[G_menuCnt++] = currMenu; /* push onto stack  */
 		   if (G_menuCnt == MAX_MENU_DEPTH) G_menuCnt--; /* too deep, undo */
 		   currMenu = tmp_menu; /* go into menu */
@@ -262,7 +260,6 @@ void menus() {
 
 	       case FUNCTION: /* call the function pointer if clicked */
 		   (*currMenu->data.func)();
-		   currMenu++;
 		   break;
 
 	       default:
