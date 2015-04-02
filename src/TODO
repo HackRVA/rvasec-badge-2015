@@ -11,7 +11,9 @@ X  - etch paste stencil
       - IR-xmit ripple (ok on betas)
       - LED 
       - piezo
-      - backlight PWM
+X     - backlight PWM
+
+X  - simple menu struct tree and traversal
 
 ------------------------------------
     ASAP
@@ -24,7 +26,7 @@ X   - 4 bit image.h  colormap[16], 4 bitdata
 X   - 8 bit image.h  colormap[256], 8 bitdata
 X   - 8 bit audio.h  PWM(offtime, duration)
 X   - 8 bit mario.h  PWM(offtime, duration)
-    - 8 bit got.h  game of thrones. minimal midi player
+X   - 8 bit got.h  game of thrones. minimal midi player
 
 X - conversion util, convert 8 bit colormap 
     to 4 bit colormap
@@ -33,13 +35,13 @@ X - conversion util, convert 8 bit colormap
 
   - IR recv callback to empty
 
-  - touchCTMU 
+X - touchCTMU 
     X - started under timer3.
     X - needs rewrite to use ADC and interupts
 
-      - "trends" for sliders
-        - value increasing/descreasing
-        - relative offsets:
+    X - "trends" for sliders
+    X   - value increasing/descreasing
+    X   - relative offsets:
     X - on/off cutoff
     X - array of average
 

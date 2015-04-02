@@ -862,12 +862,12 @@ void ProcessIO(void)
 		}
 
 		if (USB_In_Buffer[0] == '[') {
-            void initTouch();
+			void initTouch();
 
 			Nnops -= 1;
 			if (Nnops == 255) Nnops = 0;
 
-            initTouch();
+			initTouch();
 			USB_Out_Buffer[NextUSBOut++] = 'N';
 			USB_Out_Buffer[NextUSBOut++] = 'O';
 			USB_Out_Buffer[NextUSBOut++] = 'P';
@@ -884,11 +884,11 @@ void ProcessIO(void)
 		}
 
 		if (USB_In_Buffer[0] == ']') {
-            void initTouch();
+			void initTouch();
 
 			if (Nnops != 255) Nnops += 1;
 
-            initTouch();
+			initTouch();
 			USB_Out_Buffer[NextUSBOut++] = 'N';
 			USB_Out_Buffer[NextUSBOut++] = 'O';
 			USB_Out_Buffer[NextUSBOut++] = 'P';

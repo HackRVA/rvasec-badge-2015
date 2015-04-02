@@ -225,18 +225,56 @@ enum input_mask {
    BUTTON  = 0b10000,
 };
 
+/* for this increment the units are menu items */
+#define PAGESIZE 8
 extern short int sampleButtonStatus;  // Bit field of buttons that are pressed
-void draw_menu(struct menu_t *menu) ;
-
 
 void menus() {
         static struct menu_t *currMenu = NULL; /* init */
 
         if (currMenu == NULL) currMenu = G_menuStack[0];
 
-        if (sampleButtonStatus & BUTTON) {
-                /* click */
-                draw_menu(currMenu);
+        if (sampleButtonStatus & BUTTON) { /* click */
+	   struct menu_t *tmp_menu;
+
+	   switch (currMenu->type) {
+	       case MORE: /* jump to next page of menu */
+		   currMenu += PAGESIZE;
+		   break;
+
+	       case BACK: /* return from menu */
+		   if (G_menuCnt == 0) return; /* stack is empty, error or main menu */
+		   G_menuCnt--; 
+		   currMenu = G_menuStack[G_menuCnt] ;
+		   break;
+
+	       case TEXT: /* does nothing if clicked */
+		   currMenu++;
+		   break;
+
+	       case MENU: /* drills down into menu if clicked */
+		   tmp_menu = currMenu->data.menu; /* go into this menu */
+		   currMenu++;                        /* advance past this item so when we return we are position for next loop */
+		   G_menuStack[G_menuCnt++] = currMenu; /* push onto stack  */
+		   if (G_menuCnt == MAX_MENU_DEPTH) G_menuCnt--; /* too deep, undo */
+		   currMenu = tmp_menu; /* go into menu */
+		   break;
+
+	       case FUNCTION: /* call the function pointer if clicked */
+		   (*currMenu->data.func)();
+		   currMenu++;
+		   break;
+
+	       default:
+		   break;
+	   }
+
+	   /* clear screen */
+	   tmp_menu = currMenu;
+	   while (tmp_menu->type != BACK) {
+		writeline("%s\n", tmp_menu->name); /* need to use attributes */
+		tmp_menu++;
+	   }
         }
         else {
                 if (sampleButtonStatus & R_UPPER) {
@@ -251,53 +289,4 @@ void menus() {
         }
 }
 
-void draw_menu(struct menu_t *menu) {
-    struct menu_t *tmp_menu;
-
-	switch (menu->type) {
-	    case MORE: /* display next page of menu */
-		//printf("more\n");
-		//fflush(stdout);
-		//G_menu += MORE_INC;
-		G_menu++;
-		break;
-
-	    case BACK: /* return from menu */
-		if (G_menuCnt == 0) return; /* stack is empty, error or main menu */
-
-		//printf("back depth = %d\n", depth);
-		//fflush(stdout);
-		G_menuCnt--; 
-		G_menu = G_menuStack[G_menuCnt] ;
-
-		break;
-
-	    case TEXT: /* display some text (clock perhaps) */
-		//printf("%s\n", G_menu->name);
-		//fflush(stdout);
-		G_menu++;
-		break;
-
-	    case MENU: /* drill down into menu */
-		//printf("menu\n");
-		//fflush(stdout);
-		tmp_menu = G_menu->data.menu; /* go into this menu */
-		G_menu++;                        /* advance past this item so when we return we are position for next loop */
-		G_menuStack[G_menuCnt++] = G_menu; /* push onto stack  */
-		if (G_menuCnt == MAX_MENU_DEPTH) G_menuCnt--; /* too deep, undo */
-
-		G_menu = tmp_menu; /* go into menu */
-		break;
-
-	    case FUNCTION: /* call the function pointer */
-		//printf("function\n");
-		//fflush(stdout);
-		(*G_menu->data.func)();
-		G_menu++;
-		break;
-
-	    default:
-		break;
-	}
-}
 #endif
