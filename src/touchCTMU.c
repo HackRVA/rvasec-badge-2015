@@ -39,7 +39,9 @@ struct sample_t sample[NUMSAMPLES] = {{0, 0, {0 ,0 ,0 ,0}}};
 
 /* new way using MAXSAMPLE to calculate */
 short int sampleButtonStatus = 0; // Bit field of buttons that are pressed
-unsigned int buttonTimestamp[NUMSAMPLES] = {0}; /* timestamp of when a button last changed state */
+
+/* 5 -> because 4 touch buttons and physical button */
+unsigned int buttonTimestamp[5] = {0}; /* timestamp of when a button last changed state */
 
 short int G_buttonDetectValue=0x800; // cap touch detect value. old way was 32767, the midpoint between  0..65535
 
@@ -421,53 +423,58 @@ void touchInterrupt()
 
         case TOUCH_COMPUTE_BUTTONS:
             /* new MAXSAMPLED button values */
-            sampleButtonStatus = 0;
             if ( (sample[0].ButtonVmeasADC[LEFT_SLIDER] + G_buttonDetectValue) < sample[MAXSAMPLE].ButtonVmeasADC[LEFT_SLIDER]) {
 		/* check if already on */
-		if ((buttonTimestamp[LEFT_SLIDER] == 0) && (sampleButtonStatus & LEFT_SLIDER_MASK)) {
+		if ((buttonTimestamp[LEFT_SLIDER] == 0) && !(sampleButtonStatus & LEFT_SLIDER_MASK)) {
 			buttonTimestamp[LEFT_SLIDER] = timestamp; /* apps can tell if start/stop by checking timestamp */
 			sampleButtonStatus |= LEFT_SLIDER_MASK;
 		}
-	    } else
-		buttonTimestamp[LEFT_SLIDER] = 0xFFFFFFFF;
+	    } else {
+		buttonTimestamp[LEFT_SLIDER] = 0;
+		sampleButtonStatus &= (0xFF ^ LEFT_SLIDER_MASK); /* mask off slider bit */
+	    }
 
             if ( (sample[0].ButtonVmeasADC[RIGHT_SLIDER] + G_buttonDetectValue) < sample[MAXSAMPLE].ButtonVmeasADC[RIGHT_SLIDER]) {
 		/* check if already on, otherwise ignore and DONT update timestamp  */
-		if ((buttonTimestamp[RIGHT_SLIDER] == 0) && (sampleButtonStatus & RIGHT_SLIDER_MASK)) {
+		if ((buttonTimestamp[RIGHT_SLIDER] == 0) && !(sampleButtonStatus & RIGHT_SLIDER_MASK)) {
 			buttonTimestamp[RIGHT_SLIDER] = timestamp; /* apps can tell if start/stop by checking timestamp */
 			sampleButtonStatus |= RIGHT_SLIDER_MASK;
 		}
 	    } else {
-		buttonTimestamp[RIGHT_SLIDER] = 0xFFFFFFFF;
+		buttonTimestamp[RIGHT_SLIDER] = 0;
+		sampleButtonStatus &= (0xFF ^ RIGHT_SLIDER_MASK); /* mask off slider bit */
 	    }
 
             if ( (sample[0].ButtonVmeasADC[TOP_SLIDER] + G_buttonDetectValue) < sample[MAXSAMPLE].ButtonVmeasADC[TOP_SLIDER]) {
 		/* check if already on, otherwise ignore and DONT update timestamp  */
-		if ((buttonTimestamp[TOP_SLIDER] == 0) && (sampleButtonStatus & TOP_SLIDER_MASK)) {
+		if ((buttonTimestamp[TOP_SLIDER] == 0) && !(sampleButtonStatus & TOP_SLIDER_MASK)) {
 			buttonTimestamp[TOP_SLIDER] = timestamp; /* apps can tell if start/stop by checking timestamp */
 			sampleButtonStatus |= TOP_SLIDER_MASK;
 		}
 	    } else {
-		buttonTimestamp[TOP_SLIDER] = 0xFFFFFFFF;
+		buttonTimestamp[TOP_SLIDER] = 0;
+		sampleButtonStatus &= (0xFF ^ TOP_SLIDER_MASK); /* mask off slider bit */
 	    }
 
             if ( (sample[0].ButtonVmeasADC[BOTTOM_SLIDER] + G_buttonDetectValue) < sample[MAXSAMPLE].ButtonVmeasADC[BOTTOM_SLIDER]) {
 		/* check if already on, otherwise ignore and DONT update timestamp  */
-		if ((buttonTimestamp[BOTTOM_SLIDER] == 0) && (sampleButtonStatus & BOTTOM_SLIDER_MASK)) {
+		if ((buttonTimestamp[BOTTOM_SLIDER] == 0) && !(sampleButtonStatus & BOTTOM_SLIDER_MASK)) {
 			buttonTimestamp[BOTTOM_SLIDER] = timestamp; /* apps can tell if start/stop by checking timestamp */
 			sampleButtonStatus |= BOTTOM_SLIDER_MASK;
 		}
 	    } else {
-		buttonTimestamp[BOTTOM_SLIDER] = 0xFFFFFFFF;
+		buttonTimestamp[BOTTOM_SLIDER] = 0;
+		sampleButtonStatus &= (0xFF ^ BOTTOM_SLIDER_MASK); /* mask off slider bit */
 	    }
 
             if (G_button == 1)  {
-		if ((buttonTimestamp[BUTTON] == 0) && (sampleButtonStatus & BUTTON_MASK)) {
+		if ((buttonTimestamp[BUTTON] == 0) && !(sampleButtonStatus & BUTTON_MASK)) {
 			buttonTimestamp[BUTTON] = timestamp; /* apps can tell if start/stop by checking timestamp */
 			sampleButtonStatus |= BUTTON_MASK;
 		}
 	    } else {
-		buttonTimestamp[BUTTON] = 0xFFFFFFFF;
+		buttonTimestamp[BUTTON] = 0;
+		sampleButtonStatus &= (0xFF ^ BUTTON_MASK); /* mask off button bit */
 	    }
 
             /* old way */

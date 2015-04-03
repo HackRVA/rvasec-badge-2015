@@ -224,7 +224,7 @@ void display_menu(struct menu_t *menu, struct menu_t *selected)
 	while (menu->type != BACK) {
 		for (c=0; (menu->name[c] != 0); c++) {
 			// add_to_display_list(CHARACTER, menu->attrib, cursor_x + (c * CHAR_WIDTH), cursor_y, menu->name[c], 0);
-			add_to_display_list(CHARACTER, ((menu == selected) ? RED : 0), cursor_x + (c * CHAR_WIDTH), cursor_y, menu->name[c], 0);
+			add_to_display_list(CHARACTER, ((menu == selected) ? RED : GREEN), cursor_x + (c * CHAR_WIDTH), cursor_y, menu->name[c], 0);
 		}
 		cursor_y += CHAR_HEIGHT;
 		menu++;
@@ -250,6 +250,8 @@ void menus()
         /* see if physical button has been clicked */
 	if ((sampleButtonStatus & BUTTON_MASK) && (buttonTimestamp[BUTTON] != last_buttonTimestmap)) {
 		struct menu_t *tmp_menu;
+
+		setNote(256, 8192);
 
 		last_buttonTimestmap = buttonTimestamp[BUTTON];
 	
@@ -290,7 +292,7 @@ void menus()
 		static unsigned int last_topTimestmap=0, last_bottomTimestmap=0; /* init */
 
                 if (sampleButtonStatus & TOP_SLIDER_MASK) {
-			setNote(64, 1024);
+			setNote(64, 4096);
 
 			if (buttonTimestamp[TOP_SLIDER] != last_topTimestmap) {
 				/* make sure not on first menu item */
@@ -301,7 +303,7 @@ void menus()
                 }
 
                 if (sampleButtonStatus & BOTTOM_SLIDER_MASK) {
-			setNote(64, 1024);
+			setNote(128, 4096);
 			if (buttonTimestamp[BOTTOM_SLIDER] != last_bottomTimestmap) {
                         	/* make sure not on last menu item */
                         	if (selectedMenu->type != BACK) selectedMenu++;
