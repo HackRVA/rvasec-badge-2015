@@ -4,6 +4,8 @@
 #include "S6B33.h"
 #include "LCDcolor.h"
 #include "font.h"
+#include "assets.h"
+#include "assetList.h"
 
 
 
@@ -134,6 +136,18 @@ void LCDFilledRectangleScan(unsigned char x,
     }
 }
 
+#ifdef NONVECTOR
+void LCDCharacterScan(unsigned char y,
+        unsigned char x,
+        unsigned char charin,
+        unsigned char lineCurrent,
+        unsigned short color)
+{
+    scanCharLCD1(FONT, y-7, x-5, charin, lineCurrent, color, 8);
+}
+
+#endif
+
 #ifdef NEWCHARFUNCT
 
 void LCDCharacterScan(unsigned char y,//Hard coded font. Scans
@@ -222,7 +236,7 @@ void LCDScanLowSet(unsigned char x,
 //LCDCharScanLow(x,y,charin,lineCurrent,color,0,97)
 #endif
 
-#ifndef NEWCHARFUNCT
+#ifdef OLDCHARFUNCT
 void LCDCharacterScan(unsigned char y,//Hard coded font. Scans
         unsigned char x,              //Calls scan line function for
         unsigned char charin,         //character values
