@@ -202,8 +202,8 @@ void scanLCD8(unsigned char assetId, unsigned char y, unsigned char x, unsigned 
 unsigned char G_audioAssetId = 255;
 unsigned int G_audioFrame = 0; /* persistant current "frame" of audio, like a "frame" of video */
 unsigned short G_currentNote=0;
-unsigned short G_duration = 2048;
-unsigned short G_duration_cnt = 2048;
+unsigned short G_duration = 0;
+unsigned short G_duration_cnt = 0;
 unsigned short G_freq_cnt = 0;
 unsigned short G_freq = 0;
 
@@ -214,8 +214,11 @@ void playAsset(unsigned char assetId)
 }
 
 void setNote(unsigned short freq, unsigned short dur) {
+   if (dur <= freq) dur = (freq << 1); /* to short to be play with PWM, so double it */
+
    G_freq = freq;
    G_duration = dur;
+
    G_freq_cnt = 0;
    G_duration_cnt = 0;
 }
@@ -223,6 +226,8 @@ void setNote(unsigned short freq, unsigned short dur) {
 // RA9
 void do_audio()
 {
+   if (G_duration == 0) return;
+
    G_freq_cnt++; /* current note freq counter */
    G_duration_cnt++;
 
@@ -235,6 +240,8 @@ void do_audio()
           LATAbits.LATA9 = 0; // off
    }
    else {
+       G_duration = 0;
+
        LATAbits.LATA9 = 0; // off
        if (G_audioAssetId != 255) assetList[G_audioAssetId].datacb(G_audioAssetId, G_audioFrame) ; /* callback routine */
    }
@@ -270,6 +277,8 @@ void nextNote_cb(unsigned char assetId, int frame)
 		G_freq = 38000 / ((unsigned short)(assetList[assetId].pixdata[G_currentNote] & 0xFF) * 8);
 
 	blue((unsigned short)(assetList[assetId].pixdata[G_currentNote] & 0xFF));
+
+	if (G_duration <= G_freq) G_duration = (G_freq << 1); /* to short to be play with PWM, so double it */
 #ifdef DEBUGAUDIO
 {
 	extern char USB_Out_Buffer[];

@@ -186,6 +186,7 @@ void initTouch()
 }
 
 unsigned char G_button=0; // physical button on/off
+unsigned char G_buttonDebounce=0; // button debounce period
 unsigned char G_buttonCnt=0; // physical button on period
 
 /*
@@ -213,6 +214,31 @@ void touchInterrupt()
     timestamp++; // 1/120 sec. this will wrap around in 414 days = ((((pow(2, 32))/ 120) / 3600) / 24)
 
     /* See if button is pushed and debounce-  Bit 3 of port C */
+
+#define NEWDEBOUNCE
+#ifdef NEWDEBOUNCE
+    if (PORTCbits.RC3 == 0)  /* active low, debounce reset as long as its on */
+	G_buttonDebounce = 1;
+
+    if (G_buttonDebounce != 0) { /* debounce in progress */
+	G_buttonDebounce++;
+	G_buttonCnt++;
+
+	G_button = 1;
+
+	/* turn off button after phy button off and quiet period */
+	if (G_buttonDebounce > 8) { /* button is pretty snappy-  8/120  = 1/15 second  */
+		G_button = 0;
+		G_buttonCnt = 0;
+		G_buttonDebounce = 0;
+	}
+
+        if (G_buttonCnt == 255) { /* still being held after 255/120 = 2 1/8 sec */
+           if (menu_escape_cb != NULL) menu_escape_cb();
+           G_buttonCnt = 0;
+        }
+    }
+#else
     if (!PORTCbits.RC3) {
         if (G_buttonCnt > 4) /* 4/120 = 1/30 sec. plenty of debounce */
         {
@@ -230,6 +256,7 @@ void touchInterrupt()
         G_buttonCnt = 0;
         G_button = 0;
     }
+#endif
 
     switch (touchState) {
         case TOUCH_INIT:

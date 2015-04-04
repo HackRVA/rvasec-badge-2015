@@ -222,12 +222,17 @@ void display_menu(struct menu_t *menu, struct menu_t *selected)
 
 	clearscreen(0); /* assume color 0 == BACKGROUND */
 	while (1) {
-		add_to_display_list(FILLED_RECTANGLE, 0, cursor_x - CHAR_WIDTH, cursor_y - CHAR_HEIGHT, 10 * CHAR_WIDTH, CHAR_HEIGHT);
-		for (c=0; (menu->name[c] != 0); c++) {
-			// add_to_display_list(CHARACTER, menu->attrib, cursor_x + (c * CHAR_WIDTH), cursor_y, menu->name[c], 0);
+		unsigned char rect_w=0;
+
+		for (c=0, rect_w=0; (menu->name[c] != 0); c++)
+			rect_w += CHAR_WIDTH;
+
+		add_to_display_list(FILLED_RECTANGLE, 0, cursor_x - CHAR_WIDTH, cursor_y - CHAR_HEIGHT, rect_w, CHAR_HEIGHT+1);
+
+		for (c=0; (menu->name[c] != 0); c++)
 			add_to_display_list(CHARACTER, ((menu == selected) ? RED : GREEN), cursor_x + (c * CHAR_WIDTH), cursor_y, menu->name[c], 0);
-		}
-		cursor_y += CHAR_HEIGHT;
+
+		cursor_y += CHAR_HEIGHT+1;
 		if (menu->type == BACK) break;
 		menu++;
 	}
@@ -251,20 +256,18 @@ void menus()
 
         /* see if physical button has been clicked */
 	if ((sampleButtonStatus & BUTTON_MASK) && (buttonTimestamp[BUTTON] != last_buttonTimestmap)) {
-		struct menu_t *tmp_menu;
-
-		setNote(256, 8192);
-
 		last_buttonTimestmap = buttonTimestamp[BUTTON];
-	
+
 		switch (selectedMenu->type) {
+
 		case MORE: /* jump to next page of menu */
+			setNote(173, 2048); /* a */
 			currMenu += PAGESIZE;
 			selectedMenu = currMenu;
 			break;
 	
 		case BACK: /* return from menu */
-			setNote(32, 8192);
+			setNote(154, 2048); /* b */
 			if (G_menuCnt == 0) return; /* stack is empty, error or main menu */
 			G_menuCnt--; 
 			currMenu = G_menuStack[G_menuCnt] ;
@@ -272,9 +275,11 @@ void menus()
 			break;
 	
 		case TEXT: /* maybe highlight if clicked?? */
+			setNote(145, 2048); /* c */
 			break;
 	
 		case MENU: /* drills down into menu if clicked */
+			setNote(129, 2048); /* d */
 			G_menuStack[G_menuCnt++] = currMenu; /* push onto stack  */
 			if (G_menuCnt == MAX_MENU_DEPTH) G_menuCnt--; /* too deep, undo */
 			currMenu = selectedMenu->data.menu; /* go into this menu */
@@ -282,7 +287,7 @@ void menus()
 			break;
 	
 		case FUNCTION: /* call the function pointer if clicked */
-			setNote(64, 8192);
+			setNote(115, 2048); /* e */
 			(*selectedMenu->data.func)();
 			break;
 	
@@ -296,7 +301,7 @@ void menus()
 		static unsigned int last_topTimestmap=0, last_bottomTimestmap=0; /* init */
 
                 if (sampleButtonStatus & TOP_SLIDER_MASK) {
-			setNote(64, 4096);
+			setNote(109, 2048); /* f */
 
 			if (buttonTimestamp[TOP_SLIDER] != last_topTimestmap) {
 				/* make sure not on first menu item */
@@ -308,7 +313,7 @@ void menus()
                 }
 
                 if (sampleButtonStatus & BOTTOM_SLIDER_MASK) {
-			setNote(128, 4096);
+			setNote(97, 2048); /* g */
 			if (buttonTimestamp[BOTTOM_SLIDER] != last_bottomTimestmap) {
                         	/* make sure not on last menu item */
                         	if (selectedMenu->type != BACK) selectedMenu++;

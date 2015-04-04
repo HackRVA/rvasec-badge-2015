@@ -10,6 +10,7 @@
 #define badge15_h
 
 #include "touchCTMU.h"
+#include "assets.h"
 #include "assetList.h"
 #include "time_date.h"
 #include "menu.h"

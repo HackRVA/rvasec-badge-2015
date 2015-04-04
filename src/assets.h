@@ -4,7 +4,9 @@ void drawLCD2(unsigned char assetId, int frame);
 void drawLCD4(unsigned char assetId, int frame);
 void drawLCD8(unsigned char assetId, int frame);
 void scanLCD8(unsigned char assetId, unsigned char y, unsigned char x, unsigned char lineCurrent);
+void setNote(unsigned short freq, unsigned short dur) ;
 void setBeep(unsigned short freq);
 
 void nextNote_cb(unsigned char assetId, int frame);
 void nextMIDI_cb(unsigned char assetId, int frame) ;
+

@@ -12,9 +12,11 @@
 #include "badge15.h"
 
 #define JON
-#define TOUCHHACK
 
+//#define TOUCHHACK
+#ifdef TOUCHHACK
 int touchcount;//REMOVE THIS WHEN INTEGRATING ::TOUCH::
+#endif
 
 
 #if defined (__C30__) || defined(__C32__) || defined __XC16__
@@ -160,7 +162,9 @@ int main(void)
     char sample_i = 0, sample_val = 0;
 
     InitializeSystem();
+#ifdef TOUCHHACK
     touchcount = 0;//remove this when integrating ::TOUCH::
+#endif
 
     #if defined(USB_INTERRUPT)
         USBDeviceAttach();
