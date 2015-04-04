@@ -1197,11 +1197,40 @@ void LCDCompositeLine(void)
 
                 if(abs(display.scan_line - display.composite_queue[display.queue_reader][3]) < 8)
                 {
+#ifndef NEWCHARFUNCT
+//   void LCDCharacterScan(unsigned char y,//Hard coded font. Scans
+//	   unsigned char x,              //Calls scan line function for
+//	   unsigned char charin,         //character values
+//	   unsigned char lineCurrent,
+//	   unsigned short color)
+
                     LCDCharacterScan(display.composite_queue[display.queue_reader][3],
                                      display.composite_queue[display.queue_reader][2],
                                      display.composite_queue[display.queue_reader][4],
                                      display.scan_line,
                                      display.composite_color[display.queue_reader]);//x,y,charin,lineCurrent,color
+
+
+#else
+//void scanCharLCD1(unsigned char assetId,
+//              unsigned char y,
+//              unsigned char x,
+//              unsigned char lineCurrent,
+//              unsigned char charin,
+//              unsigned short color,
+//              unsigned char font_height)
+
+                    scanCharLCD1(FONT,
+			display.composite_queue[display.queue_reader][3],
+                        display.composite_queue[display.queue_reader][2],
+
+                        display.scan_line,
+                        display.composite_queue[display.queue_reader][4],
+
+                        display.composite_color[display.queue_reader],
+                        8
+                   );
+#endif
                 }
 
             }

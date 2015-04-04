@@ -180,9 +180,6 @@ void scanLCD8(unsigned char assetId, unsigned char y, unsigned char x, unsigned 
     unsigned char j, r, g, b, pixbyte, *cmap;
     unsigned short pixel;
 
-    //S6B33_rect(0, 0, assetList[assetId].x - 1, assetList[assetId].y - 1);//this is x width and height with a starting of 0,0
-
-    //for (i=0; i < assetList[assetId].y; i++) {//change 'i' to reflect line current
        for (j=0; j < assetList[assetId].x; j++) {
             pixbyte = assetList[assetId].pixdata[(lineCurrent-(y+1)) * assetList[assetId].x + j];//replace i with line current
             cmap = &(assetList[assetId].data_cmap[(unsigned short)pixbyte * 3]);
@@ -196,6 +193,50 @@ void scanLCD8(unsigned char assetId, unsigned char y, unsigned char x, unsigned 
 
             scan_bucket[j+x] = pixel;//send to data bucket array off set by x
        }
+   }
+}
+
+void scanCharLCD1(unsigned char assetId,
+              unsigned char y,
+              unsigned char x,
+              unsigned char lineCurrent,
+              unsigned char charin,
+              unsigned short color,
+              unsigned char font_height)
+{
+    if(charin >= 'a' && charin <= 'z'){
+        charin-=97;}
+    if(charin >= 'A' && charin <= 'Z'){
+        charin-=65;}
+    if(charin >= '0' && charin <= '9'){
+        charin-=22;}
+    if(charin == '.'){charin = 36;}
+    if(charin == ':'){charin = 37;}
+    if(charin == '!'){charin = 38;}
+    if(charin == '-'){charin = 39;}
+    if(charin == '_'){charin = 40;}
+    if(charin == ' '){charin = 41;}
+
+    if ((y <= lineCurrent) && ((y + assetList[assetId].y) >= lineCurrent)) {
+	unsigned char j, p, r, g, b, pixbyte, *cmap;
+	unsigned short pixel ;
+
+	pixbyte = assetList[assetId].pixdata[( (charin * font_height) + lineCurrent - (y + 1))]; // current font height is 8
+	//pixbyte = *pixdata; /* 8 pixels per byte */
+
+	for (p=0; p<8; p++) {               
+		cmap = &(assetList[assetId].data_cmap[(unsigned short)((pixbyte>>p) & 0x1) * 3]);
+                r = cmap[0];
+                g = cmap[1];
+                b = cmap[2];
+              
+                pixel = ( ( ((r >> 3) & 0b11111) << 11 ) |
+                          ( ((g >> 3) & 0b11111) <<  6 ) |
+                          ( ((b >> 3) & 0b11111)       )) ;
+
+           
+		scan_bucket[p+x] = pixel;//send to data bucket array off set by x
+	}
    }
 }
 

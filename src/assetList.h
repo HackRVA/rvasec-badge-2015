@@ -1,7 +1,14 @@
 #ifndef assetList_h
 #define assetList_h
+
+
+/*
+ NOTE
+ NOTE   LASTASSET has to be the LAST item in the enum 
+ NOTE   insert new enums before it.
+ NOTE
+*/
 enum {
-//    MAYO=1,
     DRBOB=0,
     HACKRVA,
     RVASEC,
@@ -9,6 +16,7 @@ enum {
     HACKRVA2,
     MARIO,
     GAMEOTHRONES,
+    FONT,
     LASTASSET,
 };
 

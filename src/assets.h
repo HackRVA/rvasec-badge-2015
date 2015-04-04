@@ -10,3 +10,12 @@ void setBeep(unsigned short freq);
 void nextNote_cb(unsigned char assetId, int frame);
 void nextMIDI_cb(unsigned char assetId, int frame) ;
 
+void scanCharLCD1(unsigned char assetId,
+              unsigned char y,
+              unsigned char x,
+              unsigned char lineCurrent,
+              unsigned char charin,
+              unsigned short color,
+              unsigned char font_height)
+;
+
