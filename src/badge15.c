@@ -28,6 +28,8 @@ badge_state b_state;//badge state structure
 display_list display;//display list structure
 ResourceType resource;//enumerator for display resource type
 
+#ifdef STATES
+
 /***********************[CASE STATE MACHINE FOR BADGE]************************
  *      Add new states at the end inside run_states() function               *
  *****************************************************************************/
@@ -964,6 +966,7 @@ void init_states(void){
    badge_date_set[7] = '0';
 
 }
+#endif
 
 
 

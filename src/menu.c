@@ -221,12 +221,14 @@ void display_menu(struct menu_t *menu, struct menu_t *selected)
 	cursor_y = CHAR_HEIGHT;
 
 	clearscreen(0); /* assume color 0 == BACKGROUND */
-	while (menu->type != BACK) {
+	while (1) {
+		add_to_display_list(FILLED_RECTANGLE, 0, cursor_x - CHAR_WIDTH, cursor_y - CHAR_HEIGHT, 10 * CHAR_WIDTH, CHAR_HEIGHT);
 		for (c=0; (menu->name[c] != 0); c++) {
 			// add_to_display_list(CHARACTER, menu->attrib, cursor_x + (c * CHAR_WIDTH), cursor_y, menu->name[c], 0);
 			add_to_display_list(CHARACTER, ((menu == selected) ? RED : GREEN), cursor_x + (c * CHAR_WIDTH), cursor_y, menu->name[c], 0);
 		}
 		cursor_y += CHAR_HEIGHT;
+		if (menu->type == BACK) break;
 		menu++;
 	}
 }
@@ -262,6 +264,7 @@ void menus()
 			break;
 	
 		case BACK: /* return from menu */
+			setNote(32, 8192);
 			if (G_menuCnt == 0) return; /* stack is empty, error or main menu */
 			G_menuCnt--; 
 			currMenu = G_menuStack[G_menuCnt] ;
@@ -279,6 +282,7 @@ void menus()
 			break;
 	
 		case FUNCTION: /* call the function pointer if clicked */
+			setNote(64, 8192);
 			(*selectedMenu->data.func)();
 			break;
 	
@@ -300,6 +304,7 @@ void menus()
 
 				last_topTimestmap = buttonTimestamp[TOP_SLIDER];
 			}
+			display_menu(currMenu, selectedMenu);
                 }
 
                 if (sampleButtonStatus & BOTTOM_SLIDER_MASK) {
@@ -310,6 +315,7 @@ void menus()
 
 				last_bottomTimestmap = buttonTimestamp[BOTTOM_SLIDER];
                 	}
+			display_menu(currMenu, selectedMenu);
         	}
 	}
 }
