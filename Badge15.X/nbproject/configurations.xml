@@ -32,6 +32,7 @@
       <itemPath>../src/touchCTMU.h</itemPath>
       <itemPath>../src/assets.h</itemPath>
       <itemPath>../src/assetList.h</itemPath>
+      <itemPath>../src/menu.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -67,6 +68,7 @@
       <itemPath>../src/piano.c</itemPath>
       <itemPath>../src/assets.c</itemPath>
       <itemPath>../src/assetList.c</itemPath>
+      <itemPath>../src/menu.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
