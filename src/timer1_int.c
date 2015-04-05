@@ -488,7 +488,7 @@ unsigned char G_green_pwm=0;
 unsigned char G_blue_cnt=0;
 unsigned char G_blue_pwm=0;
 
-unsigned char G_bright=1;
+unsigned char G_bright=0;
 
 unsigned char G_backlight=255;
 unsigned char G_backlight_cnt=0;
@@ -499,19 +499,19 @@ void led_brightness(unsigned char bright) {
 }
 
 void red(unsigned char onPWM) {
-    onPWM <<= G_bright;
+    onPWM >>= G_bright;
     G_red_pwm = onPWM; 
     G_red_cnt = 0;
 }
 
 void green(unsigned char onPWM) {
-    onPWM <<= G_bright;
+    onPWM >>= G_bright;
     G_green_pwm = onPWM; 
     G_green_cnt = 0;
 }
 
 void blue(unsigned char onPWM) {
-    onPWM <<= G_bright;
+    onPWM >>= G_bright;
     G_blue_pwm = onPWM; 
     G_blue_cnt = 0;
 }

@@ -1,8 +1,6 @@
 #ifndef TIME_DATE_H
 #define	TIME_DATE_H
 
-#include <plib.h>
-
 int CheckRtccRunning(int secWait);
 
 void setTime_Date(unsigned char *time, unsigned char *date);

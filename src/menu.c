@@ -69,10 +69,47 @@ struct menu_t schedule_m[] = {
    {"back", GREEN_BG, BACK, NULL},
 };
 
-void firewall_cb() { puts("FUNCTION firewall\n"); };
-void bowling_cb() { puts("FUNCTION bowl\n"); };
-void hacker_cb() { puts("FUNCTION hack\n"); };
-void aliens_cb() { puts("FUNCTION aliens\n"); };
+void firewall_cb()
+{
+	static int fw=0;
+
+	if (fw == 0) {
+		red(255);
+	}
+
+	if (fw == 100000) {
+		red(0);
+		green(255);
+	}
+
+	if (fw == 200000) {
+		green(0);
+		blue(255);
+	}
+
+	if (fw == 300000) { /* reset */
+		blue(0);
+		fw = 0; 
+		runningApp = NULL;
+	}
+	else fw++;
+};
+
+void bowling_cb() {
+	setNote(173, 2048);
+	runningApp = NULL;
+};
+
+void hacker_cb() {
+	setNote(173, 2048);
+	runningApp = NULL;
+};
+
+void aliens_cb()
+{ 
+	setNote(173, 2048);
+	runningApp = NULL;
+};
 
 struct menu_t games_m[] = {
    {"Firewall",	GREEN_BG, FUNCTION, (struct menu_t *)firewall_cb}, /* coerce/cast to a menu_t data pointer */
@@ -83,11 +120,35 @@ struct menu_t games_m[] = {
    {"back",	GREEN_BG, BACK, NULL},
 };
 
-void led_cb() { puts("FUNCTION led\n"); };
-void contrast_cb() { puts("FUNCTION contrast\n"); };
-void timedate_cb() { puts("FUNCTION timedate\n"); };
-void screensaver_cb() { puts("FUNCTION screensave\n"); };
-void backlight_cb() { puts("FUNCTION backlight\n"); };
+void led_cb()
+{
+	setNote(173, 2048);
+	runningApp = NULL;
+};
+
+void contrast_cb()
+{
+	setNote(173, 2048);
+	runningApp = NULL;
+};
+
+void timedate_cb()
+{
+	setNote(173, 2048);
+	runningApp = NULL;
+};
+
+void screensaver_cb()
+{
+	setNote(173, 2048);
+	runningApp = NULL;
+};
+
+void backlight_cb()
+{
+	setNote(173, 2048);
+	runningApp = NULL;
+};
 
 struct menu_t settings_m[] = {
    {"led",	GREEN_BG, FUNCTION, (struct menu_t *)led_cb},  /* coerce/cast to a menu_t data pointer */
@@ -241,11 +302,18 @@ void display_menu(struct menu_t *menu, struct menu_t *selected)
 /* for this increment the units are menu items */
 #define PAGESIZE 8
 
+void (*runningApp)() = NULL;
+
 struct menu_t *currMenu = NULL; /* init */
 struct menu_t *selectedMenu = NULL; /* item the cursor is on */
 void menus()
 {
 	static unsigned int last_buttonTimestmap=0;
+
+	if (runningApp != NULL) {
+		(*runningApp)();
+		return;
+	}
 
         if (currMenu == NULL) {
 		G_menuStack[G_menuCnt] = main_m;
@@ -253,6 +321,7 @@ void menus()
 		selectedMenu = currMenu;
            	display_menu(currMenu, selectedMenu);
 	}
+
 
         /* see if physical button has been clicked */
 	if ((sampleButtonStatus & BUTTON_MASK) && (buttonTimestamp[BUTTON] != last_buttonTimestmap)) {
@@ -288,7 +357,8 @@ void menus()
 	
 		case FUNCTION: /* call the function pointer if clicked */
 			setNote(115, 2048); /* e */
-			(*selectedMenu->data.func)();
+			runningApp = selectedMenu->data.func;
+			//(*selectedMenu->data.func)();
 			break;
 	
 		default:

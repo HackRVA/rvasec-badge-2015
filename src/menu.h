@@ -28,6 +28,8 @@ struct menu_t {
 void display_menu(struct menu_t *menu, struct menu_t *selected);
 
 extern struct menu_t *currMenu;
+extern struct menu_t *currMenu;
 extern struct menu_t *selectedMenu;
+extern void (*runningApp)() ;
 extern unsigned int buttonTimestamp[];
 #endif
