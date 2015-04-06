@@ -11,7 +11,7 @@
 #include "mario.h"         // 1% Program
 #include "got.h"         // 1% Program
 #include "font_2.xbm"         // 1% Program
-#include "kitten.h"
+//#include "kitten.h"
 #include "chip.h"
 
 /* for 1 bit images */
