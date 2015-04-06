@@ -373,6 +373,7 @@ void display_menu(struct menu_t *menu, struct menu_t *selected)
 	cursor_y = CHAR_HEIGHT;
 
 	clearscreen(0); /* assume color 0 == BACKGROUND */
+        show_pic(DRBOB, 0, 0);
 	while (1) {
 		unsigned char rect_w=0;
 

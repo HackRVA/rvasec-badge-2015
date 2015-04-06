@@ -1093,8 +1093,7 @@ void line(unsigned char x1,
 void clearscreen(unsigned short colorbg)
 {
     clear_display_list();
-    //add_to_display_list(BACKGROUND, colorbg, 0, 0, 0, 0);
-    show_pic(DRBOB, 0, 0);
+    add_to_display_list(BACKGROUND, colorbg, 0, 0, 0, 0);
 }
 
 void setbackground(unsigned short colorbg)

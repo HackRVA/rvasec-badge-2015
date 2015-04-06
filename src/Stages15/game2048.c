@@ -134,21 +134,25 @@ void game_2048_play()
     }
     else if(TOP_SLIDE_AND_CONSUME)
     {
+        setNote(109, 2048);
         up();
         GAME_2048_STATE = GAME_2048_DRAW_GRID;
     }
     else if (BOTTOM_SLIDE_AND_CONSUME)
     {
+        setNote(97, 2048);
         down();
         GAME_2048_STATE = GAME_2048_DRAW_GRID;
     }
     else if (LEFT_SLIDE_AND_CONSUME)
     {
+        setNote(109, 2048);
         left();
         GAME_2048_STATE = GAME_2048_DRAW_GRID;
     }
     else if (RIGHT_SLIDE_AND_CONSUME)
     {
+        setNote(97, 2048);
         right();
         GAME_2048_STATE = GAME_2048_DRAW_GRID;
     }
