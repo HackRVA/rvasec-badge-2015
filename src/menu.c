@@ -1,5 +1,6 @@
 #include "badge15.h"
 #include "Stages15/game2048.h"
+#include "Stages15/connect4.h"
 
 #define NULL 0
 
@@ -180,6 +181,11 @@ void firewall_cb()
 };
 #endif
 
+void connect4_cb()
+{
+    runningApp = &connect4_Init;
+};
+
 void game_2048_cb()
 {
     runningApp = &game_2048_Init;
@@ -207,6 +213,7 @@ struct menu_t games_m[] = {
    {"Hacker",	GREEN_BG, FUNCTION, (struct menu_t *)hacker_cb},
    {"Aliens",	GREEN_BG, FUNCTION, (struct menu_t *)aliens_cb},
    {"2048",	GREEN_BG, FUNCTION, (struct menu_t *)game_2048_cb},
+   {"Row 4",	GREEN_BG, FUNCTION, (struct menu_t *)connect4_cb},
 //   {"more",	GREEN_BG, MORE, NULL},
    {"back",	GREEN_BG, BACK, NULL},
 };
@@ -373,7 +380,7 @@ void display_menu(struct menu_t *menu, struct menu_t *selected)
 	cursor_y = CHAR_HEIGHT;
 
 	clearscreen(0); /* assume color 0 == BACKGROUND */
-        show_pic(DRBOB, 0, 0);
+        show_pic(KITTEN, 0, 0);
 	while (1) {
 		unsigned char rect_w=0;
 

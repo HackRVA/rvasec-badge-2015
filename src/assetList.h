@@ -17,6 +17,7 @@ enum {
     MARIO,
     GAMEOTHRONES,
     FONT,
+    CHIP,
     LASTASSET,
 };
 

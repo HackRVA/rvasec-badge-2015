@@ -10,6 +10,7 @@
         <itemPath>../src/Stages15/Snake.h</itemPath>
         <itemPath>../src/Stages15/BadgyBird.h</itemPath>
         <itemPath>../src/Stages15/game2048.h</itemPath>
+        <itemPath>../src/Stages15/connect4.h</itemPath>
       </logicalFolder>
       <logicalFolder name="f1" displayName="USB" projectFiles="true">
         <itemPath>../src/USB/usb.h</itemPath>
@@ -46,6 +47,7 @@
       </logicalFolder>
       <logicalFolder name="f3" displayName="Stages15" projectFiles="true">
         <itemPath>../src/Stages15/game2048.c</itemPath>
+        <itemPath>../src/Stages15/connect4.c</itemPath>
       </logicalFolder>
       <logicalFolder name="f2" displayName="USB" projectFiles="true">
         <itemPath>../src/USB/usb_device.c</itemPath>
@@ -89,7 +91,7 @@
         <targetPluginBoard></targetPluginBoard>
         <platformTool>PICkit3PlatformTool</platformTool>
         <languageToolchain>XC32</languageToolchain>
-        <languageToolchainVersion>1.33</languageToolchainVersion>
+        <languageToolchainVersion>1.34</languageToolchainVersion>
         <platform>3</platform>
       </toolsSet>
       <compileType>
