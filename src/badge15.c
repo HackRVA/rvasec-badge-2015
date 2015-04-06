@@ -1194,6 +1194,7 @@ void LCDCompositeLine(void)
 
                 if(abs(display.scan_line - display.composite_queue[display.queue_reader][3]) < 8)
                 {
+#define NEWCHARFUNCT
 #ifndef NEWCHARFUNCT
 //   void LCDCharacterScan(unsigned char y,//Hard coded font. Scans
 //	   unsigned char x,              //Calls scan line function for

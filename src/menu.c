@@ -360,7 +360,7 @@ main() {
   so 1st Y position has to offset down CHAR_HEIGHT to account for that
 */
 
-#define CHAR_WIDTH 6
+#define CHAR_WIDTH 8
 #define CHAR_HEIGHT 10
 
 void display_menu(struct menu_t *menu, struct menu_t *selected)
@@ -380,12 +380,12 @@ void display_menu(struct menu_t *menu, struct menu_t *selected)
 		for (c=0, rect_w=0; (menu->name[c] != 0); c++)
 			rect_w += CHAR_WIDTH;
 
-		add_to_display_list(FILLED_RECTANGLE, 0, cursor_x - CHAR_WIDTH, cursor_y - CHAR_HEIGHT, rect_w, CHAR_HEIGHT+1);
+		add_to_display_list(FILLED_RECTANGLE, 0, cursor_x, cursor_y, rect_w, CHAR_HEIGHT);
 
 		for (c=0; (menu->name[c] != 0); c++)
 			add_to_display_list(CHARACTER, ((menu == selected) ? RED : GREEN), cursor_x + (c * CHAR_WIDTH), cursor_y, menu->name[c], 0);
 
-		cursor_y += CHAR_HEIGHT+1;
+		cursor_y += CHAR_HEIGHT;
 		if (menu->type == BACK) break;
 		menu++;
 	}

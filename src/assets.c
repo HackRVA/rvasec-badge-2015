@@ -199,12 +199,11 @@ void scanLCD8(unsigned char assetId, unsigned char y, unsigned char x, unsigned 
 void scanCharLCD1(unsigned char assetId,
               unsigned char y,
               unsigned char x,
-              unsigned char charin,
               unsigned char lineCurrent,
+              unsigned char charin,
               unsigned short color,
               unsigned char font_height)
 {
-    
     if(charin >= 'a' && charin <= 'z'){
         charin-=97;}
     if(charin >= 'A' && charin <= 'Z'){
@@ -222,11 +221,10 @@ void scanCharLCD1(unsigned char assetId,
 	unsigned char p, r, g, b, pixbyte, *cmap;
 	unsigned short pixel ;
 
-	pixbyte = assetList[assetId].pixdata[( (charin * font_height) + lineCurrent - (y))]; // current font height is 8
+	pixbyte = assetList[assetId].pixdata[( (charin * font_height) + lineCurrent - y)]; // current font height is 8
 	//pixbyte = *pixdata; /* 8 pixels per byte */
 
 	for (p=0; p<8; p++) {
-
 		cmap = &(assetList[assetId].data_cmap[(unsigned short)((pixbyte>>p) & 0x1) * 3]);
                 r = cmap[0];
                 g = cmap[1];
@@ -236,11 +234,7 @@ void scanCharLCD1(unsigned char assetId,
                           ( ((g >> 3) & 0b11111) <<  6 ) |
                           ( ((b >> 3) & 0b11111)       )) ;
 
-                if(pixel != 0b0000000000000000)
-                {
-                    scan_bucket[p+x] = color;//send to data bucket array off set by x
-                }
-                else{}
+		if (pixel != 0) scan_bucket[p+x] = color;//send to data bucket array off set by x
 	}
    }
 }
@@ -253,7 +247,7 @@ unsigned short G_duration_cnt = 0;
 unsigned short G_freq_cnt = 0;
 unsigned short G_freq = 0;
 
-unsigned short SYSTEM_MUTE = 0;
+unsigned short G_mute = 0;
 
 void playAsset(unsigned char assetId) 
 {
@@ -262,9 +256,9 @@ void playAsset(unsigned char assetId)
 }
 
 void setNote(unsigned short freq, unsigned short dur) {
-    if (SYSTEM_MUTE)
-        return;
-    if (dur <= freq) dur = (freq << 1); /* to short to be play with PWM, so double it */
+    if (G_mute) return;
+
+   if (dur <= freq) dur = (freq << 1); /* to short to be play with PWM, so double it */
 
    G_freq = freq;
    G_duration = dur;
