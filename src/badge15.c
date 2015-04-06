@@ -935,7 +935,7 @@ void clear_selected(unsigned short * selected, unsigned char menuSize){
 /***************************[END MENU FUNCTIONS]******************************/
 
 
-
+#endif
 /**************************[STATE INITIALIZATION]*****************************
  *    Called only once during start up to provide entry point                *
  *****************************************************************************/
@@ -948,7 +948,7 @@ void init_states(void){
    b_state.selected_object = 0;
    b_state.counter1 = 0;
    b_state.counter2 = 0;
-   click = 0;
+
    badge_time_set[0] = '0';
    badge_time_set[1] = '0';
    badge_time_set[2] = ':';
@@ -964,9 +964,7 @@ void init_states(void){
    badge_date_set[5] = '-';
    badge_date_set[6] = '0';
    badge_date_set[7] = '0';
-
 }
-#endif
 
 
 

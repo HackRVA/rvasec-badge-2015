@@ -26,6 +26,7 @@ struct menu_t {
 };
 
 void display_menu(struct menu_t *menu, struct menu_t *selected);
+void returnToMenus();
 
 extern struct menu_t *currMenu;
 extern struct menu_t *currMenu;

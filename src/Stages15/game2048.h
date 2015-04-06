@@ -5,6 +5,7 @@
 
 void game_2048_Init();
 void game_2048_Run();
+void game_2048_onExit();
 
 bool moveUp();
 bool moveDown();

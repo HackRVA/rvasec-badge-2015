@@ -253,6 +253,8 @@ unsigned short G_duration_cnt = 0;
 unsigned short G_freq_cnt = 0;
 unsigned short G_freq = 0;
 
+unsigned short SYSTEM_MUTE = 0;
+
 void playAsset(unsigned char assetId) 
 {
     G_audioAssetId = assetId;
@@ -260,7 +262,9 @@ void playAsset(unsigned char assetId)
 }
 
 void setNote(unsigned short freq, unsigned short dur) {
-   if (dur <= freq) dur = (freq << 1); /* to short to be play with PWM, so double it */
+    if (SYSTEM_MUTE)
+        return;
+    if (dur <= freq) dur = (freq << 1); /* to short to be play with PWM, so double it */
 
    G_freq = freq;
    G_duration = dur;

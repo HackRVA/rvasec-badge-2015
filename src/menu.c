@@ -1,4 +1,5 @@
 #include "badge15.h"
+#include "Stages15/game2048.h"
 
 #define NULL 0
 
@@ -179,6 +180,11 @@ void firewall_cb()
 };
 #endif
 
+void game_2048_cb()
+{
+    runningApp = &game_2048_Init;
+};
+
 void bowling_cb() {
 	setNote(173, 2048);
 	runningApp = NULL;
@@ -200,6 +206,7 @@ struct menu_t games_m[] = {
    {"Bowling",	GREEN_BG, FUNCTION, (struct menu_t *)bowling_cb},
    {"Hacker",	GREEN_BG, FUNCTION, (struct menu_t *)hacker_cb},
    {"Aliens",	GREEN_BG, FUNCTION, (struct menu_t *)aliens_cb},
+   {"2048",	GREEN_BG, FUNCTION, (struct menu_t *)game_2048_cb},
 //   {"more",	GREEN_BG, MORE, NULL},
    {"back",	GREEN_BG, BACK, NULL},
 };
@@ -390,93 +397,101 @@ void (*runningApp)() = NULL;
 
 struct menu_t *currMenu = NULL; /* init */
 struct menu_t *selectedMenu = NULL; /* item the cursor is on */
+
+void returnToMenus()
+{
+    if (currMenu == NULL) {
+        G_menuStack[G_menuCnt] = main_m;
+        currMenu = main_m;
+        selectedMenu = currMenu;
+    }
+
+    display_menu(currMenu, selectedMenu);
+    runningApp = NULL;
+}
+
 void menus()
 {
-	static unsigned int last_buttonTimestmap=0;
+    if (runningApp != NULL) {
+            (*runningApp)();
+            return;
+    }
 
-	if (runningApp != NULL) {
-		(*runningApp)();
-		return;
-	}
-
-        if (currMenu == NULL) {
-		G_menuStack[G_menuCnt] = main_m;
-		currMenu = main_m;
-		selectedMenu = currMenu;
-           	display_menu(currMenu, selectedMenu);
-	}
+    if (currMenu == NULL) {
+            G_menuStack[G_menuCnt] = main_m;
+            currMenu = main_m;
+            selectedMenu = currMenu;
+            display_menu(currMenu, selectedMenu);
+    }
 
 
-        /* see if physical button has been clicked */
-	if ((sampleButtonStatus & BUTTON_MASK) && (buttonTimestamp[BUTTON] != last_buttonTimestmap)) {
-		last_buttonTimestmap = buttonTimestamp[BUTTON];
+    /* see if physical button has been clicked */
+    //if ((sampleButtonStatus & BUTTON_MASK) && (buttonTimestamp[BUTTON] != last_buttonTimestmap)) {
+    //	last_buttonTimestmap = buttonTimestamp[BUTTON];
+    if (BUTTON_PRESSED_AND_CONSUME)
+    {
+            switch (selectedMenu->type) {
 
-		switch (selectedMenu->type) {
+            case MORE: /* jump to next page of menu */
+                    setNote(173, 2048); /* a */
+                    currMenu += PAGESIZE;
+                    selectedMenu = currMenu;
+                    break;
 
-		case MORE: /* jump to next page of menu */
-			setNote(173, 2048); /* a */
-			currMenu += PAGESIZE;
-			selectedMenu = currMenu;
-			break;
-	
-		case BACK: /* return from menu */
-			setNote(154, 2048); /* b */
-			if (G_menuCnt == 0) return; /* stack is empty, error or main menu */
-			G_menuCnt--; 
-			currMenu = G_menuStack[G_menuCnt] ;
-			selectedMenu = currMenu;
-			break;
-	
-		case TEXT: /* maybe highlight if clicked?? */
-			setNote(145, 2048); /* c */
-			break;
-	
-		case MENU: /* drills down into menu if clicked */
-			setNote(129, 2048); /* d */
-			G_menuStack[G_menuCnt++] = currMenu; /* push onto stack  */
-			if (G_menuCnt == MAX_MENU_DEPTH) G_menuCnt--; /* too deep, undo */
-			currMenu = selectedMenu->data.menu; /* go into this menu */
-			selectedMenu = currMenu;
-			break;
-	
-		case FUNCTION: /* call the function pointer if clicked */
-			setNote(115, 2048); /* e */
-			runningApp = selectedMenu->data.func;
-			//(*selectedMenu->data.func)();
-			break;
-	
-		default:
-			break;
-		}
-	
-           	display_menu(currMenu, selectedMenu);
+            case BACK: /* return from menu */
+                    setNote(154, 2048); /* b */
+                    if (G_menuCnt == 0) return; /* stack is empty, error or main menu */
+                    G_menuCnt--;
+                    currMenu = G_menuStack[G_menuCnt] ;
+                    selectedMenu = currMenu;
+                    break;
+
+            case TEXT: /* maybe highlight if clicked?? */
+                    setNote(145, 2048); /* c */
+                    break;
+
+            case MENU: /* drills down into menu if clicked */
+                    setNote(129, 2048); /* d */
+                    G_menuStack[G_menuCnt++] = currMenu; /* push onto stack  */
+                    if (G_menuCnt == MAX_MENU_DEPTH) G_menuCnt--; /* too deep, undo */
+                    currMenu = selectedMenu->data.menu; /* go into this menu */
+                    selectedMenu = currMenu;
+                    break;
+
+            case FUNCTION: /* call the function pointer if clicked */
+                    setNote(115, 2048); /* e */
+                    runningApp = selectedMenu->data.func;
+                    //(*selectedMenu->data.func)();
+                    break;
+
+            default:
+                    break;
+            }
+
+            display_menu(currMenu, selectedMenu);
+    }
+    else if (TOP_SLIDE_AND_CONSUME) /* handle slider/soft button clicks */
+    {
+        setNote(109, 2048); /* f */
+
+        /* make sure not on first menu item */
+        if (selectedMenu > currMenu)
+        {
+            selectedMenu--;
+            display_menu(currMenu, selectedMenu);
         }
-        else { /* handle slider/soft button clicks */
-		static unsigned int last_topTimestmap=0, last_bottomTimestmap=0; /* init */
+    }
+    else if (BOTTOM_SLIDE_AND_CONSUME)
+    {
+        setNote(97, 2048); /* g */
 
-                if (sampleButtonStatus & TOP_SLIDER_MASK) {
-			setNote(109, 2048); /* f */
-
-			if (buttonTimestamp[TOP_SLIDER] != last_topTimestmap) {
-				/* make sure not on first menu item */
-				if (selectedMenu > currMenu) selectedMenu--;
-
-				last_topTimestmap = buttonTimestamp[TOP_SLIDER];
-			}
-			display_menu(currMenu, selectedMenu);
-                }
-
-                if (sampleButtonStatus & BOTTOM_SLIDER_MASK) {
-			setNote(97, 2048); /* g */
-			if (buttonTimestamp[BOTTOM_SLIDER] != last_bottomTimestmap) {
-                        	/* make sure not on last menu item */
-                        	if (selectedMenu->type != BACK) selectedMenu++;
-
-				last_bottomTimestmap = buttonTimestamp[BOTTOM_SLIDER];
-                	}
-			display_menu(currMenu, selectedMenu);
-        	}
-	}
+        /* make sure not on last menu item */
+        if (selectedMenu->type != BACK)
+        {
+            selectedMenu++;
+            display_menu(currMenu, selectedMenu);
+        }
+    }
 }
 
 #endif

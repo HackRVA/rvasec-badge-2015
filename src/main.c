@@ -8,7 +8,6 @@
 #include "USB/usb_device.h"
 #include "USB/usb.h"
 #include "HardwareProfile.h"
-
 #include "badge15.h"
 
 #define JON
@@ -283,9 +282,7 @@ static void InitializeSystem(void)
   
 #ifdef JON
 	init_display_list();
-#ifdef OLDMENUS
-	init_states();
-#endif
+        init_states();
 #endif
 	
 	initTouch();

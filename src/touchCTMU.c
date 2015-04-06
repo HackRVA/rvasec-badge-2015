@@ -42,6 +42,7 @@ short int sampleButtonStatus = 0; // Bit field of buttons that are pressed
 
 /* 5 -> because 4 touch buttons and physical button */
 unsigned int buttonTimestamp[5] = {0}; /* timestamp of when a button last changed state */
+unsigned int lastHandledTimestamp[5] = {0}; /* timestampe of when a button was last handled */
 
 short int G_buttonDetectValue=0x800; // cap touch detect value. old way was 32767, the midpoint between  0..65535
 
