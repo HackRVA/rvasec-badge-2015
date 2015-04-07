@@ -206,16 +206,16 @@ void scanCharLCD1(unsigned char assetId,
 {
     if(charin >= 'a' && charin <= 'z'){
         charin-=97;}
-    if(charin >= 'A' && charin <= 'Z'){
+    else if(charin >= 'A' && charin <= 'Z'){
         charin-=65;}
-    if(charin >= '0' && charin <= '9'){
+    else if(charin >= '0' && charin <= '9'){
         charin-=22;}
-    if(charin == '.'){charin = 36;}
-    if(charin == ':'){charin = 37;}
-    if(charin == '!'){charin = 38;}
-    if(charin == '-'){charin = 39;}
-    if(charin == '_'){charin = 40;}
-    if(charin == ' '){charin = 41;}
+    else if(charin == '.'){charin = 36;}
+    else if(charin == ':'){charin = 37;}
+    else if(charin == '!'){charin = 38;}
+    else if(charin == '-'){charin = 39;}
+    else if(charin == '_'){charin = 40;}
+    else{charin = 41;}
 
     if ((y <= lineCurrent) && ((y + assetList[assetId].y) >= lineCurrent)) {
 	unsigned char p, r, g, b, pixbyte, *cmap;
