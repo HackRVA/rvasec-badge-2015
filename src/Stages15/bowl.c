@@ -38,6 +38,7 @@ struct menu_t popup_m[] = {
 //   {"You win", GREEN_BG, TEXT, 0},
    {"HIGH SCORE", GREEN_BG, FUNCTION, (struct menu_t *)(popup_cb)},
    {"", GREEN_BG, TEXT, 0}, /* empty string but still has space for 16 chars */
+   {"0123456789", GREEN_BG, TEXT, 0}, /* empty string but still has space for 16 chars */
    {"", GREEN_BG, BACK, NULL},
 };
 
@@ -73,7 +74,7 @@ void bowl_cb()
 	static unsigned char state = BOWL_INIT;
 	static unsigned int cnt=0;
 	static struct vector cursor;
-	static unsigned char score=0;
+	static int score=0;
 
 	cnt++;
 	switch (state) {
@@ -159,7 +160,7 @@ void bowl_cb()
 			break;
 
 		case BOWL_SCORE:
-			popup_m[1].name[0] = 48 + (score / 100000) ;          // hundred 
+			popup_m[1].name[0] = 48 + (score % 1000000) / 100000;          // hundred 
 			popup_m[1].name[1] = 48 + (score % 100000) / 10000 ; // ten 
 			popup_m[1].name[2] = 48 + (score % 10000) / 1000;    // thousand
 			popup_m[1].name[3] = 48 + (score % 1000) / 100;      // hundreds
