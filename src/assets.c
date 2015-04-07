@@ -176,12 +176,12 @@ void drawLCD8(unsigned char assetId, int frame)
 
 void scanLCD8(unsigned char assetId, unsigned char y, unsigned char x, unsigned char lineCurrent)//add x, y and line current
 {
-    if(y <= lineCurrent && y + (assetList[assetId].y-1) >= lineCurrent){
+    if ((y <= lineCurrent) && ((y + (assetList[assetId].y - 1)) >= lineCurrent)) {
     unsigned char j, r, g, b, pixbyte, *cmap;
     unsigned short pixel;
 
        for (j=0; j < assetList[assetId].x; j++) {
-            pixbyte = assetList[assetId].pixdata[(lineCurrent-(y)) * assetList[assetId].x + j];//replace i with line current
+            pixbyte = assetList[assetId].pixdata[(lineCurrent-y) * assetList[assetId].x + j];//replace i with line current
             cmap = &(assetList[assetId].data_cmap[(unsigned short)pixbyte * 3]);
             r = cmap[0];
             g = cmap[1];

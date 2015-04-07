@@ -1,50 +1,51 @@
 #include "badge15.h"
 #include "Stages15/game2048.h"
 #include "Stages15/connect4.h"
+#include "Stages15/bowl.h"
 
 #define NULL 0
 
-struct menu_t breakfast_m[] = {
+const struct menu_t breakfast_m[] = {
    {"yummy", GREEN_BG, TEXT, {NULL}}, /* can init union either with or without {} */
    {"back", GREEN_BG, BACK, NULL}, /* can init union either with or without {} */
 };
 
-struct menu_t welcome_m[] = {
+const struct menu_t welcome_m[] = {
    {"yo", GREEN_BG, TEXT, {NULL}},
    {"back", GREEN_BG, BACK, NULL},
 };
 
-struct menu_t david_m[] = {
+const struct menu_t david_m[] = {
    {"david m", GREEN_BG, TEXT, {NULL}},
    {"back", GREEN_BG, BACK, NULL},
 };
 
-struct menu_t break1010_m[] = {
+const struct menu_t break1010_m[] = {
    {"break time", GREEN_BG, TEXT, {NULL}},
    {"back", GREEN_BG, BACK, NULL},
 };
 
-struct menu_t nick_m[] = {
+const struct menu_t nick_m[] = {
    {"nick m", GREEN_BG, TEXT, {NULL}},
    {"back", GREEN_BG, BACK, NULL},
 };
 
-struct menu_t pm_m[] = {
+const struct menu_t pm_m[] = {
    {"paul morgan", GREEN_BG, TEXT, {NULL}},
    {"back", GREEN_BG, BACK, NULL},
 };
 
-struct menu_t break1050_m[] = {
+const struct menu_t break1050_m[] = {
    {"break1050", GREEN_BG, TEXT, {NULL}},
    {"back", GREEN_BG, BACK, NULL},
 };
 
-struct menu_t lunch_m[] = {
+const struct menu_t lunch_m[] = {
    {"lunch", GREEN_BG, TEXT, {NULL}},
    {"back", GREEN_BG, BACK, NULL},
 };
 
-struct menu_t day1_m[] = {
+const struct menu_t day1_m[] = {
    {" 8:00 Breakfast", GREEN_BG, MENU, {breakfast_m}},
    {" 9:00 Welcome", GREEN_BG, MENU, {welcome_m}},
    {"11:30 Break", GREEN_BG, MENU, break1050_m},
@@ -52,7 +53,7 @@ struct menu_t day1_m[] = {
    {"back", GREEN_BG, BACK, NULL},
 };
 
-struct menu_t day2_m[] = {
+const struct menu_t day2_m[] = {
    {" 8:00 Breakfast", GREEN_BG, MENU, breakfast_m},
    {" 9:00 Welcome", GREEN_BG, MENU, welcome_m},
    {"10:00 David", GREEN_BG, MENU, david_m},
@@ -65,7 +66,7 @@ struct menu_t day2_m[] = {
 };
 
 
-struct menu_t schedule_m[] = {
+const struct menu_t schedule_m[] = {
    {"day1", GREEN_BG, MENU, day1_m},
    {"day2", GREEN_BG, MENU, day2_m},
    {"back", GREEN_BG, BACK, NULL},
@@ -193,7 +194,7 @@ void game_2048_cb()
 
 void bowling_cb() {
 	setNote(173, 2048);
-	runningApp = NULL;
+	runningApp = bowl_cb;
 };
 
 void hacker_cb() {
@@ -207,7 +208,7 @@ void aliens_cb()
 	runningApp = NULL;
 };
 
-struct menu_t games_m[] = {
+const struct menu_t games_m[] = {
    {"Firewall",	GREEN_BG, FUNCTION, (struct menu_t *)firewall_cb}, /* coerce/cast to a menu_t data pointer */
    {"Bowling",	GREEN_BG, FUNCTION, (struct menu_t *)bowling_cb},
    {"Hacker",	GREEN_BG, FUNCTION, (struct menu_t *)hacker_cb},
@@ -376,13 +377,16 @@ void display_menu(struct menu_t *menu, struct menu_t *selected)
 	unsigned char c;
 	struct menu_t *tmp_menu;
 
-	cursor_x = 32;
+	cursor_x = 2;
 	cursor_y = CHAR_HEIGHT;
 
 	clearscreen(0); /* assume color 0 == BACKGROUND */
         show_pic(DRBOB, 0, 0);
 	while (1) {
 		unsigned char rect_w=0;
+
+		/* if name is NULL leave now */
+		if (menu->name[0] == 0) break;
 
 		for (c=0, rect_w=0; (menu->name[c] != 0); c++)
 			rect_w += CHAR_WIDTH;
@@ -393,7 +397,10 @@ void display_menu(struct menu_t *menu, struct menu_t *selected)
 			add_to_display_list(CHARACTER, ((menu == selected) ? RED : GREEN), cursor_x + (c * CHAR_WIDTH), cursor_y, menu->name[c], 0);
 
 		cursor_y += CHAR_HEIGHT;
+
+		/* last menu item quit */
 		if (menu->type == BACK) break;
+
 		menu++;
 	}
 }
@@ -406,6 +413,12 @@ void (*runningApp)() = NULL;
 struct menu_t *currMenu = NULL; /* init */
 struct menu_t *selectedMenu = NULL; /* item the cursor is on */
 
+
+/* 
+   NOTE-
+     apps will call this but since this returns to the callback
+     code will execute up the the fuction return()
+*/
 void returnToMenus()
 {
     if (currMenu == NULL) {
@@ -478,6 +491,9 @@ void menus()
 
             display_menu(currMenu, selectedMenu);
     }
+    /* *** PEB ***** not convinced this should be an else
+       both sliders can be pressed then second will never get handled
+    */
     else if (TOP_SLIDE_AND_CONSUME) /* handle slider/soft button clicks */
     {
         setNote(109, 2048); /* f */
@@ -489,6 +505,9 @@ void menus()
             display_menu(currMenu, selectedMenu);
         }
     }
+    /* *** PEB ***** not convinced this should be an else
+       both sliders can be pressed then this one will never get handled
+    */
     else if (BOTTOM_SLIDE_AND_CONSUME)
     {
         setNote(97, 2048); /* g */
@@ -502,4 +521,102 @@ void menus()
     }
 }
 
+/*
+  ripped from above for app menus
+  this is not meant for persistant menus
+  like the main menu
+*/
+void genericMenu(struct menu_t *L_menu)
+{
+    static struct menu_t *L_currMenu = NULL; /* LOCAL not to be confused to much with menu()*/
+    static struct menu_t *L_selectedMenu = NULL; /* LOCAL ditto   "    "    */
+    static unsigned char L_menuCnt=0; // index for G_menuStack
+    static struct menu_t *L_menuStack[4] = { 0 }; // track user traversing menus
+
+    if (L_menu == NULL) return; /* no thanks */
+
+    if (L_currMenu == NULL) {
+	L_menuCnt = 0;
+	L_menuStack[L_menuCnt] = L_menu;
+	L_currMenu = L_menu;
+	L_selectedMenu = L_menu;
+
+	display_menu(L_currMenu, L_selectedMenu);
+
+	return;
+    }
+
+    if (BUTTON_PRESSED_AND_CONSUME)
+    {
+            switch (L_selectedMenu->type) {
+
+            case MORE: /* jump to next page of menu */
+                    setNote(173, 2048); /* a */
+                    L_currMenu += PAGESIZE;
+                    L_selectedMenu = L_currMenu;
+                    break;
+
+            case BACK: /* return from menu */
+                    setNote(154, 2048); /* b */
+                    if (L_menuCnt == 0) return; /* stack is empty, error or main menu */
+                    L_menuCnt--;
+                    L_currMenu = L_menuStack[L_menuCnt] ;
+                    L_selectedMenu = L_currMenu;
+		    display_menu(L_currMenu, L_selectedMenu);
+                    break;
+
+            case TEXT: /* maybe highlight if clicked?? */
+                    setNote(145, 2048); /* c */
+                    break;
+
+            case MENU: /* drills down into menu if clicked */
+                    setNote(129, 2048); /* d */
+                    L_menuStack[L_menuCnt++] = L_currMenu; /* push onto stack  */
+                    if (L_menuCnt == MAX_MENU_DEPTH) L_menuCnt--; /* too deep, undo */
+                    L_currMenu = L_selectedMenu->data.menu; /* go into this menu */
+                    L_selectedMenu = L_currMenu;
+		    display_menu(L_currMenu, L_selectedMenu);
+                    break;
+
+            case FUNCTION: /* call the function pointer if clicked */
+                    setNote(115, 2048); /* e */
+                    (*L_selectedMenu->data.func)();
+
+		    /* clean up for nex call back */
+		    L_currMenu = NULL;
+		    L_selectedMenu = NULL;
+
+		    L_menuCnt = 0;
+		    L_menuStack[L_menuCnt] = NULL;
+                    break;
+
+            default:
+                    break;
+            }
+    }
+    else if (TOP_SLIDE_AND_CONSUME) /* handle slider/soft button clicks */
+    {
+        setNote(109, 2048); /* f */
+
+        /* make sure not on first menu item */
+        if (L_selectedMenu > L_currMenu)
+        {
+            L_selectedMenu--;
+            display_menu(L_currMenu, L_selectedMenu);
+        }
+    }
+    else if (BOTTOM_SLIDE_AND_CONSUME)
+    {
+        setNote(97, 2048); /* g */
+
+        /* make sure not on last menu item */
+        if (L_selectedMenu->type != BACK)
+        {
+            L_selectedMenu++;
+            display_menu(L_currMenu, L_selectedMenu);
+        }
+    }
+}
+
+#
 #endif
