@@ -189,9 +189,9 @@ void game_2048_game_menu()
             else
                 rectangle(10, 11+(i*19), 108, 15, GREEN);
         }
-        writeline("Resume",     6,  37, 23, GREEN);
-        writeline("Restart",    7,  37, 42, GREEN);
-        writeline("Quit",       4,  37, 61, GREEN);
+        writeline("Resume",     6,  37, 15, GREEN);
+        writeline("Restart",    7,  37, 34, GREEN);
+        writeline("Quit",       4,  37, 53, GREEN);
 
         b_state.state_drawn = 1;
     }
@@ -300,10 +300,12 @@ void placeTile(unsigned char val) {
             val = 2;
     }
 
-    unsigned char x = random(0, 15);
+    unsigned char x;
     unsigned char k = 0;
     unsigned char i;
     unsigned char j;
+    
+    x = random(0, 15);
 
     while(k <= x)
     {
@@ -346,7 +348,7 @@ void printScore(){
     while(buf[i] != '\0')
         i++;
 
-    writeline(&buf, i, 10, 10, BLACK);
+    writeline(&buf, i, 10, 3, BLACK);
 }
 
 void printGrid() {
@@ -358,7 +360,7 @@ void printGrid() {
     {
         for(j = 0; j < 4; j++)
         {
-            x = (i*TILE_SIZE)+5;
+            x = (i*TILE_SIZE)+7;
             y = (j*TILE_SIZE)+12;
             val = grid[i][j];
             filled_rectangle(x+1, y+1, TILE_SIZE-3, TILE_SIZE-2, color_2048_tile[val]);
@@ -367,7 +369,7 @@ void printGrid() {
             buf[1] = vals[val][1];
             buf[2] = vals[val][2];
             buf[3] = vals[val][3];
-            writeline(&buf, 4, x+8, y+20, BLACK);//(val <=2) ? BLACK : WHITE);
+            writeline(&buf, 4, x+8, y+13, BLACK);//(val <=2) ? BLACK : WHITE);
         }
     }
     GAME_2048_STATE = GAME_2048_PLAY;

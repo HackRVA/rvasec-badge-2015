@@ -520,9 +520,9 @@ void ProcessIO(void)
 			if (USB_In_Buffer[0] == 'p') {
 			   static unsigned char y=0;
 
-			   //clearscreen(RED);
-			   printchar(' ', 115,63,BLACK);
-			   writeline("Woot", 4, 80, y, WHITE);
+			   clearscreen(BLACK);
+			   //printchar(' ', 115,63,BLACK);
+			   writeline("0123456789", 10, 20, y, WHITE);
 			   y += 8;
 			   if (y>128) y = 0;
 			}

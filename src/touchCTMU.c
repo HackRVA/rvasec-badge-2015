@@ -352,7 +352,7 @@ void touchInterrupt()
                     break;
 
                 case RIGHT_SLIDER:
-                    for (nops=0; nops<Nnops+2; nops++);
+                    for (nops=0; nops<Nnops+8; nops++);
                     break;
 
                 case TOP_SLIDER:
@@ -451,7 +451,9 @@ void touchInterrupt()
 
         case TOUCH_COMPUTE_BUTTONS:
             /* new MAXSAMPLED button values */
-            if ( (sample[0].ButtonVmeasADC[LEFT_SLIDER] + G_buttonDetectValue) < sample[MAXSAMPLE].ButtonVmeasADC[LEFT_SLIDER]) {
+            if (( (sample[0].ButtonVmeasADC[LEFT_SLIDER] + G_buttonDetectValue) < sample[MAXSAMPLE].ButtonVmeasADC[LEFT_SLIDER])
+                && ((sample[0].ButtonVmeasADC[LEFT_SLIDER] + 4000) < sample[0].ButtonVmeasADC[RIGHT_SLIDER]))  //HACK: [ML] Prevent left and right
+            {
 		/* check if already on */
 		if ((buttonTimestamp[LEFT_SLIDER] == 0) && !(sampleButtonStatus & LEFT_SLIDER_MASK)) {
 			buttonTimestamp[LEFT_SLIDER] = timestamp; /* apps can tell if start/stop by checking timestamp */
@@ -462,7 +464,9 @@ void touchInterrupt()
 		sampleButtonStatus &= (0xFF ^ LEFT_SLIDER_MASK); /* mask off slider bit */
 	    }
 
-            if ( (sample[0].ButtonVmeasADC[RIGHT_SLIDER] + G_buttonDetectValue) < sample[MAXSAMPLE].ButtonVmeasADC[RIGHT_SLIDER]) {
+            if (( (sample[0].ButtonVmeasADC[RIGHT_SLIDER] + G_buttonDetectValue) < sample[MAXSAMPLE].ButtonVmeasADC[RIGHT_SLIDER])
+                && ((sample[0].ButtonVmeasADC[RIGHT_SLIDER] + 4000) < sample[0].ButtonVmeasADC[LEFT_SLIDER]))  //HACK: [ML] Prevent left and right
+            {
 		/* check if already on, otherwise ignore and DONT update timestamp  */
 		if ((buttonTimestamp[RIGHT_SLIDER] == 0) && !(sampleButtonStatus & RIGHT_SLIDER_MASK)) {
 			buttonTimestamp[RIGHT_SLIDER] = timestamp; /* apps can tell if start/stop by checking timestamp */
@@ -473,7 +477,9 @@ void touchInterrupt()
 		sampleButtonStatus &= (0xFF ^ RIGHT_SLIDER_MASK); /* mask off slider bit */
 	    }
 
-            if ( (sample[0].ButtonVmeasADC[TOP_SLIDER] + G_buttonDetectValue) < sample[MAXSAMPLE].ButtonVmeasADC[TOP_SLIDER]) {
+            if (( (sample[0].ButtonVmeasADC[TOP_SLIDER] + G_buttonDetectValue) < sample[MAXSAMPLE].ButtonVmeasADC[TOP_SLIDER])
+                && ((sample[0].ButtonVmeasADC[TOP_SLIDER] + 4000) < sample[0].ButtonVmeasADC[BOTTOM_SLIDER]))   //HACK: [ML] Prevent top and bottom
+            {
 		/* check if already on, otherwise ignore and DONT update timestamp  */
 		if ((buttonTimestamp[TOP_SLIDER] == 0) && !(sampleButtonStatus & TOP_SLIDER_MASK)) {
 			buttonTimestamp[TOP_SLIDER] = timestamp; /* apps can tell if start/stop by checking timestamp */
@@ -484,7 +490,9 @@ void touchInterrupt()
 		sampleButtonStatus &= (0xFF ^ TOP_SLIDER_MASK); /* mask off slider bit */
 	    }
 
-            if ( (sample[0].ButtonVmeasADC[BOTTOM_SLIDER] + G_buttonDetectValue) < sample[MAXSAMPLE].ButtonVmeasADC[BOTTOM_SLIDER]) {
+            if (( (sample[0].ButtonVmeasADC[BOTTOM_SLIDER] + G_buttonDetectValue) < sample[MAXSAMPLE].ButtonVmeasADC[BOTTOM_SLIDER])
+                && ((sample[0].ButtonVmeasADC[BOTTOM_SLIDER] + 4000) < sample[0].ButtonVmeasADC[TOP_SLIDER] ))   //HACK: [ML] Prevent top and bottom
+            {
 		/* check if already on, otherwise ignore and DONT update timestamp  */
 		if ((buttonTimestamp[BOTTOM_SLIDER] == 0) && !(sampleButtonStatus & BOTTOM_SLIDER_MASK)) {
 			buttonTimestamp[BOTTOM_SLIDER] = timestamp; /* apps can tell if start/stop by checking timestamp */

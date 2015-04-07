@@ -1035,8 +1035,8 @@ void add_to_display_list(unsigned char ResourceType,
 
 void writeline(unsigned char * charin, unsigned char no_of_chars, unsigned char x, unsigned char y, unsigned short color)
 {
-    if(y<10)
-        y=10;
+    if(y<1)
+        y=1;
 
     unsigned char j;
     if(no_of_chars > 22)
