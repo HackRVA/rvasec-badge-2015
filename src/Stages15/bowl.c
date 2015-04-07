@@ -38,7 +38,7 @@ struct menu_t popup_m[] = {
 //   {"You win", GREEN_BG, TEXT, 0},
    {"HIGH SCORE", GREEN_BG, FUNCTION, (struct menu_t *)(popup_cb)},
    {"", GREEN_BG, TEXT, 0}, /* empty string but still has space for 16 chars */
-   {"0123456789", GREEN_BG, TEXT, 0}, /* empty string but still has space for 16 chars */
+//   {"0123456789", GREEN_BG, TEXT, 0}, /* empty string but still has space for 16 chars */
    {"", GREEN_BG, BACK, NULL},
 };
 
