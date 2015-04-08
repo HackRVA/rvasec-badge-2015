@@ -189,7 +189,7 @@ void connect4_cb()
 
 void game_2048_cb()
 {
-    runningApp = &game_2048_Init;
+    runningApp = game_2048_Run;
 };
 
 void bowling_cb() {

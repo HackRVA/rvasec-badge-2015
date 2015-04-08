@@ -34,6 +34,7 @@
       <itemPath>../src/assets.h</itemPath>
       <itemPath>../src/assetList.h</itemPath>
       <itemPath>../src/menu.h</itemPath>
+      <itemPath>../src/Stages15/bowl.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -48,6 +49,7 @@
       <logicalFolder name="f3" displayName="Stages15" projectFiles="true">
         <itemPath>../src/Stages15/game2048.c</itemPath>
         <itemPath>../src/Stages15/connect4.c</itemPath>
+        <itemPath>../src/Stages15/bowl.c</itemPath>
       </logicalFolder>
       <logicalFolder name="f2" displayName="USB" projectFiles="true">
         <itemPath>../src/USB/usb_device.c</itemPath>

@@ -22,6 +22,7 @@
 #define WHITE 0b1111111111111111
 #define BLACK 0b0000000000000000
 
+#define NULL 0
 
 unsigned char touchStat;//remove when touch is properly implemented
 int click;//remove when button is really implemented
@@ -59,6 +60,7 @@ typedef struct badge_state{//structure that controls state flow
      unsigned char state_drawn;//used to redraw state on change in selected object
      unsigned char counter1;
      unsigned char counter2;
+     unsigned short large_counter;
 }badge_state;
 
 void run_states(void);//case statement that controls badge state

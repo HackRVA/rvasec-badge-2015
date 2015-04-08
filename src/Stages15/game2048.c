@@ -1,43 +1,41 @@
-#include <stddef.h>
 #include "game2048.h"
 #include "badge15.h"
-#include "touchCTMU.h"
-#include "menu.h"
-#include "./USB/usb_function_cdc.h"
 
-extern badge_state b_state;//badge state structure
-extern void (*menu_escape_cb)(void);
-extern void (*runningApp)();
+extern badge_state b_state;//badge state structure to reduce variables
 
 enum GAME_2048_STATES
 {
+    GAME_2048_INIT,
+    GAME_2048_INIT_GRID,
     GAME_2048_WELCOME,
-    GAME_2048_PLAY,
     GAME_2048_DRAW_GRID,
+    GAME_2048_DRAW_SCORE,
+    GAME_2048_PLAY,
+    GAME_2048_COLLAPSE,
+    GAME_2048_SPAWN,
+    GAME_2048_DELAY,
     GAME_2048_MENU,
     GAME_2048_GAME_WON,
-    GAME_2048_GAME_OVER
+    GAME_2048_GAME_OVER,
+    GAME_2048_EXIT
 };
 
-#define BLUE 0b0000000000011111
-#define GREEN 0b0000011111100000
-#define RED 0b1111100000000000
-#define WHITE 0b1111111111111111
-#define BLACK 0b0000000000000000
 #define TILE_SIZE 29
-#define GAME_2048_STATE b_state.selected_object
+#define GAME_2048_STATE b_state.counter1
+#define GAME_2048_SELECTED b_state.counter2
+#define GAME_2048_WAIT_COUNTER b_state.large_counter
 
-unsigned char grid[4][4];
-unsigned int score;
+static unsigned char grid[4][4];
+static unsigned int score;
 
-char vals[12][4] = {{' ', ' ', ' ', ' '}, {' ', ' ', '2', ' '},
+const char vals[12][4] = {{' ', ' ', ' ', ' '}, {' ', ' ', '2', ' '},
                     {' ' ,' ', '4', ' '}, {' ' ,' ', '8', ' '},
                     {' ' ,'1', '6', ' '}, {' ' ,'3', '2', ' '},
                     {' ' ,'6', '4', ' '}, {' ' ,'1', '2', '8'},
                     {' ' ,'2', '5', '6'}, {' ' ,'5', '1', '2'},
                     {'1' ,'0', '2', '4'}, {'2' ,'0', '4', '8'}};
 
-unsigned short color_2048_tile[12] = {
+const unsigned short color_2048_tile[12] = {
     0b0111101111101111,
     0b1110011011111000,
     0b1110011000110011,
@@ -52,61 +50,117 @@ unsigned short color_2048_tile[12] = {
     0b1110010111100101
 };
 
-void game_2048_Run()
-{
+void resume_cb(){
+    GAME_2048_STATE = GAME_2048_DRAW_GRID;
+}
+
+void restart_cb(){
+    game_2048_InitGrid();
+    GAME_2048_STATE = GAME_2048_DRAW_GRID;
+}
+
+void quit_cb(){
+    game_2048_onExit();
+}
+
+const struct menu_t game_2048_menu[] = {
+   {"Resume", GREEN_BG, FUNCTION, (struct menu_t *)(resume_cb)},
+   {"Restart", GREEN_BG, FUNCTION, (struct menu_t *)(restart_cb)},
+   {"Quit", GREEN_BG, FUNCTION, (struct menu_t *)(quit_cb)},
+   {"", GREEN_BG, BACK, NULL},
+};
+
+void game_2048_Run(){
+
     switch(GAME_2048_STATE)
     {
+        case GAME_2048_INIT:
+            b_state.state_drawn = 0;
+            GAME_2048_WAIT_COUNTER = 0;
+            GAME_2048_STATE++;
+            break;
+
+        case GAME_2048_INIT_GRID:
+            game_2048_InitGrid();
+            break;
+
         case GAME_2048_WELCOME:
             game_2048_welcome();
-            break;
-        case GAME_2048_PLAY:
-            game_2048_play();
-            break;
+            break;        
+
         case GAME_2048_DRAW_GRID:
             printGrid();
             break;
+
+        case GAME_2048_DRAW_SCORE:
+            printScore();
+            break;
+
+        case GAME_2048_PLAY:
+            game_2048_play();
+            break;
+
+        case GAME_2048_COLLAPSE:
+            printGrid();
+            GAME_2048_STATE = GAME_2048_SPAWN;
+            break;
+
+        case GAME_2048_SPAWN:
+            placeTile(0);
+            break;
+
+        case GAME_2048_DELAY:
+            GAME_2048_WAIT_COUNTER++;
+            /* pause before rendering new tile */
+            if (GAME_2048_WAIT_COUNTER == 250)
+            { 
+                GAME_2048_WAIT_COUNTER = 0;
+                GAME_2048_STATE = GAME_2048_DRAW_GRID;
+            }
+            break;
+
         case GAME_2048_GAME_OVER:
             game_2048_game_over();
             break;
+
         case GAME_2048_GAME_WON:
             game_2048_game_won();
             break;
+
         case GAME_2048_MENU:
-            game_2048_game_menu();
-            break; 
+            genericMenu(game_2048_menu);
+            break;
+
+        case GAME_2048_EXIT:
+            GAME_2048_STATE = GAME_2048_INIT;
+            returnToMenus();
+            break;
+
         default:
             break;
     }
 }
 
-void game_2048_Init() {
-    lastHandledTimestamp[BUTTON] = buttonTimestamp[BUTTON];
+void game_2048_InitGrid(){
+
     unsigned short i;
     unsigned short j;
 
-    //Holding the button seems to trigger much too quickly
-    menu_escape_cb = NULL;//game_2048_onExit;
+    score = 0;
 
-    //Init Grid
+    //Init Grid to be empty
     for(i = 0; i < 4; i++)
         for(j = 0; j < 4; j++)
             grid[i][j] = 0;
 
-    score = 0;
-
     placeTile(1);
     placeTile(1);
-
-    b_state.current_state = GAME_2048;
-    b_state.counter1 = 0;
-    b_state.selected_object = GAME_2048_WELCOME;
-    b_state.state_drawn = 0;
-    runningApp = &game_2048_Run;
-
+    
+    GAME_2048_STATE = GAME_2048_WELCOME;
 }
 
-void game_2048_welcome()
-{
+void game_2048_welcome(){
+
     if(b_state.state_drawn == 0){
         clear_display_list();
         clearscreen(BLACK);
@@ -119,47 +173,36 @@ void game_2048_welcome()
 
     if (BUTTON_PRESSED_AND_CONSUME)
     {
-        GAME_2048_STATE = GAME_2048_DRAW_GRID;
+        GAME_2048_STATE++; 
         b_state.state_drawn = 0;
     }
 }
 
-void game_2048_play()
-{
-    if (BUTTON_PRESSED_AND_CONSUME)
-    {
+void game_2048_play(){
+
+    if (BUTTON_PRESSED_AND_CONSUME){
         GAME_2048_STATE = GAME_2048_MENU;
-        b_state.state_drawn = 0;
-        b_state.counter1 = 0;
     }
-    else if(TOP_SLIDE_AND_CONSUME)
-    {
+    else if(TOP_SLIDE_AND_CONSUME){
         setNote(109, 2048);
         up();
-        GAME_2048_STATE = GAME_2048_DRAW_GRID;
     }
-    else if (BOTTOM_SLIDE_AND_CONSUME)
-    {
+    else if (BOTTOM_SLIDE_AND_CONSUME){
         setNote(97, 2048);
         down();
-        GAME_2048_STATE = GAME_2048_DRAW_GRID;
     }
-    else if (LEFT_SLIDE_AND_CONSUME)
-    {
+    else if (LEFT_SLIDE_AND_CONSUME){
         setNote(109, 2048);
         left();
-        GAME_2048_STATE = GAME_2048_DRAW_GRID;
     }
-    else if (RIGHT_SLIDE_AND_CONSUME)
-    {
+    else if (RIGHT_SLIDE_AND_CONSUME){
         setNote(97, 2048);
         right();
-        GAME_2048_STATE = GAME_2048_DRAW_GRID;
     }
 }
 
-void game_2048_game_won()
-{
+void game_2048_game_won(){
+
     if(b_state.state_drawn == 0){
 
         clear_display_list();
@@ -170,72 +213,16 @@ void game_2048_game_won()
 
         b_state.state_drawn = 1;
     }
-    if (BUTTON_PRESSED_AND_CONSUME)
-    {
-        game_2048_Init();
+
+    if (BUTTON_PRESSED_AND_CONSUME){
+        game_2048_InitGrid();
         b_state.state_drawn = 0;
+        GAME_2048_STATE = GAME_2048_DRAW_GRID;
     }
 }
 
-void game_2048_game_menu()
-{
-    if(b_state.state_drawn == 0){
-        clearscreen(BLACK);
-        unsigned char i = 0;
-        for(i = 0; i < 3; i++)
-        {
-            if (i == b_state.counter1)
-                filled_rectangle(10, 11+(i*19), 108, 15, WHITE);
-            else
-                rectangle(10, 11+(i*19), 108, 15, GREEN);
-        }
-        writeline("Resume",     6,  37, 15, GREEN);
-        writeline("Restart",    7,  37, 34, GREEN);
-        writeline("Quit",       4,  37, 53, GREEN);
+void game_2048_game_over(){
 
-        b_state.state_drawn = 1;
-    }
-
-    if(BUTTON_PRESSED_AND_CONSUME)
-    {
-        if (b_state.counter1 == 0)
-        {
-            GAME_2048_STATE = GAME_2048_DRAW_GRID;
-        }
-        else if (b_state.counter1 == 1)
-        {
-            game_2048_Init();
-            GAME_2048_STATE = GAME_2048_DRAW_GRID;
-        }
-        else if (b_state.counter1 == 2)
-        {
-            game_2048_onExit();
-        }
-
-        b_state.state_drawn = 0;
-    }
-    else if (TOP_SLIDE_AND_CONSUME)
-    {
-        if (b_state.counter1 == 0)
-            b_state.counter1 = 2;
-        else
-            b_state.counter1--;
-
-        b_state.state_drawn = 0;
-    }
-    else if (BOTTOM_SLIDE_AND_CONSUME)
-    {
-        if (b_state.counter1 == 2)
-            b_state.counter1 = 0;
-        else
-            b_state.counter1++;
-
-        b_state.state_drawn = 0;
-    }
-}
-
-void game_2048_game_over()
-{
     if(b_state.state_drawn == 0){
 
         clear_display_list();
@@ -246,47 +233,38 @@ void game_2048_game_over()
 
         b_state.state_drawn = 1;
     }
-    if (BUTTON_PRESSED_AND_CONSUME)
-    {
-        game_2048_Init();
+
+    if (BUTTON_PRESSED_AND_CONSUME){
+        game_2048_InitGrid();
         b_state.state_drawn = 0;
     }
 }
 
 void game_2048_onExit(){
-
-    clear_display_list();
-    b_state.state_drawn = 0;
-    b_state.selected_object = 0;
-    b_state.counter1 = 0;
-    b_state.counter2 = 0;
-    b_state.current_state = b_state.previous_state;
-    b_state.current_state = MAIN;
-    runningApp = &returnToMenus;
+    GAME_2048_STATE = GAME_2048_EXIT;
 }
 
 void up() {
     if (moveUp())
-        placeTile(0);
+        GAME_2048_STATE = GAME_2048_COLLAPSE;
 }
 
 void down() {
     if (moveDown())
-        placeTile(0);
+        GAME_2048_STATE = GAME_2048_COLLAPSE;
 }
 
 void left() {
     if (moveLeft())
-        placeTile(0);
+        GAME_2048_STATE = GAME_2048_COLLAPSE;
 }
 
 void right() {
     if (moveRight())
-        placeTile(0);
+        GAME_2048_STATE = GAME_2048_COLLAPSE;
 }
 
-unsigned char random(unsigned char min, unsigned char max)
-{
+unsigned char random(unsigned char min, unsigned char max){
     return ((ReadCoreTimer() & 0xff) % (max-min)) + min;
 }
 
@@ -329,18 +307,19 @@ void placeTile(unsigned char val) {
 
     //Check for winning
     if (hasWon())
-        b_state.selected_object = GAME_2048_GAME_WON;
-    
-    if (!canMove())
-        b_state.selected_object = GAME_2048_GAME_OVER;
-     
+        GAME_2048_STATE = GAME_2048_GAME_WON;
+    else if (!canMove())
+        GAME_2048_STATE = GAME_2048_GAME_OVER;
+    else
+        GAME_2048_STATE = GAME_2048_DELAY;
 }
 
-char buf[20];
+static char buf[20];
 
 void printScore(){
     unsigned char i = 0;;
     char tmp[10] = {0};
+
     strcpy(&buf, "Score: \0");
     itoa(&tmp, score, 10);
     strcat(&buf, &tmp);
@@ -369,7 +348,7 @@ void printGrid() {
             buf[1] = vals[val][1];
             buf[2] = vals[val][2];
             buf[3] = vals[val][3];
-            writeline(&buf, 4, x+8, y+13, BLACK);//(val <=2) ? BLACK : WHITE);
+            writeline(&buf, 4, x+3, y+13, BLACK);//(val <=2) ? BLACK : WHITE);
         }
     }
     GAME_2048_STATE = GAME_2048_PLAY;
@@ -566,7 +545,6 @@ bool moveRight() {
             if (grid[j][i] && grid[j][i] == grid[j - 1][i]) {
                 grid[j][i]++;
                 grid[j - 1][i] = 0;
-                //plus += (((fakeLog2(grid[j][i])) - 1) * grid[j][i]);
                 score += ((grid[j][i])-1) * (1 << grid[j][i]);
                 moved = true;
             }
@@ -592,8 +570,7 @@ bool moveRight() {
     return moved;
 }
 
-bool hasWon()
-{
+bool hasWon(){
     unsigned char i, j;
     for(i = 0; i < 4; i++){
         for(j = 0; j < 4; j++){
