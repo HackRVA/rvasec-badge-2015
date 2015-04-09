@@ -18,6 +18,7 @@ enum {
     GAMEOTHRONES,
     FONT,
     CHIP,
+    KITTEN,
     LASTASSET,
 };
 

@@ -11,7 +11,7 @@
 #include "mario.h"         // 1% Program
 #include "got.h"         // 1% Program
 #include "font_2.xbm"         // 1% Program
-//#include "kitten.h"
+#include "kitten.h"
 #include "chip.h"
 
 /* for 1 bit images */
@@ -41,6 +41,7 @@ const struct asset assetList[] = {
     { MARIO, marioSamples, 0, (const char *)marioDuration, (const char *)marioOfftime, (nextNote_cb) },
     { GAMEOTHRONES, gameOfThronesSamples, 0, (const char *)gameOfThrones, (const char *)0, (nextMIDI_cb) },
     { FONT, 8, 336, (const char *)BW_cmap, (const char *)font_2_bits, (drawLCD1) },
-    { CHIP, chip_width, chip_height, (const char *)chip_data_cmap, (const char *)chip_data, (drawLCD8) }
+    { CHIP, chip_width, chip_height, (const char *)chip_data_cmap, (const char *)chip_data, (drawLCD8) },
+    { KITTEN, kitten_width, kitten_height, (const char *)kitten_data_cmap, (const char *)kitten_data, (drawLCD8) }
 };
 
