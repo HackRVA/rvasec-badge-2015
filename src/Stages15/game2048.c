@@ -25,6 +25,8 @@ enum GAME_2048_STATES
 #define GAME_2048_SELECTED b_state.counter2
 #define GAME_2048_WAIT_COUNTER b_state.large_counter
 
+#define CHAR_HEIGHT 10
+
 static unsigned char grid[4][4];
 static unsigned int score;
 
@@ -162,12 +164,21 @@ void game_2048_InitGrid(){
 void game_2048_welcome(){
 
     if(b_state.state_drawn == 0){
+        unsigned char i = 0;
         clear_display_list();
         clearscreen(BLACK);
-        writeline("2048",           4,      55, 33, GREEN);
-        writeline("Press button",   12,     30, 53, GREEN);
-        writeline("to start",       8,      38, 73, GREEN);
-
+        writeline("Merge tiles", 11, 33, 5 + (CHAR_HEIGHT * i++), GREEN);
+        writeline("to reach 2048", 13, 21, 5 + (CHAR_HEIGHT * i++), GREEN);
+               
+        writeline("Use the sliders", 15, 21, 8 + (CHAR_HEIGHT * i++), GREEN);
+        writeline("to move the", 11, 33, 8 + (CHAR_HEIGHT * i++), GREEN);
+        writeline("tiles. When 2", 13, 27, 8 + (CHAR_HEIGHT * i++), GREEN);
+        writeline("tiles with the", 14, 24, 8 + (CHAR_HEIGHT * i++), GREEN);
+        writeline("same number", 11, 30, 8 + (CHAR_HEIGHT * i++), GREEN);
+        writeline("touch they merge", 16, 18, 8 + (CHAR_HEIGHT * i++), GREEN);
+        writeline("into one.", 9, 39, 8 + (CHAR_HEIGHT * i++), GREEN);
+        
+        writeline("Play Game", 9, 39, 8 + (CHAR_HEIGHT * i++) + 5, RED);
         b_state.state_drawn = 1;
     }
 
