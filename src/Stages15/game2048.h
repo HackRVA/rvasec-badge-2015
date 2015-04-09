@@ -5,11 +5,4 @@
 
 void game_2048_Run();
 
-bool moveUp();
-bool moveDown();
-bool moveLeft();
-bool moveRight();
-bool hasWon();
-bool canMove();
-
 #endif

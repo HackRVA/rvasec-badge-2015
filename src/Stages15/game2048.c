@@ -27,6 +27,13 @@ enum GAME_2048_STATES
 
 #define CHAR_HEIGHT 10
 
+bool moveUp();
+bool moveDown();
+bool moveLeft();
+bool moveRight();
+bool hasWon();
+bool canMove();
+
 static unsigned char grid[4][4];
 static unsigned int score;
 
