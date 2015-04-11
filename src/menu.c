@@ -2,7 +2,9 @@
 #include "Stages15/game2048.h"
 #include "Stages15/connect4.h"
 #include "Stages15/bowl.h"
+#include "Stages15/firewall.h"
 #include "Stages15/update_time.h"
+#include "menu.h"
 
 #define NULL 0
 
@@ -81,6 +83,7 @@ const struct menu_t schedule_m[] = {
    {"back", GREEN_BG, BACK, NULL},
 };
 
+#ifdef DOESNOTBELONGHERE
 void splash_Run()
 {
     static unsigned int counter = 0;
@@ -89,116 +92,22 @@ void splash_Run()
     if(counter==1000)returnToMenus();
     counter++;
 }
-
-#define STATEVERSION
-#ifdef STATEVERSION
-enum {
-   FW_INIT,
-   FW_RED_ON,
-   FW_RED_WAIT,
-   FW_RED_OFF,
-   FW_GREEN_ON,
-   FW_GREEN_WAIT,
-   FW_GREEN_OFF,
-   FW_BLUE_ON,
-   FW_BLUE_WAIT,
-   FW_BLUE_OFF,
-   FW_EXIT,
-};
-
-void firewall_cb()
-{
-	static unsigned short state = FW_INIT;
-	static unsigned int cnt;
-
-	cnt++;
-	switch (state) {
-		case FW_INIT:
-			cnt = 0;
-			state++;
-			break;
-
-		/* red */
-		case FW_RED_ON:
-			red(50);
-			state++;
-			break;
-
-		case FW_RED_WAIT:
-			if (cnt == 100000) state++;
-			break;
-
-		case FW_RED_OFF:
-			red(0);
-			state++;
-			break;
-
-		/* green */
-		case FW_GREEN_ON:
-			green(50);
-			state++;
-			break;
-
-		case FW_GREEN_WAIT:
-			if (cnt == 200000) state++;
-			break;
-
-		case FW_GREEN_OFF:
-			green(0);
-			state++;
-			break;
-
-		/* blue */
-		case FW_BLUE_ON:
-			blue(50);
-			state++;
-			break;
-
-		case FW_BLUE_WAIT:
-			if (cnt == 300000) state++;
-			break;
-
-		case FW_BLUE_OFF:
-			blue(0);
-			state++;
-			break;
-
-		case FW_EXIT:
-			state = FW_INIT;
-			runningApp = NULL;
-			break;
-
-		default:
-			break;
-	}
-};
-#else
-void firewall_cb()
-{
-	static int fw=0;
-
-	if (fw == 0) {
-		red(255);
-	}
-
-	if (fw == 100000) {
-		red(0);
-		green(255);
-	}
-
-	if (fw == 200000) {
-		green(0);
-		blue(255);
-	}
-
-	if (fw == 300000) { /* reset */
-		blue(0);
-		fw = 0; 
-		runningApp = NULL;
-	}
-	else fw++;
-};
 #endif
+
+#ifdef MAINMENU
+void firewall_cb() {};
+void connect4_cb() {};
+void game_2048_cb() {};
+void bowling_cb() {};
+void hacker_cb() {};
+void aliens_cb() {};
+void setNote(unsigned short freq, unsigned short dur) {};
+#else
+
+void firewall_cb()
+{
+    runningApp = firewall_app;
+};
 
 void connect4_cb()
 {
@@ -225,6 +134,7 @@ void aliens_cb()
 	setNote(173, 2048);
 	runningApp = NULL;
 };
+#endif
 
 const struct menu_t games_m[] = {
    {"Firewall",	GREEN_BG, FUNCTION, (struct menu_t *)firewall_cb}, /* coerce/cast to a menu_t data pointer */
@@ -252,11 +162,12 @@ void contrast_cb()
 void timedate_cb()
 {
 	setNote(173, 2048);
-        b_state.counter1 = 0;
-        b_state.counter2 = 0;
-        b_state.state_drawn = 0;
-        b_state.large_counter = 0;
-        b_state.selected_object = 0;
+
+        b_state.counter1 = 0; // put private data in app code
+        b_state.counter2 = 0;// put private data in app code
+        b_state.state_drawn = 0;// put private data in app code
+        b_state.large_counter = 0;// put private data in app code
+        b_state.selected_object = 0;// put private data in app code
 	runningApp = update_time_Run;
 };
 
@@ -292,6 +203,8 @@ struct menu_t main_m[] = {
    {"Achievments", GREEN_BG, MENU, achievements_m},
    {"", GREEN_BG, BACK, NULL}
 } ;
+
+void (*runningApp)() = NULL;
 
 /*
 usage case
@@ -433,8 +346,6 @@ void display_menu(struct menu_t *menu, struct menu_t *selected)
 
 /* for this increment the units are menu items */
 #define PAGESIZE 8
-
-void (*runningApp)() = NULL;
 
 struct menu_t *currMenu = NULL; /* init */
 struct menu_t *selectedMenu = NULL; /* item the cursor is on */
@@ -643,6 +554,4 @@ void genericMenu(struct menu_t *L_menu)
         }
     }
 }
-
-#
 #endif
