@@ -205,7 +205,6 @@ void scanSpriteLCD8(unsigned char assetId,
                     unsigned char lineCurrent,
                     unsigned char frame)
 {
-    frame-=1;
     if ((y <= lineCurrent) && ((y + (assetList[assetId].x - 1)) >= lineCurrent)) {
     unsigned char j, r, g, b, pixbyte,transbyte, *cmap;
     unsigned short transparent;

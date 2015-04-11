@@ -75,6 +75,15 @@ const struct menu_t schedule_m[] = {
    {"back", GREEN_BG, BACK, NULL},
 };
 
+void splash_Run()
+{
+    static unsigned int counter = 0;
+    clearscreen(0);
+    show_pic(SPLASH, 0, 0);
+    if(counter==1000)returnToMenus();
+    counter++;
+}
+
 #define STATEVERSION
 #ifdef STATEVERSION
 enum {
@@ -385,7 +394,7 @@ void display_menu(struct menu_t *menu, struct menu_t *selected)
 	unsigned char c;
 	struct menu_t *tmp_menu;
 
-	cursor_x = 2;
+	cursor_x = 5;
 	cursor_y = CHAR_HEIGHT;
 
 	clearscreen(0); /* assume color 0 == BACKGROUND */

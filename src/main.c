@@ -177,6 +177,9 @@ int main(void)
     #if defined(GAME_MODE)
        // game_state = Init_Game15();
     #endif
+
+    //runningApp = splash_Run;
+
     while(1)
     {
         if((play_count & 0x0fff) && play_count & 0x8000)

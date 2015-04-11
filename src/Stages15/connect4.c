@@ -52,7 +52,7 @@ void connect4_printBoard() {
 
     filled_rectangle(3, 21, 121, 104, 0b1111111111100000);
 
-    show_pic(CHIP, 3, 3);
+    show_sprite(CHIPSPRITE, 4, 5, 1);
 
     for(i = 0; i < 7; i++)
     {
@@ -61,7 +61,7 @@ void connect4_printBoard() {
             x = (i*16)+i+5;
             y = (j*16)+j+23;
             val = grid[i][j];
-            show_pic(CHIP, y, x);
+            show_sprite(CHIPSPRITE, y, x, grid[i][j]);
         }
     }
 

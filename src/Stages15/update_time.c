@@ -1,6 +1,6 @@
-#include "Stages15/update_time.h"
-#include "badge15.h"
-#include "time_date.h"
+#include "update_time.h"
+#include "../badge15.h"
+#include "../time_date.h"
 
 extern badge_state b_state;//badge state structure to reduce variables
 
