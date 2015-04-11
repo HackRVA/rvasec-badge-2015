@@ -2,8 +2,11 @@
 #include "Stages15/game2048.h"
 #include "Stages15/connect4.h"
 #include "Stages15/bowl.h"
+#include "Stages15/update_time.h"
 
 #define NULL 0
+
+extern badge_state b_state;
 
 const struct menu_t breakfast_m[] = {
    {"yummy", GREEN_BG, TEXT, {NULL}}, /* can init union either with or without {} */
@@ -234,7 +237,12 @@ void contrast_cb()
 void timedate_cb()
 {
 	setNote(173, 2048);
-	runningApp = NULL;
+        b_state.counter1 = 0;
+        b_state.counter2 = 0;
+        b_state.state_drawn = 0;
+        b_state.large_counter = 0;
+        b_state.selected_object = 0;
+	runningApp = update_time_Run;
 };
 
 void screensaver_cb()
@@ -252,7 +260,7 @@ void backlight_cb()
 struct menu_t settings_m[] = {
    {"led",	GREEN_BG, FUNCTION, (struct menu_t *)led_cb},  /* coerce/cast to a menu_t data pointer */
    {"contrast",	GREEN_BG, FUNCTION, (struct menu_t *)contrast_cb},
-   {"time & date",GREEN_BG, FUNCTION, (struct menu_t *)timedate_cb},
+   {"time-date",GREEN_BG, FUNCTION, (struct menu_t *)timedate_cb},
    {"screensaver",GREEN_BG, FUNCTION, (struct menu_t *)screensaver_cb},
    {"backlight",GREEN_BG, FUNCTION, (struct menu_t *)backlight_cb},
    {"back",	GREEN_BG, BACK, NULL},
@@ -382,6 +390,7 @@ void display_menu(struct menu_t *menu, struct menu_t *selected)
 
 	clearscreen(0); /* assume color 0 == BACKGROUND */
         show_pic(KITTEN, 0, 0);
+
 	while (1) {
 		unsigned char rect_w=0;
 

@@ -43,9 +43,9 @@ void drawLCD1(unsigned char assetId, int frame)
                           ( ((b >> 3) & 0b11111)       )) ;
 
                 S6B33_pixel(pixel);
-            }
-       }
-    }
+         }
+      }
+   }
 }
 
 void drawLCD2(unsigned char assetId, int frame)
@@ -107,8 +107,8 @@ void drawLCD2(unsigned char assetId, int frame)
                       ( ((b >> 3) & 0b11111)       )) ;
 
             S6B33_pixel(pixel);
-       }
-    }
+      }
+   }
 }
 
 void drawLCD4(unsigned char assetId, int frame)
@@ -146,8 +146,8 @@ void drawLCD4(unsigned char assetId, int frame)
                       ( ((b >> 3) & 0b11111)       )) ;
 
             S6B33_pixel(pixel);
-       }
-    }
+      }
+   }
 }
 
 void drawLCD8(unsigned char assetId, int frame)
@@ -170,11 +170,14 @@ void drawLCD8(unsigned char assetId, int frame)
                       ( ((b >> 3) & 0b11111)       )) ;
 
             S6B33_pixel(pixel);
-       }
-    }
+      }
+   }
 }
 
-void scanLCD8(unsigned char assetId, unsigned char y, unsigned char x, unsigned char lineCurrent)//add x, y and line current
+void scanLCD8(unsigned char assetId,
+              unsigned char y,
+              unsigned char x,
+              unsigned char lineCurrent)
 {
     if ((y <= lineCurrent) && ((y + (assetList[assetId].y - 1)) >= lineCurrent)) {
     unsigned char j, r, g, b, pixbyte, *cmap;
@@ -192,17 +195,47 @@ void scanLCD8(unsigned char assetId, unsigned char y, unsigned char x, unsigned 
                       ( ((b >> 3) & 0b11111)       )) ;
 
             scan_bucket[j+x] = pixel;//send to data bucket array off set by x
-       }
+      }
+   }
+}
+
+void scanSpriteLCD8(unsigned char assetId,
+                    unsigned char y,
+                    unsigned char x,
+                    unsigned char lineCurrent,
+                    unsigned char frame)
+{
+    frame-=1;
+    if ((y <= lineCurrent) && ((y + (assetList[assetId].x - 1)) >= lineCurrent)) {
+    unsigned char j, r, g, b, pixbyte,transbyte, *cmap;
+    unsigned short transparent;
+    unsigned short pixel;
+    transbyte = assetList[assetId].pixdata[(frame*assetList[assetId].x*assetList[assetId].x)];
+
+       for (j=0; j < assetList[assetId].x; j++) {
+            pixbyte = assetList[assetId].pixdata[(frame*assetList[assetId].x*assetList[assetId].x)+((lineCurrent-y) * assetList[assetId].x) + j];//replace i with line current
+            cmap = &(assetList[assetId].data_cmap[(unsigned short)pixbyte * 3]);
+            r = cmap[0];
+            g = cmap[1];
+            b = cmap[2];
+
+            pixel = ( ( ((r >> 3) & 0b11111) << 11 ) |
+                      ( ((g >> 3) & 0b11111) <<  6 ) |
+                      ( ((b >> 3) & 0b11111)       )) ;
+            if(pixbyte != transbyte){
+                scan_bucket[j+x] = pixel;//send to data bucket array off set by x
+            }
+      }
    }
 }
 
 void scanCharLCD1(unsigned char assetId,
-              unsigned char y,
-              unsigned char x,
-              unsigned char lineCurrent,
-              unsigned char charin,
-              unsigned short color,
-              unsigned char font_height)
+                  unsigned char y,
+                  unsigned char x,
+                  unsigned char lineCurrent,
+                  unsigned char charin,
+                  unsigned short color,
+                  unsigned char font_height)
 {
     if(charin >= 'a' && charin <= 'z'){
         charin-=97;}
@@ -235,7 +268,7 @@ void scanCharLCD1(unsigned char assetId,
                           ( ((b >> 3) & 0b11111)       )) ;
 
 		if (pixel != 0) scan_bucket[p+x] = color;//send to data bucket array off set by x
-	}
+      }
    }
 }
 

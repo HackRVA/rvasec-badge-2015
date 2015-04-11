@@ -1021,7 +1021,7 @@ void add_to_display_list(unsigned char ResourceType,
     display.composite_queue[display.queue_counter][1] = color_picID;
     display.composite_queue[display.queue_counter][2] = x1;
     display.composite_queue[display.queue_counter][3] = y1;
-    display.composite_queue[display.queue_counter][4] = x2_width_charVal;
+    display.composite_queue[display.queue_counter][4] = x2_width_charVal;//frame
     display.composite_queue[display.queue_counter][5] = y2_height;
     display.composite_color[display.queue_counter] = color_picID;
 
@@ -1079,6 +1079,14 @@ void show_pic(unsigned char picId,
               unsigned char y)
 {
     add_to_display_list(PIC, picId, x, y, 0, 0);
+}
+
+void show_sprite(unsigned char picId,
+                 unsigned char x,
+                 unsigned char y,
+                 unsigned char frame)
+{
+    add_to_display_list(SPRITE, picId, x, y, frame, 0);
 }
 
 void line(unsigned char x1,
@@ -1240,6 +1248,13 @@ void LCDCompositeLine(void)
             }     
             else if(display.composite_queue[display.queue_reader][0] == BACKGROUND){
                     LCDBackgroundScan(display.composite_color[display.queue_reader]);
+            }
+            else if(display.composite_queue[display.queue_reader][0] == SPRITE){
+                scanSpriteLCD8(display.composite_queue[display.queue_reader][1],
+                               display.composite_queue[display.queue_reader][2],
+                               display.composite_queue[display.queue_reader][3],
+                               display.scan_line,
+                               display.composite_queue[display.queue_reader][4]);
             }
             else{}
     

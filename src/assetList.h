@@ -19,6 +19,7 @@ enum {
     FONT,
     CHIP,
     KITTEN,
+    CHIPSPRITE,
     LASTASSET,
 };
 

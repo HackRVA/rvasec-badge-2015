@@ -111,6 +111,7 @@ typedef enum ResourceType {//this is used to indicate type of graphics resource
     PIC,
     BACKGROUND,
     FILLED_RECTANGLE,
+    SPRITE
 }ResourceType;
 
 typedef struct display_list{//this structure contains the display list and its counters
