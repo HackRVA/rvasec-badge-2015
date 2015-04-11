@@ -21,7 +21,7 @@ void splash_Init()
 void splash_Run()
 {
     clearscreen(0);
-    show_pic(SPLASH, 0, 0);
+    show_pic(SPLASH, 2, 0);
     if(COUNTER==1000)returnToMenus();
     COUNTER++;
 }
