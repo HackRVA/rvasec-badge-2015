@@ -319,7 +319,7 @@ void display_menu(struct menu_t *menu, struct menu_t *selected)
 
 // XXX		add_to_display_list(FILLED_RECTANGLE, 0, cursor_x, cursor_y, rect_w, CHAR_HEIGHT);
 // PEB		add_to_display_list(FILLED_RECTANGLE, 0, cursor_x-1, cursor_y-1, rect_w-1, CHAR_HEIGHT-1);
-		add_to_display_list(FILLED_RECTANGLE, 0, cursor_x, cursor_y, rect_w, CHAR_HEIGHT);
+		add_to_display_list(FILLED_RECTANGLE, 0, cursor_x-1, cursor_y-1, rect_w-1, CHAR_HEIGHT-1);
 
 		for (c=0; (menu->name[c] != 0); c++)
 			add_to_display_list(CHARACTER, ((menu == selected) ? RED : GREEN), cursor_x + (c * CHAR_WIDTH), cursor_y, menu->name[c], 0);
