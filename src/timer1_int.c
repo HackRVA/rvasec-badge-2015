@@ -110,20 +110,11 @@ void __ISR(_TIMER_2_VECTOR, IPL2SOFT) Timer2Handler(void)
 	   // 32 interrupts for each half of bit send
 	   // for 64 total per bit
 
-           // 2014
-           // if (G_halfCount == 16) G_firstHalf = !PORTCbits.RC0; 
-           // if (G_halfCount == 48) G_lastHalf = !PORTCbits.RC0;
-
-           // 2015
 	   if (G_halfCount == 16) G_firstHalf = !PORTBbits.RB0; 
 	   if (G_halfCount == 48) G_lastHalf = !PORTBbits.RB0;
 
 	   if (G_halfCount > 63) {
 	      G_IRrecvVal <<= 1 ;
-              // 2014
-              // LATBbits.LATB8 = G_lastHalf; // DBG output
-
-              // 2015
 	      LATBbits.LATB0 = G_lastHalf; // dbg LED output
 
 	      G_IRrecvVal |= G_lastHalf;   // should check proper manchester low->high, high->low
@@ -188,10 +179,6 @@ void __ISR(_TIMER_2_VECTOR, IPL2SOFT) Timer2Handler(void)
 	 if (lowHalf) {
 	    // this is off for 32 counts
 
-            // 2014
-            //LATCbits.LATC1 = 0;
-
-            // 2015
 	    LATBbits.LATB13 = 0;
 
 	    if (G_halfCount > 31) {
@@ -206,9 +193,6 @@ void __ISR(_TIMER_2_VECTOR, IPL2SOFT) Timer2Handler(void)
 	   // high half
 	   // 4 assignments is about 1us
 	   // so 7us is about 4 * 7 assignments
-
-           // 2014
-           // LATCbits.LATC1 = 1;
 
 	   LATBbits.LATB13 = 1;
 	   LATBbits.LATB13 = 1;
@@ -275,9 +259,6 @@ void __ISR(_TIMER_2_VECTOR, IPL2SOFT) Timer2Handler(void)
 	   // 4 assignments is about 1us
 	   // so 7us is about 4 * 7 assignments
 
-           // 2014
-           // LATCbits.LATC1 = 1;
-
 	   LATBbits.LATB13 = 1;
 	   LATBbits.LATB13 = 1;
 	   LATBbits.LATB13 = 1;
@@ -323,9 +304,6 @@ void __ISR(_TIMER_2_VECTOR, IPL2SOFT) Timer2Handler(void)
 	 else {
 	   //      ; LOW HALF (889us = 889 instr cycles)
 
-           // 2014
-           // LATCbits.LATC1 = 0;
-
 	   LATBbits.LATB13 = 0;
 
 	   if (G_halfCount > 31) {
@@ -338,15 +316,9 @@ void __ISR(_TIMER_2_VECTOR, IPL2SOFT) Timer2Handler(void)
    }
 }
 
-// 2014
-//void __ISR( _EXTERNAL_4_VECTOR, ipl1) Int4Interrupt(void)
 // input changed on RB0
 void __ISR( _EXTERNAL_1_VECTOR, IPL1) Int1Interrupt(void)
 { 
-   // clear flag 2014
-   //IFS0bits.INT4IF = 0;
-
-   // clear flag 2015
    IFS0bits.INT1IF = 0;
 
    // if not sending, signal in receive
