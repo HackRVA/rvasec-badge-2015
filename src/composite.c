@@ -19,7 +19,7 @@
     There are 2 parts to the display list problem:
 
     1) display list creation: Dl helper function
-    2) display list interpretation: InterpretDL()
+    2) display list interpretation: interpretDL()
 
     This engine is designed to work on one scan line at a time
     it has a scanline buffer:  unsigned short scanline[LCD_XSIZE]
@@ -274,17 +274,14 @@ void DlPoint(unsigned char x, unsigned char y)
     DLNEXT;
 }
 
-void DlPrintChar(unsigned char charin, unsigned char x, unsigned char y, unsigned short color)
+void DlPrintChar(unsigned char charin, unsigned char x, unsigned char y)
 {
-    DlColor(color);
     DlMove(x, y);
     DlCharacter(charin);
 }
 
-void DlHorizontalLine(unsigned char x1, unsigned char y1,
-	unsigned char x2, unsigned char y2, unsigned short color )
+void DlHorizontalLine(unsigned char x1, unsigned char y1, unsigned char x2, unsigned char y2)
 {
-    DlColor(color);
     DlMove(x1, y1);
 
     G_dl.displayList[G_dl.currItem].type = LCD_SPAN;
@@ -293,22 +290,19 @@ void DlHorizontalLine(unsigned char x1, unsigned char y1,
     DLNEXT;
 }
 
-void DlVerticalLine(unsigned char x1, unsigned char y1,
-	unsigned char x2, unsigned char y2, unsigned short color )
+void DlVerticalLine(unsigned char x1, unsigned char y1, unsigned char x2, unsigned char y2)
 {
     unsigned char y;
 
-    DlColor(color);
     for (y=y1; y<y2; y++) DlPoint(x1, y);
 }
 
-void DlLine(unsigned char x0, unsigned char y0, unsigned char x1, unsigned char y1, unsigned short color)
+void DlLine(unsigned char x0, unsigned char y0, unsigned char x1, unsigned char y1)
 {
     int dx = abs(x1 - x0), sx = x0 < x1 ? 1 : -1;
     int dy = abs(y1 - y0), sy = y0 < y1 ? 1 : -1;
     int err = (dx > dy ? dx : -dy)/2, e2;
 
-    DlColor(color);
     for(;;) {
 	DlPoint(x0, y0);
 
@@ -320,27 +314,23 @@ void DlLine(unsigned char x0, unsigned char y0, unsigned char x1, unsigned char 
     }
 }
 
-void DlWriteLine(unsigned char *string, unsigned char x, unsigned char y, unsigned short color)
+void DlWriteLine(unsigned char *string, unsigned char x, unsigned char y)
 {
     unsigned char j;
 
-    DlColor(color);
     for(j=0; string[j] != 0; j++) {
 	DlMove(x + j * assetList[G_font].x, y);
 	DlCharacter(string[j]);
     }
 }
 
-void DlRectangle(unsigned char x, unsigned char y, 
-               unsigned char width, unsigned char height,
-               unsigned short color)
+void DlRectangle(unsigned char x, unsigned char y, unsigned char width, unsigned char height)
 {
-    DlColor(color);
-    DlVerticalLine(x,         y, x,         y + height, color);
-    DlVerticalLine(x + width, y, x + width, y + height, color);
+    DlVerticalLine(x,         y, x,         y + height);
+    DlVerticalLine(x + width, y, x + width, y + height);
 
-    DlHorizontalLine(x, y,          x + width, y         , color);
-    DlHorizontalLine(x, y + height, x + width, y + height, color);
+    DlHorizontalLine(x, y,          x + width, y         );
+    DlHorizontalLine(x, y + height, x + width, y + height);
 }
 
 #ifdef COMPTEST
@@ -581,14 +571,16 @@ void testComposite()
     if (text > 110) textdir = -textdir;
     if (text < 16) textdir = -textdir;
     text += textdir;
-    DlWriteLine("DR BOB", 32,  text, RED);
+    DlColor(RED);
+    DlWriteLine("DR BOB", 32,  text);
 
     DlBackgroundColor(BLACK);
 
     if (text2 > 132-48-9) text2dir = -text2dir;
     if (text2 < 16) text2dir = -text2dir;
     text2 += text2dir;
-    DlWriteLine("SMOKEM", text2,  94, WHITE);
+    DlColor(WHITE);
+    DlWriteLine("SMOKEM", text2,  94);
 
     DlTransparentIndex(ci1); /* index into cmap, not a color */
     if (chip > 110) chipdir = -chipdir;
