@@ -10,6 +10,7 @@
 
 void connect4_Init();
 void connect4_printBoard();
+void connect4_down();
 
 #endif	/* CONNECT4_H */
 

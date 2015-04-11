@@ -12,6 +12,8 @@
         <itemPath>../src/Stages15/game2048.h</itemPath>
         <itemPath>../src/Stages15/connect4.h</itemPath>
         <itemPath>../src/Stages15/update_time.h</itemPath>
+        <itemPath>../src/Stages15/splash_screen.h</itemPath>
+        <itemPath>../src/Stages15/firewall.h</itemPath>
       </logicalFolder>
       <logicalFolder name="f1" displayName="USB" projectFiles="true">
         <itemPath>../src/USB/usb.h</itemPath>
@@ -36,6 +38,7 @@
       <itemPath>../src/assetList.h</itemPath>
       <itemPath>../src/menu.h</itemPath>
       <itemPath>../src/Stages15/bowl.h</itemPath>
+      <itemPath>../src/composite.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -52,6 +55,8 @@
         <itemPath>../src/Stages15/connect4.c</itemPath>
         <itemPath>../src/Stages15/bowl.c</itemPath>
         <itemPath>../src/Stages15/update_time.c</itemPath>
+        <itemPath>../src/Stages15/splash_screen.c</itemPath>
+        <itemPath>../src/Stages15/firewall.c</itemPath>
       </logicalFolder>
       <logicalFolder name="f2" displayName="USB" projectFiles="true">
         <itemPath>../src/USB/usb_device.c</itemPath>
@@ -75,6 +80,7 @@
       <itemPath>../src/assets.c</itemPath>
       <itemPath>../src/assetList.c</itemPath>
       <itemPath>../src/menu.c</itemPath>
+      <itemPath>../src/composite.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

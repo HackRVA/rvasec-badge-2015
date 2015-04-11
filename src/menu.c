@@ -83,17 +83,6 @@ const struct menu_t schedule_m[] = {
    {"back", GREEN_BG, BACK, NULL},
 };
 
-#ifdef DOESNOTBELONGHERE
-void splash_Run()
-{
-    static unsigned int counter = 0;
-    clearscreen(0);
-    show_pic(SPLASH, 0, 0);
-    if(counter==1000)returnToMenus();
-    counter++;
-}
-#endif
-
 #ifdef MAINMENU
 void firewall_cb() {};
 void connect4_cb() {};
