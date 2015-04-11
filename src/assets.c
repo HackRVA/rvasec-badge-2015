@@ -1,10 +1,17 @@
 #include <plib.h>
+
 #include "S6B33.h"
 #include "assets.h"
 #include "assetList.h"
 #include "LCDcolor.h"
 #include "timer1_int.h"
 
+/*
+    simple asset management and display lib
+    Author: Paul Bruggeman
+    paul@killercats.com
+    4/2015
+*/
 
 /* 
    255 = no asset active
@@ -23,6 +30,8 @@ void drawLCD1(unsigned char assetId, int frame)
     unsigned char i, j, p, r, g, b, pixbyte, *cmap, *pixdata;
     unsigned short pixel ;
 
+    // ??? S6B33_rect(0, 0, assetList[assetId].y - 1, assetList[assetId].x - 1);
+    // S6B33_rect(0, 0, assetList[assetId].x - 1, assetList[assetId].y - 1);
     S6B33_rect(0, 0, assetList[assetId].y - 1, assetList[assetId].x - 1);
 
     pixdata = &(assetList[assetId].pixdata[0]);	

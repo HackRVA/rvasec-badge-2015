@@ -17,6 +17,8 @@ enum {
     MARIO,
     GAMEOTHRONES,
     FONT,
+    CHIP,
+    BOWLBALL,
     KITTEN,
     SPLASH,
     CHIPSPRITE,

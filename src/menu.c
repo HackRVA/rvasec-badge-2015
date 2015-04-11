@@ -6,6 +6,12 @@
 
 #define NULL 0
 
+/*
+   simple menu system
+   Author: Paul Bruggeman
+   paul@Killercats.com
+*/
+
 extern badge_state b_state;
 
 const struct menu_t breakfast_m[] = {
@@ -409,7 +415,9 @@ void display_menu(struct menu_t *menu, struct menu_t *selected)
 		for (c=0, rect_w=0; (menu->name[c] != 0); c++)
 			rect_w += CHAR_WIDTH;
 
-		add_to_display_list(FILLED_RECTANGLE, 0, cursor_x-1, cursor_y-1, rect_w-1, CHAR_HEIGHT-1);
+// XXX		add_to_display_list(FILLED_RECTANGLE, 0, cursor_x, cursor_y, rect_w, CHAR_HEIGHT);
+// PEB		add_to_display_list(FILLED_RECTANGLE, 0, cursor_x-1, cursor_y-1, rect_w-1, CHAR_HEIGHT-1);
+		add_to_display_list(FILLED_RECTANGLE, 0, cursor_x, cursor_y, rect_w, CHAR_HEIGHT);
 
 		for (c=0; (menu->name[c] != 0); c++)
 			add_to_display_list(CHARACTER, ((menu == selected) ? RED : GREEN), cursor_x + (c * CHAR_WIDTH), cursor_y, menu->name[c], 0);

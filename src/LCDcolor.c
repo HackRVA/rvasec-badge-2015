@@ -7,6 +7,17 @@
 #include "assets.h"
 #include "assetList.h"
 
+/*
+    LCD  serial (S6Bxx) interface driver
+    Author: Paul Bruggeman
+    paul@killercats.com
+    4/2015
+
+    LCDscan functions
+    Author: Jonathan Lundquist
+    jonathan46000@gmail.com
+*/
+
 
 
 

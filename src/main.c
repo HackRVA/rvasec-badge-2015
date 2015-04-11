@@ -539,6 +539,31 @@ void ProcessIO(void)
 			USB_In_Buffer[0] = 0;
 		}
 
+		if (USB_In_Buffer[0] == 'c') {
+			testComposite();
+			USB_In_Buffer[0] = 0;
+		}
+
+		if ((USB_In_Buffer[0] == 'k') || (USB_In_Buffer[0] == 'K')) {
+			extern unsigned char ci0;
+
+			if (USB_In_Buffer[0] == 'k') ci0++;
+			if (USB_In_Buffer[0] == 'K') ci0--;
+			USB_In_Buffer[0] = 0;
+
+			testComposite();
+		}
+
+		if ((USB_In_Buffer[0] == 'l') || (USB_In_Buffer[0] == 'L')) {
+			extern unsigned char ci1;
+
+			if (USB_In_Buffer[0] == 'l') ci1++;
+			if (USB_In_Buffer[0] == 'L') ci1--;
+			USB_In_Buffer[0] = 0;
+
+			testComposite();
+		}
+
 		if ((USB_In_Buffer[0] == 'b') || (USB_In_Buffer[0] == 'B')) {
 			static unsigned char bright = 255;
 

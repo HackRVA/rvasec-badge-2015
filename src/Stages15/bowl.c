@@ -2,6 +2,13 @@
 
 #define NULL 0
 
+/*
+   simple menu example app
+   Author: Paul Bruggeman
+   paul@Killercats.com
+*/
+
+
 /* make sure to keep these in the same order as the switch/case */
 enum {
    BOWL_INIT,
@@ -127,7 +134,9 @@ void bowl_cb()
 			break;
 
 		case BOWL_DRAW_BALL:
-			add_to_display_list(CHARACTER, RED, cursor.x, cursor.y, 'O', 0);
+			//add_to_display_list(CHARACTER, RED, cursor.x, cursor.y, 'O', 0);
+        		//show_pic(BOWLBALL, cursor.x, cursor.y);
+        		show_pic(BOWLBALL, cursor.y, cursor.x); /* why? */
 			state++;
 			break;
 

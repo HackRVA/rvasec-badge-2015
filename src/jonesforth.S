@@ -6,7 +6,8 @@
     I find it easier to develop with a scripting language. 
     YMMV
 
-    - Paul Bruggeman
+    Paul Bruggeman
+    paul@killercats.com
 
 	"version" is currently
     .ascii	"rv4tch 20150305 "

@@ -11,9 +11,19 @@
 #include "mario.h"         // 1% Program
 #include "got.h"         // 1% Program
 #include "font_2.xbm"         // 1% Program
+
+/*
+    simple assetList library
+    Author: Paul Bruggeman
+    paul@killercats.com
+    4/2015
+*/
+
 #include "kitten.h"
+#include "chip.h"
 #include "splash.h"
 #include "chipsprite.h"
+#include "bowlball2.h"
 
 /* for 1 bit images */
 /* testing color instead of BW */
@@ -41,7 +51,9 @@ const struct asset assetList[] = {
     { HACKRVA2, 88, 48, (const char *)BW_cmap, (const char *)hackrva_bits, (drawLCD1) },
     { MARIO, marioSamples, 0, (const char *)marioDuration, (const char *)marioOfftime, (nextNote_cb) },
     { GAMEOTHRONES, gameOfThronesSamples, 0, (const char *)gameOfThrones, (const char *)0, (nextMIDI_cb) },
-    { FONT, 8, 336, (const char *)BW_cmap, (const char *)font_2_bits, (drawLCD1) },
+    { FONT, 8, 336, (const char *)BW_cmap, (const char *)font_2_bits, (nextNote_cb) },
+    { CHIP, chip_width, chip_height, (const char *)chip_data_cmap, (const char *)chip_data, (drawLCD8) },
+    { BOWLBALL, bowlball_width, bowlball_height, (const char *)bowlball_header_data_cmap, (const char *)bowlball_header_data, (drawLCD8) },
     { KITTEN, kitten_width, kitten_height, (const char *)kitten_data_cmap, (const char *)kitten_data, (drawLCD8) },
     { SPLASH, splash_width, splash_height, (const char *)splash_data_cmap, (const char *)splash_data, (drawLCD8) },
     { CHIPSPRITE, chipsprite_width, chipsprite_height, (const char *)chipsprite_data_cmap, (const char *)chipsprite_data, (drawLCD8) }

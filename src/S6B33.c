@@ -2,6 +2,13 @@
 #include "S6B33.h"
 #include "LCDcolor.h"
 
+/*
+    Samsung S6Bxx driver
+    Author: Paul Bruggeman
+    paul@killercats.com
+    4/2015
+*/
+
 
 #define PIN_BACKLIGHT LATCbits.LATC9
 #define PIN__RESET LATCbits.LATC8
