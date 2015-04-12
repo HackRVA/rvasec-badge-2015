@@ -9,7 +9,6 @@
 #include "USB/usb.h"
 #include "HardwareProfile.h"
 #include "badge15.h"
-#include "Stages15/splash_screen.h"
 
 #define JON
 
@@ -179,7 +178,7 @@ int main(void)
        // game_state = Init_Game15();
     #endif
 
-    runningApp = &splash_Init;
+//    runningApp = &splash_Init;
 
     while(1)
     {

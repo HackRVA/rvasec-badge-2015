@@ -152,16 +152,18 @@ void DlPicture(unsigned char picID)
 
     DlMove(G_dl.pos.x, G_dl.pos.y);
     for (y=0; y < assetList[picID].y; y++) {
-	/* aux info is for picure lookup x,y info */
-	G_dl.displayList[G_dl.currItem].type = LCD_AUX;
-	G_dl.displayList[G_dl.currItem].dData.pos.x = 0; /* */
-	G_dl.displayList[G_dl.currItem].dData.pos.y = y; /* scan line offset into picture */
-	DLNEXT;
+	if (G_dl.pos.y < LCD_YSIZE) {
+	   /* aux info is for picure lookup x,y info */
+	   G_dl.displayList[G_dl.currItem].type = LCD_AUX;
+	   G_dl.displayList[G_dl.currItem].dData.pos.x = 0; /* */
+	   G_dl.displayList[G_dl.currItem].dData.pos.y = y; /* scan line offset into picture */
+	   DLNEXT;
 
-	G_dl.displayList[G_dl.currItem].type = LCD_PICTURE_SPAN;
-	G_dl.displayList[G_dl.currItem].dData.data = picID;
-	DLNEXT;
+	   G_dl.displayList[G_dl.currItem].type = LCD_PICTURE_SPAN;
+	   G_dl.displayList[G_dl.currItem].dData.data = picID;
+	   DLNEXT;
 
+	}
 	DlMove(G_dl.pos.x, G_dl.pos.y + 1); /* referencing this is tricky since it updates G_dl.pos.x G_dl.pos.y */
     }
 }
@@ -178,10 +180,25 @@ void DlTransparentIndex(unsigned char index)
     DLNEXT;
 }
 
-void DlSprite(unsigned char picId, unsigned char x, unsigned char y)
+void DlSprite(unsigned char picId, unsigned char imageNo)
 {
-    DlMove(x, y);
-    DlPicture(picId); /* picId has x width */
+    unsigned char y;
+
+    DlMove(G_dl.pos.x, G_dl.pos.y); /* probably should remove */
+    for (y=0; y < assetList[G_font].x; y++) {
+	/* aux info is for picure lookup x,y info */
+	G_dl.displayList[G_dl.currItem].type = LCD_AUX;
+	G_dl.displayList[G_dl.currItem].dData.pos.x = imageNo; /* char or animation array offset into font table */
+	G_dl.displayList[G_dl.currItem].dData.pos.y = y;      /* scan line offset into char */
+	DLNEXT;
+
+	G_dl.displayList[G_dl.currItem].type = LCD_FONT_SPAN;
+	G_dl.displayList[G_dl.currItem].dData.data = G_font;
+	DLNEXT;
+
+	DlMove(G_dl.pos.x, G_dl.pos.y + 1); /* referencing this is tricky since it updates G_dl.pos.x G_dl.pos.y */
+    }
+
 }
 
 /* does not do clipping yet */
@@ -233,16 +250,18 @@ void DlCharacter(unsigned char charin)
 
     DlMove(G_dl.pos.x, G_dl.pos.y);
     for (y=0; y < assetList[G_font].x; y++) {
-	/* aux info is for picure lookup x,y info */
-	G_dl.displayList[G_dl.currItem].type = LCD_AUX;
-	G_dl.displayList[G_dl.currItem].dData.pos.x = charin; /* char array offset into font table */
-	G_dl.displayList[G_dl.currItem].dData.pos.y = y;      /* scan line offset into char */
-	DLNEXT;
+	if (G_dl.pos.y < LCD_YSIZE) {
+	    /* aux info is for picure lookup x,y info */
+	    G_dl.displayList[G_dl.currItem].type = LCD_AUX;
+	    G_dl.displayList[G_dl.currItem].dData.pos.x = charin; /* char array offset into font table */
+	    G_dl.displayList[G_dl.currItem].dData.pos.y = y;      /* scan line offset into char */
+	    DLNEXT;
 
-	G_dl.displayList[G_dl.currItem].type = LCD_FONT_SPAN;
-	G_dl.displayList[G_dl.currItem].dData.data = G_font;
-	DLNEXT;
+	    G_dl.displayList[G_dl.currItem].type = LCD_FONT_SPAN;
+	    G_dl.displayList[G_dl.currItem].dData.data = G_font;
+	    DLNEXT;
 
+	}
 	DlMove(G_dl.pos.x, G_dl.pos.y + 1); /* referencing this is tricky since it updates G_dl.pos.x G_dl.pos.y */
     }
 }
@@ -253,25 +272,32 @@ void DlFilledRectangle(unsigned char width, unsigned char height)
 
     DlMove(G_dl.pos.x, G_dl.pos.y);
     for (y=0; y < height; y++) {
-	G_dl.displayList[G_dl.currItem].type = LCD_SPAN;
-	G_dl.displayList[G_dl.currItem].dData.pos.x = width;
-	G_dl.displayList[G_dl.currItem].dData.pos.y = y;
-	DLNEXT;
+	if (G_dl.pos.y < LCD_YSIZE) {
+	    G_dl.displayList[G_dl.currItem].type = LCD_SPAN;
+	    G_dl.displayList[G_dl.currItem].dData.pos.x = width;
+	    G_dl.displayList[G_dl.currItem].dData.pos.y = y;
+	    DLNEXT;
 
+	}
 	DlMove(G_dl.pos.x, G_dl.pos.y + 1); /* referencing this is tricky since it updates G_dl.pos.x G_dl.pos.y */
     }
 
 }
 
+/*
+  a point is a zero length span
+*/
 void DlPoint(unsigned char x, unsigned char y)
 {
     DlMove(x, y);
 
-    /* point has span dimensions of 0 */
-    G_dl.displayList[G_dl.currItem].type = LCD_SPAN;
-    G_dl.displayList[G_dl.currItem].dData.pos.x = x;
-    G_dl.displayList[G_dl.currItem].dData.pos.y = y;
-    DLNEXT;
+    if (G_dl.pos.y < LCD_YSIZE) {
+	/* point has span dimensions of 0 */
+	G_dl.displayList[G_dl.currItem].type = LCD_SPAN;
+	G_dl.displayList[G_dl.currItem].dData.pos.x = x;
+	G_dl.displayList[G_dl.currItem].dData.pos.y = y;
+        DLNEXT;
+    }
 }
 
 void DlPrintChar(unsigned char charin, unsigned char x, unsigned char y)
@@ -284,10 +310,12 @@ void DlHorizontalLine(unsigned char x1, unsigned char y1, unsigned char x2, unsi
 {
     DlMove(x1, y1);
 
-    G_dl.displayList[G_dl.currItem].type = LCD_SPAN;
-    G_dl.displayList[G_dl.currItem].dData.pos.x = x2;
-    G_dl.displayList[G_dl.currItem].dData.pos.y = y1;
-    DLNEXT;
+    if (G_dl.pos.y < LCD_YSIZE) {
+	G_dl.displayList[G_dl.currItem].type = LCD_SPAN;
+	G_dl.displayList[G_dl.currItem].dData.pos.x = x2;
+	G_dl.displayList[G_dl.currItem].dData.pos.y = y1;
+	DLNEXT;
+    }
 }
 
 void DlVerticalLine(unsigned char x1, unsigned char y1, unsigned char x2, unsigned char y2)
@@ -304,7 +332,7 @@ void DlLine(unsigned char x0, unsigned char y0, unsigned char x1, unsigned char 
     int err = (dx > dy ? dx : -dy)/2, e2;
 
     for(;;) {
-	DlPoint(x0, y0);
+	DlPoint(x0, y0); /* optimise this: join multiple points into one segments */
 
 	if (x0==x1 && y0==y1) break;
 
@@ -314,13 +342,18 @@ void DlLine(unsigned char x0, unsigned char y0, unsigned char x1, unsigned char 
     }
 }
 
-void DlWriteLine(unsigned char *string, unsigned char x, unsigned char y)
+void DlWriteLine(unsigned char *string)
 {
-    unsigned char j;
+    unsigned char j, x, y;
 
+    x = G_dl.pos.x;
+    y = G_dl.pos.y;
+    
     for(j=0; string[j] != 0; j++) {
 	DlMove(x + j * assetList[G_font].x, y);
-	DlCharacter(string[j]);
+	if (G_dl.pos.y < LCD_YSIZE) {
+	    DlCharacter(string[j]);
+	}
     }
 }
 
@@ -374,7 +407,7 @@ void interpretDL()
 	aux.x = aux.y = 255;
 	p = 255;
 
-	for(p=0; p < LCD_XSIZE; p++) scanLine[p] = BGColor;
+	for(p=0; p<LCD_XSIZE; p++) scanLine[p] = BGColor;
 
 	for (item=0; item < G_dl.currItem; item++) {
 	    DEBUG(printf("\n-- sl %d item %d type %s\n", sl, item, LCD_Functions[G_dl.displayList[item].type]);)
@@ -423,8 +456,16 @@ void interpretDL()
 
 		case LCD_SPAN:  /* (x2 8bit) fill w color from last x->x2 span  */
 		    if (pos.y == sl) {
-		        for (p = pos.x; p < (pos.x + G_dl.displayList[item].dData.pos.x); p++) 
-			    scanLine[p] = FGColor;
+			unsigned char ep;
+
+		        ep = pos.x + G_dl.displayList[item].dData.pos.x;
+			if (ep >= LCD_XSIZE) ep = (LCD_XSIZE-1);
+
+		        for (p = pos.x; p < ep; p++) {
+			    //if (pos.x < (LCD_XSIZE-assetList[assetId].x))
+			    if (p < LCD_XSIZE)
+			        scanLine[p] = FGColor;
+			}
 
 	    	        DEBUG(printf("sl %d LCD_SPAN px %d dl.x %d py %d\n", sl, pos.x, G_dl.displayList[item].dData.pos.x, pos.y);)
 	    	        DEBUG(fflush(stdout);)
@@ -444,6 +485,8 @@ void interpretDL()
 
 			/*  assetList[assetId].x == width of a font charater */
 			for (p = 0; p < assetList[assetId].x ; p++) {
+			    if ((p + pos.x) > (LCD_XSIZE-1)) continue; /* clip x */
+
 			    ci = ((pixbyte >> p) & 0x1); /* ci = color index */
 			    if (ci != TRIndex) {
 /*
@@ -480,6 +523,8 @@ void interpretDL()
 			pixdata = &(assetList[assetId].pixdata[aux.y * assetList[assetId].x]);
 
 			for (p = 0; p < assetList[assetId].x; p++) {
+			    if ((p + pos.x) > (LCD_XSIZE-1)) continue; /* clip x */
+
 			    /* aux.x = character/offset into asset. */
 			    pixbyte = *pixdata++; /* 8 pixels per byte */
 
@@ -540,7 +585,7 @@ unsigned char ci0=0;
 unsigned char ci1=1;
 void testComposite()
 {
-    static unsigned char bowl=64, bowldir=5;
+    static unsigned char bowl=50, bowldir=5;
     static unsigned char chip=64, chipdir=5;
     static unsigned char text=32, textdir=5;
     static unsigned char box=16, boxdir=5;
@@ -560,8 +605,8 @@ void testComposite()
 
     /* this will be covered up by the text and chip and boxes */
     //DlMove(64, 110);
-    if (bowl > 110) bowldir = -bowldir;
-    if (bowl < 16) bowldir = -bowldir;
+    if (bowl > 128) bowldir = -bowldir;
+    if (bowl < 5) bowldir = -bowldir;
     bowl += bowldir;
     DlMove(bowl, 110);
     DlPicture(BOWLBALL);
@@ -572,19 +617,22 @@ void testComposite()
     if (text < 16) textdir = -textdir;
     text += textdir;
     DlColor(RED);
-    DlWriteLine("DR BOB", 32,  text);
+    DlMove(32,  text);
+    DlWriteLine("DR BOB");
 
     DlBackgroundColor(BLACK);
 
-    if (text2 > 132-48-9) text2dir = -text2dir;
-    if (text2 < 16) text2dir = -text2dir;
+    //if (text2 > 132-48-9) text2dir = -text2dir;
+    if (text2 > 132-6) text2dir = -text2dir;
+    if (text2 < 5) text2dir = -text2dir;
     text2 += text2dir;
     DlColor(WHITE);
-    DlWriteLine("SMOKEM", text2,  94);
+    DlMove(text2,  94);
+    DlWriteLine("SMOKEM");
 
     DlTransparentIndex(ci1); /* index into cmap, not a color */
-    if (chip > 110) chipdir = -chipdir;
-    if (chip < 16) chipdir = -chipdir;
+    if (chip > 125) chipdir = -chipdir;
+    if (chip < 5) chipdir = -chipdir;
     chip += chipdir;
     DlMove(50, chip);
     DlPicture(CHIP);
@@ -597,8 +645,8 @@ void testComposite()
     /* top of everything else */
     DlColor(0b0000011111111111); 
 
-    if (box > 110) boxdir = -boxdir;
-    if (box < 16) boxdir = -boxdir;
+    if (box > 132) boxdir = -boxdir;
+    if (box < 1) boxdir = -boxdir;
     box += boxdir;
     DlMove(box, 100);
     DlFilledRectangle(16, 16);

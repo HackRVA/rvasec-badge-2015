@@ -4,6 +4,7 @@
 #include "Stages15/bowl.h"
 #include "Stages15/firewall.h"
 #include "Stages15/update_time.h"
+#include "Stages15/splash_screen.h"
 #include "menu.h"
 
 #define NULL 0
@@ -193,7 +194,7 @@ struct menu_t main_m[] = {
    {"", GREEN_BG, BACK, NULL}
 } ;
 
-void (*runningApp)() = NULL;
+void (*runningApp)() = splash_Init;
 
 /*
 usage case
