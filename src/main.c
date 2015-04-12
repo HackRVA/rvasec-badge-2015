@@ -70,7 +70,7 @@ char USB_Out_Buffer[CDC_DATA_OUT_EP_SIZE]={0};
 // forth key buffer on c side
 #define MAX_USBKEYBUFFER 64
 char usbkey_buffer[MAX_USBKEYBUFFER] ;
-char usbkey_ptr=0 ;
+unsigned char usbkey_ptr=0 ;
 char usbkey_fillptr=0 ;
 
 #else

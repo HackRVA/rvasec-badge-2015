@@ -61,7 +61,7 @@ const struct menu_t extra_m[] = {
 };
 
 const struct menu_t instructions_m[] = {
-   {"Button: Roll ball", GREEN_BG, TEXT, 0},
+   {"Button: Roll", GREEN_BG, TEXT, 0},
    {"Lower slider:", GREEN_BG, TEXT, 0},
    {"positions ", GREEN_BG, TEXT, 0},
    {"Right slider:", GREEN_BG, TEXT, 0},
@@ -98,13 +98,13 @@ void bowl_cb()
 
 		/* first time inits some */
 		case BOWL_DRAW_INSTRUCTIONS:
-			genericMenu(instructions_m);
+			genericMenu(&instructions_m);
 			state++;
 			break;
 
 		case BOWL_WAIT_INSTRUCTIONS:
 			/* stay in state until user presses button to exit menu  */
-			genericMenu(instructions_m);
+			genericMenu(&instructions_m);
 			if (instructions_done != 0) {
 			    state++;
 			    green(0);

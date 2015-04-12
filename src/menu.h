@@ -33,4 +33,6 @@ extern struct menu_t *currMenu;
 extern struct menu_t *selectedMenu;
 extern void (*runningApp)() ;
 extern unsigned int buttonTimestamp[];
+void genericMenu(struct menu_t *L_menu);
+
 #endif

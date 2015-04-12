@@ -153,12 +153,14 @@ void timedate_cb()
 {
 	setNote(173, 2048);
 
+#ifndef MAINMENU
         b_state.counter1 = 0; // put private data in app code
         b_state.counter2 = 0;// put private data in app code
         b_state.state_drawn = 0;// put private data in app code
         b_state.large_counter = 0;// put private data in app code
         b_state.selected_object = 0;// put private data in app code
 	runningApp = update_time_Run;
+#endif
 };
 
 void screensaver_cb()
@@ -194,7 +196,11 @@ struct menu_t main_m[] = {
    {"", GREEN_BG, BACK, NULL}
 } ;
 
+#ifdef MAINMENU
+void (*runningApp)() = NULL;
+#else
 void (*runningApp)() = splash_Init;
+#endif
 
 /*
 usage case
@@ -207,69 +213,102 @@ static unsigned char G_menuCnt=0; // index for G_menuStack
 struct menu_t *G_menuStack[MAX_MENU_DEPTH] = { 0 }; // track user traversing menus
 
 /*
-cc -o menu menu.c -DMAINMENU
+
+cc -m32 -g -O0 -I. -c Stages15/bowl.c
+cc -m32 -g -O0 -c menu.c -DMAINMENU
+cc -m32 -o menu bowl.o menu.o
+
+
 */
 
 #ifdef MAINMENU
 #include <stdio.h>
+
+void red(unsigned char onPWM) {};
+void green(unsigned char onPWM) {};
+void blue(unsigned char onPWM) {};
+void genericMenu(struct menu_t *L_menu) {};
+void clearscreen(unsigned short color) {};
+
+void add_to_display_list(unsigned char ResourceType,
+        unsigned short color_picID,                 
+        unsigned char x1, unsigned char y1,
+        unsigned char x2_width_charVal, unsigned char y2_height) {};
+
+void show_pic(unsigned char picId,
+              unsigned char x,
+              unsigned char y) {};
+
+void returnToMenus() {};
+
 char spaces[16] = "                ";
 
 struct menu_t *G_menu = NULL ; // current menu item in stack
 
 /* traverse menus */
-main() {
+void main()
+{
+   void dump_menu(struct menu_t *L_menu);
+   extern const struct menu_t instructions_m;
+
+   dump_menu(main_m);
+   dump_menu(&instructions_m);
+}
+
+void dump_menu(struct menu_t *L_menu) {
    struct menu_t *sub_menu;
    unsigned char depth=0;
+   static unsigned char L_menuCnt=0; // index for G_menuStack
+   static struct menu_t *L_menuStack[4] = { 0 }; // track user traversing menus
 
-   G_menu = main_m; /* init */
 
    while(1) {
-      printf("%s %s data %x ", &spaces[15-depth], G_menu->name, G_menu);
+      printf("%s %s data %x ", &spaces[15-depth], L_menu->name, L_menu);
       fflush(stdout);
 
-      switch (G_menu->type) {
+      switch (L_menu->type) {
           case MORE: /* display next page of menu */
             printf("more\n");
             fflush(stdout);
-            //G_menu += MORE_INC;
-            G_menu++;
+            //L_menu += MORE_INC;
+            L_menu++;
             break;
 
           case BACK: /* return from menu */
             /* if depth is already zero then we are at the end of main menu */
-            if (depth == 0) return(0);
+            if (depth == 0) return;
 
             depth--;
             printf("back depth = %d\n", depth);
             fflush(stdout);
-            if (G_menuCnt > 0) G_menuCnt--; /* check for menu stack underflow should assert it > 0 */
-            G_menu = G_menuStack[G_menuCnt] ;
+            if (L_menuCnt > 0) L_menuCnt--; /* check for menu stack underflow should assert it > 0 */
+            L_menu = L_menuStack[L_menuCnt] ;
 
             break;
 
           case TEXT: /* display some text (clock perhaps) */
-            printf("%s\n", G_menu->name);
+            printf("%s\n", L_menu->name);
             fflush(stdout);
-            G_menu++;
+            L_menu++;
             break;
 
           case MENU: /* drill down into menu */
             printf("menu\n");
             fflush(stdout);
-            sub_menu = G_menu->data.menu; /* go into this menu */
-            G_menu++;                        /* advance past this item so when we return we are position for next loop */
-            G_menuStack[G_menuCnt++] = G_menu; /* push onto stack  */
-            if (G_menuCnt == MAX_MENU_DEPTH) G_menuCnt--; /* too deep, undo */
+            sub_menu = L_menu->data.menu; /* go into this menu */
+            L_menu++;                        /* advance past this item so when we return we are position for next loop */
+            L_menuStack[L_menuCnt++] = L_menu; /* push onto stack  */
+            if (L_menuCnt == MAX_MENU_DEPTH) L_menuCnt--; /* too deep, undo */
 
-            G_menu = sub_menu; /* go into menu */
+            L_menu = sub_menu; /* go into menu */
             depth++;
             break;
 
           case FUNCTION: /* call the function pointer */
             printf("function\n");
             fflush(stdout);
-            (*G_menu->data.func)();
-            G_menu++;
+            (*L_menu->data.func)();
+            L_menu++;
             break;
 
           default:
@@ -294,14 +333,16 @@ main() {
   so 1st Y position has to offset down CHAR_HEIGHT to account for that
 */
 
-#define CHAR_WIDTH 8
-#define CHAR_HEIGHT 10
+extern unsigned char G_font;
+#define CHAR_WIDTH assetList[G_font].x
+#define CHAR_HEIGHT 8
+#define SCAN_BLANK 1 /* blank lines between text entries */
+#define TEXTRECT_OFFSET 1 /* text offset within rectangle */
 
 void display_menu(struct menu_t *menu, struct menu_t *selected)
 {
 	static unsigned char cursor_x, cursor_y;
 	unsigned char c;
-	struct menu_t *tmp_menu;
 
 	cursor_x = 5;
 	cursor_y = CHAR_HEIGHT;
@@ -315,17 +356,14 @@ void display_menu(struct menu_t *menu, struct menu_t *selected)
 		/* if name is NULL leave now */
 		if (menu->name[0] == 0) break;
 
-		for (c=0, rect_w=0; (menu->name[c] != 0); c++)
-			rect_w += CHAR_WIDTH;
+		for (c=0, rect_w=0; (menu->name[c] != 0); c++) rect_w += CHAR_WIDTH;
 
-// XXX		add_to_display_list(FILLED_RECTANGLE, 0, cursor_x, cursor_y, rect_w, CHAR_HEIGHT);
-// PEB		add_to_display_list(FILLED_RECTANGLE, 0, cursor_x-1, cursor_y-1, rect_w-1, CHAR_HEIGHT-1);
-		add_to_display_list(FILLED_RECTANGLE, 0, cursor_x-1, cursor_y-1, rect_w-1, CHAR_HEIGHT-1);
+		add_to_display_list(FILLED_RECTANGLE, 0, cursor_x, cursor_y, rect_w, CHAR_HEIGHT + 2 * SCAN_BLANK);
 
 		for (c=0; (menu->name[c] != 0); c++)
-			add_to_display_list(CHARACTER, ((menu == selected) ? RED : GREEN), cursor_x + (c * CHAR_WIDTH), cursor_y, menu->name[c], 0);
+			add_to_display_list(CHARACTER, ((menu == selected) ? RED : GREEN), cursor_x + (c * CHAR_WIDTH) + TEXTRECT_OFFSET, cursor_y + SCAN_BLANK, menu->name[c], 0);
 
-		cursor_y += CHAR_HEIGHT;
+		cursor_y += (CHAR_HEIGHT + SCAN_BLANK);
 
 		/* last menu item quit */
 		if (menu->type == BACK) break;
