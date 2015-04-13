@@ -20,7 +20,8 @@ export
 in a shell
 ----------------------------------
 
-in the logs directory
+In the logos directory
+
    cd logos
    copy hto2bit.c to rvasecbug.c 
 NOTE: please dont edit hto2bit.c and commit it
@@ -69,3 +70,4 @@ export
 ----------------------------------
 
 
+-Paul

@@ -19,7 +19,7 @@ struct menu_t {
    unsigned char attrib;
    unsigned char type;
    union {                      /* when initing the union, coerce non void data to a menu_t to keep compiler from whining */
-      struct menu_t *menu;
+      const struct menu_t *menu;
       void (*func)();
       void *generic;
    } data;
@@ -27,6 +27,7 @@ struct menu_t {
 
 void display_menu(struct menu_t *menu, struct menu_t *selected);
 void returnToMenus();
+void menus();
 
 extern struct menu_t *currMenu;
 extern struct menu_t *currMenu;

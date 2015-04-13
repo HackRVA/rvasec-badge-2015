@@ -1,8 +1,10 @@
-void MS(unsigned char ms);
+#ifndef LCDcolor_h
+#define LCDcolor_h
 
 void LCDReset(void);
 void LCDInitPins(void);
 void LCDBars();
 
-unsigned short scan_bucket[132];
+extern unsigned short scan_bucket[];
+#endif
 

@@ -69,9 +69,9 @@ char USB_Out_Buffer[CDC_DATA_OUT_EP_SIZE]={0};
 
 // forth key buffer on c side
 #define MAX_USBKEYBUFFER 64
-char usbkey_buffer[MAX_USBKEYBUFFER] ;
+unsigned char usbkey_buffer[MAX_USBKEYBUFFER] ;
 unsigned char usbkey_ptr=0 ;
-char usbkey_fillptr=0 ;
+unsigned char usbkey_fillptr=0 ;
 
 #else
 
@@ -124,7 +124,7 @@ void ForthUSB() {
 	if ( (MAX_USBKEYBUFFER - usbkey_fillptr) > 0) {
         int cnt=0;
 
-        if ( (cnt = getsUSBUSART(&(usbkey_buffer[usbkey_fillptr]), (MAX_USBKEYBUFFER - usbkey_fillptr) )) != 0) {
+        if ( (cnt = getsUSBUSART((char *)&(usbkey_buffer[usbkey_fillptr]), (MAX_USBKEYBUFFER - usbkey_fillptr) )) != 0) {
             usbkey_fillptr += cnt;
         }
 	}
@@ -158,7 +158,7 @@ void ForthUSB() {
 int main(void)
 {
   //  struct BadgeState *game_state;
-    char sample_i = 0, sample_val = 0;
+  //    char sample_i = 0, sample_val = 0;
 
     InitializeSystem();
 #ifdef TOUCHHACK
@@ -308,11 +308,11 @@ static void InitializeSystem(void)
 	CNPUAbits.CNPUA9 = 0;    // RA9  pull up == off
 	CNPDAbits.CNPDA9 = 0;    /* pulldown == off */
 
-	TimerInit();
+	timerInit();
 	setupRTCC();
 
 #ifdef JON
-	setTime_Date("11:58P","06-04-15");
+	setTime_Date((unsigned char *)"11:58P",(unsigned char *)"06-04-15");
 #endif
 
 
@@ -525,7 +525,7 @@ void ProcessIO(void)
 
 			   clearscreen(BLACK);
 			   //printchar(' ', 115,63,BLACK);
-			   writeline("0123456789", 10, 20, y, WHITE);
+			   writeline((unsigned char *)"0123456789", 10, 20, y, WHITE);
 			   y += 8;
 			   if (y>128) y = 0;
 			}

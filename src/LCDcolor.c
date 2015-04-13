@@ -88,6 +88,9 @@ void LCDReset(void) {
 void LCDinit_scan(void){
     S6B33_rect(0, 0, 131, 131);
 }
+
+unsigned short scan_bucket[132];
+
 void LCDlineScan(int x0, int y0, int x1, int y1, int lineCurrent, unsigned short color){
 
   int dx = abs(x1-x0), sx = x0<x1 ? 1 : -1;

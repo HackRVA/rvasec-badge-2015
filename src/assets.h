@@ -1,3 +1,6 @@
+#ifndef timer1_h
+#define timer1_h
+void doAudio();
 void drawAsset(unsigned char assetId);
 void drawLCD1(unsigned char assetId, int frame);
 void drawLCD2(unsigned char assetId, int frame);
@@ -18,4 +21,4 @@ void scanCharLCD1(unsigned char assetId,
               unsigned short color,
               unsigned char font_height)
 ;
-
+#endif

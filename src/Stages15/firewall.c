@@ -1,3 +1,5 @@
+#include "badge15.h"
+
 enum {
    FW_INIT,
    FW_RED_ON,

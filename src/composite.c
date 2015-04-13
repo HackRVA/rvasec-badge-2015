@@ -1,6 +1,7 @@
 #include "badge15.h"
 #include "composite.h"
 
+
 /*
 
     display list compositor
@@ -85,7 +86,7 @@ int main(int argc, char *argv)
 /* helper macro to increment and check array counter */
 #define DLNEXT \
 	G_dl.currItem++; \
-	if (G_dl.currItem > MAXDISPLAYLIST) G_dl.currItem = MAXDISPLAYLIST;
+	if (G_dl.currItem >= MAXDISPLAYLIST) G_dl.currItem = (MAXDISPLAYLIST-1);
 
 /* the display list */
 struct displayList_t G_dl;
@@ -145,7 +146,6 @@ void DlBackgroundColor(unsigned short color)
     DLNEXT;
 }
 
-/* does not do clipping yet */
 void DlPicture(unsigned char picID)
 {
     unsigned char y;
@@ -201,7 +201,6 @@ void DlSprite(unsigned char picId, unsigned char imageNo)
 
 }
 
-/* does not do clipping yet */
 void DlCharacter(unsigned char charin)
 {
     unsigned char y;
@@ -475,8 +474,7 @@ void interpretDL()
 
 		case LCD_FONT_SPAN:
 		    if (pos.y == sl) {
-			unsigned char r, g, b, pixbyte, *cmap, ci;
-			unsigned short pixel;
+			unsigned char pixbyte, ci;
 
 			assetId = G_dl.displayList[item].dData.data;
 
@@ -489,17 +487,6 @@ void interpretDL()
 
 			    ci = ((pixbyte >> p) & 0x1); /* ci = color index */
 			    if (ci != TRIndex) {
-/*
-			        cmap = &(assetList[assetId].data_cmap[(unsigned short)ci * 3]);
-			        r = cmap[0];
-			        g = cmap[1];
-			        b = cmap[2];
-
-			        pixel = ((((r >> 3) & 0b11111) << 11 )
-				      |  (((g >> 3) & 0b11111) <<  6 )
-				      |  (((b >> 3) & 0b11111)       )) ;
-*/
-
 			        /* pos.x == offset into scan buffer */
 				if (ci == 0)
 			            scanLine[p + pos.x] = BGColor;
@@ -520,7 +507,7 @@ void interpretDL()
 			assetId = G_dl.displayList[item].dData.data;
 
 			/* aux.y == picture line, assetList.x == pic xres */
-			pixdata = &(assetList[assetId].pixdata[aux.y * assetList[assetId].x]);
+			pixdata = uCHAR(&(assetList[assetId].pixdata[aux.y * assetList[assetId].x]));
 
 			for (p = 0; p < assetList[assetId].x; p++) {
 			    if ((p + pos.x) > (LCD_XSIZE-1)) continue; /* clip x */
@@ -530,7 +517,7 @@ void interpretDL()
 
 			    ci = pixbyte;
 			    if (ci != TRIndex) {
-			        cmap = &(assetList[assetId].data_cmap[ci * 3]);
+			        cmap = uCHAR(&(assetList[assetId].data_cmap[ci * 3]));
 
 			        r = cmap[0];
 			        g = cmap[1];
@@ -618,7 +605,7 @@ void testComposite()
     text += textdir;
     DlColor(RED);
     DlMove(32,  text);
-    DlWriteLine("DR BOB");
+    DlWriteLine(uCHAR("DR BOB"));
 
     DlBackgroundColor(BLACK);
 
@@ -628,7 +615,7 @@ void testComposite()
     text2 += text2dir;
     DlColor(WHITE);
     DlMove(text2,  94);
-    DlWriteLine("SMOKEM");
+    DlWriteLine(uCHAR("SMOKEM"));
 
     DlTransparentIndex(ci1); /* index into cmap, not a color */
     if (chip > 125) chipdir = -chipdir;

@@ -1,13 +1,10 @@
 #include "badge15.h"
 
-#define NULL 0
-
 /*
    simple menu example app
    Author: Paul Bruggeman
    paul@Killercats.com
 */
-
 
 /* make sure to keep these in the same order as the switch/case */
 enum {
@@ -43,10 +40,10 @@ popup_m[1].name[LEN + 2]] = 48 + ((unsigned char)score % 100) % 10;    // ones
 */
 struct menu_t popup_m[] = {
 //   {"You win", GREEN_BG, TEXT, 0},
-   {"HIGH SCORE", GREEN_BG, FUNCTION, (struct menu_t *)(popup_cb)},
-   {"", GREEN_BG, TEXT, 0}, /* empty string but still has space for 16 chars */
-//   {"0123456789", GREEN_BG, TEXT, 0}, /* empty string but still has space for 16 chars */
-   {"", GREEN_BG, BACK, NULL},
+    {"HIGH SCORE", GREEN_BG, FUNCTION, {(struct menu_t *)(popup_cb)} },
+    {"", GREEN_BG, TEXT, {0} }, /* empty string but still has space for 16 chars */
+//   {"0123456789", GREEN_BG, TEXT, {0} }, /* empty string but still has space for 16 chars */
+    {"", GREEN_BG, BACK, {NULL} },
 };
 
 static unsigned char instructions_done = 0;
@@ -56,19 +53,19 @@ void instructions_cb()
 }
 
 const struct menu_t extra_m[] = {
-   {"Extra", GREEN_BG, TEXT, 0},
-   {"Back", GREEN_BG, BACK, NULL},
+    {"Extra", GREEN_BG, TEXT, {0}},
+    {"Back", GREEN_BG, BACK, {NULL}},
 };
 
 const struct menu_t instructions_m[] = {
-   {"Button: Roll", GREEN_BG, TEXT, 0},
-   {"Lower slider:", GREEN_BG, TEXT, 0},
-   {"positions ", GREEN_BG, TEXT, 0},
-   {"Right slider:", GREEN_BG, TEXT, 0},
-   {"force", GREEN_BG, TEXT, 0},
-   {"Test menu", GREEN_BG, MENU, extra_m},
-   {"Ok", GREEN_BG, FUNCTION, (struct menu_t *)(instructions_cb)},
-   {"", GREEN_BG, BACK, NULL},
+   {"Button: Roll", GREEN_BG, TEXT, {0}},
+   {"Lower slider:", GREEN_BG, TEXT, {0}},
+   {"positions ", GREEN_BG, TEXT, {0}},
+   {"Right slider:", GREEN_BG, TEXT, {0}},
+   {"force", GREEN_BG, TEXT, {0}},
+   {"Test menu", GREEN_BG, MENU, {extra_m}},
+   {"Ok", GREEN_BG, FUNCTION, {(struct menu_t *)(instructions_cb)} },
+   {"", GREEN_BG, BACK, {NULL} },
 };
 
 struct vector {
@@ -98,13 +95,13 @@ void bowl_cb()
 
 		/* first time inits some */
 		case BOWL_DRAW_INSTRUCTIONS:
-			genericMenu(&instructions_m);
+			genericMenu((struct menu_t *)instructions_m);
 			state++;
 			break;
 
 		case BOWL_WAIT_INSTRUCTIONS:
 			/* stay in state until user presses button to exit menu  */
-			genericMenu(&instructions_m);
+			genericMenu((struct menu_t *)instructions_m);
 			if (instructions_done != 0) {
 			    state++;
 			    green(0);
@@ -180,7 +177,7 @@ void bowl_cb()
 			break;
 
 		case BOWL_POPUP:
-			genericMenu(popup_m);
+			genericMenu((struct menu_t *)popup_m);
 			if (popup_done != 0) {
 			    state++;
 			    cnt = 0;

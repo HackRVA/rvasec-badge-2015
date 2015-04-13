@@ -1,10 +1,7 @@
 #include <plib.h>
 
-#include "S6B33.h"
-#include "assets.h"
-#include "assetList.h"
-#include "LCDcolor.h"
-#include "timer1_int.h"
+#include "badge15.h"
+
 
 /*
     simple asset management and display lib
@@ -309,7 +306,7 @@ void setNote(unsigned short freq, unsigned short dur) {
 }
 
 // RA9
-void do_audio()
+void doAudio()
 {
    if (G_duration == 0) return;
 

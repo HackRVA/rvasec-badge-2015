@@ -7,6 +7,7 @@
 extern short int sampleButtonStatus;  // Bit field of buttons that are pressed
 extern short int CurrentButtonStatus;
 extern unsigned int lastHandledTimestamp[];
+void initTouch();
 
 /* button numbering */
 #define LEFT_SLIDER 0     /* bottom left */

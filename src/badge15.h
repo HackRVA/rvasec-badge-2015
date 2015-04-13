@@ -9,20 +9,24 @@
 #ifndef badge15_h
 #define badge15_h
 
+#include <stdlib.h>
 #include "touchCTMU.h"
 #include "assets.h"
 #include "assetList.h"
 #include "time_date.h"
 #include "menu.h"
+#include "timer1_int.h"
+#include "LCDcolor.h"
+#include "composite.h"
+#include "S6B33.h"
 
+#define uCHAR (unsigned char *)
 
 #define BLUE  0b0000000000011111
 #define GREEN 0b0000011111100000
 #define RED   0b1111100000000000
 #define WHITE 0b1111111111111111
 #define BLACK 0b0000000000000000
-
-#define NULL 0
 
 unsigned char touchStat;//remove when touch is properly implemented
 int click;//remove when button is really implemented

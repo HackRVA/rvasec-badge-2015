@@ -29,8 +29,8 @@ struct asset {
     unsigned char assetId;
     unsigned short x;
     unsigned short y;
-    char *data_cmap;
-    char *pixdata;
+    const char *data_cmap;
+    const char *pixdata;
     void (*datacb)(unsigned char, int);
 };
 extern const struct asset assetList[];

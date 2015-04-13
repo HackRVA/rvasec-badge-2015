@@ -1,4 +1,5 @@
 #include <plib.h>
+#include "badge15.h"
 
 /*
     38khz IR timer code and interupt code
@@ -22,7 +23,9 @@
 #define TOUCH_TOGGLES       120
 #define T3_TICK       		(SYS_FREQ/TOUCH_TOGGLES)
 
-void TimerInit(void)
+void doPWM();
+
+void timerInit(void)
 {
     OpenTimer2(T2_ON | T2_SOURCE_INT, T2_TICK);
     // set up the timer interrupt with a priority of 2
@@ -126,10 +129,8 @@ void __ISR(_TIMER_2_VECTOR, IPL2SOFT) Timer2Handler(void)
 	return;
    }
 
-   do_audio();
-   do_PWM();
-
-
+   doAudio();
+   doPWM();
 
    if (G_IRsend) {
         // 3 sections for IR send:
@@ -379,7 +380,7 @@ void blue(unsigned char onPWM) {
     G_blue_cnt = 0;
 }
 
-void do_PWM()
+void doPWM()
 {
     /* red */
     G_red_cnt++;
