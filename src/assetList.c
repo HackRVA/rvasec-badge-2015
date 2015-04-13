@@ -44,18 +44,18 @@ const static char BW_cmap[2][3] = {
 
 */
 const struct asset assetList[] = {
-    { DRBOB, drbob_width, drbob_height, (const char *)drbob_data_cmap, (const char *)drbob_data, (drawLCD8) },
-    { HACKRVA, hackrva4_width, hackrva4_height, (const char *)hackrva4_data_cmap, (const char *)hackrva4_data, (drawLCD4) },
-    { RVASEC, rvasec_width, rvasec_height, (const char *)rvasec_data_cmap, (const char *)rvasec_data, (drawLCD4) },
-    { RVASEC2, rvasec2_width, rvasec2_height, (const char *)rvasec2_data_cmap, (const char *)rvasec2_data, (drawLCD2) },
-    { HACKRVA2, 88, 48, (const char *)BW_cmap, (const char *)hackrva_bits, (drawLCD1) },
-    { MARIO, marioSamples, 0, (const char *)marioDuration, (const char *)marioOfftime, (nextNote_cb) },
-    { GAMEOTHRONES, gameOfThronesSamples, 0, (const char *)gameOfThrones, (const char *)0, (nextMIDI_cb) },
-    { FONT, 8, 336, (const char *)BW_cmap, (const char *)font_2_bits, (nextNote_cb) },
-    { CHIP, chip_width, chip_height, (const char *)chip_data_cmap, (const char *)chip_data, (drawLCD8) },
-    { BOWLBALL, bowlball_width, bowlball_height, (const char *)bowlball_header_data_cmap, (const char *)bowlball_header_data, (drawLCD8) },
-    { KITTEN, kitten_width, kitten_height, (const char *)kitten_data_cmap, (const char *)kitten_data, (drawLCD8) },
-    { SPLASH, splash_width, splash_height, (const char *)splash_data_cmap, (const char *)splash_data, (drawLCD8) },
-    { CHIPSPRITE, chipsprite_width, chipsprite_height, (const char *)chipsprite_data_cmap, (const char *)chipsprite_data, (drawLCD8) }
+    { DRBOB, DRBOB_BITS, 1, drbob_width, drbob_height, (const char *)drbob_data_cmap, (const char *)drbob_data, (drawLCD8) },
+    { HACKRVA, PICTURE8BIT, 1, hackrva4_width, hackrva4_height, (const char *)hackrva4_data_cmap, (const char *)hackrva4_data, (drawLCD4) },
+    { RVASEC, PICTURE8BIT, 1, rvasec_width, rvasec_height, (const char *)rvasec_data_cmap, (const char *)rvasec_data, (drawLCD4) },
+    { RVASEC2, PICTURE8BIT, 1, rvasec2_width, rvasec2_height, (const char *)rvasec2_data_cmap, (const char *)rvasec2_data, (drawLCD2) },
+    { HACKRVA2, PICTURE8BIT, 1, 88, 48, (const char *)BW_cmap, (const char *)hackrva_bits, (drawLCD1) },
+    { MARIO, PICTURE8BIT, 1, marioSamples, 0, (const char *)marioDuration, (const char *)marioOfftime, (nextNote_cb) },
+    { GAMEOTHRONES, PICTURE8BIT, 1, gameOfThronesSamples, 0, (const char *)gameOfThrones, (const char *)0, (nextMIDI_cb) },
+    { FONT, PICTURE8BIT, 42, 8, 8, (const char *)BW_cmap, (const char *)font_2_bits, (nextNote_cb) },
+    { CHIP, PICTURE8BIT, 1, chip_width, chip_height, (const char *)chip_data_cmap, (const char *)chip_data, (drawLCD8) },
+    { BOWLBALL, PICTURE8BIT, 1, bowlball_width, bowlball_height, (const char *)bowlball_header_data_cmap, (const char *)bowlball_header_data, (drawLCD8) },
+    { KITTEN, PICTURE8BIT, 1, kitten_width, kitten_height, (const char *)kitten_data_cmap, (const char *)kitten_data, (drawLCD8) },
+    { SPLASH, PICTURE8BIT, 1, splash_width, splash_height, (const char *)splash_data_cmap, (const char *)splash_data, (drawLCD8) },
+    { CHIPSPRITE, PICTURE8BIT, 1, chipsprite_width, chipsprite_height, (const char *)chipsprite_data_cmap, (const char *)chipsprite_data, (drawLCD8) }
 };
 

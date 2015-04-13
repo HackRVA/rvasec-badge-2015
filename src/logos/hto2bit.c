@@ -2,6 +2,12 @@
 
 
 /*
+
+   c .h 8 bit to 2 bit/pixel converter
+
+   Author: Paul Bruggeman
+   paul@Killercats.com
+
  cc -o hto2bit hto2bit.c
 */
 

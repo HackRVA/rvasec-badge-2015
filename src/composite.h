@@ -12,9 +12,9 @@ enum {
     LCD_TRANSPARENT_COLOR,	/* 16 bit transparent/key/mask color */
     LCD_MOVE, 			/* (x 8bit, y 8bit) where the next stuff goes */
     LCD_AUX,			/* auxilary info (x 8bit, y 8bit) mainly for font */
-    LCD_SPAN,			/* (x2 8bit) fill w color from last x -> this.x span  */
+    LCD_SPAN,			/* fill w color from last x -> this.x span  */
     LCD_FONT_SPAN,		/* 8 pixels/byte- fill w font data from last x -> this.x span using aux.x, aux.y  */
-    LCD_PICTURE_SPAN,		/* 1 pixel/byte- fill w pic data from last x -> this.x span using aux.x, aux.y  */
+    LCD_PICTURE_SPAN,		/* 4 pixel/byte- fill w pic data from last x -> this.x span using aux.x, aux.y  */
 };
 
 /* display data is either color or position data */ 

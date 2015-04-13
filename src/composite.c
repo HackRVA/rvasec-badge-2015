@@ -506,31 +506,181 @@ void interpretDL()
 
 			assetId = G_dl.displayList[item].dData.data;
 
-			/* aux.y == picture line, assetList.x == pic xres */
-			pixdata = uCHAR(&(assetList[assetId].pixdata[aux.y * assetList[assetId].x]));
+			switch (assetList[assetId].type) {
+			case PICTURE8BIT:
+			    /* aux.y == picture line, assetList.x == pic xres */
+			    pixdata = uCHAR(&(assetList[assetId].pixdata[aux.y * assetList[assetId].x]));
 
-			for (p = 0; p < assetList[assetId].x; p++) {
-			    if ((p + pos.x) > (LCD_XSIZE-1)) continue; /* clip x */
+			    for (p = 0; p < assetList[assetId].x; p++) {
+			        if ((p + pos.x) > (LCD_XSIZE-1)) continue; /* clip x */
 
-			    /* aux.x = character/offset into asset. */
-			    pixbyte = *pixdata++; /* 8 pixels per byte */
+			        /* aux.x = character/offset into asset. */
+			        pixbyte = *pixdata; /* 8 pixels per byte */
 
-			    ci = pixbyte;
-			    if (ci != TRIndex) {
-			        cmap = uCHAR(&(assetList[assetId].data_cmap[ci * 3]));
+			        ci = pixbyte;
+			        if (ci != TRIndex) {
+			            cmap = uCHAR(&(assetList[assetId].data_cmap[ci * 3]));
 
-			        r = cmap[0];
-			        g = cmap[1];
-			        b = cmap[2];
+			            r = cmap[0];
+			            g = cmap[1];
+			            b = cmap[2];
 
-			        pixel = ((((r >> 3) & 0b11111) << 11 )
-				      |  (((g >> 3) & 0b11111) <<  6 )
-				      |  (((b >> 3) & 0b11111)       )) ;
+			            pixel = ((((r >> 3) & 0b11111) << 11 )
+				          |  (((g >> 3) & 0b11111) <<  6 )
+				          |  (((b >> 3) & 0b11111)       )) ;
 
-			        /* pos.x == offset into scan buffer */
-			        scanLine[p + pos.x] = pixel;
+			            /* pos.x == offset into scan buffer */
+			            scanLine[p + pos.x] = pixel;
+			        }
+			        pixdata++;
 			    }
+			    break;
+
+			case PICTURE4BIT:
+			    /* aux.y == picture line, assetList.x == pic xres */
+			    pixdata = uCHAR(&(assetList[assetId].pixdata[aux.y * (assetList[assetId].x >> 1)]));
+
+			    for (p = 0; p < (assetList[assetId].x); /* not inc */ ) {
+			        /* aux.x = character/offset into asset. */
+			        pixbyte = *pixdata++; /* 2 pixels per byte */
+
+				/* 1st pixel */
+			        if ((p + pos.x) > (LCD_XSIZE-1)) continue; /* clip x */
+
+				ci = ((pixbyte >> 4) & 0xF);
+			        if (ci != TRIndex) {
+			            cmap = uCHAR(&(assetList[assetId].data_cmap[ci * 3]));
+
+			            r = cmap[0];
+			            g = cmap[1];
+			            b = cmap[2];
+
+			            pixel = ((((r >> 3) & 0b11111) << 11 )
+				          |  (((g >> 3) & 0b11111) <<  6 )
+				          |  (((b >> 3) & 0b11111)       )) ;
+
+			            /* pos.x == offset into scan buffer */
+			            scanLine[p + pos.x] = pixel;
+			        }
+				p++;
+
+				/* 2nd pixel */
+			        if ((p + pos.x) > (LCD_XSIZE-1)) continue; /* clip x */
+
+				ci = pixbyte & 0xF;
+			        if (ci != TRIndex) {
+			            cmap = uCHAR(&(assetList[assetId].data_cmap[ci * 3]));
+
+			            r = cmap[0];
+			            g = cmap[1];
+			            b = cmap[2];
+
+			            pixel = ((((r >> 3) & 0b11111) << 11 )
+				          |  (((g >> 3) & 0b11111) <<  6 )
+				          |  (((b >> 3) & 0b11111)       )) ;
+
+			            /* pos.x == offset into scan buffer */
+			            scanLine[p + pos.x] = pixel;
+			        }
+				p++;
+			    }
+			    break;
+
+			case PICTURE2BIT:
+			    /* aux.y == picture line, assetList.x == pic xres */
+			    pixdata = uCHAR(&(assetList[assetId].pixdata[aux.y * (assetList[assetId].x>>2)]));
+
+			    for (p = 0; p < (assetList[assetId].x); /* no inc */) {
+			        /* aux.x = character/offset into asset. */
+			        pixbyte = *pixdata++; /* 4 pixels per byte */
+
+				/* ----------- 1st pixel ----------- */
+			        if ((p + pos.x) > (LCD_XSIZE-1)) continue; /* clip x */
+
+				ci = ((pixbyte >> 6) & 0x3);
+			        if (ci != TRIndex) {
+			            cmap = uCHAR(&(assetList[assetId].data_cmap[ci * 3]));
+
+			            r = cmap[0];
+			            g = cmap[1];
+			            b = cmap[2];
+
+			            pixel = ((((r >> 3) & 0b11111) << 11 )
+				          |  (((g >> 3) & 0b11111) <<  6 )
+				          |  (((b >> 3) & 0b11111)       )) ;
+
+			            /* pos.x == offset into scan buffer */
+			            scanLine[p + pos.x] = pixel;
+			        }
+				p++;
+
+				/* ----------- 2nd pixel ----------- */
+			        if ((p + pos.x) > (LCD_XSIZE-1)) continue; /* clip x */
+
+				ci = ((pixbyte >> 4) & 0x3);
+			        if (ci != TRIndex) {
+			            cmap = uCHAR(&(assetList[assetId].data_cmap[ci * 3]));
+
+			            r = cmap[0];
+			            g = cmap[1];
+			            b = cmap[2];
+
+			            pixel = ((((r >> 3) & 0b11111) << 11 )
+				          |  (((g >> 3) & 0b11111) <<  6 )
+				          |  (((b >> 3) & 0b11111)       )) ;
+
+			            /* pos.x == offset into scan buffer */
+			            scanLine[p + pos.x] = pixel;
+			        }
+				p++;
+
+				/* ----------- 3rd pixel ----------- */
+			        if ((p + pos.x) > (LCD_XSIZE-1)) continue; /* clip x */
+
+				ci = ((pixbyte >> 2) & 0x3);
+			        if (ci != TRIndex) {
+			            cmap = uCHAR(&(assetList[assetId].data_cmap[ci * 3]));
+
+			            r = cmap[0];
+			            g = cmap[1];
+			            b = cmap[2];
+
+			            pixel = ((((r >> 3) & 0b11111) << 11 )
+				          |  (((g >> 3) & 0b11111) <<  6 )
+				          |  (((b >> 3) & 0b11111)       )) ;
+
+			            /* pos.x == offset into scan buffer */
+			            scanLine[p + pos.x] = pixel;
+			        }
+				p++;
+
+				/* ----------- 4th pixel ----------- */
+			        if ((p + pos.x) > (LCD_XSIZE-1)) continue; /* clip x */
+
+				ci = ((pixbyte) & 0x3);
+			        if (ci != TRIndex) {
+			            cmap = uCHAR(&(assetList[assetId].data_cmap[ci * 3]));
+
+			            r = cmap[0];
+			            g = cmap[1];
+			            b = cmap[2];
+
+			            pixel = ((((r >> 3) & 0b11111) << 11 )
+				          |  (((g >> 3) & 0b11111) <<  6 )
+				          |  (((b >> 3) & 0b11111)       )) ;
+
+			            /* pos.x == offset into scan buffer */
+			            scanLine[p + pos.x] = pixel;
+			        }
+				p++;
+
+			    }
+			    break;
+
+			default:
+			    break;
 			}
+
 	    		DEBUG(printf("sl %d PICTURE_SPAN assetId %d posx %d posy %d auxx %d auxy %d\n", sl, assetId, pos.x, pos.y, aux.x, aux.y);)
 	    		DEBUG(fflush(stdout);)
 		    }

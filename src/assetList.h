@@ -25,8 +25,19 @@ enum {
     LASTASSET,
 };
 
+enum {
+    AUDIO,
+    MIDI,
+    PICTURE1BIT,
+    PICTURE2BIT,
+    PICTURE4BIT,
+    PICTURE8BIT,
+};
+
 struct asset {
     unsigned char assetId;
+    unsigned char type;
+    unsigned char count;
     unsigned short x;
     unsigned short y;
     const char *data_cmap;
